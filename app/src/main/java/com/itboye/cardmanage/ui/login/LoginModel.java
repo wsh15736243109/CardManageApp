@@ -2,11 +2,7 @@ package com.itboye.cardmanage.ui.login;
 
 import android.app.Application;
 import android.databinding.ObservableField;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import com.itboye.cardmanage.R;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 

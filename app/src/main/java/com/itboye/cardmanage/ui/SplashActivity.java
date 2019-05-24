@@ -4,10 +4,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
-import com.itboye.cardmanage.MainActivity;
-import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.BR;
+import com.itboye.cardmanage.R;
+import com.itboye.cardmanage.MainActivity;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.databinding.ActivitySplashBinding;
 import com.itboye.cardmanage.ui.login.LoginModel;
@@ -37,12 +36,11 @@ public class SplashActivity extends BaseMVVMActivity<ActivitySplashBinding, Logi
 
     @Override
     public void initData() {
-        Toast.makeText(this,"弹出",Toast.LENGTH_SHORT).show();
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//            }
-//        }, 1500);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            }
+        }, 1500);
     }
 }
