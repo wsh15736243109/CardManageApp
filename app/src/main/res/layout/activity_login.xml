@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+<layout>
 
     <data>
 
@@ -15,8 +14,10 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/normal_margin"
             android:background="@color/white"
+            android:paddingLeft="@dimen/dp_24"
+            android:paddingRight="@dimen/dp_24"
+            android:paddingTop="@dimen/dp_32"
             tools:context=".ui.login.LoginActivity">
 
         <ImageView
@@ -47,9 +48,9 @@
 
         <LinearLayout
                 android:id="@+id/ll_login_data"
-                android:layout_marginTop="@dimen/normal_margin"
-                app:layout_constraintTop_toBottomOf="@+id/tv_2"
+                android:layout_marginTop="@dimen/dp_32"
                 android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_2"
                 android:layout_height="wrap_content"
                 android:background="@color/line_gray_d8d8d8"
                 android:orientation="vertical">
@@ -57,6 +58,8 @@
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:background="@color/white"
+                    android:paddingTop="@dimen/dp_12"
+                    android:paddingBottom="@dimen/dp_12"
                     android:layout_height="wrap_content">
 
                 <TextView
@@ -65,21 +68,28 @@
                         android:layout_width="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/dp_16"
                         android:id="@+id/tv_mobile"/>
 
                 <EditText
-                        android:text="请输入手机号"
+                        android:text="@={viewModel.userName}"
                         android:layout_toRightOf="@+id/tv_mobile"
                         android:layout_width="match_parent"
                         android:hint="@color/hint_color_a3a3a3"
+                        android:layout_marginLeft="@dimen/dp_4"
                         android:textColor="@color/hint_color_a3a3a3"
                         android:layout_height="wrap_content"
+                        android:background="@null"
                         android:id="@+id/et_mobile"/>
             </RelativeLayout>
 
             <RelativeLayout
                     android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/dp_1"
                     android:background="@color/white"
+                    android:paddingTop="@dimen/dp_12"
+                    android:paddingBottom="@dimen/dp_12"
+                    android:layout_marginBottom="@dimen/dp_1"
                     android:layout_height="wrap_content">
 
                 <TextView
@@ -87,16 +97,20 @@
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_centerVertical="true"
+                        android:textSize="@dimen/dp_16"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_code"/>
 
                 <EditText
+                        android:layout_marginLeft="@dimen/dp_4"
                         android:text="请输入验证码"
                         android:layout_toRightOf="@+id/tv_code"
                         android:layout_width="match_parent"
                         android:hint="@color/hint_color_a3a3a3"
                         android:textColor="@color/hint_color_a3a3a3"
                         android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:layout_centerVertical="true"
                         android:id="@+id/et_code"/>
 
                 <TextView
@@ -111,16 +125,85 @@
         </LinearLayout>
 
         <TextView
-                android:text="密码登录"
+                android:text="密码登录>>"
                 android:layout_gravity="right"
                 android:textColor="@color/black"
                 android:background="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
-                app:layout_constraintRight_toLeftOf="parent"
+                android:layout_marginTop="@dimen/dp_6"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ll_login_data"
                 android:id="@+id/tv_login_by_password"/>
-
+        <com.itboye.cardmanage.widget.MyButton
+                android:text="登录"
+                android:layout_gravity="right"
+                android:textColor="@color/white"
+                android:padding="@dimen/dp_10"
+                android:background="@color/red"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                app:onClickCommand="@{viewModel.loginClick}"
+                android:layout_marginTop="@dimen/dp_32"
+                app:corner="@dimen/dp_6"
+                app:pressBgc="@color/orange"
+                app:layout_constraintTop_toBottomOf="@+id/tv_login_by_password"
+                android:id="@+id/tv_login"/>
+        <TextView
+                android:id="@+id/tv_forget_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="忘记密码"
+                android:textColor="#ff999999"
+                app:layout_constraintRight_toLeftOf="@+id/line1"
+                android:layout_margin="@dimen/dp_12"
+                app:layout_constraintTop_toBottomOf="@+id/tv_login"
+                android:textSize="13sp"
+        />
+        <View android:layout_width="@dimen/dp_1" app:layout_constraintRight_toRightOf="parent"
+              app:layout_constraintLeft_toLeftOf="parent" android:layout_height="@dimen/dp_12"
+              android:id="@+id/line1"
+              app:layout_constraintTop_toTopOf="@+id/tv_forget_pass"
+              app:layout_constraintTop_toBottomOf="@+id/tv_login"
+              app:layout_constraintBottom_toBottomOf="@+id/tv_forget_pass"
+              android:background="@color/line_gray_d8d8d8"/>
+        <TextView
+                android:id="@+id/tv_rigster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_12"
+                app:layout_constraintTop_toBottomOf="@+id/tv_login"
+                app:layout_constraintLeft_toRightOf="@+id/line1"
+                android:text="账号注册"
+                android:textColor="#ff999999"
+                android:textSize="13sp"
+        />
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/dp_1"
+              android:layout_marginTop="@dimen/dp_32"
+              android:id="@+id/line2"
+              app:layout_constraintTop_toBottomOf="@+id/tv_rigster"
+              android:background="@color/line_gray_d8d8d8"/>
+        <TextView
+                android:text="第三方账号登录"
+                app:layout_constraintTop_toTopOf="@+id/line2"
+                app:layout_constraintBottom_toBottomOf="@+id/line2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@color/white"
+                android:layout_width="wrap_content"
+                android:padding="@dimen/dp_4"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_third"/>
+        <com.itboye.cardmanage.widget.CircleImageView android:layout_width="@dimen/dp_60"
+                                                      android:background="@mipmap/ic_launcher"
+                                                      app:layout_constraintLeft_toLeftOf="parent"
+                                                      android:id="@+id/tv_login_wx"
+                                                      app:layout_constraintRight_toRightOf="parent"
+                                                      android:layout_marginTop="@dimen/dp_6"
+                                                      app:layout_constraintTop_toBottomOf="@+id/tv_third"
+                                                      android:layout_height="@dimen/dp_60"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

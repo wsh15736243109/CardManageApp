@@ -1,17 +1,14 @@
 package com.itboye.cardmanage.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
-import com.itboye.cardmanage.MainActivity;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.databinding.ActivitySplashBinding;
-import com.itboye.cardmanage.ui.login.LoginModel;
+import me.goldze.mvvmhabit.base.BaseActivity;
 
-public class SplashActivity extends BaseMVVMActivity<ActivitySplashBinding, LoginModel> {
+public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashModel> {
 
 
     @Override
@@ -19,14 +16,9 @@ public class SplashActivity extends BaseMVVMActivity<ActivitySplashBinding, Logi
         return R.layout.activity_splash;
     }
 
-//    @Override
-//    public int initVariableId(Bundle savedInstanceState) {
-//        return BR.viewModel;
-//    }
-
     @Override
-    public LoginModel initViewModel() {
-        return ViewModelProviders.of(this).get(LoginModel.class);
+    public SplashModel initViewModel() {
+        return ViewModelProviders.of(this).get(SplashModel.class);
     }
 
     @Override
@@ -36,11 +28,6 @@ public class SplashActivity extends BaseMVVMActivity<ActivitySplashBinding, Logi
 
     @Override
     public void initData() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-            }
-        }, 1500);
+        viewModel.initTimer();
     }
 }
