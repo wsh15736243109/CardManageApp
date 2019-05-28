@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+                name="viewModel"
+                type="com.itboye.cardmanage.ui.fragment.HomeFragmentModel"/>
+    </data>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:background="@color/line_gray_d8d8d8"
+                                                       tools:context=".ui.fragment.HomeFragment">
+
+        <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@color/text_main_DD2824"
+                        android:layout_height="wrap_content">
+
+                    <Button
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:text="收款"
+                            android:textColor="@color/white"
+                            android:layout_margin="@dimen/dp_24"
+                            android:drawableTop="@mipmap/ic_loan"
+                            android:layout_height="wrap_content"/>
+
+                    <Button
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:text="卡片管理"
+                            android:layout_margin="@dimen/dp_24"
+                            android:textColor="@color/white"
+                            android:drawableTop="@mipmap/ic_card"
+                            android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:layout_margin="@dimen/dp_4"
+                        android:text="201810  Platform announcement"
+                        android:drawableLeft="@mipmap/ic_platform_announcement"
+                        android:layout_width="wrap_content"
+                        android:drawablePadding="@dimen/dp_12"
+                        android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_margin="@dimen/dp_4"
+                            android:text="还款计划"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/black"
+                            android:drawablePadding="@dimen/dp_12"
+                            android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:layout_margin="@dimen/dp_4"
+                            android:text="查看更多>>"
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:drawablePadding="@dimen/dp_12"
+                            android:layout_height="wrap_content"/>
+                </RelativeLayout>
+
+                <android.support.v4.view.ViewPager
+                        android:layout_width="match_parent"
+                        android:background="@color/hint_color_a3a3a3"
+                        android:layout_height="100dp"/>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/ic_launcher_background"
+                            android:layout_height="wrap_content"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_margin="@dimen/dp_4"
+                            android:text="小额急速贷款"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/black"
+                            android:drawablePadding="@dimen/dp_12"
+                            android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:layout_margin="@dimen/dp_4"
+                            android:text="更多贷款>>"
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:drawablePadding="@dimen/dp_12"
+                            android:layout_height="wrap_content"/>
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"/>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_margin="@dimen/dp_4"
+                            android:text="乐享生活必备卡"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/black"
+                            android:drawablePadding="@dimen/dp_12"
+                            android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:layout_margin="@dimen/dp_4"
+                            android:text="全部信用卡>>"
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:drawablePadding="@dimen/dp_12"
+                            android:layout_height="wrap_content"/>
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"/>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</layout>

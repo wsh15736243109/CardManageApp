@@ -7,17 +7,15 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import com.trello.rxlifecycle2.LifecycleProvider;
-
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
-
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
+
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by goldze on 2017/6/15.
@@ -100,7 +98,10 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         if (bundle != null) {
             params.put(ParameterField.BUNDLE, bundle);
         }
-        uc.startActivityEvent.postValue(params);
+        if (uc != null) {
+            uc.startActivityEvent.postValue(params);
+        }
+
     }
 
     /**
@@ -201,6 +202,7 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         private SingleLiveEvent<Map<String, Object>> startContainerActivityEvent;
         private SingleLiveEvent<Void> finishEvent;
         private SingleLiveEvent<Void> onBackPressedEvent;
+        private SingleLiveEvent<ContextEventAction> contextActionEvent;
 
         public SingleLiveEvent<String> getShowDialogEvent() {
             return showDialogEvent = createLiveData(showDialogEvent);
@@ -224,6 +226,10 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
 
         public SingleLiveEvent<Void> getOnBackPressedEvent() {
             return onBackPressedEvent = createLiveData(onBackPressedEvent);
+        }
+
+        public SingleLiveEvent<ContextEventAction> getContextActionEvent() {
+            return contextActionEvent = createLiveData(contextActionEvent);
         }
 
         private SingleLiveEvent createLiveData(SingleLiveEvent liveData) {

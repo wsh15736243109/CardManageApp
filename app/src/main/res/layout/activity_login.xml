@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
                 name="viewModel"
                 type="com.itboye.cardmanage.ui.login.LoginModel"/>
@@ -59,6 +61,7 @@
                     android:layout_width="match_parent"
                     android:background="@color/white"
                     android:paddingTop="@dimen/dp_12"
+                    android:layout_marginBottom="@dimen/dp_1"
                     android:paddingBottom="@dimen/dp_12"
                     android:layout_height="wrap_content">
 
@@ -75,19 +78,19 @@
                         android:text="@={viewModel.userName}"
                         android:layout_toRightOf="@+id/tv_mobile"
                         android:layout_width="match_parent"
-                        android:hint="@color/hint_color_a3a3a3"
                         android:layout_marginLeft="@dimen/dp_4"
                         android:textColor="@color/hint_color_a3a3a3"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/dp_16"
                         android:background="@null"
                         android:id="@+id/et_mobile"/>
             </RelativeLayout>
 
             <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/dp_1"
                     android:background="@color/white"
                     android:paddingTop="@dimen/dp_12"
+                    android:visibility="@{viewModel.rlLoginYzm}"
                     android:paddingBottom="@dimen/dp_12"
                     android:layout_marginBottom="@dimen/dp_1"
                     android:layout_height="wrap_content">
@@ -103,12 +106,12 @@
 
                 <EditText
                         android:layout_marginLeft="@dimen/dp_4"
-                        android:text="请输入验证码"
+                        android:text="@={viewModel.userYzm}"
                         android:layout_toRightOf="@+id/tv_code"
                         android:layout_width="match_parent"
-                        android:hint="@color/hint_color_a3a3a3"
                         android:textColor="@color/hint_color_a3a3a3"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/dp_16"
                         android:background="@null"
                         android:layout_centerVertical="true"
                         android:id="@+id/et_code"/>
@@ -122,10 +125,72 @@
                         android:layout_alignParentRight="true"
                         android:id="@+id/tv_get_code"/>
             </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:background="@color/white"
+                    android:paddingTop="@dimen/dp_12"
+                    android:visibility="@{viewModel.rlLoginPsd}"
+                    android:paddingBottom="@dimen/dp_12"
+                    android:layout_marginBottom="@dimen/dp_1"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="密码"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/dp_16"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_pwd"/>
+
+                <EditText
+                        android:layout_marginLeft="@dimen/dp_4"
+                        android:text="@={viewModel.userPassword}"
+                        android:layout_toRightOf="@+id/tv_pwd"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/hint_color_a3a3a3"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:textSize="@dimen/dp_16"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/et_pwd"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:background="@color/white"
+                    android:paddingTop="@dimen/dp_12"
+                    android:visibility="@{viewModel.rlLoginConfirmPsd}"
+                    android:paddingBottom="@dimen/dp_12"
+                    android:layout_marginBottom="@dimen/dp_1"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="确认密码"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/dp_16"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_pwd_confirm"/>
+
+                <EditText
+                        android:layout_marginLeft="@dimen/dp_4"
+                        android:text="@={viewModel.confirm_userPassword}"
+                        android:layout_toRightOf="@+id/tv_pwd_confirm"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/hint_color_a3a3a3"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/dp_16"
+                        android:background="@null"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/et_pwd_confirm"/>
+            </RelativeLayout>
         </LinearLayout>
 
         <TextView
-                android:text="密码登录>>"
+                android:text="@{viewModel.loginType}"
                 android:layout_gravity="right"
                 android:textColor="@color/black"
                 android:background="@color/white"
@@ -134,10 +199,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_6"
                 app:layout_constraintRight_toRightOf="parent"
+                app:onClickCommand="@{viewModel.loginByPwdOrYzm}"
                 app:layout_constraintTop_toBottomOf="@+id/ll_login_data"
                 android:id="@+id/tv_login_by_password"/>
+
         <com.itboye.cardmanage.widget.MyButton
-                android:text="登录"
+                android:text="@={viewModel.getOperateType}"
                 android:layout_gravity="right"
                 android:textColor="@color/white"
                 android:padding="@dimen/dp_10"
@@ -151,59 +218,78 @@
                 app:pressBgc="@color/orange"
                 app:layout_constraintTop_toBottomOf="@+id/tv_login_by_password"
                 android:id="@+id/tv_login"/>
+
         <TextView
                 android:id="@+id/tv_forget_pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="忘记密码"
                 android:textColor="#ff999999"
+                android:visibility="@{viewModel.visibleValue}"
+                app:onClickCommand="@{viewModel.onForgetPassword}"
                 app:layout_constraintRight_toLeftOf="@+id/line1"
                 android:layout_margin="@dimen/dp_12"
                 app:layout_constraintTop_toBottomOf="@+id/tv_login"
                 android:textSize="13sp"
-        />
-        <View android:layout_width="@dimen/dp_1" app:layout_constraintRight_toRightOf="parent"
-              app:layout_constraintLeft_toLeftOf="parent" android:layout_height="@dimen/dp_12"
-              android:id="@+id/line1"
-              app:layout_constraintTop_toTopOf="@+id/tv_forget_pass"
-              app:layout_constraintTop_toBottomOf="@+id/tv_login"
-              app:layout_constraintBottom_toBottomOf="@+id/tv_forget_pass"
-              android:background="@color/line_gray_d8d8d8"/>
+                />
+
+        <View
+                android:layout_width="@dimen/dp_1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_height="@dimen/dp_12"
+                android:visibility="@{viewModel.visibleValue}"
+                android:id="@+id/line1"
+                app:layout_constraintTop_toTopOf="@+id/tv_forget_pass"
+                app:layout_constraintTop_toBottomOf="@+id/tv_login"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_forget_pass"
+                android:background="@color/line_gray_d8d8d8"/>
+
         <TextView
                 android:id="@+id/tv_rigster"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dp_12"
+                android:visibility="@{viewModel.visibleValue}"
                 app:layout_constraintTop_toBottomOf="@+id/tv_login"
                 app:layout_constraintLeft_toRightOf="@+id/line1"
                 android:text="账号注册"
+                app:onClickCommand="@{viewModel.onRegister}"
                 android:textColor="#ff999999"
                 android:textSize="13sp"
-        />
-        <View android:layout_width="match_parent"
-              android:layout_height="@dimen/dp_1"
-              android:layout_marginTop="@dimen/dp_32"
-              android:id="@+id/line2"
-              app:layout_constraintTop_toBottomOf="@+id/tv_rigster"
-              android:background="@color/line_gray_d8d8d8"/>
+                />
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_32"
+                android:id="@+id/line2"
+                android:visibility="@{viewModel.visibleValue}"
+                app:layout_constraintTop_toBottomOf="@+id/tv_rigster"
+                android:background="@color/line_gray_d8d8d8"/>
+
         <TextView
                 android:text="第三方账号登录"
                 app:layout_constraintTop_toTopOf="@+id/line2"
                 app:layout_constraintBottom_toBottomOf="@+id/line2"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                android:visibility="@{viewModel.visibleValue}"
                 android:background="@color/white"
                 android:layout_width="wrap_content"
                 android:padding="@dimen/dp_4"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_third"/>
-        <com.itboye.cardmanage.widget.CircleImageView android:layout_width="@dimen/dp_60"
-                                                      android:background="@mipmap/ic_launcher"
-                                                      app:layout_constraintLeft_toLeftOf="parent"
-                                                      android:id="@+id/tv_login_wx"
-                                                      app:layout_constraintRight_toRightOf="parent"
-                                                      android:layout_marginTop="@dimen/dp_6"
-                                                      app:layout_constraintTop_toBottomOf="@+id/tv_third"
-                                                      android:layout_height="@dimen/dp_60"/>
+
+        <com.itboye.cardmanage.widget.CircleImageView
+                android:layout_width="@dimen/dp_60"
+                android:background="@mipmap/ic_launcher"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:id="@+id/tv_login_wx"
+                app:layout_constraintRight_toRightOf="parent"
+                android:visibility="@{viewModel.visibleValue}"
+                android:layout_marginTop="@dimen/dp_6"
+                app:layout_constraintTop_toBottomOf="@+id/tv_third"
+                android:layout_height="@dimen/dp_60"/>
     </android.support.constraint.ConstraintLayout>
 </layout>
