@@ -86,6 +86,7 @@
                 </RelativeLayout>
 
                 <android.support.v4.view.ViewPager
+                        android:layout_margin="@dimen/dp_6"
                         android:layout_width="match_parent"
                         android:background="@color/hint_color_a3a3a3"
                         android:layout_height="100dp"/>

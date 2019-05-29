@@ -19,7 +19,7 @@ import java.util.List;
  * Use the {@link CardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CardFragment extends BaseLazyFragment<FragmentHomeBinding,HomeFragmentModel> {
+public class CardFragment extends BaseLazyFragment<FragmentHomeBinding,CardFragmentModel> {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";

@@ -1,16 +1,19 @@
 package com.itboye.cardmanage.ui.fragment;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
-import com.itboye.cardmanage.databinding.FragmentHomeBinding;
+import com.itboye.cardmanage.databinding.FragmentLoanBinding;
 
 import java.util.List;
 
@@ -19,14 +22,13 @@ import java.util.List;
  * Use the {@link LoanFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoanFragment extends BaseLazyFragment<FragmentHomeBinding,HomeFragmentModel> {
+public class LoanFragment extends BaseLazyFragment<FragmentLoanBinding, LoanFragmentModel> {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     List<Fragment> mFragmentList;
     List<String> mTitles;
     FragmentPageAdapter mFragmentPageAdapter;
-
 
     public LoanFragment() {
         // Required empty public constructor
@@ -52,7 +54,6 @@ public class LoanFragment extends BaseLazyFragment<FragmentHomeBinding,HomeFragm
 
     @Override
     public void onFirstUserInvisible() {
-
     }
 
     @Override
@@ -82,7 +83,10 @@ public class LoanFragment extends BaseLazyFragment<FragmentHomeBinding,HomeFragm
 
     @Override
     public void initData() {
-
+        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_shape_10);
+        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        decoration.setDrawable(drawable);
+        binding.recyclerView.addItemDecoration(decoration);
     }
 
     @Override

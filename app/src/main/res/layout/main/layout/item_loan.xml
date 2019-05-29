@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+                name="item"
+                type="com.itboye.cardmanage.model.LoanModel"/>
+        <variable name="listener" type="com.itboye.cardmanage.interfaces.OnMyItemClickListener"/>
+    </data>
+
+
+    <android.support.constraint.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="@{()->listener.onItemClick(6,1)}"
+            android:padding="@dimen/dp_12">
+
+        <ImageView
+                android:id="@+id/iv_loan_icon"
+                android:layout_width="54dp"
+                android:background="@drawable/ic_360"
+                android:layout_height="54dp"/>
+
+        <TextView
+                android:id="@+id/tv_loan_text"
+                android:layout_width="wrap_content"
+                android:text="360"
+                app:layout_constraintTop_toTopOf="@+id/iv_loan_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_loan_icon"
+                app:layout_constraintLeft_toRightOf="@+id/iv_loan_icon"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:textSize="16dp"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/tv_loan_label"
+                android:layout_width="wrap_content"
+                android:text="急速到账"
+                app:layout_constraintTop_toBottomOf="@+id/tv_loan_text"
+                android:background="@drawable/shape_ffbe7e_12"
+                app:layout_constraintLeft_toRightOf="@+id/iv_loan_icon"
+                android:padding="@dimen/dp_6"
+                android:textSize="16dp"
+                android:layout_marginTop="@dimen/dp_6"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/tv_edu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:text="(1000-20000)额度范围（元)"
+                android:padding="@dimen/dp_6"
+                app:layout_constraintLeft_toRightOf="@+id/iv_loan_icon"
+                app:layout_constraintTop_toBottomOf="@+id/tv_loan_label"
+                />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                app:layout_constraintLeft_toRightOf="@+id/tv_edu"
+                android:text="(年龄满20周岁)年龄要求"
+                android:padding="@dimen/dp_6"
+                app:layout_constraintTop_toBottomOf="@+id/tv_loan_label"
+                />
+
+        <ImageView
+                android:id="@+id/iv_hot"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/ic_hot"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:background="@drawable/ic_lijishenqing"
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                app:layout_constraintRight_toRightOf="parent"
+                android:text="立即申请"
+                android:padding="@dimen/dp_6"
+                app:layout_constraintTop_toBottomOf="@+id/iv_hot"
+                />
+    </android.support.constraint.ConstraintLayout>
+</layout>

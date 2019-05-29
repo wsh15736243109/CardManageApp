@@ -32,9 +32,9 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
     public void initData() {
         NavigationController navigationController = binding.tab.custom()
                 .addItem(newItem(R.mipmap.ic_home_select, R.mipmap.ic_home_select, "首页"))
-                .addItem(newItem(R.mipmap.ic_card_default, R.mipmap.ic_home_select, "办卡"))
-                .addItem(newItem(R.mipmap.ic_daikuan_default, R.mipmap.ic_home_select, "贷款"))
-                .addItem(newItem(R.mipmap.ic_mine_default, R.mipmap.ic_home_select, "我的"))
+                .addItem(newItem(R.mipmap.ic_card_default, R.mipmap.ic_bancard_selected, "办卡"))
+                .addItem(newItem(R.mipmap.ic_daikuan_default, R.mipmap.ic_loan_selected, "贷款"))
+                .addItem(newItem(R.mipmap.ic_mine_default, R.mipmap.ic_mine_selected, "我的"))
                 .build();
 
         binding.viewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager(),

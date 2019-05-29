@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="viewModel"
+                type="com.itboye.cardmanage.ui.fragment.HomeFragmentModel"/>
+    </data>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       tools:context=".ui.fragment.HomeFragment">
+
+        <android.support.v4.widget.NestedScrollView
+                android:id="@+id/scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <!--part__1-->
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="80dp">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                        <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="72dp"
+                                android:layout_marginLeft="@dimen/dp_12">
+
+                            <com.itboye.cardmanage.widget.CircleImageView
+                                    android:id="@+id/iv_head"
+                                    android:layout_width="66dp"
+                                    android:layout_height="66dp"
+                                    android:src="@drawable/ic_launcher_background"
+                                    />
+
+                            <TextView
+                                    android:layout_toRightOf="@+id/iv_head"
+                                    android:id="@+id/tv_user_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="用户名"
+                                    android:layout_margin="@dimen/dp_4"/>
+
+                            <TextView
+                                    android:layout_toRightOf="@+id/tv_user_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/white"
+                                    android:layout_margin="@dimen/dp_4"
+                                    android:background="@drawable/ic_vip_normal"
+                                    android:textSize="14sp"/>
+
+                            <TextView
+                                    android:layout_toRightOf="@+id/iv_head"
+                                    android:id="@+id/tv_phone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="157*****4124"
+                                    android:layout_below="@+id/tv_user_name"
+                                    android:layout_margin="@dimen/dp_4"/>
+
+                            <TextView
+                                    android:drawableLeft="@drawable/ic_verified"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@drawable/shape_strok_radius_3"
+                                    android:text="已认证"
+                                    android:padding="@dimen/dp_4"
+                                    android:drawablePadding="@dimen/dp_4"
+                                    android:layout_gravity="right"
+                                    android:layout_margin="@dimen/dp_4"/>
+                        </RelativeLayout>
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/ic_pay_card"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:textColor="@color/white"
+                                    android:textSize="14sp"/>
+                            <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/ic_jiesuan_card"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:textColor="@color/white"
+                                    android:textSize="14sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:background="@drawable/view_bg_white_grey_selector"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/dp_4"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:drawableLeft="@drawable/ic_wode_jiaoyi"
+                            android:text="我的交易"
+                            android:textSize="14sp"/>
+
+                    <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="11dp"
+                            android:src="@drawable/ic_right"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:background="@drawable/view_bg_white_grey_selector"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/dp_1"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/dp_4"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:drawableLeft="@drawable/ic_huankuan_jihua"
+                            android:text="还款计划"
+                            android:textSize="14sp"/>
+
+                    <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="11dp"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:src="@drawable/ic_right"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:background="@drawable/view_bg_white_grey_selector"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/dp_4"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:drawableLeft="@drawable/ic_lianxikefu"
+                            android:text="联系客服"
+                            android:textSize="14sp"/>
+
+                    <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="11dp"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:src="@drawable/ic_right"/>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="@dimen/dp_1"
+                        android:background="@drawable/view_bg_white_grey_selector"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/dp_4"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:drawableLeft="@drawable/ic_changjianwenti"
+                            android:text="常见问题"
+                            android:textSize="14sp"/>
+
+                    <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="11dp"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:src="@drawable/ic_right"/>
+                </LinearLayout>
+                <!--part_5-->
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="@dimen/dp_1"
+                        android:background="@drawable/view_bg_white_grey_selector"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/dp_4"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:text="认证资料"
+                            android:drawableLeft="@drawable/ic_renzhengziliao"
+                            android:textSize="14sp"/>
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="12sp"/>
+
+                    <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="11dp"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:src="@drawable/ic_right"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="@dimen/dp_1"
+                        android:background="@drawable/view_bg_white_grey_selector"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/dp_4"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:text="设置"
+                            android:drawableLeft="@drawable/ic_setting"
+                            android:textSize="14sp"/>
+
+                    <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="11dp"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:src="@drawable/ic_right"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</layout>
