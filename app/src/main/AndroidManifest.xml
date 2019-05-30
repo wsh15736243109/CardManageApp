@@ -31,10 +31,12 @@
         <activity android:name=".ui.mine.MyTransactionActivity"/>
         <activity android:name=".ui.mine.RepaymentPlanActivity"/>
         <activity android:name=".ui.mine.CustomerServiceActivity"/>
-        <activity android:name=".web.WebActivity">
-        </activity>
-        <activity android:name=".ui.mine.SettingActivity">
-        </activity>
+        <activity android:name=".web.WebActivity"/>
+        <activity android:name=".ui.mine.SettingActivity"/>
+        <activity android:name=".ui.mine.PersonDataActivity"/>
+        <activity android:name=".ui.mine.UpdatePasswordActivity"/>
+        <activity android:name=".ui.mine.FeedbackActivity"/>
+        <activity android:name=".ui.mine.AuthenticationActivity"/>
     </application>
 
 </manifest>

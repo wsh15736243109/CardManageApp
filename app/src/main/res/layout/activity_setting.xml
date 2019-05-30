@@ -40,7 +40,7 @@
                         android:layout_marginTop="@dimen/dp_12"
                         android:background="@drawable/view_bg_white_grey_selector"
                         android:gravity="center_vertical"
-                        android:onClick="@{()->viewModel.goToAc(MineClickType.MY_TRANSLATION)}"
+                        android:onClick="@{()->viewModel.goToAc(MineClickType.PERSON_DATA)}"
                         android:orientation="horizontal">
 
                     <TextView
@@ -66,7 +66,7 @@
                         android:layout_height="46dp"
                         android:background="@drawable/view_bg_white_grey_selector"
                         android:gravity="center_vertical"
-                        android:onClick="@{()->viewModel.goToAc(MineClickType.REPAYMENT_PLAN)}"
+                        android:onClick="@{()->viewModel.goToAc(MineClickType.UPDATE_PASSWORD)}"
                         android:layout_marginTop="@dimen/dp_1"
                         android:orientation="horizontal">
 
@@ -94,7 +94,7 @@
                         android:background="@drawable/view_bg_white_grey_selector"
                         android:gravity="center_vertical"
                         android:layout_marginTop="@dimen/dp_12"
-                        android:onClick="@{()->viewModel.goToAc(MineClickType.CONTACT_CUSTOMER_SERVICE)}"
+                        android:onClick="@{()->viewModel.goToAc(MineClickType.FEEDBACK)}"
                         android:orientation="horizontal">
 
                     <TextView
@@ -120,7 +120,7 @@
                         android:layout_marginTop="@dimen/dp_1"
                         android:background="@drawable/view_bg_white_grey_selector"
                         android:gravity="center_vertical"
-                        android:onClick="@{()->viewModel.goToAc(MineClickType.NORMAL_PROBLEM)}"
+                        android:onClick="@{()->viewModel.goToAc(MineClickType.ABOUT_US)}"
                         android:orientation="horizontal">
 
                     <TextView
@@ -146,7 +146,7 @@
                         android:layout_marginTop="@dimen/dp_1"
                         android:background="@drawable/view_bg_white_grey_selector"
                         android:gravity="center_vertical"
-                        android:onClick="@{()->viewModel.goToAc(MineClickType.CERTIFICATION_DATA)}"
+                        android:onClick="@{()->viewModel.goToAc(MineClickType.CHECK_UPDATE)}"
                         android:orientation="horizontal">
 
 
@@ -178,7 +178,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="46dp"
                         android:layout_marginTop="@dimen/dp_1"
-                        android:onClick="@{()->viewModel.goToAc(MineClickType.SETTING)}"
+                        android:onClick="@{()->viewModel.goToAc(MineClickType.CLEAN_CACHE)}"
                         android:background="@drawable/view_bg_white_grey_selector"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
@@ -199,11 +199,12 @@
                             android:layout_marginRight="@dimen/dp_12"
                             android:src="@drawable/ic_right"/>
                 </LinearLayout>
+
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="46dp"
                         android:layout_marginTop="@dimen/dp_1"
-                        android:onClick="@{()->viewModel.goToAc(MineClickType.SETTING)}"
+                        android:onClick="@{()->viewModel.goToAc(MineClickType.CURRENT_VERSION)}"
                         android:background="@drawable/view_bg_white_grey_selector"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
@@ -224,6 +225,7 @@
                             android:layout_marginRight="@dimen/dp_12"
                             android:src="@drawable/ic_right"/>
                 </LinearLayout>
+
                 <com.itboye.cardmanage.widget.MyButton
                         android:layout_width="match_parent"
                         android:text="安全退出"

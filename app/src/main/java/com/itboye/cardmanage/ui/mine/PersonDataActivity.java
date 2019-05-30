@@ -6,12 +6,12 @@ import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.databinding.ActivitySplashBinding;
 
-public class MyTransactionActivity extends BaseMVVMActivity<ActivitySplashBinding, MyTranslationModel> {
+public class PersonDataActivity extends BaseMVVMActivity<ActivitySplashBinding, PersonDataModel> {
 
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        return R.layout.activity_my_translation;
+        return R.layout.activity_person_data;
     }
 
     @Override

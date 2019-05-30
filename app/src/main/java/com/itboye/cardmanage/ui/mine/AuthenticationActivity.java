@@ -4,14 +4,15 @@ import android.os.Bundle;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
+import com.itboye.cardmanage.databinding.ActivityAuthenticationBinding;
 import com.itboye.cardmanage.databinding.ActivitySplashBinding;
 
-public class MyTransactionActivity extends BaseMVVMActivity<ActivitySplashBinding, MyTranslationModel> {
+public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticationBinding, AuthenticationModel> {
 
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        return R.layout.activity_my_translation;
+        return R.layout.activity_authentication;
     }
 
     @Override

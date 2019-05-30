@@ -4,13 +4,9 @@ import android.app.Application;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.interfaces.MineClickType;
-import com.itboye.cardmanage.ui.mine.CustomerServiceActivity;
-import com.itboye.cardmanage.ui.mine.MyTransactionActivity;
-import com.itboye.cardmanage.ui.mine.RepaymentPlanActivity;
-import com.itboye.cardmanage.ui.mine.SettingActivity;
+import com.itboye.cardmanage.ui.mine.*;
 import com.itboye.cardmanage.web.WebActivity;
 import me.goldze.mvvmhabit.base.BaseViewModel;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class MineFragmentModel extends BaseViewModel {
     public MineFragmentModel(@NonNull Application application) {
@@ -35,7 +31,7 @@ public class MineFragmentModel extends BaseViewModel {
                 startActivity(WebActivity.class, bundle);
                 break;
             case CERTIFICATION_DATA:
-                ToastUtils.showShort("认证资料");
+                startActivity(AuthenticationActivity.class);
                 break;
             case SETTING:
                 startActivity(SettingActivity.class);

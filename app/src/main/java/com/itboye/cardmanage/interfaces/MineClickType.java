@@ -7,4 +7,12 @@ public enum MineClickType {
     NORMAL_PROBLEM,//常见问题
     CERTIFICATION_DATA,//认证资料
     SETTING,//认证资料
+
+    PERSON_DATA,//个人资料
+    UPDATE_PASSWORD,//修改密码
+    FEEDBACK,//用户反馈
+    ABOUT_US,//用户反馈
+    CHECK_UPDATE,//检查更新
+    CLEAN_CACHE,//清理缓存
+    CURRENT_VERSION,//当前版本
 }

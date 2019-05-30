@@ -41,4 +41,10 @@
         <attr name="background_color" format="reference" />
         <attr name="needStatusBarHeight" format="boolean"/>
     </declare-styleable>
+    <!--比例-->
+    <declare-styleable name="LoweImageView">
+
+        <!-- 比例=宽/高 -->
+        <attr name="ratio" format="float" />
+    </declare-styleable>
 </resources>
