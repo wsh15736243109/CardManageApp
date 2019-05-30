@@ -8,9 +8,17 @@ import me.goldze.mvvmhabit.crash.CaocConfig;
 import me.goldze.mvvmhabit.utils.KLog;
 
 public class App extends Application {
+
+    static App instance;
+
+    public static App getInstance() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         BaseApplication.setApplication(this);
         initCrashStyle();
     }

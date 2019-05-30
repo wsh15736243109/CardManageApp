@@ -18,6 +18,7 @@ import me.goldze.mvvmhabit.base.BaseViewModel.ParameterField;
 import me.goldze.mvvmhabit.base.ContainerActivity;
 import me.goldze.mvvmhabit.base.ContextEventAction;
 import me.goldze.mvvmhabit.bus.Messenger;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -39,10 +40,13 @@ public abstract class BaseLazyFragment<V extends ViewDataBinding, VM extends Bas
     protected boolean isUIVisible;
 
 
+    private SwipeBackActivityHelper mHelper;
     /********************lazyload****************************/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mHelper = new SwipeBackActivityHelper(getActivity());
+        mHelper.onActivityCreate();
         initParam();
     }
 

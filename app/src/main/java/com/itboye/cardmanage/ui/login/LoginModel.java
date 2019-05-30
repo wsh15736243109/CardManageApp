@@ -89,12 +89,12 @@ public class LoginModel extends BaseViewModel {
             case 1:
                 getOperateType.set("登录");
                 visibleValue.set(View.VISIBLE);
-                loginType.set("密码登录>>");
+                loginType.set("验证码登录>>");
                 break;
             case 2:
                 getOperateType.set("登录");
                 visibleValue.set(View.VISIBLE);
-                loginType.set("验证码登录>>");
+                loginType.set("密码登录>>");
                 break;
             case 3:
                 getOperateType.set("立即注册");

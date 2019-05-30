@@ -10,7 +10,7 @@ import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
-import com.itboye.cardmanage.databinding.FragmentHomeBinding;
+import com.itboye.cardmanage.databinding.FragmentMineBinding;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * Use the {@link MineFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MineFragment extends BaseLazyFragment<FragmentHomeBinding,HomeFragmentModel> {
+public class MineFragment extends BaseLazyFragment<FragmentMineBinding,MineFragmentModel> {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";

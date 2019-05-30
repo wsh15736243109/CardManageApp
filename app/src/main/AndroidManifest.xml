@@ -26,9 +26,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".base.BaseActivity">
+        <activity android:name=".base.BaseActivity"/>
+        <activity android:name=".ui.login.LoginActivity"/>
+        <activity android:name=".ui.mine.MyTransactionActivity"/>
+        <activity android:name=".ui.mine.RepaymentPlanActivity"/>
+        <activity android:name=".ui.mine.CustomerServiceActivity"/>
+        <activity android:name=".web.WebActivity">
         </activity>
-        <activity android:name=".ui.login.LoginActivity">
+        <activity android:name=".ui.mine.SettingActivity">
         </activity>
     </application>
 

@@ -37,10 +37,15 @@ public class LoanFragmentModel extends BaseViewModel {
         public void onItemBind(ItemBinding itemBinding, final int position, LoanModel item) {
             itemBinding.clearExtras()
                     .set(BR.item, R.layout.item_loan)
-                    .bindExtra(BR.listener, new OnMyItemClickListener<Integer>() {
+                    .bindExtra(BR.listener, new OnMyItemClickListener<LoanModel>() {
                         @Override
-                        public void onItemClick(int position232323, Integer item) {
-                            ToastUtils.showShort(position + "item 点击了吗>>>>>>");
+                        public void onItemClick(int position232323, LoanModel item) {
+                            ToastUtils.showShort(position + "item 点击了吗>>>>>>"+item+"______________"+position232323);
+                        }
+
+                        @Override
+                        public void onLongClick() {
+                            ToastUtils.showShort(position + "item 长按了吗>>>>>>");
                         }
                     });
         }

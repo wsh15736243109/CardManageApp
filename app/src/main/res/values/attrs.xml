@@ -27,4 +27,18 @@
         <attr name="borderWidth" format="dimension" />
         <attr name="borderColor" format="integer" />
     </declare-styleable>
+
+    <!--标题栏-->
+    <declare-styleable name="title_bar">
+        <attr name="left_icon_visible" format="boolean" />
+        <attr name="left_icon_resource" format="reference" />
+        <attr name="left_text" format="string" />
+        <attr name="title_text" format="string" />
+        <attr name="right_icon_visible" format="boolean" />
+        <attr name="right_icon_resource" format="reference" />
+        <attr name="right_text" format="string" />
+        <attr name="title_drawable_right" format="reference" />
+        <attr name="background_color" format="reference" />
+        <attr name="needStatusBarHeight" format="boolean"/>
+    </declare-styleable>
 </resources>

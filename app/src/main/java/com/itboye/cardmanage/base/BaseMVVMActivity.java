@@ -1,5 +1,5 @@
 package com.itboye.cardmanage.base;
-
+import com.itboye.cardmanage.R;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import me.goldze.mvvmhabit.base.BaseViewModel;
@@ -38,12 +39,15 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         super.onCreate(savedInstanceState);
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
+
         //私有的初始化Databinding和ViewModel方法
         initViewDataBinding(savedInstanceState);
         //私有的ViewModel与View的契约事件回调逻辑
         registorUIChangeLiveDataCallBack();
         initData();
     }
+
+
 
     private void initViewDataBinding(Bundle savedInstanceState) {
         //DataBindingUtil类需要在project的build中配置 dataBinding {enabled true }, 同步后会自动关联android.databinding包
@@ -70,6 +74,9 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         initViewModel();
     }
 
+    public void setTitle(String title){
+        ((TextView)findViewById(R.id.tv_actionbar_title)).setText(title);
+    }
     /**
      * =====================================================================
      **/
