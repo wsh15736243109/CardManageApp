@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers"/>
+
+        <import type="me.goldze.mvvmhabit.binding.viewadapter.recyclerview.LineManagers"/>
+
+        <import type="android.support.v7.widget.LinearLayoutManager"/>
+
         <variable
                 name="viewModel"
                 type="com.itboye.cardmanage.ui.mine.RepaymentPlanModel"/>
@@ -41,7 +47,12 @@
 
                     <android.support.v7.widget.RecyclerView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent"
+                            app:itemBinding="@{viewModel.itemBind2}"
+                            app:items="@{viewModel.planList}"
+                            app:layoutManager="@{LayoutManagers.linear()}"
+                            app:lineManager="@{LineManagers.vertical()}"
+                            />
 
                 </LinearLayout>
             </android.support.v4.widget.NestedScrollView>
@@ -54,6 +65,7 @@
                 android:background="@drawable/shape_dotted_strok_radius_0"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="@dimen/dp_12"
+                android:onClick="@{()->viewModel.addRepaymentPlan()}"
                 android:textColor="@color/red"
                 android:layout_height="wrap_content"/>
     </RelativeLayout>

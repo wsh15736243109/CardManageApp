@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="item"
+                type="com.itboye.cardmanage.model.LoanModel"/>
+
+        <variable
+                name="listener"
+                type="com.itboye.cardmanage.interfaces.OnMyItemClickListener"/>
+    </data>
+
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_margin="@dimen/dp_12"
+            android:onClick="@{()->listener.onItemClick(6,item)}">
+
+        <ImageView
+                android:id="@+id/iv_loan_icon"
+                android:layout_margin="@dimen/dp_12"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_width="54dp"
+                android:background="@drawable/ic_360"
+                android:layout_height="54dp"/>
+
+        <TextView
+                android:id="@+id/tv_loan_text"
+                android:layout_width="wrap_content"
+                android:text="计划1"
+                app:layout_constraintTop_toTopOf="@+id/iv_loan_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_loan_icon"
+                app:layout_constraintLeft_toRightOf="@+id/iv_loan_icon"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:textSize="16dp"
+                android:layout_height="wrap_content"/>
+
+        <ImageView
+                android:id="@+id/iv_repayment_status"
+                android:layout_width="wrap_content"
+                android:background="@drawable/ic_repayment_ing"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_height="wrap_content"/>
+
+        <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_12"
+                app:layout_constraintTop_toBottomOf="@+id/iv_loan_icon"
+                android:background="@color/line_gray_d8d8d8"/>
+
+        <LinearLayout
+                app:layout_constraintTop_toBottomOf="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_24"
+                >
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="(年龄满20周岁)年龄要求"
+                    />
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="预算"
+                    />
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="预期还款总额"
+                    />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>
