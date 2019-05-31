@@ -21,8 +21,8 @@ public class WebActivity extends BaseMVVMActivity<ActivityWebBinding,WebModel> {
 
     @Override
     public void initData() {
-        setTitle("常见问题");
-        binding.webView.loadUrl("http://www.baidu.com");
+        setTitle(getIntent().getStringExtra("title"));
+        binding.webView.loadUrl(getIntent().getStringExtra("url"));
         binding.webView.setWebViewClient(new WebViewClient());
     }
 }

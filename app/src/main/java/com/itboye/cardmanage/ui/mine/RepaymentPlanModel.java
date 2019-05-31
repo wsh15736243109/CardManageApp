@@ -2,6 +2,7 @@ package com.itboye.cardmanage.ui.mine;
 
 import android.app.Application;
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
@@ -21,7 +22,7 @@ public class RepaymentPlanModel extends BaseViewModel {
         super(application);
     }
 
-    public OnItemBindClass itemBind2=new OnItemBindClass<>().map(LoanModel.class,new OnItemBind<LoanModel>(){
+    public OnItemBindClass itemBind2 = new OnItemBindClass<>().map(LoanModel.class, new OnItemBind<LoanModel>() {
 
         @Override
         public void onItemBind(ItemBinding itemBinding, final int position, LoanModel item) {
@@ -30,7 +31,9 @@ public class RepaymentPlanModel extends BaseViewModel {
                     .bindExtra(BR.listener, new OnMyItemClickListener<LoanModel>() {
                         @Override
                         public void onItemClick(int position232323, LoanModel item) {
-                            ToastUtils.showShort(position + "item 点击了吗>>>>>>"+item+"______________"+position232323);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("type", 0);
+                            startActivity(RepaymentDetailActivity.class, bundle);
                         }
 
                         @Override

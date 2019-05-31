@@ -37,6 +37,10 @@
         <activity android:name=".ui.mine.UpdatePasswordActivity"/>
         <activity android:name=".ui.mine.FeedbackActivity"/>
         <activity android:name=".ui.mine.AuthenticationActivity"/>
+        <activity android:name=".ui.mine.RepaymentDetailActivity">
+        </activity>
+        <activity android:name=".ui.mine.ChoosePreCardActivity">
+        </activity>
     </application>
 
 </manifest>

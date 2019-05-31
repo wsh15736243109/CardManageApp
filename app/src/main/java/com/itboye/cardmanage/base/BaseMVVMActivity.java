@@ -17,6 +17,7 @@ import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.base.ContainerActivity;
 import me.goldze.mvvmhabit.base.ContextEventAction;
 import me.goldze.mvvmhabit.utils.MaterialDialogUtils;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
@@ -75,7 +76,11 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
     }
 
     public void setTitle(String title){
-        ((TextView)findViewById(R.id.tv_actionbar_title)).setText(title);
+        if (title!=null) {
+            ((TextView)findViewById(R.id.tv_actionbar_title)).setText(title);
+        }else{
+            ((TextView)findViewById(R.id.tv_actionbar_title)).setText("无标题？");
+        }
     }
     /**
      * =====================================================================
