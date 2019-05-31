@@ -239,7 +239,6 @@ public final class CommonTitleBar extends LinearLayout {
         tvRight.setText(rightText);
 //        }
 
-
         if (rightIcon != 0) tvRight.setCompoundDrawablesWithIntrinsicBounds(0, 0, rightIcon, 0);
     }
 

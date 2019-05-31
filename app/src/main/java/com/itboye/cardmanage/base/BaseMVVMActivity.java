@@ -1,4 +1,5 @@
 package com.itboye.cardmanage.base;
+
 import com.itboye.cardmanage.R;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.itboye.cardmanage.interfaces.OnMyClickLisenter;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.base.ContainerActivity;
@@ -49,7 +51,6 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
     }
 
 
-
     private void initViewDataBinding(Bundle savedInstanceState) {
         //DataBindingUtil类需要在project的build中配置 dataBinding {enabled true }, 同步后会自动关联android.databinding包
         binding = DataBindingUtil.setContentView(this, initContentView(savedInstanceState));
@@ -75,13 +76,24 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         initViewModel();
     }
 
-    public void setTitle(String title){
-        if (title!=null) {
-            ((TextView)findViewById(R.id.tv_actionbar_title)).setText(title);
-        }else{
-            ((TextView)findViewById(R.id.tv_actionbar_title)).setText("无标题？");
+    public void setTitle(String title) {
+        if (title != null) {
+            ((TextView) findViewById(R.id.tv_actionbar_title)).setText(title);
+        } else {
+            ((TextView) findViewById(R.id.tv_actionbar_title)).setText("无标题？");
         }
     }
+
+    public void setRightText(String rightText) {
+        ((TextView) findViewById(R.id.tv_actionbar_right)).setText(rightText);
+    }
+
+    public void setRightClickListener(OnMyClickLisenter onMyClickLisenter) {
+        if (onMyClickLisenter != null) {
+            findViewById(R.id.tv_actionbar_right).setOnClickListener(view -> onMyClickLisenter.onClick());
+        }
+    }
+
     /**
      * =====================================================================
      **/

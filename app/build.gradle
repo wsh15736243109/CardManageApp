@@ -58,6 +58,8 @@ dependencies {
     //下拉刷新,上拉加载
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
+    //BaseRecyclerViewAdapterHelper
+    implementation rootProject.ext.dependencies["BaseRecyclerViewAdapterHelper"]
     implementation project(':mvvmhabit')
     implementation 'com.android.support:support-v4:28.0.0'
     testImplementation 'junit:junit:4.12'

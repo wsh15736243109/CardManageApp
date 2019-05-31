@@ -46,6 +46,9 @@ public class RepaymentPlanModel extends BaseViewModel {
 
     //添加还款计划
     public void addRepaymentPlan() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", 1);
+        startActivity(RepaymentDetailActivity.class, bundle);
         planList.add(new LoanModel(getApplication()));
     }
 }

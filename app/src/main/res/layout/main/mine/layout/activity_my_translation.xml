@@ -15,9 +15,11 @@
             android:orientation="vertical"
             android:layout_height="match_parent">
         <com.itboye.cardmanage.widget.CommonTitleBar
-                app:title_text="我的交易"
+                app:title_text="交易记录"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                app:right_icon_resource="@drawable/ic_calendar"
+                />
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:layout_width="match_parent"
@@ -91,7 +93,7 @@
                                 <TextView
                                         android:layout_width="0dp"
                                         android:layout_weight="1"
-                                        android:text="手续费（元）"
+                                        android:text="@={viewModel.handingFee}"
                                         android:gravity="center"
                                         android:layout_height="wrap_content"
                                         android:layout_margin="10dp"
@@ -109,9 +111,15 @@
                                         android:textSize="14sp"/>
                             </LinearLayout>
                         </LinearLayout>
+                        <!--<ImageView-->
+                                <!--android:id="@+id/one_drive_icon_sign"-->
+                                <!--android:src="@{viewModel.icon}"-->
+                                <!--android:layout_width="30dp"-->
+                                <!--android:layout_height="wrap_content" />-->
                     </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_translation"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"/>
 

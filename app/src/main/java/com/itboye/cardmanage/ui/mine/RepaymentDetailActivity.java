@@ -28,6 +28,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         if (type == 0) {
             setTitle("添加还款计划");
         } else {
+            setRightText("删除");
             setTitle("计划详情");
         }
     }

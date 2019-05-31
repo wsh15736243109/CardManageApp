@@ -393,4 +393,26 @@ public class MaterialDialogUtils {
         return builder;
     }
 
+
+    public static MaterialDialog.Builder showDateDialog(final Context context, String title, int res) {
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+                .title(title)
+                .customView(res,false)
+                .inputType(InputType.TYPE_CLASS_TEXT |
+                        InputType.TYPE_TEXT_VARIATION_PERSON_NAME |
+                        InputType.TYPE_TEXT_FLAG_CAP_WORDS)
+                .positiveText("确定")
+                .negativeText("取消")
+                .input("hint", "prefill", true, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+
+                    }
+                });
+
+        return builder;
+    }
+
+
 }

@@ -59,5 +59,6 @@ ext {
             "lifecycle-compiler"                 : "android.arch.lifecycle:compiler:1.1.1",
             //MVVMHabit
             "MVVMHabit"                            : "com.github.goldze:MVVMHabit:3.1.2",
+            "BaseRecyclerViewAdapterHelper"        : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.42",
     ]
 }

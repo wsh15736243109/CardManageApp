@@ -91,6 +91,5 @@
                 android:textSize="@dimen/dp_12"
                 android:visibility="gone" />
         </RelativeLayout>
-
     </RelativeLayout>
 </LinearLayout>

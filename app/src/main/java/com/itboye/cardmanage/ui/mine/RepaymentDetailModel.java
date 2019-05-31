@@ -18,4 +18,9 @@ public class RepaymentDetailModel extends BaseViewModel {
     public void addPreCard() {
         startActivity(ChoosePreCardActivity.class);
     }
+
+    //保存
+    public void save(){
+
+    }
 }
