@@ -41,6 +41,8 @@
         </activity>
         <activity android:name=".ui.mine.ChoosePreCardActivity">
         </activity>
+        <activity android:name=".ui.home.CardManageActivity">
+        </activity>
     </application>
 
 </manifest>

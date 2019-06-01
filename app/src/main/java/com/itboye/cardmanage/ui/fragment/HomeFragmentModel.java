@@ -3,6 +3,7 @@ package com.itboye.cardmanage.ui.fragment;
 import android.app.Application;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.interfaces.MineClickType;
+import com.itboye.cardmanage.ui.home.CardManageActivity;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
@@ -20,5 +21,9 @@ public class HomeFragmentModel extends BaseViewModel {
                 ToastUtils.showShort("点击了还款计划");
                 break;
         }
+    }
+
+    public void cardManage(){
+        startActivity(CardManageActivity.class);
     }
 }
