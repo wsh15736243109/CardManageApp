@@ -2,8 +2,13 @@ package com.itboye.cardmanage.ui.fragment;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
+
 import com.itboye.cardmanage.interfaces.MineClickType;
-import com.itboye.cardmanage.ui.home.CardManageActivity;
+import com.itboye.cardmanage.retrofit.API;
+import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
+import com.itboye.cardmanage.retrofit.AppUtils;
+import com.itboye.cardmanage.retrofit.RetrofitClient;
+
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
@@ -23,7 +28,39 @@ public class HomeFragmentModel extends BaseViewModel {
         }
     }
 
-    public void cardManage(){
-        startActivity(CardManageActivity.class);
+    public void cardManage() {
+
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getSMSCode("by_SecurityCode_createAndSend", "15736243109", "1", "86"),
+                getLifecycleProvider(), disposable -> showDialog(),
+
+                new ApiDisposableObserver() {
+                    @Override
+                    public void onResult(Object o) {
+                        ToastUtils.showShort("ooo==" + o);
+                    }
+
+
+
+                    @Override
+                    public void dialogDismiss() {
+                        dismissDialog();
+                    }
+                });
+//        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).loginByPwd(
+//                "by_UserLoginSession_loginByMobilePassword", "15736243109", "1", "android", "android", "123456"),
+//                getLifecycleProvider(), disposable -> showDialog(),
+//
+//                new ApiDisposableObserver() {
+//                    @Override
+//                    public void onResult(Object o) {
+//                        ToastUtils.showShort("ooo==" + o);
+//                    }
+//
+//                    @Override
+//                    public void dialogDismiss() {
+//                        dismissDialog();
+//                    }
+//                });
+//        startActivity(CardManageActivity.class);
     }
 }
