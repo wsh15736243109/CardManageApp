@@ -24,7 +24,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<Object>> getSMSCode(@Field("service_type") String service_type, @Field("accepter") String phone, @Field("code_type") String code_type, @Field("country_no") String country_no);
+    Observable<BaseResponse<Object>> getSMSCode(@Field("accepter") String phone, @Field("code_type") String code_type, @Field("country_no") String country_no, @Field("service_type") String service_type);
 
     /**
      * @param phone

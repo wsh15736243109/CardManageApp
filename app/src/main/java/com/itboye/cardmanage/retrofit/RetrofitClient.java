@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.IOException;
+import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,12 +26,13 @@ import me.goldze.mvvmhabit.utils.Utils;
 import okhttp3.Cache;
 import okhttp3.ConnectionPool;
 import okhttp3.FormBody;
-import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.internal.Util;
 import okhttp3.internal.platform.Platform;
+import okio.Buffer;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -89,46 +90,72 @@ public class RetrofitClient {
         okHttpClient = new OkHttpClient.Builder()
 //                .cookieJar(new CookieJarImpl(new PersistentCookieStore(mContext)))
 //                .cache(cache)
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request request = chain.request();
-                        //获取请求体
-                        RequestBody body = request.body();
-                        if (body instanceof FormBody) {
-                            FormBody formBody = (FormBody) body;
-                            Map<String, String> formMap = new HashMap<>();
-                            for (int i = 0; i < formBody.size(); i++) {
-                                formMap.put(formBody.name(i), formBody.value(i));
-                            }
-                            long time = System.currentTimeMillis();
-                            String client_secret = "df45c46ca6df63e7d5b38bfb7d61b5fc";
-                            String client_id = "by04esfI0fYuD5";
-                            String serviceVersion = "100";//headers.get("service_version");
-                            String serviceType = formMap.get("service_type");
-                            String json = new Gson().toJson(formMap);
-                            try {
-                                body = new FormBody.Builder()
-                                        .add("app_type", "android")
-                                        .add("notify_id", time + "")
-                                        .add("app_version", "100")
-                                        .add("app_request_time", time + "")
-                                        .add("service_version", serviceVersion)
-                                        .add("client_id", client_id)
-                                        .add("sign", DataSignatureUtil.getMD5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
-                                        .add("buss_data", json)
+                .addInterceptor(chain -> {
+                    Request request = chain.request();
+                    //获取请求体
+                    RequestBody body = request.body();
+                    if (body instanceof FormBody) {
+                        FormBody formBody = (FormBody) body;
+                        Map<String, String> formMap = new HashMap<>();
+                        for (int i = 0; i < formBody.size(); i++) {
+                            formMap.put(formBody.name(i), formBody.value(i));
+                        }
+                        long time = System.currentTimeMillis();
+                        String client_secret = "df45c46ca6df63e7d5b38bfb7d61b5fc";
+                        String client_id = "by04esfI0fYuD5";
+                        String serviceVersion = "100";//headers.get("service_version");
+                        String serviceType = formMap.get("service_type");
+                        String json = new Gson().toJson(formMap);
+                        try {
+                            body = new FormBody.Builder()
+                                    .add("app_type", "android")
+                                    .add("notify_id", time + "")
+                                    .add("app_version", "100")
+                                    .add("app_request_time", time + "")
+                                    .add("service_version", serviceVersion)
+                                    .add("client_id", client_id)
+                                    .add("sign", DataSignatureUtil.getMD5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
+                                    .add("buss_data", json)
 
-                                        .build();
-                            } catch (NoSuchAlgorithmException e) {
-                                e.printStackTrace();
-                            }
+                                    .build();
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
                         }
-                        // 若请求体不为Null，重新构建post请求，并传入修改后的参数体
-                        if (body != null) {
-                            request = request.newBuilder().post(body).build();
+                    } else if (body instanceof RequestBody) {
+                        Buffer buffer = new Buffer();
+                        body.writeTo(buffer);
+
+                        Charset charset = Util.UTF_8;
+                        MediaType contentType = body.contentType();
+                        if (contentType != null) {
+                            charset = contentType.charset(charset);
                         }
-                        return chain.proceed(request);
+                        String content = buffer.readString(charset);
+                        long time = System.currentTimeMillis();
+                        String client_secret = "df45c46ca6df63e7d5b38bfb7d61b5fc";
+                        String client_id = "by04esfI0fYuD5";
+                        String serviceVersion = "100";//headers.get("service_version");
+                        HashMap<String, String> hashMap = JsonMapHelper.parseJsonToMap(content);
+                        String serviceType = hashMap.get("service_type") + "";
+                        String json = new Gson().toJson(hashMap);
+                        body = new FormBody.Builder()
+                                .add("app_type", "android")
+                                .add("notify_id", time + "")
+                                .add("app_version", "100")
+                                .add("app_request_time", time + "")
+                                .add("service_version", serviceVersion)
+                                .add("service_type", "by_SecurityCode_createAndSend")
+                                .add("client_id", client_id)
+                                .add("sign", DataSignatureUtil.md5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
+                                .add("buss_data", json)
+
+                                .build();
                     }
+                    // 若请求体不为Null，重新构建post请求，并传入修改后的参数体
+                    if (body != null) {
+                        request = request.newBuilder().post(body).build();
+                    }
+                    return chain.proceed(request);
                 })
                 .addInterceptor(new CacheInterceptor(mContext))
                 .addInterceptor(new LoggingInterceptor

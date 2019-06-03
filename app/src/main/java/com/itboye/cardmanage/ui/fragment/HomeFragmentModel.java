@@ -30,7 +30,7 @@ public class HomeFragmentModel extends BaseViewModel {
 
     public void cardManage() {
 
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getSMSCode("by_SecurityCode_createAndSend", "15736243109", "1", "86"),
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getSMSCode("15736243109", "1", "86","by_SecurityCode_createAndSend"),
                 getLifecycleProvider(), disposable -> showDialog(),
 
                 new ApiDisposableObserver() {
