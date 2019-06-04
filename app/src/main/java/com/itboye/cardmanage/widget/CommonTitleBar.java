@@ -42,6 +42,7 @@ public final class CommonTitleBar extends LinearLayout {
     private String rightText;
     private int background_color;
     boolean needStatusBarHeight = false;
+    private int titleColor;
 
     public View getLayRoot() {
         return layRoot;
@@ -141,6 +142,7 @@ public final class CommonTitleBar extends LinearLayout {
 
         //中间
         titleValue = mTypedArray.getString(R.styleable.title_bar_title_text);
+        titleColor = mTypedArray.getColor(R.styleable.title_bar_title_text_color, getResources().getColor(R.color.black));
         titleRightDrawable = mTypedArray.getResourceId(R.styleable.title_bar_title_drawable_right, 0);
 
         //右边
@@ -248,8 +250,8 @@ public final class CommonTitleBar extends LinearLayout {
         } else {
             tvTitle.setVisibility(View.VISIBLE);
             tvTitle.setText(titleValue);
-
         }
+        tvTitle.setTextColor(titleColor);
         if (titleRightDrawable != 0) {
             tvTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, titleRightDrawable, 0);
             tvTitle.setCompoundDrawablePadding(6);
@@ -275,7 +277,7 @@ public final class CommonTitleBar extends LinearLayout {
         iconLeft.setOnClickListener(view -> {
             try {
                 ((Activity) getContext()).finish();
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         });

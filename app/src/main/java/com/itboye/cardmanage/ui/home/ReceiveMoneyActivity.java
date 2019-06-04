@@ -1,17 +1,17 @@
 package com.itboye.cardmanage.ui.home;
 
+import android.app.Activity;
 import android.os.Bundle;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
-import com.itboye.cardmanage.databinding.ActivityCardManageBinding;
+import com.itboye.cardmanage.databinding.ActivityReceiveMoneyBinding;
 
-public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBinding, CardManageModel> {
-
+public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyBinding,ReceiveMoneyModel> {
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        return R.layout.activity_card_manage;
+        return R.layout.activity_receive_money;
     }
 
     @Override
@@ -21,8 +21,6 @@ public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBindi
 
     @Override
     public void initData() {
-        viewModel.tab1 = binding.tabitem1;
-        viewModel.tab2 = binding.tabitem2;
-        viewModel.switchTitle(0);
+
     }
 }

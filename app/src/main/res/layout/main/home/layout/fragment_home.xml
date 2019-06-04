@@ -37,6 +37,7 @@
                             android:text="收款"
                             android:textColor="@color/white"
                             android:layout_margin="@dimen/dp_24"
+                            android:onClick="@{()->viewModel.cardManage(0)}"
                             android:drawableTop="@mipmap/ic_loan"
                             android:layout_height="wrap_content"/>
 
@@ -47,7 +48,7 @@
                             android:text="卡片管理"
                             android:layout_margin="@dimen/dp_24"
                             android:textColor="@color/white"
-                            android:onClick="@{()->viewModel.cardManage()}"
+                            android:onClick="@{()->viewModel.cardManage(1)}"
                             android:drawableTop="@mipmap/ic_card"
                             android:layout_height="wrap_content"/>
                 </LinearLayout>

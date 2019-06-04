@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="black">#000000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="red">#FF0000</color>
     <color name="line_gray_d8d8d8">#D8D8D8</color>
@@ -11,4 +12,5 @@
     <color name="A6C0F2">#A6C0F2</color>
     <color name="transparent">#00000000</color>
     <color name="golden_F6C087">#F6C087</color>
+    <color name="gray_f1f1f1">#F1F1F1</color>
 </resources>

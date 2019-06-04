@@ -2,7 +2,6 @@ package com.itboye.cardmanage.retrofit;
 
 
 import io.reactivex.observers.DisposableObserver;
-import me.goldze.mvvmhabit.http.BaseResponse;
 import me.goldze.mvvmhabit.http.NetworkUtil;
 import me.goldze.mvvmhabit.http.ResponseThrowable;
 import me.goldze.mvvmhabit.utils.KLog;
@@ -17,7 +16,7 @@ import static com.itboye.cardmanage.retrofit.ApiDisposableObserver.CodeRule.CODE
  */
 
 public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
-    public abstract void onResult(T t);
+    public abstract void onResult(T t,String msg);
 
 
     public abstract void dialogDismiss();
@@ -60,10 +59,11 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
         BaseResponse baseResponse = (BaseResponse) o;
         dialogDismiss();
         switch (baseResponse.getCode()) {
-            case CodeRule.CODE_200:
-                //请求成功, 正确的操作方式
-                if (baseResponse.getResult() != null)
-                    onResult((T) baseResponse.getResult());
+            //请求成功, 正确的操作方式
+            case 200:
+            case 0:
+                if (baseResponse.getData() != null)
+                    onResult((T) baseResponse.getData(),baseResponse.getMsg());
                 break;
             case CODE__1006:
                 ToastUtils.showShort(baseResponse.getMsg());
@@ -121,8 +121,10 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
     }
 
     public static final class CodeRule {
+
         //请求成功, 正确的操作方式
         static final int CODE_200 = 200;
+        static final int CODE_0 = 200;
         //请求成功, 消息提示
         static final int CODE__1 = -1;
         //请求失败，不打印Message

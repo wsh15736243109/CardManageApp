@@ -6,5 +6,6 @@ package com.itboye.cardmanage.config;
  * @Description:
  */
 public class Global {
-    public static String HOST = "";
+    public static String HOST = "api.361fit.cn";
+    public static String BASEURL = "http://" + HOST + "/";
 }

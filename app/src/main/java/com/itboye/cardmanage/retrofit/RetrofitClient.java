@@ -9,6 +9,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -33,9 +34,13 @@ import okhttp3.RequestBody;
 import okhttp3.internal.Util;
 import okhttp3.internal.platform.Platform;
 import okio.Buffer;
+import org.json.JSONException;
+import org.json.JSONObject;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.itboye.cardmanage.config.Global.BASEURL;
 
 /**
  * Created by goldze on 2017/5/10.
@@ -47,7 +52,7 @@ public class RetrofitClient {
     //缓存时间
     private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
     //服务端根路径
-    public static String baseUrl = API.BASEURL;
+    public static String baseUrl = BASEURL;
 
     private static Context mContext = Utils.getContext();
 
@@ -95,36 +100,9 @@ public class RetrofitClient {
                     //获取请求体
                     RequestBody body = request.body();
                     if (body instanceof FormBody) {
-                        FormBody formBody = (FormBody) body;
-                        Map<String, String> formMap = new HashMap<>();
-                        for (int i = 0; i < formBody.size(); i++) {
-                            formMap.put(formBody.name(i), formBody.value(i));
-                        }
-                        long time = System.currentTimeMillis();
-                        String client_secret = "df45c46ca6df63e7d5b38bfb7d61b5fc";
-                        String client_id = "by04esfI0fYuD5";
-                        String serviceVersion = "100";//headers.get("service_version");
-                        String serviceType = formMap.get("service_type");
-                        String json = new Gson().toJson(formMap);
-                        try {
-                            body = new FormBody.Builder()
-                                    .add("app_type", "android")
-                                    .add("notify_id", time + "")
-                                    .add("app_version", "100")
-                                    .add("app_request_time", time + "")
-                                    .add("service_version", serviceVersion)
-                                    .add("client_id", client_id)
-                                    .add("sign", DataSignatureUtil.getMD5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
-                                    .add("buss_data", json)
-
-                                    .build();
-                        } catch (NoSuchAlgorithmException e) {
-                            e.printStackTrace();
-                        }
                     } else if (body instanceof RequestBody) {
                         Buffer buffer = new Buffer();
                         body.writeTo(buffer);
-
                         Charset charset = Util.UTF_8;
                         MediaType contentType = body.contentType();
                         if (contentType != null) {
@@ -135,20 +113,30 @@ public class RetrofitClient {
                         String client_secret = "df45c46ca6df63e7d5b38bfb7d61b5fc";
                         String client_id = "by04esfI0fYuD5";
                         String serviceVersion = "100";//headers.get("service_version");
-                        HashMap<String, String> hashMap = JsonMapHelper.parseJsonToMap(content);
-                        String serviceType = hashMap.get("service_type") + "";
-                        String json = new Gson().toJson(hashMap);
+                        JSONObject hashMap = JsonMapHelper.parseJsonToMap(content);
+                        String serviceType = null;
+                        try {
+                            serviceType = hashMap.getString("service_type") + "";
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+//                            serviceType = "by_SecurityCode_createAndSend";
+                        }
+                        if (serviceType==null) {
+                            throw new RuntimeException("缺少 service_type参数");
+                        }
+                        String json = hashMap.toString();
+                        KLog.d("sign====" + (time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json));
                         body = new FormBody.Builder()
-                                .add("app_type", "android")
-                                .add("notify_id", time + "")
-                                .add("app_version", "100")
                                 .add("app_request_time", time + "")
-                                .add("service_version", serviceVersion)
-                                .add("service_type", "by_SecurityCode_createAndSend")
-                                .add("client_id", client_id)
-                                .add("sign", DataSignatureUtil.md5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
+                                .add("app_type", "android")
+                                .add("app_version", "1.0.0")
                                 .add("buss_data", json)
-
+                                .add("client_id", client_id)
+                                .add("lang", "zh-cn")
+                                .add("notify_id", time + "")
+                                .add("service_type", serviceType)
+                                .add("service_version", serviceVersion)
+                                .add("sign", DataSignatureUtil.getMD5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
                                 .build();
                     }
                     // 若请求体不为Null，重新构建post请求，并传入修改后的参数体
@@ -157,7 +145,7 @@ public class RetrofitClient {
                     }
                     return chain.proceed(request);
                 })
-                .addInterceptor(new CacheInterceptor(mContext))
+//                .addInterceptor(new CacheInterceptor(mContext))
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
                         .loggable(BuildConfig.DEBUG) //是否开启日志打印

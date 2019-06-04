@@ -34,6 +34,7 @@
         <attr name="left_icon_resource" format="reference" />
         <attr name="left_text" format="string" />
         <attr name="title_text" format="string" />
+        <attr name="title_text_color" format="color" />
         <attr name="right_icon_visible" format="boolean" />
         <attr name="right_icon_resource" format="reference" />
         <attr name="right_text" format="string" />

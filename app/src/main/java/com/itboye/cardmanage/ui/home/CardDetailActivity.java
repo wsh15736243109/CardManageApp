@@ -4,14 +4,14 @@ import android.os.Bundle;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
-import com.itboye.cardmanage.databinding.ActivityCardManageBinding;
+import com.itboye.cardmanage.databinding.ActivityAddCardBinding;
+import com.itboye.cardmanage.databinding.ActivityCardDetailBinding;
 
-public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBinding, CardManageModel> {
-
+public class CardDetailActivity extends BaseMVVMActivity<ActivityCardDetailBinding,AddCardModel> {
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        return R.layout.activity_card_manage;
+        return R.layout.activity_card_detail;
     }
 
     @Override
@@ -21,8 +21,6 @@ public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBindi
 
     @Override
     public void initData() {
-        viewModel.tab1 = binding.tabitem1;
-        viewModel.tab2 = binding.tabitem2;
-        viewModel.switchTitle(0);
+
     }
 }

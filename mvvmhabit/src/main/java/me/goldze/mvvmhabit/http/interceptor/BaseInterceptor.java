@@ -46,12 +46,7 @@ public class BaseInterceptor implements Interceptor {
                 builder.addHeader(headerKey, headers.get(headerKey)).build();
             }
             String json = new Gson().toJson(headers);
-            try {
-                builder.addHeader("sign", DataSignatureUtil.getMD5(time + client_secret + serviceType + serviceVersion + json));
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-                ToastUtils.showShort("decode_error==" + e.getMessage());
-            }
+            builder.addHeader("sign", DataSignatureUtil.getMD5(time + client_secret + serviceType + serviceVersion + json));
             builder.addHeader("buss_data", json);
         }
         //请求信息
