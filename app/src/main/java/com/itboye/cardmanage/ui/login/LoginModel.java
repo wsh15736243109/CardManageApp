@@ -8,10 +8,12 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import com.itboye.cardmanage.MainActivity;
 import com.itboye.cardmanage.R;
+import com.itboye.cardmanage.bean.UserInfoBean;
 import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
+import com.itboye.cardmanage.util.UserUtil;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
@@ -20,7 +22,7 @@ import me.goldze.mvvmhabit.utils.ToastUtils;
 public class LoginModel extends BaseViewModel {
 
     //用户名的绑定
-    public ObservableField<String> userName = new ObservableField<>();
+    public ObservableField<String> userName = new ObservableField<>("15736243111");
     public ObservableField<String> userPassword = new ObservableField<>();
     public ObservableField<String> confirm_userPassword = new ObservableField<>();
     public ObservableField<String> userYzm = new ObservableField<>();
@@ -48,6 +50,7 @@ public class LoginModel extends BaseViewModel {
                 ToastUtils.showShort("手机号为空");
                 return;
             }
+            ToastUtils.showShort(OPERTA_TYPE+"");
             //分为验证码登录和密码登录
             if (OPERTA_TYPE == 1) {
                 if (isEmpty(userYzm)) {
@@ -60,6 +63,7 @@ public class LoginModel extends BaseViewModel {
                         new ApiDisposableObserver() {
                             @Override
                             public void onResult(Object o, String msg) {
+                                UserUtil.saveUser((UserInfoBean) o);
                                 ToastUtils.showShort(msg);
                                 startActivity(MainActivity.class);
                                 finish();
@@ -138,6 +142,22 @@ public class LoginModel extends BaseViewModel {
                     ToastUtils.showShort("两次密码不一致");
                     return;
                 }
+                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).forgetPasswordByCode(userName.get(), confirm_userPassword.get(), userYzm.get(), "86", userPassword.get(), "by_UserLoginSession_registerByMobileCode"),
+                        getLifecycleProvider(), disposable -> showDialog(),
+
+                        new ApiDisposableObserver() {
+                            @Override
+                            public void onResult(Object o, String msg) {
+                                ToastUtils.showShort(msg);
+                                startActivity(MainActivity.class);
+                                finish();
+                            }
+
+                            @Override
+                            public void dialogDismiss() {
+                                dismissDialog();
+                            }
+                        });
             }
 
         }
@@ -150,12 +170,12 @@ public class LoginModel extends BaseViewModel {
         public void call() {
             rlLoginConfirmPsd.set(View.GONE);
             if (OPERTA_TYPE == 1) {
-                rlLoginYzm.set(View.VISIBLE);
-                rlLoginPsd.set(View.GONE);
-                setGetOperateType(2);
-            } else {
                 rlLoginYzm.set(View.GONE);
                 rlLoginPsd.set(View.VISIBLE);
+                setGetOperateType(2);
+            } else {
+                rlLoginYzm.set(View.VISIBLE);
+                rlLoginPsd.set(View.GONE);
                 setGetOperateType(1);
             }
         }
@@ -197,12 +217,12 @@ public class LoginModel extends BaseViewModel {
             case 1:
                 getOperateType.set("登录");
                 visibleValue.set(View.VISIBLE);
-                loginType.set("验证码登录>>");
+                loginType.set("密码登录>>");
                 break;
             case 2:
                 getOperateType.set("登录");
                 visibleValue.set(View.VISIBLE);
-                loginType.set("密码登录>>");
+                loginType.set("验证码登录>>");
                 break;
             case 3:
                 getOperateType.set("立即注册");

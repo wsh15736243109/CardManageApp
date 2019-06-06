@@ -124,15 +124,16 @@ public class RetrofitClient {
                         String json = json1.toString();
                         KLog.d("sign====" + (time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json));
                         body = new FormBody.Builder()
-                                .add("app_request_time", time + "")
                                 .add("app_type", "android")
                                 .add("app_version", "1.0.0")
-                                .add("buss_data", json)
-                                .add("client_id", client_id)
-                                .add("lang", "zh-cn")
                                 .add("notify_id", time + "")
-                                .add("service_type", serviceType)
+                                .add("lang", "zh-cn")
                                 .add("service_version", serviceVersion)
+                                .add("service_type", serviceType)
+                                .add("client_id", client_id)
+                                .add("app_request_time", time + "")
+                                .add("buss_data", json)
+                                .add("code","123456")
                                 .add("sign", DataSignatureUtil.getMD5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
                                 .build();
                     }

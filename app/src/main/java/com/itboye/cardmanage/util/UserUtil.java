@@ -4,6 +4,8 @@ import com.itboye.cardmanage.bean.UserInfoBean;
 import com.itboye.cardmanage.config.SpKey;
 import me.goldze.mvvmhabit.utils.SPUtils;
 
+import java.io.IOException;
+
 import static me.goldze.mvvmhabit.utils.StringUtils.isEmpty;
 
 
@@ -22,6 +24,23 @@ public class UserUtil {
             return new UserInfoBean();
         }
 
+    }
+
+    /**
+     * 保存用户ID
+     *
+     * @param user 用户
+     */
+    public static synchronized void saveUser(UserInfoBean user) {
+//        System.out.println("Message== " + user.getUser_id());
+        String str = "";
+        try {
+            str = SerializableUtil.obj2Str(user);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        SPUtils.getInstance().put(SpKey.USER_BEAN, str);
     }
 
     public static void clearUserInfo() {

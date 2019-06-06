@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.TreeMap;
 
 /**
  * JsonMapHelper
@@ -74,7 +75,7 @@ public class JsonMapHelper {
     //service_type=by_SecurityCode_createAndSend&accepter=15736243109&code_type=1&country_no=86
     public static JSONObject parseJsonToMap(String json) {
         JSONObject jsonObject = new JSONObject();
-//        Hashtable<String, String> hashMap = new Hashtable<>();
+        TreeMap<String, String> hashMap = new TreeMap<>();
         String[] arg = json.split("&");
         if (arg != null) {
             for (int i = 0; i < arg.length; i++) {
@@ -83,7 +84,7 @@ public class JsonMapHelper {
 //                    continue;
 //                }
                 String value = arg[i].split("=")[1];
-//                hashMap.put(key, value);
+                hashMap.put(key, value);
                 try {
                     jsonObject.put(key, value);
                 } catch (JSONException e) {
@@ -91,6 +92,6 @@ public class JsonMapHelper {
                 }
             }
         }
-        return jsonObject;
+        return new JSONObject(hashMap);
     }
 }

@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.retrofit;
 
 
+import com.itboye.cardmanage.bean.UserInfoBean;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -32,7 +33,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> loginByPwd(@Field("mobile") String phone,
+    Observable<BaseResponse<UserInfoBean>> loginByPwd(@Field("mobile") String phone,
                                                 @Field("device_token") String device_token,
                                                 @Field("device_type") String device_type,
                                                 @Field("loginInfo") String loginInfo,
@@ -47,12 +48,12 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> register(@Field("mobile") String phone,
-                                              @Field("password") String password,
-                                              @Field("code") String code,
-                                              @Field("country_no") String country_no,
-                                              @Field("idcode") String idcode,
-                                              @Field("service_type") String service_type);
+    Observable<BaseResponse<UserInfoBean>> register(@Field("mobile") String phone,
+                                                    @Field("password") String password,
+                                                    @Field("code") String code,
+                                                    @Field("country_no") String country_no,
+                                                    @Field("idcode") String idcode,
+                                                    @Field("service_type") String service_type);
 
 
     /**
@@ -62,10 +63,41 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> loginByCode(@Field("mobile") String phone,
+    Observable<BaseResponse<UserInfoBean>> loginByCode(@Field("mobile") String phone,
                                                  @Field("device_token") String device_token,
                                                  @Field("device_type") String device_type,
                                                  @Field("loginInfo") String loginInfo,
                                                  @Field("code") String code,
                                                  @Field("service_type") String service_type);
+
+    /**
+     * 通过手机号码改密码
+     * @param phone
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> forgetPasswordByCode(@Field("mobile") String phone,
+                                                       @Field("device_token") String device_token,
+                                                       @Field("device_type") String device_type,
+                                                       @Field("loginInfo") String loginInfo,
+                                                       @Field("code") String code,
+                                                       @Field("service_type") String service_type);
+    /**
+     * 通过密码改密码
+     * @param uid
+     * @param old_pwd
+     * @param new_pwd
+     * @param sid
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> forgetPasswordByPwd(@Field("uid") String uid,
+                                                                @Field("old_pwd") String old_pwd,
+                                                                @Field("new_pwd") String new_pwd,
+                                                                @Field("sid") String sid,
+                                                                @Field("service_type") String service_type);
 }
