@@ -19,11 +19,13 @@ import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
+import static com.itboye.cardmanage.config.Global.COUNTRY_NO;
+
 public class LoginModel extends BaseViewModel {
 
     //用户名的绑定
     public ObservableField<String> userName = new ObservableField<>("15736243111");
-    public ObservableField<String> userPassword = new ObservableField<>();
+    public ObservableField<String> userPassword = new ObservableField<>("12345678");
     public ObservableField<String> confirm_userPassword = new ObservableField<>();
     public ObservableField<String> userYzm = new ObservableField<>();
     public ObservableField<String> loginType = new ObservableField<>("密码登录>>");
@@ -43,124 +45,121 @@ public class LoginModel extends BaseViewModel {
     }
 
     //登录或注册按钮
-    public BindingCommand loginClick = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            if (isEmpty(userName)) {
-                ToastUtils.showShort("手机号为空");
+    public BindingCommand loginClick = new BindingCommand(() -> {
+        if (isEmpty(userName)) {
+            ToastUtils.showShort("手机号为空");
+            return;
+        }
+        //分为验证码登录和密码登录
+        if (OPERTA_TYPE == 1) {
+            if (isEmpty(userYzm)) {
+                ToastUtils.showShort("验证码为空");
                 return;
             }
-            ToastUtils.showShort(OPERTA_TYPE+"");
-            //分为验证码登录和密码登录
-            if (OPERTA_TYPE == 1) {
-                if (isEmpty(userYzm)) {
-                    ToastUtils.showShort("验证码为空");
-                    return;
-                }
-                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).loginByCode(userName.get(), "token", "android", "android", userYzm.get(), "by_UserLoginSession_loginByMobileCode"),
-                        getLifecycleProvider(), disposable -> showDialog(),
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).loginByCode(userName.get(), "token", "android", "android", userYzm.get(), "by_UserLoginSession_loginByMobileCode"),
+                    getLifecycleProvider(), disposable -> showDialog(),
 
-                        new ApiDisposableObserver() {
-                            @Override
-                            public void onResult(Object o, String msg) {
-                                UserUtil.saveUser((UserInfoBean) o);
-                                ToastUtils.showShort(msg);
-                                startActivity(MainActivity.class);
-                                finish();
-                            }
+                    new ApiDisposableObserver() {
+                        @Override
+                        public void onResult(Object o, String msg) {
+                            UserUtil.saveUser((UserInfoBean) o);
+                            ToastUtils.showShort(msg);
+                            startActivity(MainActivity.class);
+                            finish();
+                        }
 
-                            @Override
-                            public void dialogDismiss() {
-                                dismissDialog();
-                            }
-                        });
-            } else if (OPERTA_TYPE == 2) {
-                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).loginByPwd(userName.get(), "token", "android", "android", userPassword.get(), "by_UserLoginSession_loginByMobilePassword"),
-                        getLifecycleProvider(), disposable -> showDialog(),
+                        @Override
+                        public void dialogDismiss() {
+                            dismissDialog();
+                        }
+                    });
+        } else if (OPERTA_TYPE == 2) {
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).loginByPwd(userName.get(), "token", "android", "android", userPassword.get(), "by_UserLoginSession_loginByMobilePassword"),
+                    getLifecycleProvider(), disposable -> showDialog(),
 
-                        new ApiDisposableObserver() {
-                            @Override
-                            public void onResult(Object o, String msg) {
-                                ToastUtils.showShort(msg);
-                                startActivity(MainActivity.class);
-                                finish();
-                            }
+                    new ApiDisposableObserver() {
+                        @Override
+                        public void onResult(Object o, String msg) {
+                            ToastUtils.showShort(msg);
+                            UserUtil.saveUser((UserInfoBean) o);
+                            startActivity(MainActivity.class);
+                            finish();
+                        }
 
-                            @Override
-                            public void dialogDismiss() {
-                                dismissDialog();
-                            }
-                        });
-            } else if (OPERTA_TYPE == 3) {
-                if (isEmpty(userYzm)) {
-                    ToastUtils.showShort("请输入验证码");
-                    return;
-                }
-                if (isEmpty(userPassword)) {
-                    ToastUtils.showShort("请输入密码");
-                    return;
-                }
-
-                if (isEmpty(confirm_userPassword)) {
-                    ToastUtils.showShort("请再次输入密码");
-                    return;
-                }
-                if (isEqual(userPassword, confirm_userPassword)) {
-                    ToastUtils.showShort("两次密码不一致");
-                    return;
-                }
-                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).register(userName.get(), confirm_userPassword.get(), userYzm.get(), "86", userPassword.get(), "by_UserLoginSession_registerByMobileCode"),
-                        getLifecycleProvider(), disposable -> showDialog(),
-
-                        new ApiDisposableObserver() {
-                            @Override
-                            public void onResult(Object o, String msg) {
-                                ToastUtils.showShort(msg);
-                                startActivity(MainActivity.class);
-                                finish();
-                            }
-
-                            @Override
-                            public void dialogDismiss() {
-                                dismissDialog();
-                            }
-                        });
-            } else if (OPERTA_TYPE == 4) {
-                if (isEmpty(userYzm)) {
-                    ToastUtils.showShort("验证码为空");
-                    return;
-                }
-                if (isEmpty(userPassword)) {
-                    ToastUtils.showShort("请输入密码");
-                    return;
-                }
-                if (isEmpty(confirm_userPassword)) {
-                    ToastUtils.showShort("请再次输入密码");
-                    return;
-                }
-                if (isEqual(userPassword, confirm_userPassword)) {
-                    ToastUtils.showShort("两次密码不一致");
-                    return;
-                }
-                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).forgetPasswordByCode(userName.get(), confirm_userPassword.get(), userYzm.get(), "86", userPassword.get(), "by_UserLoginSession_registerByMobileCode"),
-                        getLifecycleProvider(), disposable -> showDialog(),
-
-                        new ApiDisposableObserver() {
-                            @Override
-                            public void onResult(Object o, String msg) {
-                                ToastUtils.showShort(msg);
-                                startActivity(MainActivity.class);
-                                finish();
-                            }
-
-                            @Override
-                            public void dialogDismiss() {
-                                dismissDialog();
-                            }
-                        });
+                        @Override
+                        public void dialogDismiss() {
+                            dismissDialog();
+                        }
+                    });
+        } else if (OPERTA_TYPE == 3) {
+            if (isEmpty(userYzm)) {
+                ToastUtils.showShort("请输入验证码");
+                return;
+            }
+            if (isEmpty(userPassword)) {
+                ToastUtils.showShort("请输入密码");
+                return;
             }
 
+            if (isEmpty(confirm_userPassword)) {
+                ToastUtils.showShort("请再次输入密码");
+                return;
+            }
+            if (isEqual(userPassword, confirm_userPassword)) {
+                ToastUtils.showShort("两次密码不一致");
+                return;
+            }
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).register(userName.get(), confirm_userPassword.get(), userYzm.get(), COUNTRY_NO, userPassword.get(), "by_UserLoginSession_registerByMobileCode"),
+                    getLifecycleProvider(), disposable -> showDialog(),
+
+                    new ApiDisposableObserver() {
+                        @Override
+                        public void onResult(Object o, String msg) {
+                            ToastUtils.showShort(msg);
+                            startActivity(MainActivity.class);
+                            finish();
+                        }
+
+                        @Override
+                        public void dialogDismiss() {
+                            dismissDialog();
+                        }
+                    });
+        } else if (OPERTA_TYPE == 4) {
+            if (isEmpty(userYzm)) {
+                ToastUtils.showShort("验证码为空");
+                return;
+            }
+            if (isEmpty(userPassword)) {
+                ToastUtils.showShort("请输入密码");
+                return;
+            }
+            if (isEmpty(confirm_userPassword)) {
+                ToastUtils.showShort("请再次输入密码");
+                return;
+            }
+            if (isEqual(userPassword, confirm_userPassword)) {
+                ToastUtils.showShort("两次密码不一致");
+                return;
+            }
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).forgetPasswordByCode(userName.get(), confirm_userPassword.get(), userYzm.get(), COUNTRY_NO, userPassword.get(), "by_UserLoginSession_registerByMobileCode"),
+                    getLifecycleProvider(), disposable -> showDialog(),
+
+                    new ApiDisposableObserver() {
+                        @Override
+                        public void onResult(Object o, String msg) {
+                            ToastUtils.showShort(msg);
+                            startActivity(MainActivity.class);
+                            finish();
+                        }
+
+                        @Override
+                        public void dialogDismiss() {
+                            dismissDialog();
+                        }
+                    });
         }
+
     });
     /**
      * 密码登录或验证码

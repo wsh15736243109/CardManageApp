@@ -1,7 +1,10 @@
 package com.itboye.cardmanage.ui;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;

@@ -2,6 +2,7 @@ package com.itboye.cardmanage.ui;
 
 import android.app.Application;
 import android.databinding.ObservableField;
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.MainActivity;
@@ -13,15 +14,13 @@ import me.goldze.mvvmhabit.base.BaseViewModel;
 public class SplashModel extends BaseViewModel {
 
     //用户名的绑定
-    public ObservableField<String> userName = new ObservableField<>("我是启动页的button");
-    public ObservableField<Integer> res = new ObservableField<>();
-    public ObservableField<String> resD = new ObservableField<>("https://www.baidu.com/img/dong_96c3c31cae66e61ed02644d732fcd5f8.gif");
+    public ObservableField<String> userName = new ObservableField<>("");
+    public ObservableField<Drawable> res = new ObservableField<>();
+    public ObservableField<String> resD = new ObservableField<>("");
 
     public SplashModel(@NonNull Application application) {
         super(application);
-        userName.set("启动页的bugtton呢？---");
-        res.set(R.mipmap.test);
-        resD.set("https://www.baidu.com/img/dong_96c3c31cae66e61ed02644d732fcd5f8.gif");
+        res.set(application.getResources().getDrawable(R.drawable.ic_splash));
     }
 
     public void initTimer() {
@@ -38,6 +37,7 @@ public class SplashModel extends BaseViewModel {
                 } else {
                     startActivity(LoginActivity.class);
                 }
+                finish();
             }
         };
         countDownTimer.start();

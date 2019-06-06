@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+        <import type="me.goldze.mvvmhabit.binding.viewadapter.recyclerview.LineManagers" />
+        <import type="android.support.v7.widget.LinearLayoutManager" />
         <variable
                 name="viewModel"
                 type="com.itboye.cardmanage.ui.fragment.HomeFragmentModel"/>
@@ -52,9 +54,15 @@
                             android:drawableTop="@mipmap/ic_card"
                             android:layout_height="wrap_content"/>
                 </LinearLayout>
-
+<!--
+                        app:lineManager="@{LineManagers.horizontal()}"-->
                 <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_top"
                         android:background="@color/white"
+                        app:itemBinding="@{viewModel.itemBinding}"
+                        app:items="@{viewModel.hobbies}"
+                        app:layoutManager="@{LayoutManagers.grid(4)}"
+                        app:lineManager="@{LineManagers.both()}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 

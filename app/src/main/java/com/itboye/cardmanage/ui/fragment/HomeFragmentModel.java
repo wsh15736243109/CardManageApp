@@ -1,65 +1,39 @@
 package com.itboye.cardmanage.ui.fragment;
 
+import android.databinding.ObservableField;
+import com.itboye.cardmanage.R;
+import com.itboye.cardmanage.BR;
+
 import android.app.Application;
 import android.support.annotation.NonNull;
-
-import com.itboye.cardmanage.interfaces.MineClickType;
-import com.itboye.cardmanage.retrofit.API;
-import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
-import com.itboye.cardmanage.retrofit.AppUtils;
-import com.itboye.cardmanage.retrofit.RetrofitClient;
-
+import com.itboye.cardmanage.model.HomeTopModel;
 import com.itboye.cardmanage.ui.home.CardManageActivity;
 import com.itboye.cardmanage.ui.home.ReceiveMoneyActivity;
 import me.goldze.mvvmhabit.base.BaseViewModel;
-import me.goldze.mvvmhabit.utils.ToastUtils;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragmentModel extends BaseViewModel {
     public HomeFragmentModel(@NonNull Application application) {
         super(application);
+        ArrayList<HomeTopModel> ar = new ArrayList<>();
+        ar.add(new HomeTopModel(application).setIcon(R.drawable.ic_jiaoyijilu).setTitle("交易记录"));
+        ar.add(new HomeTopModel(application).setIcon(R.drawable.ic_shengjivip).setTitle("升级VIP"));
+        ar.add(new HomeTopModel(application).setIcon(R.drawable.ic_caozuobangzhu).setTitle("操作帮助"));
+        ar.add(new HomeTopModel(application).setIcon(R.drawable.ic_lianxikefu).setTitle("联系客服"));
+        ar.add(new HomeTopModel(application).setIcon(R.drawable.ic_goumaiji).setTitle("购买POS机"));
+        ar.add(new HomeTopModel(application).setIcon(R.drawable.ic_changjianwenti).setTitle("常见问题"));
+        ar.add(new HomeTopModel(application).setIcon(R.drawable.ic_more).setTitle("更多"));
+        hobbies.set(ar);
     }
 
-    public void goToAc(MineClickType mineClickType) {
-        switch (mineClickType) {
-            case MY_TRANSLATION:
-                ToastUtils.showShort("点击了我的交易");
-                break;
-            case REPAYMENT_PLAN:
-                ToastUtils.showShort("点击了还款计划");
-                break;
-        }
-    }
+    //给RecyclerView添加ItemBinding
+    public final ItemBinding<HomeTopModel> itemBinding = ItemBinding.of(BR.item, R.layout.item);
+    public ObservableField<ArrayList<HomeTopModel>> hobbies = new ObservableField<>();
 
     public void cardManage(int type) {
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getSMSCode("15736243109", "1", "86", "by_SecurityCode_createAndSend"),
-                getLifecycleProvider(), disposable -> showDialog(),
-
-                new ApiDisposableObserver() {
-                    @Override
-                    public void onResult(Object o, String msg) {
-                        ToastUtils.showShort(msg);
-                    }
-
-                    @Override
-                    public void dialogDismiss() {
-                        dismissDialog();
-                    }
-                });
-//        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).loginByPwd(
-//                "by_UserLoginSession_loginByMobilePassword", "15736243109", "1", "android", "android", "123456"),
-//                getLifecycleProvider(), disposable -> showDialog(),
-//
-//                new ApiDisposableObserver() {
-//                    @Override
-//                    public void onResult(Object o) {
-//                        ToastUtils.showShort("ooo==" + o);
-//                    }
-//
-//                    @Override
-//                    public void dialogDismiss() {
-//                        dismissDialog();
-//                    }
-//                });
         if (type == 0) {
             startActivity(ReceiveMoneyActivity.class);
 
@@ -67,33 +41,4 @@ public class HomeFragmentModel extends BaseViewModel {
             startActivity(CardManageActivity.class);
         }
     }
-
-    /*
-    *  when (index) {
-            0 -> {
-                //选中第一个tab
-                tabitem_1!!.setBackgroundDrawable((resources.getDrawable(R.drawable.tab_left_select_style_bg_white)))
-                tabitem_2!!.setBackgroundDrawable((resources.getDrawable(R.drawable.tab_right_select_style_bg_green)))
-                tabitem_2!!.setTextColor(resources.getColor(R.color.white))
-                tabitem_1!!.setTextColor(resources.getColor(R.color.main_blue))
-                if (fragment1 == null) {
-                    fragment1 = WagesBillsFragment.newInstance("$index", "")
-                    fragmentTransaction!!.add(R.id.frameLayout_wagesbills, fragment1)
-                } else {
-                    fragmentTransaction!!.show(fragment1)
-                }
-            }
-            1 -> {
-                //选中第二个tab
-                tabitem_1!!.setBackgroundDrawable((resources.getDrawable(R.drawable.tab_left_select_style_bg_green)))
-                tabitem_2!!.setBackgroundDrawable((resources.getDrawable(R.drawable.tab_right_select_style_bg_white)))
-                tabitem_1!!.setTextColor(resources.getColor(R.color.white))
-                tabitem_2!!.setTextColor(resources.getColor(R.color.main_blue))
-                if (fragment2 == null) {
-                    fragment2 = WagesBillsFragment.newInstance("$index", "")
-                    fragmentTransaction!!.add(R.id.frameLayout_wagesbills, fragment2)
-                } else {
-                    fragmentTransaction!!.show(fragment2)
-                }
-            }*/
 }

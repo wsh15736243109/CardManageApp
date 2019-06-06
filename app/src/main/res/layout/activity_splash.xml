@@ -17,13 +17,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <Button
-                android:layout_width="match_parent"
-                android:text="@={viewModel.userName}"
-                android:layout_height="200dp"/>
+        <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:text="@={viewModel.userName}"-->
+        <!--android:layout_height="200dp"/>-->
         <ImageView
                 android:layout_width="match_parent"
-                app:url="@{viewModel.resD}"
-                android:layout_height="200dp"/>
+                android:src="@{viewModel.res}"
+                android:scaleType="centerCrop"
+                android:layout_height="match_parent"/>
     </LinearLayout>
 </layout>

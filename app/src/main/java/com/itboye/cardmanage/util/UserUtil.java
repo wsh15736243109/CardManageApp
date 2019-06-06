@@ -5,6 +5,7 @@ import com.itboye.cardmanage.config.SpKey;
 import me.goldze.mvvmhabit.utils.SPUtils;
 
 import java.io.IOException;
+import java.io.StreamCorruptedException;
 
 import static me.goldze.mvvmhabit.utils.StringUtils.isEmpty;
 
@@ -21,7 +22,21 @@ public class UserUtil {
             return null;
         } else {
             //解析UserInfo
-            return new UserInfoBean();
+            UserInfoBean user = null;
+            try {
+                Object obj = SerializableUtil.str2Obj(userInfoJson);
+                if (obj != null) {
+                    user = (UserInfoBean) obj;
+                }
+
+            } catch (StreamCorruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return user;
         }
 
     }

@@ -1,11 +1,13 @@
 package com.itboye.cardmanage.bean;
 
+import java.io.Serializable;
+
 /**
  * @Author:Create by Mr.w
  * @Date:2019/5/24 22:26
  * @Description:
  */
-public class UserInfoBean {
+public class UserInfoBean implements Serializable {
 
     /**
      * grade_id :
@@ -34,8 +36,8 @@ public class UserInfoBean {
     private String username;
     private String mobile;
     private String country_no;
-    private int last_login_time;
-    private int last_login_ip;
+    private long last_login_time;
+    private long last_login_ip;
     private int mobile_auth;
     private String sid;
 
@@ -119,19 +121,19 @@ public class UserInfoBean {
         this.country_no = country_no;
     }
 
-    public int getLast_login_time() {
+    public long getLast_login_time() {
         return last_login_time;
     }
 
-    public void setLast_login_time(int last_login_time) {
+    public void setLast_login_time(long last_login_time) {
         this.last_login_time = last_login_time;
     }
 
-    public int getLast_login_ip() {
+    public long getLast_login_ip() {
         return last_login_ip;
     }
 
-    public void setLast_login_ip(int last_login_ip) {
+    public void setLast_login_ip(long last_login_ip) {
         this.last_login_ip = last_login_ip;
     }
 

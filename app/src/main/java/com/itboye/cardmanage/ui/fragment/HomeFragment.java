@@ -11,6 +11,7 @@ import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
 import com.itboye.cardmanage.databinding.FragmentHomeBinding;
+import com.itboye.cardmanage.widget.RecycleGridDivider;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding,HomeFragmentModel> {
+public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFragmentModel> {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -82,7 +83,9 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding,HomeFragm
 
     @Override
     public void initData() {
-
+        //为RecyclerView增加分割线，水平和垂直方向都有。增加分割线值比如为32。
+//        RecycleGridDivider decoration = new RecycleGridDivider(1);
+//        binding.rvTop.addItemDecoration(decoration);
     }
 
     @Override
