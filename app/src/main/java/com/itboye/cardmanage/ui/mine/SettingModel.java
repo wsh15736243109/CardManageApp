@@ -4,6 +4,8 @@ import android.app.Application;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.interfaces.MineClickType;
+import com.itboye.cardmanage.ui.SplashActivity;
+import com.itboye.cardmanage.util.UserUtil;
 import com.itboye.cardmanage.web.WebActivity;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 
@@ -35,6 +37,10 @@ public class SettingModel extends BaseViewModel {
                 break;//清理缓存
             case CURRENT_VERSION:
                 break;//当前版本
+            case LOGIN_OUT:
+                UserUtil.clearUserInfo();
+                startActivity(SplashActivity.class);
+                break;
         }
     }
 }

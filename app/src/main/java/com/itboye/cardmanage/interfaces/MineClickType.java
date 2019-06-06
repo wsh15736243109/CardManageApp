@@ -15,4 +15,5 @@ public enum MineClickType {
     CHECK_UPDATE,//检查更新
     CLEAN_CACHE,//清理缓存
     CURRENT_VERSION,//当前版本
+    LOGIN_OUT,//退出登录
 }

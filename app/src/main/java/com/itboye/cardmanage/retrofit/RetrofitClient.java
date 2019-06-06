@@ -3,6 +3,7 @@ package com.itboye.cardmanage.retrofit;
 import android.content.Context;
 import android.text.TextUtils;
 
+import android.util.Log;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -13,6 +14,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.itboye.cardmanage.util.DataEncryptionUtil;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -24,13 +26,7 @@ import me.goldze.mvvmhabit.http.interceptor.logging.LoggingInterceptor;
 import me.goldze.mvvmhabit.utils.DataSignatureUtil;
 import me.goldze.mvvmhabit.utils.KLog;
 import me.goldze.mvvmhabit.utils.Utils;
-import okhttp3.Cache;
-import okhttp3.ConnectionPool;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import okhttp3.*;
 import okhttp3.internal.Util;
 import okhttp3.internal.platform.Platform;
 import okio.Buffer;
@@ -113,18 +109,19 @@ public class RetrofitClient {
                         String client_secret = "df45c46ca6df63e7d5b38bfb7d61b5fc";
                         String client_id = "by04esfI0fYuD5";
                         String serviceVersion = "100";//headers.get("service_version");
-                        JSONObject hashMap = JsonMapHelper.parseJsonToMap(content);
+                        JSONObject json1 = JsonMapHelper.parseJsonToMap(content);
                         String serviceType = null;
                         try {
-                            serviceType = hashMap.getString("service_type") + "";
+                            serviceType = json1.getString("service_type") + "";
+                            json1.remove("service_type");
                         } catch (JSONException e) {
                             e.printStackTrace();
 //                            serviceType = "by_SecurityCode_createAndSend";
                         }
-                        if (serviceType==null) {
+                        if (serviceType == null) {
                             throw new RuntimeException("缺少 service_type参数");
                         }
-                        String json = hashMap.toString();
+                        String json = json1.toString();
                         KLog.d("sign====" + (time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json));
                         body = new FormBody.Builder()
                                 .add("app_request_time", time + "")
@@ -163,7 +160,7 @@ public class RetrofitClient {
                 .build();
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(MyGsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(url)
                 .build();

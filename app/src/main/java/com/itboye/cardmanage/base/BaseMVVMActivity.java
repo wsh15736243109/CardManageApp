@@ -48,6 +48,8 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         //私有的ViewModel与View的契约事件回调逻辑
         registorUIChangeLiveDataCallBack();
         initData();
+        //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
+        initViewObservable();
     }
 
 
@@ -74,6 +76,10 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         //注入RxLifecycle生命周期
         viewModel.injectLifecycleProvider(this);
         initViewModel();
+    }
+
+    public void initViewObservable() {
+
     }
 
     public void setTitle(String title) {

@@ -23,4 +23,8 @@ public class UserUtil {
         }
 
     }
+
+    public static void clearUserInfo() {
+        SPUtils.getInstance().put(SpKey.USER_BEAN, "");
+    }
 }

@@ -3,4 +3,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="revalidation">重新验证</string>
+    <string name="after">%1$d秒后重新发送</string>
 </resources>
