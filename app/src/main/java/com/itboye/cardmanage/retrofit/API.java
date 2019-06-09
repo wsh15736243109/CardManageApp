@@ -2,6 +2,7 @@ package com.itboye.cardmanage.retrofit;
 
 
 import com.itboye.cardmanage.bean.UserInfoBean;
+
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -125,4 +126,12 @@ public interface API {
                                                  @Field("bank_img") String bank_img,
                                                  @Field("branch_no") String branch_no,
                                                  @Field("service_type") String service_type);
+
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded //by_UserIdCard_createAuthInfo
+    @POST("/")
+    Observable<BaseResponse<String>> updateUserInfo(@Field("nickname") String nickname,
+                                                    @Field("sid") String sid,
+                                                    @Field("uid") String uid,
+                                                    @Field("service_type") String serviceType);
 }
