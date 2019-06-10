@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="android.text.Html"/>
+
         <variable
                 name="item"
                 type="com.itboye.cardmanage.model.HomeTopModel"/>
@@ -23,8 +25,9 @@
 
         <TextView
                 android:layout_width="wrap_content"
-                android:text="@{item.title}"
+                android:text="@{Html.fromHtml(item.title)}"
                 android:layout_centerHorizontal="true"
+                android:gravity="center"
                 android:layout_below="@+id/iv_home_top"
                 android:textSize="@dimen/dp_12"
                 android:layout_height="wrap_content"/>

@@ -9,4 +9,6 @@ public class CardBean extends BaseViewModel {
     public CardBean(@NonNull Application application) {
         super(application);
     }
+
+
 }

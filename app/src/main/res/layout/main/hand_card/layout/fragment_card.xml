@@ -5,26 +5,36 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
-        <import type="me.goldze.mvvmhabit.binding.viewadapter.recyclerview.LineManagers" />
-        <import type="android.support.v7.widget.LinearLayoutManager" />
+
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers"/>
+
+        <import type="me.goldze.mvvmhabit.binding.viewadapter.recyclerview.LineManagers"/>
+
+        <import type="android.support.v7.widget.LinearLayoutManager"/>
+
         <variable
                 name="viewModel"
                 type="com.itboye.cardmanage.ui.fragment.CardFragmentModel"/>
     </data>
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.fragment.HomeFragment">
+            android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                binding:itemBinding="@{viewModel.itemBinding}"
-                binding:items="@{viewModel.hobbies}"
-                binding:layoutManager="@{LayoutManagers.linear()}"
-                binding:lineManager="@{LineManagers.vertical()}"/>
+                tools:context=".ui.fragment.HomeFragment">
 
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    binding:itemBinding="@{viewModel.itemBinding}"
+                    binding:items="@{viewModel.hobbies}"
+                    binding:layoutManager="@{LayoutManagers.linear()}"
+                    binding:lineManager="@{LineManagers.vertical()}"/>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </LinearLayout>
 </layout>

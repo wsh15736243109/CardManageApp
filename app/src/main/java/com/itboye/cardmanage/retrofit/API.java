@@ -34,11 +34,11 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<UserInfoBean>> loginByPwd(@Field("mobile") String phone,
-                                                @Field("device_token") String device_token,
-                                                @Field("device_type") String device_type,
-                                                @Field("loginInfo") String loginInfo,
-                                                @Field("password") String password,
-                                                @Field("service_type") String service_type);
+                                                      @Field("device_token") String device_token,
+                                                      @Field("device_type") String device_type,
+                                                      @Field("loginInfo") String loginInfo,
+                                                      @Field("password") String password,
+                                                      @Field("service_type") String service_type);
 
 
     /**
@@ -64,14 +64,15 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<UserInfoBean>> loginByCode(@Field("mobile") String phone,
-                                                 @Field("device_token") String device_token,
-                                                 @Field("device_type") String device_type,
-                                                 @Field("loginInfo") String loginInfo,
-                                                 @Field("code") String code,
-                                                 @Field("service_type") String service_type);
+                                                       @Field("device_token") String device_token,
+                                                       @Field("device_type") String device_type,
+                                                       @Field("loginInfo") String loginInfo,
+                                                       @Field("code") String code,
+                                                       @Field("service_type") String service_type);
 
     /**
      * 通过手机号码改密码
+     *
      * @param phone
      * @return
      */
@@ -79,13 +80,15 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<String>> forgetPasswordByCode(@Field("mobile") String phone,
-                                                       @Field("device_token") String device_token,
-                                                       @Field("device_type") String device_type,
-                                                       @Field("loginInfo") String loginInfo,
-                                                       @Field("code") String code,
-                                                       @Field("service_type") String service_type);
+                                                          @Field("device_token") String device_token,
+                                                          @Field("device_type") String device_type,
+                                                          @Field("loginInfo") String loginInfo,
+                                                          @Field("code") String code,
+                                                          @Field("service_type") String service_type);
+
     /**
      * 通过密码改密码
+     *
      * @param uid
      * @param old_pwd
      * @param new_pwd
@@ -96,8 +99,30 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<String>> forgetPasswordByPwd(@Field("uid") String uid,
-                                                                @Field("old_pwd") String old_pwd,
-                                                                @Field("new_pwd") String new_pwd,
-                                                                @Field("sid") String sid,
-                                                                @Field("service_type") String service_type);
+                                                         @Field("old_pwd") String old_pwd,
+                                                         @Field("new_pwd") String new_pwd,
+                                                         @Field("sid") String sid,
+                                                         @Field("service_type") String service_type);
+
+    /**
+     * 用户添加认证接口
+     *
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded //by_UserIdCard_createAuthInfo
+    @POST("/")
+    Observable<BaseResponse<String>> userAddAuth(@Field("user_id") String user_id,
+                                                 @Field("mobile") String mobile,
+                                                 @Field("name") String name,
+                                                 @Field("id_no") String id_no,
+                                                 @Field("card_no") String card_no,
+                                                 @Field("opening_bank") String opening_bank,
+                                                 @Field("branch_bank") String branch_bank,
+                                                 @Field("id_front_img") String id_front_img,
+                                                 @Field("id_back_img") String id_back_img,
+                                                 @Field("id_hold_img") String id_hold_img,
+                                                 @Field("bank_img") String bank_img,
+                                                 @Field("branch_no") String branch_no,
+                                                 @Field("service_type") String service_type);
 }

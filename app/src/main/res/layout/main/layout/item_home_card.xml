@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+                name="item"
+                type="com.itboye.cardmanage.bean.CardBean"/>
+    </data>
+
+
+    <android.support.constraint.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_12">
+
+        <com.itboye.cardmanage.widget.roundImage.SWImageView
+                android:id="@+id/iv_bank_bg"
+                android:layout_width="150dp"
+                app:type="round"
+                android:src="@drawable/bank"
+                android:layout_height="75dp"/>
+
+        <TextView
+                android:id="@+id/tv_bank_name"
+                android:layout_width="wrap_content"
+                android:text="中国银行"
+                app:layout_constraintLeft_toRightOf="@+id/iv_bank_bg"
+                app:layout_constraintTop_toTopOf="@+id/iv_bank_bg"
+                android:layout_marginLeft="24dp"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:text="截至2019-12-31"
+                android:background="@drawable/shape_strok_radius_0"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_bank_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"
+                android:textSize="@dimen/dp_12"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/label1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="优惠券"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_bank_name"
+                android:padding="@dimen/dp_6"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_bank_bg"
+                android:background="@drawable/bg_label_2"
+                android:textColor="@color/blue_3f61e5"
+                />
+        <TextView
+                android:id="@+id/label2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="优惠券"
+                app:layout_constraintLeft_toRightOf="@+id/label1"
+                android:padding="@dimen/dp_6"
+                android:layout_marginLeft="@dimen/dp_6"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_bank_bg"
+                android:background="@drawable/bg_label_1"
+                android:textColor="@color/orange_d17459"
+                />
+    </android.support.constraint.ConstraintLayout>
+</layout>
