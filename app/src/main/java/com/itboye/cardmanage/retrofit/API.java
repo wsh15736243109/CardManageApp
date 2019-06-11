@@ -4,11 +4,16 @@ package com.itboye.cardmanage.retrofit;
 import com.itboye.cardmanage.bean.UploadImageBean;
 import com.itboye.cardmanage.bean.UserInfoBean;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
-import retrofit2.http.*;
-
-import java.util.List;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface API {
     /**
@@ -132,8 +137,6 @@ public interface API {
     @FormUrlEncoded //by_UserIdCard_createAuthInfo
     @POST("/")
     Observable<BaseResponse<String>> updateUserInfo(@Field("nickname") String nickname,
-                                                    @Field("sid") String sid,
-                                                    @Field("uid") String uid,
                                                     @Field("service_type") String serviceType);
 
     /**
@@ -145,5 +148,13 @@ public interface API {
     @Multipart
     @POST("/picture/upload")
     Observable<BaseResponse<UploadImageBean>> uploadImage(@Part List<MultipartBody.Part> parts);
+
+
+    @Headers("Content-Type:application/x-www-form-urlencoded;charset=utf-8")
+    @FormUrlEncoded //
+    @POST("/")
+    Observable<BaseResponse<String>> feedback(@Field("user_id") String userId,
+                                              @Field("content") String content,
+                                              @Field("service_type") String serviceType);
 
 }

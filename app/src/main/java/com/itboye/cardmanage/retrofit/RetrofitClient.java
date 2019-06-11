@@ -3,39 +3,37 @@ package com.itboye.cardmanage.retrofit;
 import android.content.Context;
 import android.text.TextUtils;
 
-import android.util.Log;
-import com.google.gson.Gson;
+import com.itboye.cardmanage.util.UserUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.nio.charset.Charset;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import com.itboye.cardmanage.util.DataEncryptionUtil;
-import com.itboye.cardmanage.util.UserUtil;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.goldze.mvvmhabit.BuildConfig;
-import me.goldze.mvvmhabit.http.interceptor.CacheInterceptor;
 import me.goldze.mvvmhabit.http.interceptor.logging.Level;
 import me.goldze.mvvmhabit.http.interceptor.logging.LoggingInterceptor;
 import me.goldze.mvvmhabit.utils.DataSignatureUtil;
 import me.goldze.mvvmhabit.utils.KLog;
 import me.goldze.mvvmhabit.utils.Utils;
-import okhttp3.*;
-import okhttp3.internal.Util;
+import okhttp3.Cache;
+import okhttp3.ConnectionPool;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.internal.platform.Platform;
 import okio.Buffer;
-import org.json.JSONException;
-import org.json.JSONObject;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.itboye.cardmanage.config.Global.BASEURL;
 import static com.itboye.cardmanage.config.Global.client_id;
@@ -146,20 +144,19 @@ public class RetrofitClient {
                     }
                     // 若请求体不为Null，重新构建post请求，并传入修改后的参数体
                     if (body != null) {
-                        request = request.newBuilder().addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8").post(body).build();
+                        request = request.newBuilder().post(body).build();
                     }
                     return chain.proceed(request);
                 })
 //                .addInterceptor(new CacheInterceptor(mContext))
                 .addInterceptor(new LoggingInterceptor
-                        .Builder()//构建者模式
-                        .loggable(BuildConfig.DEBUG) //是否开启日志打印
-                        .setLevel(Level.BASIC) //打印的等级
-                        .log(Platform.INFO) // 打印类型
-                        .request(TAG) // request的Tag
-                        .response(TAG)// Response的Tag
-                        .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8") // 添加打印头, 注意 key 和 value 都不能是中文
-                        .build()
+                                .Builder()//构建者模式
+                                .loggable(BuildConfig.DEBUG) //是否开启日志打印
+                                .setLevel(Level.BASIC) //打印的等级
+                                .log(Platform.INFO) // 打印类型
+                                .request(TAG) // request的Tag
+                                .response(TAG)// Response的Tag
+                                .build()
                 )
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)

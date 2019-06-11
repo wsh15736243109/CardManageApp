@@ -14,14 +14,14 @@ import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
 import com.itboye.cardmanage.util.UserUtil;
 
+import java.io.File;
+import java.util.List;
+
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-
-import java.io.File;
-import java.util.List;
 
 import static com.itboye.cardmanage.util.ImageCompress.compress;
 
@@ -87,7 +87,7 @@ public class PersonDataModel extends BaseViewModel {
             return;
         }
 
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).updateUserInfo(nickName.get(), UserUtil.getUserInfo().getSid(), UserUtil.getUserInfo().getId() + "", "by_UserLoginSession_updateInfo"),
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).updateUserInfo(nickName.get(), "by_UserLoginSession_updateInfo"),
                 getLifecycleProvider(), disposable -> showDialog(),
 
                 new ApiDisposableObserver() {
