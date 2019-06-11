@@ -33,4 +33,7 @@ public class CardFragmentModel extends BaseViewModel {
         hobbies.set(ar);
     }
 
+    public void getCardList(){
+
+    }
 }

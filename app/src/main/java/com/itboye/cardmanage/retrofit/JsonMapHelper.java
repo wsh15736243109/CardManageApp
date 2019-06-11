@@ -80,9 +80,6 @@ public class JsonMapHelper {
         if (arg != null) {
             for (int i = 0; i < arg.length; i++) {
                 String key = arg[i].split("=")[0];
-//                if (key.equalsIgnoreCase("service_type")) {
-//                    continue;
-//                }
                 String value = arg[i].split("=")[1];
                 hashMap.put(key, value);
                 try {

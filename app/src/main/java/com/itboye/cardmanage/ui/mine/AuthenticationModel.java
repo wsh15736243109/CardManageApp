@@ -148,9 +148,21 @@ public class AuthenticationModel extends BaseViewModel {
                     ToastUtils.showShort("请输入银行预留手机号");
                     return;
                 }
-
                 status3.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
-                ToastUtils.showShort("准备提交");
+                AppUtils.upload(RetrofitClient.getInstance().create(API.class).userAddAuth(UserUtil.getUserInfo().getId() + "", bankReservePhone.get(), realName.get(), idnumber.get(), bankNumber.get(), bankName.get(), branchBankName.get(), "", "", "", "", "", "by_UserIdCard_createAuthInfo"),
+                        getLifecycleProvider(), disposable -> showDialog(),
+
+                        new ApiDisposableObserver() {
+                            @Override
+                            public void onResult(Object o, String msg) {
+                                ToastUtils.showShort(msg);
+                            }
+
+                            @Override
+                            public void dialogDismiss() {
+                                dismissDialog();
+                            }
+                        });
                 break;
         }
     }
@@ -179,20 +191,17 @@ public class AuthenticationModel extends BaseViewModel {
                     @Override
                     public void onResult(Object o, String msg) {
                         switch (type) {
-                            case 1:
+                            case 101:
                                 path1 = temp;
                                 break;
-                            case 2:
+                            case 102:
                                 path2 = temp;
-                                ui.photo2.set(true);
                                 break;
-                            case 3:
+                            case 103:
                                 path3 = temp;
-                                ui.photo3.set(true);
                                 break;
-                            case 4:
+                            case 104:
                                 path4 = temp;
-                                ui.photo4.set(true);
                                 break;
                         }
                         ToastUtils.showShort(msg);
@@ -216,16 +225,16 @@ public class AuthenticationModel extends BaseViewModel {
     public void photo(int type) {
         switch (type) {
             case 1:
-                ui.photo1.set(true);
+                ui.photo1.set(!ui.photo1.get());
                 break;
             case 2:
-                ui.photo2.set(true);
+                ui.photo2.set(!ui.photo2.get());
                 break;
             case 3:
-                ui.photo3.set(true);
+                ui.photo3.set(!ui.photo3.get());
                 break;
             case 4:
-                ui.photo4.set(true);
+                ui.photo4.set(!ui.photo4.get());
                 break;
         }
     }

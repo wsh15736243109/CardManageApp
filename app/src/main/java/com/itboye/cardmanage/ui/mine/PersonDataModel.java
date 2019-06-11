@@ -15,7 +15,8 @@ import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class PersonDataModel extends BaseViewModel {
     //用户名的绑定
-    public ObservableField<String> nickName = new ObservableField<>("");
+    public ObservableField<String> nickName = new ObservableField<>();
+    public ObservableField<String> headUrl = new ObservableField<>("https://www.baidu.com/img/superlogo_c4d7df0a003d3db9b65e9ef0fe6da1ec.png?where=super");
 
     public PersonDataModel(@NonNull Application application) {
         super(application);

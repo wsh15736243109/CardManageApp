@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.itboye.cardmanage.util.DataEncryptionUtil;
+import com.itboye.cardmanage.util.UserUtil;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -37,6 +38,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.itboye.cardmanage.config.Global.BASEURL;
+import static com.itboye.cardmanage.config.Global.client_id;
+import static com.itboye.cardmanage.config.Global.client_secret;
 
 /**
  * Created by goldze on 2017/5/10.
@@ -72,6 +75,7 @@ public class RetrofitClient {
         this(baseUrl, null);
     }
 
+    String TAG="OkHttp_R";
     private RetrofitClient(String url, Map<String, String> map) {
 
         if (TextUtils.isEmpty(url)) {
@@ -108,8 +112,7 @@ public class RetrofitClient {
                         }
                         String content = buffer.readString(charset);
                         long time = System.currentTimeMillis();
-                        String client_secret = "df45c46ca6df63e7d5b38bfb7d61b5fc";
-                        String client_id = "by04esfI0fYuD5";
+
                         String serviceVersion = "100";//headers.get("service_version");
                         JSONObject json1 = JsonMapHelper.parseJsonToMap(content);
                         String serviceType = null;
@@ -133,9 +136,10 @@ public class RetrofitClient {
                                 .add("service_version", serviceVersion)
                                 .add("service_type", serviceType)
                                 .add("client_id", client_id)
+                                .add("uid", UserUtil.getUserInfo().getId()+"")
+                                .add("sid", UserUtil.getUserInfo().getSid())
                                 .add("app_request_time", time + "")
                                 .add("buss_data", json)
-                                .add("code", "123456")
                                 .add("sign", DataSignatureUtil.getMD5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
                                 .build();
                     }
@@ -151,8 +155,8 @@ public class RetrofitClient {
                         .loggable(BuildConfig.DEBUG) //是否开启日志打印
                         .setLevel(Level.BASIC) //打印的等级
                         .log(Platform.INFO) // 打印类型
-                        .request("Request") // request的Tag
-                        .response("Response")// Response的Tag
+                        .request(TAG) // request的Tag
+                        .response(TAG)// Response的Tag
                         .addHeader("Content-Type", "application/x-www-form-urlencoded") // 添加打印头, 注意 key 和 value 都不能是中文
                         .build()
                 )
@@ -166,8 +170,8 @@ public class RetrofitClient {
                 .loggable(BuildConfig.DEBUG) //是否开启日志打印
                 .setLevel(Level.BASIC) //打印的等级
                 .log(Platform.INFO) // 打印类型
-                .request("Request") // request的Tag
-                .response("Response")// Response的Tag
+                .request(TAG) // request的Tag
+                .response(TAG)// Response的Tag
                 .addHeader("Content-Type", "application/x-www-form-urlencoded") // 添加打印头, 注意 key 和 value 都不能是中文
                 .build())
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)

@@ -45,28 +45,28 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
         viewModel.ui.photo1.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                viewModel.ui.photo1.set(!viewModel.ui.photo1.get());
+//                viewModel.ui.photo1.set(false);
                 openLibrary(101);
             }
         });
         viewModel.ui.photo2.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                viewModel.ui.photo2.set(!viewModel.ui.photo2.get());
+//                viewModel.ui.photo2.set(false);
                 openLibrary(102);
             }
         });
         viewModel.ui.photo3.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                viewModel.ui.photo3.set(!viewModel.ui.photo3.get());
+//                viewModel.ui.photo3.set(false);
                 openLibrary(103);
             }
         });
         viewModel.ui.photo4.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                viewModel.ui.photo4.set(!viewModel.ui.photo4.get());
+//                viewModel.ui.photo4.set(false);
                 openLibrary(104);
             }
         });
@@ -107,23 +107,19 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
             String path = pathList.get(0);
             switch (requestCode) {
                 case 101:
-                    path1 = path;
                     GlideUtil.display(this, path, binding.riPhoto1);
                     break;
                 case 102:
-                    path2 = path;
                     GlideUtil.display(this, path, binding.riPhoto2);
                     break;
                 case 103:
-                    path3 = path;
                     GlideUtil.display(this, path, binding.riPhoto3);
                     break;
                 case 104:
-                    path4 = path;
                     GlideUtil.display(this, path, binding.riPhoto4);
                     break;
             }
-            viewModel.uploadImage(path);
+            viewModel.uploadImage(path, resultCode);
         }
     }
 }
