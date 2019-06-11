@@ -1,6 +1,9 @@
 package com.itboye.cardmanage.util;
 
+import okio.Utf8;
+
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.List;
 
 

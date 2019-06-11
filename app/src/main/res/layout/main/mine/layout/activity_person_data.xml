@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"/>
 
         <LinearLayout
+                android:onClick="@{()->viewModel.changeHead()}"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -33,14 +34,12 @@
                     android:background="@mipmap/test"
                     app:type="round"
                     app:url="@{viewModel.headUrl}"
-                    android:onClick="@{()->viewModel.updateHead()}"
                     android:layout_width="@dimen/dp_66"
                     android:layout_height="@dimen/dp_66"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:text="点击更换头像"
-                    android:onClick="@{()->viewModel.updateHead()}"
                     android:layout_marginTop="@dimen/dp_6"
                     android:layout_height="wrap_content"/>
         </LinearLayout>

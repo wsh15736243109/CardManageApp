@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.retrofit;
 
 
+import com.itboye.cardmanage.bean.UploadImageBean;
 import com.itboye.cardmanage.bean.UserInfoBean;
 
 import io.reactivex.Observable;
@@ -127,7 +128,7 @@ public interface API {
                                                  @Field("branch_no") String branch_no,
                                                  @Field("service_type") String service_type);
 
-    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @Headers("Content-Type:application/x-www-form-urlencoded;charset=utf-8")
     @FormUrlEncoded //by_UserIdCard_createAuthInfo
     @POST("/")
     Observable<BaseResponse<String>> updateUserInfo(@Field("nickname") String nickname,
@@ -143,6 +144,6 @@ public interface API {
      */
     @Multipart
     @POST("/picture/upload")
-    Observable<BaseResponse<String>> uploadImage(@Part List<MultipartBody.Part> parts);
+    Observable<BaseResponse<UploadImageBean>> uploadImage(@Part List<MultipartBody.Part> parts);
 
 }

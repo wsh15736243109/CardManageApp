@@ -47,7 +47,7 @@ import static com.itboye.cardmanage.config.Global.client_secret;
  */
 public class RetrofitClient {
     //超时时间
-    private static final int DEFAULT_TIMEOUT = 20*1000;
+    private static final int DEFAULT_TIMEOUT = 20 * 1000;
     //缓存时间
     private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
     //服务端根路径
@@ -75,7 +75,8 @@ public class RetrofitClient {
         this(baseUrl, null);
     }
 
-    String TAG="OkHttp_R";
+    String TAG = "OkHttp_R";
+
     private RetrofitClient(String url, Map<String, String> map) {
 
         if (TextUtils.isEmpty(url)) {
@@ -105,12 +106,12 @@ public class RetrofitClient {
                     } else if (body instanceof RequestBody) {
                         Buffer buffer = new Buffer();
                         body.writeTo(buffer);
-                        Charset charset = Util.UTF_8;
+                        Charset charset = Charset.forName("utf-8");
                         MediaType contentType = body.contentType();
                         if (contentType != null) {
                             charset = contentType.charset(charset);
                         }
-                        String content = buffer.readString(charset);
+                        String content = (buffer.readString(charset));
                         long time = System.currentTimeMillis();
 
                         String serviceVersion = "100";//headers.get("service_version");
@@ -136,8 +137,8 @@ public class RetrofitClient {
                                 .add("service_version", serviceVersion)
                                 .add("service_type", serviceType)
                                 .add("client_id", client_id)
-                                .add("uid", UserUtil.getUserInfo().getId()+"")
-                                .add("sid", UserUtil.getUserInfo().getSid())
+                                .add("uid", UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getId() + "")
+                                .add("sid", UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getSid())
                                 .add("app_request_time", time + "")
                                 .add("buss_data", json)
                                 .add("sign", DataSignatureUtil.getMD5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
@@ -145,7 +146,7 @@ public class RetrofitClient {
                     }
                     // 若请求体不为Null，重新构建post请求，并传入修改后的参数体
                     if (body != null) {
-                        request = request.newBuilder().post(body).build();
+                        request = request.newBuilder().addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8").post(body).build();
                     }
                     return chain.proceed(request);
                 })
@@ -157,7 +158,7 @@ public class RetrofitClient {
                         .log(Platform.INFO) // 打印类型
                         .request(TAG) // request的Tag
                         .response(TAG)// Response的Tag
-                        .addHeader("Content-Type", "application/x-www-form-urlencoded") // 添加打印头, 注意 key 和 value 都不能是中文
+                        .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8") // 添加打印头, 注意 key 和 value 都不能是中文
                         .build()
                 )
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -203,6 +204,7 @@ public class RetrofitClient {
         }
         return retrofit.create(service);
     }
+
     /**
      * create you ApiService
      * Create an implementation of the API endpoints defined by the {@code service} interface.
@@ -213,6 +215,7 @@ public class RetrofitClient {
         }
         return retrofitUpload.create(service);
     }
+
     /**
      * /**
      * execute your customer API
