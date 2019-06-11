@@ -1,6 +1,8 @@
 package com.itboye.cardmanage.util;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 import com.itboye.cardmanage.app.App;
 
 /**
@@ -60,4 +62,17 @@ public class SizeUtils {
         return 0;
     }
 
+    /**
+     * 获得屏幕宽
+     */
+    public static int getScreenWidth(Context context) {
+        if (context == null) {
+            return 0;
+        }
+        WindowManager wm = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
+    }
 }

@@ -1,6 +1,8 @@
 package com.itboye.cardmanage.ui.fragment;
 
 
+import android.Manifest;
+import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,9 @@ import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
 import com.itboye.cardmanage.databinding.FragmentMineBinding;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import io.reactivex.functions.Consumer;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import java.util.List;
 
@@ -19,7 +24,7 @@ import java.util.List;
  * Use the {@link MineFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MineFragment extends BaseLazyFragment<FragmentMineBinding,MineFragmentModel> {
+public class MineFragment extends BaseLazyFragment<FragmentMineBinding, MineFragmentModel> {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -87,7 +92,25 @@ public class MineFragment extends BaseLazyFragment<FragmentMineBinding,MineFragm
 
     @Override
     public void initViewObservable() {
+        viewModel.uc.photo.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                RxPermissions rxPermissions = new RxPermissions(getActivity());
+                rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                if (aBoolean) {
+                                    viewModel.toAuthActivity();
+                                } else {
+                                    ToastUtils.showShort("拍照权限被拒绝");
+                                }
+                            }
+                        });
+                viewModel.uc.photo.set(false);
+            }
 
+        });
     }
 
 }

@@ -86,6 +86,7 @@
                         android:layout_height="wrap_content">
 
                     <RelativeLayout
+                            android:onClick="@{()->viewModel.photo(1)}"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:padding="@dimen/dp_12"
@@ -93,6 +94,7 @@
 
                         <com.itboye.cardmanage.widget.RatioImageView
                                 app:ratio="1"
+                                android:id="@+id/ri_photo1"
                                 android:layout_width="match_parent"
                                 android:background="@drawable/ic_zhengmian"
                                 android:layout_height="wrap_content"/>
@@ -106,12 +108,14 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                            android:onClick="@{()->viewModel.photo(2)}"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:padding="@dimen/dp_12"
                             android:layout_height="wrap_content">
 
                         <com.itboye.cardmanage.widget.RatioImageView
+                                android:id="@+id/ri_photo2"
                                 app:ratio="1"
                                 android:layout_width="match_parent"
                                 android:background="@drawable/ic_zhengmian"
@@ -136,11 +140,13 @@
                     <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
+                            android:onClick="@{()->viewModel.photo(3)}"
                             android:padding="@dimen/dp_12"
                             android:layout_height="wrap_content">
 
                         <com.itboye.cardmanage.widget.RatioImageView
                                 app:ratio="1"
+                                android:id="@+id/ri_photo3"
                                 android:layout_width="match_parent"
                                 android:background="@drawable/ic_zhengmian"
                                 android:layout_height="wrap_content"/>
@@ -184,14 +190,9 @@
                     <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
+                            android:onClick="@{()->viewModel.photo(4)}"
                             android:padding="@dimen/dp_12"
                             android:layout_height="wrap_content">
-
-                        <com.itboye.cardmanage.widget.RatioImageView
-                                app:ratio="1"
-                                android:layout_width="match_parent"
-                                android:background="@drawable/ic_photo_card"
-                                android:layout_height="wrap_content"/>
 
                         <ImageView
                                 android:layout_width="match_parent"
@@ -199,6 +200,13 @@
                                 android:layout_margin="@dimen/dp_24"
                                 android:background="@drawable/ic_zheng"
                                 android:layout_centerHorizontal="true"/>
+                        <com.itboye.cardmanage.widget.RatioImageView
+                                app:ratio="1"
+                                android:id="@+id/ri_photo4"
+                                android:layout_width="match_parent"
+                                android:background="@drawable/ic_photo_card"
+                                android:layout_height="wrap_content"/>
+
                     </RelativeLayout>
 
                     <RelativeLayout

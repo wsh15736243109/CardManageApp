@@ -4,10 +4,10 @@ package com.itboye.cardmanage.retrofit;
 import com.itboye.cardmanage.bean.UserInfoBean;
 
 import io.reactivex.Observable;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
+import okhttp3.MultipartBody;
+import retrofit2.http.*;
+
+import java.util.List;
 
 public interface API {
     /**
@@ -134,4 +134,15 @@ public interface API {
                                                     @Field("sid") String sid,
                                                     @Field("uid") String uid,
                                                     @Field("service_type") String serviceType);
+
+    /**
+     * 图片上传
+     *
+     * @param parts 图片file
+     * @return 链接
+     */
+    @Multipart
+    @POST("/picture/upload")
+    Observable<BaseResponse<String>> uploadImage(@Part List<MultipartBody.Part> parts);
+
 }

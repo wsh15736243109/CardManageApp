@@ -44,7 +44,7 @@ import static com.itboye.cardmanage.config.Global.BASEURL;
  */
 public class RetrofitClient {
     //超时时间
-    private static final int DEFAULT_TIMEOUT = 20;
+    private static final int DEFAULT_TIMEOUT = 20*1000;
     //缓存时间
     private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
     //服务端根路径
@@ -53,7 +53,9 @@ public class RetrofitClient {
     private static Context mContext = Utils.getContext();
 
     private static OkHttpClient okHttpClient;
+    private static OkHttpClient okHttpClientUpload;
     private static Retrofit retrofit;
+    private static Retrofit retrofitUpload;
 
     private Cache cache = null;
     private File httpCacheDirectory;
@@ -133,7 +135,7 @@ public class RetrofitClient {
                                 .add("client_id", client_id)
                                 .add("app_request_time", time + "")
                                 .add("buss_data", json)
-                                .add("code","123456")
+                                .add("code", "123456")
                                 .add("sign", DataSignatureUtil.getMD5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
                                 .build();
                     }
@@ -159,8 +161,27 @@ public class RetrofitClient {
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))
                 // 这里你可以根据自己的机型设置同时连接的个数和时间，我这里8个，和每个保持时间为10s
                 .build();
+        okHttpClientUpload = new OkHttpClient.Builder().addInterceptor(new LoggingInterceptor
+                .Builder()//构建者模式
+                .loggable(BuildConfig.DEBUG) //是否开启日志打印
+                .setLevel(Level.BASIC) //打印的等级
+                .log(Platform.INFO) // 打印类型
+                .request("Request") // request的Tag
+                .response("Response")// Response的Tag
+                .addHeader("Content-Type", "application/x-www-form-urlencoded") // 添加打印头, 注意 key 和 value 都不能是中文
+                .build())
+                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))
+                .build();
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
+                .addConverterFactory(MyGsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(url)
+                .build();
+        retrofitUpload = new Retrofit.Builder()
+                .client(okHttpClientUpload)
                 .addConverterFactory(MyGsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(url)
@@ -178,7 +199,16 @@ public class RetrofitClient {
         }
         return retrofit.create(service);
     }
-
+    /**
+     * create you ApiService
+     * Create an implementation of the API endpoints defined by the {@code service} interface.
+     */
+    public <T> T createUpload(final Class<T> service) {
+        if (service == null) {
+            throw new RuntimeException("Api service is null!");
+        }
+        return retrofitUpload.create(service);
+    }
     /**
      * /**
      * execute your customer API

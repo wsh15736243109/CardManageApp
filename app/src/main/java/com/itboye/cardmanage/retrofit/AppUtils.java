@@ -24,4 +24,21 @@ public class AppUtils {
                 .doOnSubscribe(onSubscribe)
                 .subscribe(apiDisposableObserver);
     }
+    /**
+     * @param observable
+     * @param provider
+     * @param onSubscribe
+     * @param apiDisposableObserver
+     * @param <T>
+     */
+    public static <T> void upload(Observable<T> observable, LifecycleProvider provider
+            , Consumer<? super Disposable> onSubscribe
+            , ApiDisposableObserver apiDisposableObserver) {
+        observable.compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.bindToLifecycle(provider))
+                .compose(RxUtils.exceptionTransformer())
+                .doOnSubscribe(onSubscribe)
+                .subscribe(apiDisposableObserver);
+    }
+
 }
