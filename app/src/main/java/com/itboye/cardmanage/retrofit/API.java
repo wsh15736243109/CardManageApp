@@ -23,39 +23,22 @@ public interface API {
      * @return
      */
     @Headers("Content-Type:application/x-www-form-urlencoded")
-    @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> getSMSCode(@Field("accepter") String phone, @Field("code_type") String code_type,
-                                                @Field("country_no") String country_no, @Field("service_type") String service_type);
+    Observable<BaseResponse<String>> getSMSCode(@Query("accepter") String phone, @Query("code_type") String code_type,
+                                                @Query("country_no") String country_no, @Query("service_type") String service_type);
 
     /**
      * @param phone
      * @return
      */
     @Headers("Content-Type:application/x-www-form-urlencoded")
-    @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<UserInfoBean>> loginByPwd(@Field("mobile") String phone,
-                                                      @Field("device_token") String device_token,
-                                                      @Field("device_type") String device_type,
-                                                      @Field("loginInfo") String loginInfo,
-                                                      @Field("password") String password,
-                                                      @Field("service_type") String service_type);
-
-
-    /**
-     * @param phone
-     * @return
-     */
-    @Headers("Content-Type:application/x-www-form-urlencoded")
-    @FormUrlEncoded
-    @POST("/")
-    Observable<BaseResponse<UserInfoBean>> register(@Field("mobile") String phone,
-                                                    @Field("password") String password,
-                                                    @Field("code") String code,
-                                                    @Field("country_no") String country_no,
-                                                    @Field("idcode") String idcode,
-                                                    @Field("service_type") String service_type);
+    Observable<BaseResponse<UserInfoBean>> loginByPwd(@Query("mobile") String phone,
+                                                      @Query("device_token") String device_token,
+                                                      @Query("device_type") String device_type,
+                                                      @Query("loginInfo") String loginInfo,
+                                                      @Query("password") String password,
+                                                      @Query("service_type") String service_type);
 
 
     /**
@@ -63,14 +46,27 @@ public interface API {
      * @return
      */
     @Headers("Content-Type:application/x-www-form-urlencoded")
-    @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<UserInfoBean>> loginByCode(@Field("mobile") String phone,
-                                                       @Field("device_token") String device_token,
-                                                       @Field("device_type") String device_type,
-                                                       @Field("loginInfo") String loginInfo,
-                                                       @Field("code") String code,
-                                                       @Field("service_type") String service_type);
+    Observable<BaseResponse<UserInfoBean>> register(@Query("mobile") String phone,
+                                                    @Query("password") String password,
+                                                    @Query("code") String code,
+                                                    @Query("country_no") String country_no,
+                                                    @Query("idcode") String idcode,
+                                                    @Query("service_type") String service_type);
+
+
+    /**
+     * @param phone
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @POST("/")
+    Observable<BaseResponse<UserInfoBean>> loginByCode(@Query("mobile") String phone,
+                                                       @Query("device_token") String device_token,
+                                                       @Query("device_type") String device_type,
+                                                       @Query("loginInfo") String loginInfo,
+                                                       @Query("code") String code,
+                                                       @Query("service_type") String service_type);
 
     /**
      * 通过手机号码改密码
@@ -132,9 +128,11 @@ public interface API {
     @FormUrlEncoded //by_UserIdCard_createAuthInfo
     @POST("/")
     Observable<BaseResponse<String>> updateUserInfo(@Field("nickname") String nickname,
-                                                    @Field("sid") String sid,
-                                                    @Field("uid") String uid,
-                                                    @Field("service_type") String serviceType);
+                                                    @Query("service_type") String serviceType);
+
+    @POST("/")
+    Observable<BaseResponse<String>> updateUserInfo2(@Query(value = "nickname") String nickname,
+                                                     @Query("service_type") String serviceType);
 
     /**
      * 图片上传

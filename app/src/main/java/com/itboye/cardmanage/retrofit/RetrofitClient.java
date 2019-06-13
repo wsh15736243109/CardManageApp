@@ -7,13 +7,15 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import com.itboye.cardmanage.app.App;
 import com.itboye.cardmanage.util.DataEncryptionUtil;
 import com.itboye.cardmanage.util.UserUtil;
 import io.reactivex.Observable;
@@ -30,6 +32,7 @@ import me.goldze.mvvmhabit.utils.Utils;
 import okhttp3.*;
 import okhttp3.internal.Util;
 import okhttp3.internal.platform.Platform;
+import okhttp3.logging.HttpLoggingInterceptor;
 import okio.Buffer;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.itboye.cardmanage.config.Global.BASEURL;
 import static com.itboye.cardmanage.config.Global.client_id;
 import static com.itboye.cardmanage.config.Global.client_secret;
+import static com.itboye.cardmanage.retrofit.JsonMapHelper.parseJsonToMap2;
 
 /**
  * Created by goldze on 2017/5/10.
@@ -94,6 +98,19 @@ public class RetrofitClient {
         } catch (Exception e) {
             KLog.e("Could not create http cache", e);
         }
+        HttpLoggingInterceptor logger = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                try {
+                    String text = URLDecoder.decode(message, "utf-8");
+                    Log.v(TAG, text);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    Log.v(TAG, message);
+                }
+            }
+        });
+        logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 //        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
         okHttpClient = new OkHttpClient.Builder()
 //                .cookieJar(new CookieJarImpl(new PersistentCookieStore(mContext)))
@@ -104,31 +121,40 @@ public class RetrofitClient {
                     RequestBody body = request.body();
                     if (body instanceof FormBody) {
                     } else if (body instanceof RequestBody) {
-                        Buffer buffer = new Buffer();
-                        body.writeTo(buffer);
-                        Charset charset = Charset.forName("utf-8");
-                        MediaType contentType = body.contentType();
-                        if (contentType != null) {
-                            charset = contentType.charset(charset);
-                        }
-                        String content = (buffer.readString(charset));
+//                        Buffer buffer = new Buffer();
+//                        body.writeTo(buffer);
+//                        Charset charset = Charset.forName("utf-8");
+//                        MediaType contentType = body.contentType();
+//                        if (contentType != null) {
+//                            charset = contentType.charset(charset);
+//                        }
+//                        String content = (buffer.readString(charset));
                         long time = System.currentTimeMillis();
-
                         String serviceVersion = "100";//headers.get("service_version");
-                        JSONObject json1 = JsonMapHelper.parseJsonToMap(content);
+//                        JSONObject json1 = JsonMapHelper.parseJsonToMap(content);
                         String serviceType = null;
-                        try {
-                            serviceType = json1.getString("service_type") + "";
-                            json1.remove("service_type");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-//                            serviceType = "by_SecurityCode_createAndSend";
+                        serviceType = request.url().queryParameter("service_type");
+                        Set<String> keySet = request.url().queryParameterNames();
+                        JSONObject jsonObject = new JSONObject();
+                        Iterator<String> iterator = keySet.iterator();
+                        while (iterator.hasNext()) {
+                            String key = iterator.next();
+                            if (key.equals("service_type")) {
+                                continue;
+                            }
+                            String value = request.url().queryParameter(key);
+                            try {
+                                jsonObject.put(key, value);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                         if (serviceType == null) {
                             throw new RuntimeException("缺少 service_type参数");
                         }
-                        String json = json1.toString();
-                        KLog.d("sign====" + (time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json));
+                        String json = (parseJsonToMap2(jsonObject));
+                        Log.d(TAG,time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
+//                        KLog.d("sign====" + (time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json));
                         body = new FormBody.Builder()
                                 .add("app_type", "android")
                                 .add("app_version", "1.0.0")
@@ -141,7 +167,8 @@ public class RetrofitClient {
                                 .add("sid", UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getSid())
                                 .add("app_request_time", time + "")
                                 .add("buss_data", json)
-                                .add("sign", DataSignatureUtil.getMD5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
+                                .add("sign", DataSignatureUtil.md5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
+//                                .add("sign",sign)
                                 .build();
                     }
                     // 若请求体不为Null，重新构建post请求，并传入修改后的参数体
@@ -150,17 +177,17 @@ public class RetrofitClient {
                     }
                     return chain.proceed(request);
                 })
-//                .addInterceptor(new CacheInterceptor(mContext))
-                .addInterceptor(new LoggingInterceptor
-                        .Builder()//构建者模式
-                        .loggable(BuildConfig.DEBUG) //是否开启日志打印
-                        .setLevel(Level.BASIC) //打印的等级
-                        .log(Platform.INFO) // 打印类型
-                        .request(TAG) // request的Tag
-                        .response(TAG)// Response的Tag
-                        .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8") // 添加打印头, 注意 key 和 value 都不能是中文
-                        .build()
-                )
+                .addInterceptor(logger)
+//                .addInterceptor(new LoggingInterceptor
+//                        .Builder()//构建者模式
+//                        .loggable(BuildConfig.DEBUG) //是否开启日志打印
+//                        .setLevel(Level.BASIC) //打印的等级
+//                        .log(Platform.INFO) // 打印类型
+//                        .request(TAG) // request的Tag
+//                        .response(TAG)// Response的Tag
+//                        .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8") // 添加打印头, 注意 key 和 value 都不能是中文
+//                        .build()
+//                )
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))

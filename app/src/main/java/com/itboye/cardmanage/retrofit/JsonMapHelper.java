@@ -4,10 +4,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.TreeMap;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.*;
 
 /**
  * JsonMapHelper
@@ -80,7 +79,7 @@ public class JsonMapHelper {
         if (arg != null) {
             for (int i = 0; i < arg.length; i++) {
                 String key = arg[i].split("=")[0];
-                String value = arg[i].split("=")[1];
+                String value = (arg[i].split("=")[1]);
                 hashMap.put(key, value);
                 try {
                     jsonObject.put(key, value);
@@ -90,5 +89,35 @@ public class JsonMapHelper {
             }
         }
         return new JSONObject(hashMap);
+    }
+
+    public static String parseJsonToMap2(JSONObject jsonObject) {
+        TreeMap<String, String> hashMap = new TreeMap<>();
+        Iterator<String> iterator = jsonObject.keys();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            try {
+//                String value = URLEncoder.encode(jsonObject.get(key) + "");
+                String value = stringToUnicode(jsonObject.get(key) + "");
+                hashMap.put(key, value);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        String json = new JSONObject(hashMap).toString().replace("\\\\","\\");
+        return json;
+    }
+
+    //String-->UniCode
+    public static String stringToUnicode(String string) {
+        StringBuffer unicode = new StringBuffer();
+        for (int i = 0; i < string.length(); i++) {
+            // 取出每一个字符
+            char c = string.charAt(i);
+            // 转换为unicode
+            //"\\u只是代号，请根据具体所需添加相应的符号"
+            unicode.append("\\u" + Integer.toHexString(c));
+        }
+        return unicode.toString();
     }
 }
