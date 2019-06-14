@@ -1,26 +1,16 @@
 package com.itboye.cardmanage.ui.mine;
 
-import android.content.Context;
-import android.databinding.ObservableBoolean;
-import android.widget.ImageView;
-import com.itboye.cardmanage.R;
-
 import android.app.Application;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.view.View;
-import com.itboye.cardmanage.retrofit.API;
-import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
-import com.itboye.cardmanage.retrofit.AppUtils;
-import com.itboye.cardmanage.retrofit.RetrofitClient;
-import com.itboye.cardmanage.util.GlideUtil;
+import com.itboye.cardmanage.R;
+import com.itboye.cardmanage.bean.UploadImageBean;
+import com.itboye.cardmanage.retrofit.*;
 import com.itboye.cardmanage.util.UserUtil;
-import com.yancy.imageselector.ImageConfig;
-import com.yancy.imageselector.ImageLoader;
-import com.yancy.imageselector.ImageSelector;
 import me.goldze.mvvmhabit.base.BaseViewModel;
-import me.goldze.mvvmhabit.utils.KLog;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -29,24 +19,23 @@ import okhttp3.RequestBody;
 import java.io.File;
 import java.util.List;
 
-import static com.itboye.cardmanage.ui.mine.AuthenticationModel.Status.PHOTO_CARD;
-import static com.itboye.cardmanage.ui.mine.AuthenticationModel.Status.PHOTO_HAND_IDENTITY;
-import static com.itboye.cardmanage.ui.mine.AuthenticationModel.Status.PHOTO_IDENTITY;
+import static com.itboye.cardmanage.ui.mine.AuthenticationModel.Status.*;
 import static com.itboye.cardmanage.util.ImageCompress.compress;
 
 public class AuthenticationModel extends BaseViewModel {
 
-    public ObservableField<String> bankReservePhone = new ObservableField<>("");//银行预留手机
-    public ObservableField<String> branchBankName = new ObservableField<>("");//支行名称
-    public ObservableField<String> bankName = new ObservableField<>("");//银行名称
-    public ObservableField<String> bankNumberAgain = new ObservableField<>("");//再次银行卡账号
-    public ObservableField<String> bankNumber = new ObservableField<>("");//银行卡号
+    public ObservableField<String> bankReservePhone = new ObservableField<>("15736243111");//银行预留手机
+    public ObservableField<String> branchBankName = new ObservableField<>("中国工商银行下沙支行");//支行名称
+    public ObservableField<String> bankName = new ObservableField<>("中国工商银行");//银行名称
+    public ObservableField<String> bankNumberAgain = new ObservableField<>("6212261001080775106");//再次银行卡账号
+    public ObservableField<String> bankNumber = new ObservableField<>("6212261001080775106");//银行卡号
 
-    public ObservableField<String> realName = new ObservableField<>("");//姓名
-    public ObservableField<String> idnumber = new ObservableField<>("");//身份证号
-    public ObservableField<String> addr = new ObservableField<>("");//地址
-    public ObservableField<String> email = new ObservableField<>("");//邮箱
-    public ObservableField<String> zipCode = new ObservableField<>("");//邮编
+    public ObservableField<String> realName = new ObservableField<>("张三");//姓名
+    public ObservableField<String> idnumber = new ObservableField<>("500228199501155555");//身份证号
+    public ObservableField<String> addr = new ObservableField<>("浙江省杭州市下沙智慧谷");//地址
+    public ObservableField<String> email = new ObservableField<>("1147806268@qq.com");//邮箱
+    public ObservableField<String> zipCode = new ObservableField<>("057111");//邮编
+    public ObservableField<String> validityTime = new ObservableField<>("2021-10-01");//证件有效期
     public ObservableField<String> label = new ObservableField<>("");//提示语
 
     public ObservableField<Integer> photoIdentity = new ObservableField<>(View.VISIBLE);
@@ -61,7 +50,17 @@ public class AuthenticationModel extends BaseViewModel {
     public ObservableField<Drawable> status3 = new ObservableField<>();
 
 
-    Status status = PHOTO_IDENTITY;
+    public Status status = PHOTO_IDENTITY;
+    private int id_front_img = -1;//身份证正面照
+    private int id_back_img = -1;//身份证反面照
+    private int id_hold_img = -1;//手持身份证
+    private int bank_img = -1;//银行卡拍照
+
+
+    private String id_front_img_id;//身份证正面照id
+    private String id_back_img_id;//身份证反面照id
+    private String id_hold_img_id;//手持身份证id
+    private String bank_img_id;//银行卡拍照id
 
     public AuthenticationModel(@NonNull Application application) {
         super(application);
@@ -74,10 +73,14 @@ public class AuthenticationModel extends BaseViewModel {
         setCurrentItem();
     }
 
-    private void setCurrentItem() {
+    public void setCurrentItem() {
         switch (status) {
+            case INIT:
+                setFirst();
+                status = PHOTO_IDENTITY;
+                break;
             case PHOTO_IDENTITY:
-                if (path1 == null || path2 == null) {
+                if (id_front_img_id == null || id_back_img_id == null) {
                     ToastUtils.showShort("请先上传身份证正反面");
                     return;
                 }
@@ -94,8 +97,7 @@ public class AuthenticationModel extends BaseViewModel {
                     ToastUtils.showShort("请输入地址");
                     return;
                 }
-                if (email
-                        .get().isEmpty()) {
+                if (email.get().isEmpty()) {
                     ToastUtils.showShort("请输入邮箱");
                     return;
                 }
@@ -103,28 +105,23 @@ public class AuthenticationModel extends BaseViewModel {
                     ToastUtils.showShort("请输入邮编");
                     return;
                 }
-                label.set("手持身份证正面照");
-                status1.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
-                photoIdentity.set(View.GONE);
-                authCard.set(View.GONE);
-                photo1.set(View.GONE);
-                photo3.set(View.VISIBLE);
+                if (validityTime.get().isEmpty()) {
+                    ToastUtils.showShort("请输入证件有效期");
+                    return;
+                }
+                setSecond();
                 status = PHOTO_HAND_IDENTITY;
                 break;
             case PHOTO_HAND_IDENTITY:
-                if (path1 == null || path2 == null) {
+                if (id_hold_img_id == null) {
                     ToastUtils.showShort("请先上传手持身份证正面照");
                     return;
                 }
-                label.set("银行卡正面照");
+                setThird();
                 status = PHOTO_CARD;
-                authCard.set(View.VISIBLE);
-                photo3.set(View.GONE);
-                photo4.set(View.VISIBLE);
-                status2.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
                 break;
             case PHOTO_CARD:
-                if (path1 == null || path2 == null) {
+                if (bank_img_id == null) {
                     ToastUtils.showShort("请先上传银行卡正面照");
                     return;
                 }
@@ -149,7 +146,9 @@ public class AuthenticationModel extends BaseViewModel {
                     return;
                 }
                 status3.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
-                AppUtils.upload(RetrofitClient.getInstance().create(API.class).userAddAuth(UserUtil.getUserInfo().getId() + "", bankReservePhone.get(), realName.get(), idnumber.get(), bankNumber.get(), bankName.get(), branchBankName.get(), "", "", "", "", "", "by_UserIdCard_createAuthInfo"),
+                AppUtils.upload(RetrofitClient.getInstance().create(CardAPI.class).getBranchInfo(
+                        bankNumber.get(),
+                        ""),
                         getLifecycleProvider(), disposable -> showDialog(),
 
                         new ApiDisposableObserver() {
@@ -163,8 +162,60 @@ public class AuthenticationModel extends BaseViewModel {
                                 dismissDialog();
                             }
                         });
+//                AppUtils.upload(RetrofitClient.getInstance().create(API.class).userAddAuth(
+//                        UserUtil.getUserInfo().getId() + "",
+//                        bankReservePhone.get(),
+//                        realName.get(),
+//                        idnumber.get(),
+//                        bankNumber.get(),
+//                        bankName.get(),
+//                        branchBankName.get(),
+//                        id_front_img + "", id_back_img + "", id_hold_img + "", bank_img + "", "", id_front_img_id, id_back_img_id, id_hold_img_id, bank_img_id, validityTime.get(),
+//                        zipCode.get(),
+//                        email.get(),
+//                        addr.get(),
+//                        "by_UserIdCard_createAuthInfo"),
+//                        getLifecycleProvider(), disposable -> showDialog(),
+//
+//                        new ApiDisposableObserver() {
+//                            @Override
+//                            public void onResult(Object o, String msg) {
+//                                ToastUtils.showShort(msg);
+//                            }
+//
+//                            @Override
+//                            public void dialogDismiss() {
+//                                dismissDialog();
+//                            }
+//                        });
                 break;
         }
+    }
+
+    public void setThird() {
+        label.set("银行卡正面照");
+        authCard.set(View.VISIBLE);
+        photo3.set(View.GONE);
+        photo4.set(View.VISIBLE);
+        status2.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
+    }
+
+    public void setFirst() {
+        photoIdentity.set(View.VISIBLE);
+        authCard.set(View.GONE);
+        photo1.set(View.VISIBLE);
+        photo3.set(View.GONE);
+        label.set("请扫描身份证");
+    }
+
+    public void setSecond() {
+        label.set("手持身份证正面照");
+        status1.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
+        photoIdentity.set(View.GONE);
+        authCard.set(View.GONE);
+        photo1.set(View.GONE);
+        photo3.set(View.VISIBLE);
+        photo4.set(View.GONE);
     }
 
     UIChangeListener ui = new UIChangeListener();
@@ -190,17 +241,26 @@ public class AuthenticationModel extends BaseViewModel {
                 new ApiDisposableObserver() {
                     @Override
                     public void onResult(Object o, String msg) {
+                        UploadImageBean uploadImageBean = (UploadImageBean) o;
                         switch (type) {
                             case 101:
                                 path1 = temp;
+                                id_front_img = uploadImageBean.getId();
+                                id_front_img_id = uploadImageBean.getOss_key();
                                 break;
                             case 102:
                                 path2 = temp;
+                                id_back_img = uploadImageBean.getId();
+                                id_back_img_id = uploadImageBean.getOss_key();
                                 break;
                             case 103:
+                                id_hold_img = uploadImageBean.getId();
+                                id_hold_img_id = uploadImageBean.getOss_key();
                                 path3 = temp;
                                 break;
                             case 104:
+                                bank_img = uploadImageBean.getId();
+                                bank_img_id = uploadImageBean.getOss_key();
                                 path4 = temp;
                                 break;
                         }
@@ -240,6 +300,7 @@ public class AuthenticationModel extends BaseViewModel {
     }
 
     enum Status {
+        INIT,
         PHOTO_IDENTITY,
         PHOTO_HAND_IDENTITY,
         PHOTO_CARD

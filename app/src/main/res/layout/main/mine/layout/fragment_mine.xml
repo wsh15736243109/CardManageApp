@@ -45,11 +45,11 @@
                                 android:layout_height="72dp"
                                 android:layout_marginLeft="@dimen/dp_12">
 
-                            <com.itboye.cardmanage.widget.CircleImageView
+                            <ImageView
                                     android:id="@+id/iv_head"
                                     android:layout_width="66dp"
                                     android:layout_height="66dp"
-                                    android:src="@drawable/ic_launcher_background"
+                                    app:url="@{viewModel.headUrl}"
                                     />
 
                             <TextView
@@ -57,7 +57,7 @@
                                     android:id="@+id/tv_user_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="用户名"
+                                    android:text="@={viewModel.nickname}"
                                     android:layout_margin="@dimen/dp_4"/>
 
                             <TextView
@@ -188,7 +188,7 @@
                             android:drawablePadding="@dimen/dp_4"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="12dp"
-                            android:drawableLeft="@drawable/ic_lianxikefu"
+                            android:drawableLeft="@drawable/ic_mine_lianxikefu"
                             android:text="联系客服"
                             android:textSize="14sp"/>
 
@@ -215,7 +215,7 @@
                             android:drawablePadding="@dimen/dp_4"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="12dp"
-                            android:drawableLeft="@drawable/ic_changjianwenti"
+                            android:drawableLeft="@drawable/ic_mine_changjianwenti"
                             android:text="常见问题"
                             android:textSize="14sp"/>
 

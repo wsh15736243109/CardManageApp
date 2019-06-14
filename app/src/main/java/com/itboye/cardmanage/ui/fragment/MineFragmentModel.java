@@ -2,17 +2,26 @@ package com.itboye.cardmanage.ui.fragment;
 
 import android.app.Application;
 import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.interfaces.MineClickType;
 import com.itboye.cardmanage.ui.mine.*;
+import com.itboye.cardmanage.util.UserUtil;
 import com.itboye.cardmanage.web.WebActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import me.goldze.mvvmhabit.base.BaseViewModel;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class MineFragmentModel extends BaseViewModel {
+
+    public ObservableField<String> nickname = new ObservableField<>(UserUtil.getUserInfo().getNickname());
+    public ObservableField<String> headUrl = new ObservableField<>(UserUtil.getUserInfo().getAvatar());
+
     public MineFragmentModel(@NonNull Application application) {
         super(application);
+        ToastUtils.showShort(headUrl.get());
+        headUrl.set(UserUtil.getUserInfo().getAvatar());
     }
 
     UIChangeObser uc = new UIChangeObser();

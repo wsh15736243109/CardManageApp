@@ -1,11 +1,13 @@
 package com.itboye.cardmanage.retrofit;
 
+import me.goldze.mvvmhabit.utils.KLog;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.security.Key;
 import java.util.*;
 
 /**
@@ -78,8 +80,14 @@ public class JsonMapHelper {
         String[] arg = json.split("&");
         if (arg != null) {
             for (int i = 0; i < arg.length; i++) {
-                String key = arg[i].split("=")[0];
-                String value = (arg[i].split("=")[1]);
+                String[] va = arg[i].split("=");
+                String key = va[0];
+                KLog.v("Okhttp_R", "签名key====" + key);
+                String value = "";
+                if (va.length >= 2) {
+                    value = (va[1]);
+                }
+                KLog.v("OkHttp_R", "签名value====" + value);
                 hashMap.put(key, value);
                 try {
                     jsonObject.put(key, value);
@@ -98,13 +106,14 @@ public class JsonMapHelper {
             String key = iterator.next();
             try {
 //                String value = URLEncoder.encode(jsonObject.get(key) + "");
-                String value = stringToUnicode(jsonObject.get(key) + "");
+//                String value = stringToUnicode(jsonObject.get(key) + "");
+                String value = (jsonObject.get(key) + "");
                 hashMap.put(key, value);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        String json = new JSONObject(hashMap).toString().replace("\\\\","\\");
+        String json = new JSONObject(hashMap).toString().replace("\\\\", "\\");
         return json;
     }
 

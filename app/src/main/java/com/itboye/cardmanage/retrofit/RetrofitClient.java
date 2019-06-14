@@ -121,39 +121,46 @@ public class RetrofitClient {
                     RequestBody body = request.body();
                     if (body instanceof FormBody) {
                     } else if (body instanceof RequestBody) {
-//                        Buffer buffer = new Buffer();
-//                        body.writeTo(buffer);
-//                        Charset charset = Charset.forName("utf-8");
-//                        MediaType contentType = body.contentType();
-//                        if (contentType != null) {
-//                            charset = contentType.charset(charset);
-//                        }
-//                        String content = (buffer.readString(charset));
+                        Buffer buffer = new Buffer();
+                        body.writeTo(buffer);
+                        Charset charset = Charset.forName("utf-8");
+                        MediaType contentType = body.contentType();
+                        if (contentType != null) {
+                            charset = contentType.charset(charset);
+                        }
+                        String content = (buffer.readString(charset));
                         long time = System.currentTimeMillis();
-                        String serviceVersion = "100";//headers.get("service_version");
-//                        JSONObject json1 = JsonMapHelper.parseJsonToMap(content);
+                        String serviceVersion = "100";
+                        JSONObject json1 = JsonMapHelper.parseJsonToMap(content);
                         String serviceType = null;
-                        serviceType = request.url().queryParameter("service_type");
-                        Set<String> keySet = request.url().queryParameterNames();
-                        JSONObject jsonObject = new JSONObject();
-                        Iterator<String> iterator = keySet.iterator();
-                        while (iterator.hasNext()) {
-                            String key = iterator.next();
-                            if (key.equals("service_type")) {
-                                continue;
-                            }
-                            String value = request.url().queryParameter(key);
+                        if (json1.has("service_type")) {
                             try {
-                                jsonObject.put(key, value);
+                                serviceType = json1.getString("service_type");
+                                json1.remove("service_type");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
+//                        Set<String> keySet = request.url().queryParameterNames();
+//                        JSONObject jsonObject = new JSONObject();
+//                        Iterator<String> iterator = keySet.iterator();
+//                        while (iterator.hasNext()) {
+//                            String key = iterator.next();
+//                            if (key.equals("service_type")) {
+//                                continue;
+//                            }
+//                            String value = request.url().queryParameter(key);
+//                            try {
+//                                jsonObject.put(key, value);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
                         if (serviceType == null) {
                             throw new RuntimeException("缺少 service_type参数");
                         }
-                        String json = (parseJsonToMap2(jsonObject));
-                        Log.d(TAG,time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
+                        String json = json1.toString();
+                        Log.d(TAG, time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
 //                        KLog.d("sign====" + (time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json));
                         body = new FormBody.Builder()
                                 .add("app_type", "android")
@@ -177,17 +184,17 @@ public class RetrofitClient {
                     }
                     return chain.proceed(request);
                 })
-                .addInterceptor(logger)
-//                .addInterceptor(new LoggingInterceptor
-//                        .Builder()//构建者模式
-//                        .loggable(BuildConfig.DEBUG) //是否开启日志打印
-//                        .setLevel(Level.BASIC) //打印的等级
-//                        .log(Platform.INFO) // 打印类型
-//                        .request(TAG) // request的Tag
-//                        .response(TAG)// Response的Tag
-//                        .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8") // 添加打印头, 注意 key 和 value 都不能是中文
-//                        .build()
-//                )
+//                .addInterceptor(logger)
+                .addInterceptor(new LoggingInterceptor
+                        .Builder()//构建者模式
+                        .loggable(BuildConfig.DEBUG) //是否开启日志打印
+                        .setLevel(Level.BASIC) //打印的等级
+                        .log(Platform.INFO) // 打印类型
+                        .request(TAG) // request的Tag
+                        .response(TAG)// Response的Tag
+                        .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8") // 添加打印头, 注意 key 和 value 都不能是中文
+                        .build()
+                )
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))

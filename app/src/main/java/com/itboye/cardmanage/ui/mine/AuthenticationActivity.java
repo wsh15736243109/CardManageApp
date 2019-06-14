@@ -6,12 +6,10 @@ import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
-import com.bumptech.glide.Glide;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.databinding.ActivityAuthenticationBinding;
-import com.itboye.cardmanage.databinding.ActivitySplashBinding;
 import com.itboye.cardmanage.util.GlideUtil;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageLoader;
@@ -19,7 +17,6 @@ import com.yancy.imageselector.ImageSelector;
 import com.yancy.imageselector.ImageSelectorActivity;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
-import java.io.File;
 import java.util.List;
 
 public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticationBinding, AuthenticationModel> {
@@ -119,7 +116,26 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
                     GlideUtil.display(this, path, binding.riPhoto4);
                     break;
             }
-            viewModel.uploadImage(path, resultCode);
+            viewModel.uploadImage(path, requestCode);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        switch (viewModel.status) {
+            case PHOTO_IDENTITY:
+                finish();
+                break;
+            case PHOTO_HAND_IDENTITY:
+                viewModel.setFirst();
+                viewModel.status = AuthenticationModel.Status.INIT;
+                break;
+            case PHOTO_CARD:
+                viewModel.status = AuthenticationModel.Status.PHOTO_IDENTITY;
+                viewModel.setSecond();
+                break;
+        }
+//        viewModel.setCurrentItem();
+//        super.onBackPressed();
     }
 }
