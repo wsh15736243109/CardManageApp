@@ -1,6 +1,5 @@
 package com.itboye.cardmanage.ui.home;
 
-import android.app.Activity;
 import android.os.Bundle;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;

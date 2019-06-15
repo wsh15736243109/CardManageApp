@@ -112,7 +112,7 @@ public interface API {
      * @return
      */
     @Headers("Content-Type:application/x-www-form-urlencoded")
-    @FormUrlEncoded //by_UserIdCard_createAuthInfo
+    @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<String>> userAddAuth(@Field("user_id") String user_id,
                                                  @Field("mobile") String mobile,
@@ -137,14 +137,10 @@ public interface API {
                                                  @Field("service_type") String service_type);
 
     @Headers("Content-Type:application/x-www-form-urlencoded;charset=utf-8")
-    @FormUrlEncoded //by_UserIdCard_createAuthInfo
+    @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<String>> updateUserInfo(@Field("nickname") String nickname,
                                                     @Field("service_type") String serviceType);
-
-    @POST("/")
-    Observable<BaseResponse<String>> updateUserInfo2(@Field(value = "nickname") String nickname,
-                                                     @Field("service_type") String serviceType);
 
     /**
      * 图片上传
@@ -159,10 +155,64 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> feedback(@Field("uid") String uid, @Field("content") String content, @Field("service_type") String by_suggest_create);
+    Observable<BaseResponse<String>> feedback(@Field("uid") String uid, @Field("content") String content, @Field("service_type") String serviceType);
 
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> cardList(@Field("card_usage") String card_usage, @Field("page_index") String page_index, @Field("page_size") String page_size, @Field("service_type") String by_suggest_create);
+    Observable<BaseResponse<String>> cardList(@Field("card_usage") String card_usage, @Field("page_index") String page_index, @Field("page_size") String page_size, @Field("service_type") String serviceType);
+
+    /**
+     * 绑定结算卡
+     *
+     * @param user_id
+     * @param bank_card_id
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> addSettlementCard(@Field("user_id") String user_id, @Field("bank_card_id") String bank_card_id, @Field("service_type") String serviceType);
+
+    /**
+     * 添加支付卡
+     *
+     * @param card_no
+     * @param bank_name
+     * @param mobile
+     * @param cvn2
+     * @param expire_date
+     * @param bill_date
+     * @param repayment_date
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> addPaymentCard(@Field("card_no") String card_no, @Field("bank_name") String bank_name, @Field("mobile") String mobile, @Field("cvn2") String cvn2, @Field("expire_date") String expire_date, @Field("bill_date") String bill_date, @Field("repayment_date") String repayment_date, @Field("service_type") String serviceType);
+
+    /**
+     * 查询认证信息
+     *
+     * @param repayment_date
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> queryAuthInfo(@Field("repayment_date") String repayment_date, @Field("service_type") String serviceType);
+
+    /**
+     * 支付通道查询
+     *
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> queryAuthInfo(@Field("service_type") String serviceType);
 }

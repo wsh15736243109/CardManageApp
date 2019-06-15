@@ -7,7 +7,14 @@ import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
+import com.itboye.cardmanage.retrofit.API;
+import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
+import com.itboye.cardmanage.retrofit.AppUtils;
+import com.itboye.cardmanage.retrofit.RetrofitClient;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 import java.util.ArrayList;
@@ -22,7 +29,7 @@ public class CardFragmentModel extends BaseViewModel {
 
     public CardFragmentModel(@NonNull Application application) {
         super(application);
-        ArrayList<String> ar=new ArrayList<>();
+        ArrayList<String> ar = new ArrayList<>();
 //        observableList.add("two");
 //        observableList.add("one");
 //        observableList.add("three");
@@ -33,7 +40,5 @@ public class CardFragmentModel extends BaseViewModel {
         hobbies.set(ar);
     }
 
-    public void getCardList(){
 
-    }
 }

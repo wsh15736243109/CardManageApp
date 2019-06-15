@@ -75,11 +75,13 @@
 
         </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_card_manage"
-                android:layout_below="@+id/re_title"
+        <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
                 android:layout_width="match_parent"
+                android:layout_below="@+id/re_title"
                 android:layout_height="match_parent"/>
+
+
         <Button
                 android:id="@+id/bt_add_repayment"
                 android:layout_width="match_parent"

@@ -87,7 +87,7 @@ public class PersonDataModel extends BaseViewModel {
             return;
         }
 
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).updateUserInfo2(nickName.get(), "by_UserLoginSession_updateInfo"),
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).updateUserInfo(nickName.get(), "by_UserLoginSession_updateInfo"),
                 getLifecycleProvider(), disposable -> showDialog(),
 
                 new ApiDisposableObserver() {
