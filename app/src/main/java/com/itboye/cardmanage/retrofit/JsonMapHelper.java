@@ -86,6 +86,7 @@ public class JsonMapHelper {
                 String value = "";
                 if (va.length >= 2) {
                     value = (va[1]);
+                    value = URLDecoder.decode(value);
                 }
                 KLog.v("OkHttp_R", "签名value====" + value);
                 hashMap.put(key, value);
@@ -105,9 +106,9 @@ public class JsonMapHelper {
         while (iterator.hasNext()) {
             String key = iterator.next();
             try {
-//                String value = URLEncoder.encode(jsonObject.get(key) + "");
+                String value = URLEncoder.encode(jsonObject.get(key) + "");
 //                String value = stringToUnicode(jsonObject.get(key) + "");
-                String value = (jsonObject.get(key) + "");
+//                String value = (jsonObject.get(key) + "");
                 hashMap.put(key, value);
             } catch (JSONException e) {
                 e.printStackTrace();
