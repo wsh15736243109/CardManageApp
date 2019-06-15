@@ -2,6 +2,7 @@ package com.itboye.cardmanage.retrofit;
 
 
 import com.itboye.cardmanage.bean.UploadImageBean;
+import com.itboye.cardmanage.bean.UserAuthDetailBean;
 import com.itboye.cardmanage.bean.UserInfoBean;
 
 import io.reactivex.Observable;
@@ -196,14 +197,14 @@ public interface API {
     /**
      * 查询认证信息
      *
-     * @param repayment_date
+     * @param userId
      * @param serviceType
      * @return
      */
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> queryAuthInfo(@Field("repayment_date") String repayment_date, @Field("service_type") String serviceType);
+    Observable<BaseResponse<UserAuthDetailBean>> queryAuthInfo(@Field("user_id") String userId, @Field("service_type") String serviceType);
 
     /**
      * 支付通道查询
@@ -214,5 +215,5 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> queryAuthInfo(@Field("service_type") String serviceType);
+    Observable<BaseResponse<String>> queryPayWays(@Field("service_type") String serviceType);
 }

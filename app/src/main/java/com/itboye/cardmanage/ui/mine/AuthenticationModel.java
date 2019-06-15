@@ -5,8 +5,13 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import com.itboye.cardmanage.R;
+import com.itboye.cardmanage.bean.BranchBankBean;
 import com.itboye.cardmanage.bean.UploadImageBean;
 import com.itboye.cardmanage.retrofit.*;
 import com.itboye.cardmanage.util.UserUtil;
@@ -17,25 +22,28 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.itboye.cardmanage.ui.mine.AuthenticationModel.Status.*;
 import static com.itboye.cardmanage.util.ImageCompress.compress;
 
 public class AuthenticationModel extends BaseViewModel {
 
-    public ObservableField<String> bankReservePhone = new ObservableField<>("15736243111");//银行预留手机
-    public ObservableField<String> branchBankName = new ObservableField<>("中国工商银行下沙支行");//支行名称
+    public ObservableField<String> bankReservePhone = new ObservableField<>("13858066033");//银行预留手机
+    public ObservableField<String> branchBankName = new ObservableField<>("中国工商银行西湖支行");//支行名称
     public ObservableField<String> bankName = new ObservableField<>("中国工商银行");//银行名称
-    public ObservableField<String> bankNumberAgain = new ObservableField<>("6212261001080775106");//再次银行卡账号
-    public ObservableField<String> bankNumber = new ObservableField<>("6212261001080775106");//银行卡号
+    public ObservableField<String> bankNumberAgain = new ObservableField<>("6222081202007602202");//再次银行卡账号
+    public ObservableField<String> bankNumber = new ObservableField<>("6222081202007602202");//银行卡号
 
-    public ObservableField<String> realName = new ObservableField<>("张三");//姓名
-    public ObservableField<String> idnumber = new ObservableField<>("500228199501155555");//身份证号
+    public ObservableField<String> realName = new ObservableField<>("周波");//姓名
+    public ObservableField<String> idnumber = new ObservableField<>("330327198407040039");//身份证号
     public ObservableField<String> addr = new ObservableField<>("浙江省杭州市下沙智慧谷");//地址
     public ObservableField<String> email = new ObservableField<>("1147806268@qq.com");//邮箱
     public ObservableField<String> zipCode = new ObservableField<>("057111");//邮编
-    public ObservableField<String> validityTime = new ObservableField<>("2021-10-01");//证件有效期
+    public ObservableField<String> validityTime = new ObservableField<>("20211001");//证件有效期
     public ObservableField<String> label = new ObservableField<>("");//提示语
 
     public ObservableField<Integer> photoIdentity = new ObservableField<>(View.VISIBLE);
@@ -55,12 +63,14 @@ public class AuthenticationModel extends BaseViewModel {
     private int id_back_img = -1;//身份证反面照
     private int id_hold_img = -1;//手持身份证
     private int bank_img = -1;//银行卡拍照
+    ArrayList<BranchBankBean> branchBankBeanArrayList = new ArrayList<>();
+    public String branchNo = "";
 
 
-    private String id_front_img_id;//身份证正面照id
-    private String id_back_img_id;//身份证反面照id
-    private String id_hold_img_id;//手持身份证id
-    private String bank_img_id;//银行卡拍照id
+    private String id_front_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//身份证正面照id
+    private String id_back_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//身份证反面照id
+    private String id_hold_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//手持身份证id
+    private String bank_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//银行卡拍照id
 
     public AuthenticationModel(@NonNull Application application) {
         super(application);
@@ -146,50 +156,73 @@ public class AuthenticationModel extends BaseViewModel {
                     return;
                 }
                 status3.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
-                AppUtils.upload(RetrofitClient.getInstance().create(CardAPI.class).getBranchInfo(
-                        bankNumber.get(),
-                        ""),
-                        getLifecycleProvider(), disposable -> showDialog(),
-
-                        new ApiDisposableObserver() {
-                            @Override
-                            public void onResult(Object o, String msg) {
-                                ToastUtils.showShort(msg);
-                            }
-
-                            @Override
-                            public void dialogDismiss() {
-                                dismissDialog();
-                            }
-                        });
-//                AppUtils.upload(RetrofitClient.getInstance().create(API.class).userAddAuth(
-//                        UserUtil.getUserInfo().getId() + "",
-//                        bankReservePhone.get(),
-//                        realName.get(),
-//                        idnumber.get(),
-//                        bankNumber.get(),
-//                        bankName.get(),
-//                        branchBankName.get(),
-//                        id_front_img + "", id_back_img + "", id_hold_img + "", bank_img + "", "", id_front_img_id, id_back_img_id, id_hold_img_id, bank_img_id, validityTime.get(),
-//                        zipCode.get(),
-//                        email.get(),
-//                        addr.get(),
-//                        "by_UserIdCard_createAuthInfo"),
-//                        getLifecycleProvider(), disposable -> showDialog(),
-//
-//                        new ApiDisposableObserver() {
-//                            @Override
-//                            public void onResult(Object o, String msg) {
-//                                ToastUtils.showShort(msg);
-//                            }
-//
-//                            @Override
-//                            public void dialogDismiss() {
-//                                dismissDialog();
-//                            }
-//                        });
+                //先要获取银行卡信息
+                if (branchNo.isEmpty()) {
+                    branchBankSearch();
+                } else {
+                    submitAuth();
+                }
                 break;
         }
+    }
+
+    //搜索支行
+    public void branchBankSearch() {
+        if (branchBankName.get().isEmpty()) {
+            ToastUtils.showShort("请输入支行关键词");
+            return;
+        }
+        AppUtils.upload(RetrofitClient.getInstance().create(CardAPI.class).getBranchInfo(
+                bankNumber.get(),
+                branchBankName.get()),
+                getLifecycleProvider(), disposable -> showDialog(),
+
+                new ApiDisposableObserver() {
+                    @Override
+                    public void onResult(Object o, String msg) {
+                        branchBankBeanArrayList = (ArrayList<BranchBankBean>) o;
+                        ui.searchBranch.set(!ui.searchBranch.get());
+                        ToastUtils.showShort(msg);
+                    }
+
+                    @Override
+                    public void dialogDismiss() {
+                        dismissDialog();
+                    }
+                });
+
+    }
+
+
+
+    private void submitAuth() {
+        AppUtils.upload(RetrofitClient.getInstance().create(API.class).userAddAuth(
+                UserUtil.getUserInfo().getId() + "",
+                bankReservePhone.get(),
+                realName.get(),
+                idnumber.get(),
+                bankNumber.get(),
+                bankName.get(),
+                branchBankName.get(),
+                id_front_img + "", id_back_img + "", id_hold_img + "", bank_img + "", branchNo, id_front_img_id, id_back_img_id, id_hold_img_id, bank_img_id,
+                validityTime.get(),
+                zipCode.get(),
+                email.get(),
+                addr.get(),
+                "by_UserIdCard_createAuthInfo"),
+                getLifecycleProvider(), disposable -> showDialog(),
+
+                new ApiDisposableObserver() {
+                    @Override
+                    public void onResult(Object o, String msg) {
+                        ToastUtils.showShort(msg);
+                    }
+
+                    @Override
+                    public void dialogDismiss() {
+                        dismissDialog();
+                    }
+                });
     }
 
     public void setThird() {
@@ -280,6 +313,7 @@ public class AuthenticationModel extends BaseViewModel {
         ObservableBoolean photo2 = new ObservableBoolean(false);
         ObservableBoolean photo3 = new ObservableBoolean(false);
         ObservableBoolean photo4 = new ObservableBoolean(false);
+        ObservableBoolean searchBranch = new ObservableBoolean(false);
     }
 
     public void photo(int type) {
@@ -305,6 +339,4 @@ public class AuthenticationModel extends BaseViewModel {
         PHOTO_HAND_IDENTITY,
         PHOTO_CARD
     }
-
-
 }

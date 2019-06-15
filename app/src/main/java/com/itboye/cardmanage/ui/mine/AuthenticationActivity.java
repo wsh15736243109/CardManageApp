@@ -5,19 +5,25 @@ import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
+import com.itboye.cardmanage.bean.BranchBankBean;
 import com.itboye.cardmanage.databinding.ActivityAuthenticationBinding;
 import com.itboye.cardmanage.util.GlideUtil;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageLoader;
 import com.yancy.imageselector.ImageSelector;
 import com.yancy.imageselector.ImageSelectorActivity;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticationBinding, AuthenticationModel> {
 
@@ -67,6 +73,36 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
                 openLibrary(104);
             }
         });
+
+        viewModel.ui.searchBranch.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                if (viewModel.branchBankBeanArrayList != null && viewModel.branchBankBeanArrayList.size() > 0) {
+                    //展示所有搜索到的支行
+                    showBranchBankList(viewModel.branchBankBeanArrayList);
+                }
+            }
+        });
+    }
+
+    private void showBranchBankList(ArrayList<BranchBankBean> branchBankBeanArrayList) {
+        //初始化map
+        Map<String, String> keyValuePair = new HashMap<>();
+        for (int i = 0; i < branchBankBeanArrayList.size(); i++) {
+            BranchBankBean branchBankBean = branchBankBeanArrayList.get(i);
+            keyValuePair.put("name", branchBankBean.getName());
+        }
+        ListView listView = new ListView(this);
+        List<Map<String, String>> list = new ArrayList<>();
+        list.add(keyValuePair);
+        listView.setAdapter(new SimpleAdapter(this, list, android.R.layout.simple_list_item_1, new String[]{"name"}, new int[]{android.R.id.text1}));
+        AlertDialog alert = new AlertDialog.Builder(this).setView(listView).setCancelable(false).create();
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            viewModel.branchNo = branchBankBeanArrayList.get(i).getPaysysbank();
+            viewModel.branchBankName.set(branchBankBeanArrayList.get(i).getName());
+            alert.dismiss();
+        });
+        alert.show();
     }
 
     //选择图片

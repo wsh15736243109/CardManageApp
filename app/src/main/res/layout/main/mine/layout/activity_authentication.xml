@@ -515,6 +515,11 @@
                                 android:background="@null"
                                 android:layout_marginLeft="@dimen/dp_12"
                                 android:layout_marginRight="@dimen/dp_12"/>
+                        <ImageView
+                                android:onClick="@{()->viewModel.branchBankSearch()}"
+                                android:layout_width="wrap_content"
+                                android:src="@drawable/ic_search"
+                                android:layout_height="wrap_content"/>
                     </LinearLayout>
 
                     <LinearLayout
