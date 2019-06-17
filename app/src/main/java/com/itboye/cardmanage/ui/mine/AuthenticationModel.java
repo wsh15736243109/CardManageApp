@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.itboye.cardmanage.config.Global.IMAGEURL;
 import static com.itboye.cardmanage.ui.mine.AuthenticationModel.Status.*;
 import static com.itboye.cardmanage.util.ImageCompress.compress;
 
@@ -62,10 +63,10 @@ public class AuthenticationModel extends BaseViewModel {
 
 
     public Status status = PHOTO_IDENTITY;
-    private int id_front_img = -1;//身份证正面照
-    private int id_back_img = -1;//身份证反面照
-    private int id_hold_img = -1;//手持身份证
-    private int bank_img = -1;//银行卡拍照
+    private String id_front_img = "";//身份证正面照
+    private String id_back_img = "";//身份证反面照
+    private String id_hold_img = "";//手持身份证
+    private String bank_img = "";//银行卡拍照
     ArrayList<BranchBankBean> branchBankBeanArrayList = new ArrayList<>();
     public String branchNo = "";
 
@@ -212,7 +213,9 @@ public class AuthenticationModel extends BaseViewModel {
                 bankNumber.get(),
                 bankName.get(),
                 branchBankName.get(),
-                id_front_img + "", id_back_img + "", id_hold_img + "", bank_img + "", branchNo, id_front_img_id, id_back_img_id, id_hold_img_id, bank_img_id,
+                id_front_img, id_back_img, id_hold_img, bank_img,
+                branchNo,
+                id_front_img_id, id_back_img_id, id_hold_img_id, bank_img_id,
                 validityTime.get(),
                 zipCode.get(),
                 email.get(),
@@ -289,21 +292,21 @@ public class AuthenticationModel extends BaseViewModel {
                         switch (type) {
                             case 101:
                                 path1 = temp;
-                                id_front_img = uploadImageBean.getId();
+                                id_front_img = IMAGEURL + uploadImageBean.getRelative_path();
                                 id_front_img_id = uploadImageBean.getOss_key();
                                 break;
                             case 102:
                                 path2 = temp;
-                                id_back_img = uploadImageBean.getId();
+                                id_back_img = IMAGEURL + uploadImageBean.getRelative_path();
                                 id_back_img_id = uploadImageBean.getOss_key();
                                 break;
                             case 103:
-                                id_hold_img = uploadImageBean.getId();
+                                id_hold_img = IMAGEURL + uploadImageBean.getRelative_path();
                                 id_hold_img_id = uploadImageBean.getOss_key();
                                 path3 = temp;
                                 break;
                             case 104:
-                                bank_img = uploadImageBean.getId();
+                                bank_img = IMAGEURL + uploadImageBean.getRelative_path();
                                 bank_img_id = uploadImageBean.getOss_key();
                                 path4 = temp;
                                 break;
@@ -337,7 +340,7 @@ public class AuthenticationModel extends BaseViewModel {
                             bodyVisible.set(View.GONE);
                             labelAuthStatusVisible.set(View.VISIBLE);
                             buttonLabel.set("返回首页");
-                        } else if (userAuthDetailBean.getVerify() == 0) {
+                        } else if (userAuthDetailBean.getVerify() == 1) {
                             //认证成功
                             labelAuthStatus.set("恭喜您认证成功");
                             buttonLabel.set("返回首页");
@@ -346,13 +349,13 @@ public class AuthenticationModel extends BaseViewModel {
                             labelAuthStatusVisible.set(View.VISIBLE);
                             status = AUTH_SUCCESS;
                         } else if (userAuthDetailBean.getVerify() == -1) {
-                            buttonLabel.set("返回首页");
-                            //认证失败
+//                            //认证失败
                             labelAuthStatus.set("认证失败<br />很抱歉，您的认证信息未通过审核<br /> 请在<font color='red'>30</font>天后重审");
                             iconAuthStatus.set(getApplication().getResources().getDrawable(R.drawable.ic_auth_fail));
                             status = AUTH_FAIL;
                             bodyVisible.set(View.GONE);
                             labelAuthStatusVisible.set(View.VISIBLE);
+//                            bodyVisible.set(View.VISIBLE);
                             buttonLabel.set("返回首页");
                         } else if (userAuthDetailBean.getVerify() == 0) {
                             //未提交审核

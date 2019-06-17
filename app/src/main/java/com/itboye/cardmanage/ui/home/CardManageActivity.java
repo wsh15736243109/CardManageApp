@@ -38,7 +38,7 @@ public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBindi
                     add(PayOrSettlementCardFragment.newInstance("2", ""));
                 }}, null));
         //自动适配ViewPager页面切换
-        binding.viewPager.setCurrentItem(0);
+        binding.viewPager.setCurrentItem(getIntent().getIntExtra("type", 0));
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {

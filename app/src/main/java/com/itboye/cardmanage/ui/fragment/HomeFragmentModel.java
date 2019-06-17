@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.ui.fragment;
 
 import android.app.Application;
+import android.content.Intent;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,7 @@ import com.itboye.cardmanage.model.HomeTopModel;
 import com.itboye.cardmanage.model.LoanModel;
 import com.itboye.cardmanage.ui.home.CardManageActivity;
 import com.itboye.cardmanage.ui.home.ReceiveMoneyActivity;
+import com.itboye.cardmanage.ui.mine.RepaymentPlanActivity;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
@@ -99,5 +101,9 @@ public class HomeFragmentModel extends BaseViewModel {
         } else {
             startActivity(CardManageActivity.class);
         }
+    }
+
+    public void moreRepaymentPlan() {
+        startActivity(RepaymentPlanActivity.class);
     }
 }

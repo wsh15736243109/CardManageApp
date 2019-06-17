@@ -217,4 +217,24 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<String>> queryPayWays(@Field("service_type") String serviceType);
+
+    /**
+     * 创建自动收款订单
+     *
+     * @param amount
+     * @param note
+     * @param pay_card_id
+     * @param withdraw_card_id
+     * @param pay_channel_id
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> createPaymentOrder(@Field("amount") String amount,
+                                                        @Field("note") String note,
+                                                        @Field("pay_card_id") String pay_card_id,
+                                                        @Field("withdraw_card_id") String withdraw_card_id,
+                                                        @Field("pay_channel_id") String pay_channel_id, @Field("service_type") String serviceType);
 }

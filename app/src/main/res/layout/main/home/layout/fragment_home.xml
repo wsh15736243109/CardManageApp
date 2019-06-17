@@ -95,6 +95,7 @@
                     <TextView
                             android:layout_margin="@dimen/dp_4"
                             android:text="查看更多>>"
+                            android:onClick="@{()->viewModel.moreRepaymentPlan()}"
                             android:layout_width="wrap_content"
                             android:layout_alignParentRight="true"
                             android:drawablePadding="@dimen/dp_12"

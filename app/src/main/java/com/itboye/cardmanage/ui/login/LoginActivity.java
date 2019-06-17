@@ -1,7 +1,5 @@
 package com.itboye.cardmanage.ui.login;
 
-import android.app.Activity;
-import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.Observable;
 import android.os.Bundle;
 import com.itboye.cardmanage.R;
@@ -9,9 +7,6 @@ import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.databinding.ActivityLoginBinding;
 import com.itboye.cardmanage.util.TimeCount;
 import me.goldze.mvvmhabit.BR;
-import me.goldze.mvvmhabit.binding.command.BindingAction;
-import me.goldze.mvvmhabit.binding.command.BindingCommand;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class LoginActivity extends BaseMVVMActivity<ActivityLoginBinding, LoginModel> {
 

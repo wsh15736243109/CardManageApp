@@ -1,9 +1,11 @@
 package com.itboye.cardmanage.ui.home;
 
+import android.app.AlertDialog;
 import android.app.Application;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
+import android.widget.DatePicker;
 import com.itboye.cardmanage.bean.BranchBankBean;
 import com.itboye.cardmanage.retrofit.*;
 import com.itboye.cardmanage.util.UserUtil;
@@ -22,6 +24,9 @@ public class AddCardModel extends BaseViewModel {
     public ObservableField<String> bankName = new ObservableField<>("中国工商银行");//开户行名称
     public ObservableField<String> branchBankName = new ObservableField<>("杭州");//支行名称
     public ObservableField<String> reservedPhone = new ObservableField<>("13858066033");//预留手机号
+
+    public ObservableField<String> bill_date = new ObservableField<>("20201010");//账单日
+    public ObservableField<String> repayment_date = new ObservableField<>("20201010");//还款日
     public String branchNo = "";
     public int type = 0;
 
@@ -69,7 +74,7 @@ public class AddCardModel extends BaseViewModel {
         }
         if (type == 0) {
             //添加支付卡
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addPaymentCard(cardNumber.get(), bankName.get(), reservedPhone.get(), cardNumber.get().substring(cardNumber.get().length() - 3), "20201010", "", "", "by_Zmf_bindDebitCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addPaymentCard(cardNumber.get(), bankName.get(), reservedPhone.get(), cardNumber.get().substring(cardNumber.get().length() - 3), "20201010", bill_date.get(), repayment_date.get(), "by_Zmf_bindDebitCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
                 public void onResult(Object o, String msg) {
                     ToastUtils.showShort(msg + "====" + o);
@@ -100,6 +105,7 @@ public class AddCardModel extends BaseViewModel {
 
     public class UIChangeListener {
         ObservableBoolean searchBranch = new ObservableBoolean(false);
+        ObservableBoolean showDate = new ObservableBoolean(false);
     }
 
 
@@ -132,5 +138,12 @@ public class AddCardModel extends BaseViewModel {
     //搜索银行卡关联的银行信息
     public void bankInfoSearch() {
 
+    }
+
+    public int chooseType = 0;
+
+    public void showDate(int type) {
+        chooseType = type;
+        ui.showDate.set(!ui.showDate.get());
     }
 }

@@ -49,28 +49,24 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
         viewModel.ui.photo1.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-//                viewModel.ui.photo1.set(false);
                 openLibrary(101);
             }
         });
         viewModel.ui.photo2.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-//                viewModel.ui.photo2.set(false);
                 openLibrary(102);
             }
         });
         viewModel.ui.photo3.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-//                viewModel.ui.photo3.set(false);
                 openLibrary(103);
             }
         });
         viewModel.ui.photo4.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-//                viewModel.ui.photo4.set(false);
                 openLibrary(104);
             }
         });

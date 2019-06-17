@@ -1,8 +1,10 @@
 package com.itboye.cardmanage.ui.home;
 
+import android.app.DatePickerDialog;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import com.itboye.cardmanage.BR;
@@ -10,6 +12,7 @@ import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.bean.BranchBankBean;
 import com.itboye.cardmanage.databinding.ActivityAddCardBinding;
+import com.itboye.cardmanage.widget.TimePickerFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +49,26 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
                 }
             }
         });
+
+        viewModel.ui.showDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                showDate();
+            }
+        });
+    }
+
+    private void showDate() {
+        TimePickerFragment newFragment = new TimePickerFragment(this, (datePicker, i, i1, i2) -> {
+            if (viewModel.chooseType == 0) {
+                viewModel.bill_date.set(i + "" + i1 + "" + i2);
+            } else {
+                viewModel.repayment_date.set(i + "" + i1 + "" + i2);
+            }
+        }, 0, 0, 0);
+        newFragment.getDatePicker().setCalendarViewShown(false);
+        newFragment.getDatePicker().setSpinnersShown(true);
+        newFragment.show();
     }
 
     private void showBranchBankList(ArrayList<BranchBankBean> branchBankBeanArrayList) {
