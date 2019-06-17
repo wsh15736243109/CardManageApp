@@ -40,7 +40,8 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
 
     @Override
     public void initData() {
-
+        //先查询认证状态
+        viewModel.queryAuthStatus();
     }
 
     @Override

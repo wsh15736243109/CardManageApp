@@ -5,14 +5,11 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.bean.BranchBankBean;
 import com.itboye.cardmanage.bean.UploadImageBean;
+import com.itboye.cardmanage.bean.UserAuthDetailBean;
 import com.itboye.cardmanage.retrofit.*;
 import com.itboye.cardmanage.util.UserUtil;
 import me.goldze.mvvmhabit.base.BaseViewModel;
@@ -23,9 +20,7 @@ import okhttp3.RequestBody;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.itboye.cardmanage.ui.mine.AuthenticationModel.Status.*;
 import static com.itboye.cardmanage.util.ImageCompress.compress;
@@ -44,7 +39,12 @@ public class AuthenticationModel extends BaseViewModel {
     public ObservableField<String> email = new ObservableField<>("1147806268@qq.com");//邮箱
     public ObservableField<String> zipCode = new ObservableField<>("057111");//邮编
     public ObservableField<String> validityTime = new ObservableField<>("20211001");//证件有效期
+
+    public ObservableField<String> labelAuthStatus = new ObservableField<>("");//认证状态文字
+    public ObservableField<Drawable> iconAuthStatus = new ObservableField<>();//认证状态图标
+
     public ObservableField<String> label = new ObservableField<>("");//提示语
+    public ObservableField<String> buttonLabel = new ObservableField<>("");//按钮文字
 
     public ObservableField<Integer> photoIdentity = new ObservableField<>(View.VISIBLE);
     public ObservableField<Integer> authCard = new ObservableField<>(View.GONE);
@@ -52,6 +52,9 @@ public class AuthenticationModel extends BaseViewModel {
     public ObservableField<Integer> photo1 = new ObservableField<>(View.VISIBLE);
     public ObservableField<Integer> photo3 = new ObservableField<>(View.GONE);
     public ObservableField<Integer> photo4 = new ObservableField<>(View.GONE);
+
+    public ObservableField<Integer> bodyVisible = new ObservableField<>(View.GONE);
+    public ObservableField<Integer> labelAuthStatusVisible = new ObservableField<>(View.GONE);
 
     public ObservableField<Drawable> status1 = new ObservableField<>();
     public ObservableField<Drawable> status2 = new ObservableField<>();
@@ -129,6 +132,7 @@ public class AuthenticationModel extends BaseViewModel {
                 }
                 setThird();
                 status = PHOTO_CARD;
+                buttonLabel.set("提交审核");
                 break;
             case PHOTO_CARD:
                 if (bank_img_id == null) {
@@ -163,6 +167,11 @@ public class AuthenticationModel extends BaseViewModel {
                     submitAuth();
                 }
                 break;
+            case AUTH_FAIL:
+            case AUTH_ING:
+            case AUTH_SUCCESS:
+                finish();
+                break;
         }
     }
 
@@ -192,7 +201,6 @@ public class AuthenticationModel extends BaseViewModel {
                 });
 
     }
-
 
 
     private void submitAuth() {
@@ -230,6 +238,7 @@ public class AuthenticationModel extends BaseViewModel {
         authCard.set(View.VISIBLE);
         photo3.set(View.GONE);
         photo4.set(View.VISIBLE);
+        buttonLabel.set("提交审核");
         status2.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
     }
 
@@ -239,6 +248,7 @@ public class AuthenticationModel extends BaseViewModel {
         photo1.set(View.VISIBLE);
         photo3.set(View.GONE);
         label.set("请扫描身份证");
+        buttonLabel.set("下一步");
     }
 
     public void setSecond() {
@@ -249,6 +259,7 @@ public class AuthenticationModel extends BaseViewModel {
         photo1.set(View.GONE);
         photo3.set(View.VISIBLE);
         photo4.set(View.GONE);
+        buttonLabel.set("下一步");
     }
 
     UIChangeListener ui = new UIChangeListener();
@@ -308,6 +319,58 @@ public class AuthenticationModel extends BaseViewModel {
 
     }
 
+    public void queryAuthStatus() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).queryAuthInfo(
+                UserUtil.getUserInfo().getId() + "",
+                "by_UserIdCard_info"),
+                getLifecycleProvider(), disposable -> showDialog(),
+
+                new ApiDisposableObserver() {
+                    @Override
+                    public void onResult(Object o, String msg) {
+                        UserAuthDetailBean userAuthDetailBean = (UserAuthDetailBean) o;
+                        if (userAuthDetailBean.getVerify() == 2) {
+                            //认证中
+                            labelAuthStatus.set("资料提交成功正在审核<br /><font color='gray'>预计1-2个工作日完成，请耐心等待</font>");
+                            iconAuthStatus.set(getApplication().getResources().getDrawable(R.drawable.ic_auth_ing));
+                            status = AUTH_ING;
+                            bodyVisible.set(View.GONE);
+                            labelAuthStatusVisible.set(View.VISIBLE);
+                            buttonLabel.set("返回首页");
+                        } else if (userAuthDetailBean.getVerify() == 0) {
+                            //认证成功
+                            labelAuthStatus.set("恭喜您认证成功");
+                            buttonLabel.set("返回首页");
+                            iconAuthStatus.set(getApplication().getResources().getDrawable(R.drawable.ic_auth_success));
+                            bodyVisible.set(View.GONE);
+                            labelAuthStatusVisible.set(View.VISIBLE);
+                            status = AUTH_SUCCESS;
+                        } else if (userAuthDetailBean.getVerify() == -1) {
+                            buttonLabel.set("返回首页");
+                            //认证失败
+                            labelAuthStatus.set("认证失败<br />很抱歉，您的认证信息未通过审核<br /> 请在<font color='red'>30</font>天后重审");
+                            iconAuthStatus.set(getApplication().getResources().getDrawable(R.drawable.ic_auth_fail));
+                            status = AUTH_FAIL;
+                            bodyVisible.set(View.GONE);
+                            labelAuthStatusVisible.set(View.VISIBLE);
+                            buttonLabel.set("返回首页");
+                        } else if (userAuthDetailBean.getVerify() == 0) {
+                            //未提交审核
+                            status = INIT;
+                            bodyVisible.set(View.VISIBLE);
+                            labelAuthStatusVisible.set(View.GONE);
+                            buttonLabel.set("下一步");
+                        }
+                        ToastUtils.showShort(msg);
+                    }
+
+                    @Override
+                    public void dialogDismiss() {
+                        dismissDialog();
+                    }
+                });
+    }
+
     public class UIChangeListener {
         ObservableBoolean photo1 = new ObservableBoolean(false);
         ObservableBoolean photo2 = new ObservableBoolean(false);
@@ -335,6 +398,9 @@ public class AuthenticationModel extends BaseViewModel {
 
     enum Status {
         INIT,
+        AUTH_ING,
+        AUTH_SUCCESS,
+        AUTH_FAIL,
         PHOTO_IDENTITY,
         PHOTO_HAND_IDENTITY,
         PHOTO_CARD
