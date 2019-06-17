@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.ui.home;
 
 import android.app.Application;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
 import com.itboye.cardmanage.R;
@@ -11,6 +12,7 @@ public class CardManageModel extends BaseViewModel {
 
     public TextView tab1;
     public TextView tab2;
+    private int type;
 
     public CardManageModel(@NonNull Application application) {
         super(application);
@@ -22,7 +24,7 @@ public class CardManageModel extends BaseViewModel {
     }
 
     public void switchTitle(int type) {
-
+        this.type = type;
         switch (type) {
             case 0://支付卡
                 //选中第一个tab
@@ -49,6 +51,8 @@ public class CardManageModel extends BaseViewModel {
 
     //添加卡
     public void addCard() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", type);
         startActivity(AddCardActivity.class);
     }
 }

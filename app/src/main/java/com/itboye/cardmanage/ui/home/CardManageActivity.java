@@ -14,6 +14,8 @@ import java.util.ArrayList;
 public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBinding, CardManageModel> {
 
 
+    int selecctIndex = 0;
+
     @Override
     public int initContentView(Bundle savedInstanceState) {
         return R.layout.activity_card_manage;
@@ -46,6 +48,7 @@ public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBindi
             @Override
             public void onPageSelected(int i) {
                 viewModel.switchTitle(i);
+                selecctIndex = i;
             }
 
             @Override

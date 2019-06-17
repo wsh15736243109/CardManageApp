@@ -166,26 +166,27 @@ public interface API {
     /**
      * 绑定结算卡
      *
-     * @param user_id
-     * @param bank_card_id
+     * @param card_no     卡号
+     * @param bank_name   开户行
+     * @param mobile      预留手机号
      * @param serviceType
      * @return
      */
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> addSettlementCard(@Field("user_id") String user_id, @Field("bank_card_id") String bank_card_id, @Field("service_type") String serviceType);
+    Observable<BaseResponse<String>> addSettlementCard(@Field("card_no") String card_no, @Field("bank_name") String bank_name, @Field("mobile") String mobile, @Field("service_type") String serviceType);
 
     /**
      * 添加支付卡
      *
-     * @param card_no
-     * @param bank_name
-     * @param mobile
-     * @param cvn2
-     * @param expire_date
-     * @param bill_date
-     * @param repayment_date
+     * @param card_no        卡号
+     * @param bank_name      开户行
+     * @param mobile         预留手机号
+     * @param cvn2           信用卡背后3位
+     * @param expire_date    信用卡过期日期格式(YYMM)年月
+     * @param bill_date      账单日 几号1-31
+     * @param repayment_date 还款日 1-31
      * @param serviceType
      * @return
      */
