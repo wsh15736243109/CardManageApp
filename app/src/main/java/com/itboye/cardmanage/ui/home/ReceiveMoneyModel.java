@@ -33,8 +33,13 @@ public class ReceiveMoneyModel extends BaseViewModel {
         //立即下单
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createPaymentOrder(amount.get(), note.get(), pay_card_id, withdraw_card_id, pay_channel_id, "by_CbOrder_autoReceipt"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
-            public void onResult(Object o, String msg) {
+            public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(msg);
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
             }
 
             @Override

@@ -20,7 +20,7 @@
                                                        android:layout_height="match_parent"
                                                        android:background="@color/line_gray_d8d8d8">
 
-        <LinearLayout
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:layout_height="match_parent">
@@ -36,6 +36,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-        </LinearLayout>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="@{viewModel.isEmpty}"
+                    android:text="暂无卡片，请添加银行卡"
+                    android:drawableTop="@drawable/ic_card_empty"
+                    android:layout_height="wrap_content"/>
+        </RelativeLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </layout>

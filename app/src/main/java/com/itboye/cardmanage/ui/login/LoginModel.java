@@ -61,11 +61,17 @@ public class LoginModel extends BaseViewModel {
 
                     new ApiDisposableObserver() {
                         @Override
-                        public void onResult(Object o, String msg) {
+                        public void onResult(Object o, String msg, int code) {
                             UserUtil.saveUser((UserInfoBean) o);
                             ToastUtils.showShort(msg);
                             startActivity(MainActivity.class);
                             finish();
+                        }
+
+
+                        @Override
+                        public void onError(int code, String msg) {
+
                         }
 
                         @Override
@@ -79,11 +85,16 @@ public class LoginModel extends BaseViewModel {
 
                     new ApiDisposableObserver() {
                         @Override
-                        public void onResult(Object o, String msg) {
+                        public void onResult(Object o, String msg, int code) {
                             ToastUtils.showShort(msg);
                             UserUtil.saveUser((UserInfoBean) o);
                             startActivity(MainActivity.class);
                             finish();
+                        }
+
+                        @Override
+                        public void onError(int code, String msg) {
+
                         }
 
                         @Override
@@ -114,10 +125,15 @@ public class LoginModel extends BaseViewModel {
 
                     new ApiDisposableObserver() {
                         @Override
-                        public void onResult(Object o, String msg) {
+                        public void onResult(Object o, String msg, int code) {
                             ToastUtils.showShort(msg);
                             startActivity(MainActivity.class);
                             finish();
+                        }
+
+                        @Override
+                        public void onError(int code, String msg) {
+
                         }
 
                         @Override
@@ -142,15 +158,20 @@ public class LoginModel extends BaseViewModel {
                 ToastUtils.showShort("两次密码不一致");
                 return;
             }
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).forgetPasswordByCode(userName.get(), confirm_userPassword.get(), userYzm.get(), COUNTRY_NO, userPassword.get(), "by_UserLoginSession_registerByMobileCode"),
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).forgetPasswordByCode(userName.get(), "", "android", "", userYzm.get(), "by_UserLoginSession_registerByMobileCode"),
                     getLifecycleProvider(), disposable -> showDialog(),
 
                     new ApiDisposableObserver() {
                         @Override
-                        public void onResult(Object o, String msg) {
+                        public void onResult(Object o, String msg, int code) {
                             ToastUtils.showShort(msg);
                             startActivity(MainActivity.class);
                             finish();
+                        }
+
+                        @Override
+                        public void onError(int code, String msg) {
+
                         }
 
                         @Override
@@ -255,10 +276,15 @@ public class LoginModel extends BaseViewModel {
 
                 new ApiDisposableObserver() {
                     @Override
-                    public void onResult(Object o, String msg) {
+                    public void onResult(Object o, String msg, int code) {
                         ToastUtils.showShort(msg);
                         //获取验证码
                         uc.registerCountDown.set(true);
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+
                     }
 
                     @Override

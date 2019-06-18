@@ -105,12 +105,7 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
     //选择图片
     private void openLibrary(int requestCode) {
         ImageConfig imageConfig
-                = new ImageConfig.Builder(new ImageLoader() {
-            @Override
-            public void displayImage(Context context, String path, ImageView imageView) {
-                GlideUtil.display(context, path, imageView);
-            }
-        })
+                = new ImageConfig.Builder((ImageLoader) (context, path, imageView) -> GlideUtil.display(context, path, imageView))
                 .steepToolBarColor(getApplication().getResources().getColor(R.color.white))
                 .titleBgColor(getApplication().getResources().getColor(R.color.white))
                 .titleSubmitTextColor(getApplication().getResources().getColor(R.color.white))
@@ -152,23 +147,23 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
             viewModel.uploadImage(path, requestCode);
         }
     }
-
-    @Override
-    public void onBackPressed() {
-        switch (viewModel.status) {
-            case PHOTO_IDENTITY:
-                finish();
-                break;
-            case PHOTO_HAND_IDENTITY:
-                viewModel.setFirst();
-                viewModel.status = AuthenticationModel.Status.INIT;
-                break;
-            case PHOTO_CARD:
-                viewModel.status = AuthenticationModel.Status.PHOTO_IDENTITY;
-                viewModel.setSecond();
-                break;
-        }
-//        viewModel.setCurrentItem();
-//        super.onBackPressed();
-    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        switch (viewModel.status) {
+//            case PHOTO_IDENTITY:
+//                finish();
+//                break;
+//            case PHOTO_HAND_IDENTITY:
+//                viewModel.setFirst();
+//                viewModel.status = AuthenticationModel.Status.INIT;
+//                break;
+//            case PHOTO_CARD:
+//                viewModel.status = AuthenticationModel.Status.PHOTO_IDENTITY;
+//                viewModel.setSecond();
+//                break;
+//        }
+////        viewModel.setCurrentItem();
+////        super.onBackPressed();
+//    }
 }

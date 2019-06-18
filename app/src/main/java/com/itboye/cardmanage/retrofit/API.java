@@ -9,6 +9,7 @@ import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface API {
@@ -137,6 +138,36 @@ public interface API {
                                                  @Field("address") String address,
                                                  @Field("service_type") String service_type);
 
+    /**
+     * 用户更新用户认证接口
+     *
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> userUpdateAuth(@Field("user_id") String user_id,
+                                                 @Field("mobile") String mobile,
+                                                 @Field("name") String name,
+                                                 @Field("id_no") String id_no,
+                                                 @Field("card_no") String card_no,
+                                                 @Field("opening_bank") String opening_bank,
+                                                 @Field("branch_bank") String branch_bank,
+                                                 @Field("id_front_img") String id_front_img,
+                                                 @Field("id_back_img") String id_back_img,
+                                                 @Field("id_hold_img") String id_hold_img,
+                                                 @Field("bank_img") String bank_img,
+                                                 @Field("branch_no") String branch_no,
+                                                 @Field("id_front_img_id") String id_front_img_id,
+                                                 @Field("id_back_img_id") String id_back_img_id,
+                                                 @Field("id_hold_img_id") String id_hold_img_id,
+                                                 @Field("bank_img_id") String bank_img_id,
+                                                 @Field("expire_date") String validityTime,
+                                                 @Field("zipcode") String zipCode,
+                                                 @Field("email") String email,
+                                                 @Field("address") String address,
+                                                 @Field("service_type") String service_type);
+
     @Headers("Content-Type:application/x-www-form-urlencoded;charset=utf-8")
     @FormUrlEncoded
     @POST("/")
@@ -161,7 +192,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> cardList(@Field("card_usage") String card_usage, @Field("page_index") String page_index, @Field("page_size") String page_size, @Field("service_type") String serviceType);
+    Observable<BaseResponse<ArrayList<String>>> cardList(@Field("card_usage") String card_usage, @Field("page_index") String page_index, @Field("page_size") String page_size, @Field("service_type") String serviceType);
 
     /**
      * 绑定结算卡

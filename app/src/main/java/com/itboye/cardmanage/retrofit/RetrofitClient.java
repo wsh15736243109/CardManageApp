@@ -141,21 +141,6 @@ public class RetrofitClient {
                                 e.printStackTrace();
                             }
                         }
-//                        Set<String> keySet = request.url().queryParameterNames();
-//                        JSONObject jsonObject = new JSONObject();
-//                        Iterator<String> iterator = keySet.iterator();
-//                        while (iterator.hasNext()) {
-//                            String key = iterator.next();
-//                            if (key.equals("service_type")) {
-//                                continue;
-//                            }
-//                            String value = request.url().queryParameter(key);
-//                            try {
-//                                jsonObject.put(key, value);
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
                         if (serviceType == null) {
                             throw new RuntimeException("缺少 service_type参数");
                         }

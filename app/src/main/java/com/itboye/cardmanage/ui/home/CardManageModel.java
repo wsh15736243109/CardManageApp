@@ -1,6 +1,8 @@
 package com.itboye.cardmanage.ui.home;
 
 import android.app.Application;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableInt;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ public class CardManageModel extends BaseViewModel {
     public TextView tab1;
     public TextView tab2;
     private int type;
+    public ObservableInt selectIndex = new ObservableInt(1);
 
     public CardManageModel(@NonNull Application application) {
         super(application);
@@ -47,6 +50,7 @@ public class CardManageModel extends BaseViewModel {
                 tab1.setTextColor(ContextCompat.getColor(getApplication(), R.color.red));
                 break;
         }
+        selectIndex.set(type);
     }
 
     //添加卡

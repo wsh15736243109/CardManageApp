@@ -29,7 +29,7 @@ import static com.itboye.cardmanage.util.ImageCompress.compress;
 public class AuthenticationModel extends BaseViewModel {
 
     public ObservableField<String> bankReservePhone = new ObservableField<>("13858066033");//银行预留手机
-    public ObservableField<String> branchBankName = new ObservableField<>("中国工商银行西湖支行");//支行名称
+    public ObservableField<String> branchBankName = new ObservableField<>("中国工商银行股份有限公司杭州南苑支行");//支行名称
     public ObservableField<String> bankName = new ObservableField<>("中国工商银行");//银行名称
     public ObservableField<String> bankNumberAgain = new ObservableField<>("6222081202007602202");//再次银行卡账号
     public ObservableField<String> bankNumber = new ObservableField<>("6222081202007602202");//银行卡号
@@ -189,10 +189,15 @@ public class AuthenticationModel extends BaseViewModel {
 
                 new ApiDisposableObserver() {
                     @Override
-                    public void onResult(Object o, String msg) {
+                    public void onResult(Object o, String msg, int code) {
                         branchBankBeanArrayList = (ArrayList<BranchBankBean>) o;
                         ui.searchBranch.set(!ui.searchBranch.get());
                         ToastUtils.showShort(msg);
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+
                     }
 
                     @Override
@@ -225,8 +230,53 @@ public class AuthenticationModel extends BaseViewModel {
 
                 new ApiDisposableObserver() {
                     @Override
-                    public void onResult(Object o, String msg) {
+                    public void onResult(Object o, String msg, int code) {
                         ToastUtils.showShort(msg);
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+                        if (code == -2) {
+                            //重新调用更新更新认证信息接口
+                            AppUtils.upload(RetrofitClient.getInstance().create(API.class).userAddAuth(
+                                    UserUtil.getUserInfo().getId() + "",
+                                    bankReservePhone.get(),
+                                    realName.get(),
+                                    idnumber.get(),
+                                    bankNumber.get(),
+                                    bankName.get(),
+                                    branchBankName.get(),
+                                    id_front_img, id_back_img, id_hold_img, bank_img,
+                                    branchNo,
+                                    id_front_img_id, id_back_img_id, id_hold_img_id, bank_img_id,
+                                    validityTime.get(),
+                                    zipCode.get(),
+                                    email.get(),
+                                    addr.get(),
+                                    "by_UserIdCard_updateAuthInfo"),
+                                    getLifecycleProvider(), disposable -> showDialog(),
+
+                                    new ApiDisposableObserver() {
+                                        @Override
+                                        public void onResult(Object o, String msg, int code) {
+                                            ToastUtils.showShort(msg);
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void onError(int code, String msg) {
+                                            if (code == -2) {
+                                                //重新调用更新更新认证信息接口
+//                                                ToastUtils.showShort("需要重新更新用户信息");
+                                            }
+                                        }
+
+                                        @Override
+                                        public void dialogDismiss() {
+                                            dismissDialog();
+                                        }
+                                    });
+                        }
                     }
 
                     @Override
@@ -287,7 +337,7 @@ public class AuthenticationModel extends BaseViewModel {
 
                 new ApiDisposableObserver() {
                     @Override
-                    public void onResult(Object o, String msg) {
+                    public void onResult(Object o, String msg, int code) {
                         UploadImageBean uploadImageBean = (UploadImageBean) o;
                         switch (type) {
                             case 101:
@@ -315,6 +365,11 @@ public class AuthenticationModel extends BaseViewModel {
                     }
 
                     @Override
+                    public void onError(int code, String msg) {
+
+                    }
+
+                    @Override
                     public void dialogDismiss() {
                         dismissDialog();
                     }
@@ -330,7 +385,7 @@ public class AuthenticationModel extends BaseViewModel {
 
                 new ApiDisposableObserver() {
                     @Override
-                    public void onResult(Object o, String msg) {
+                    public void onResult(Object o, String msg, int code) {
                         UserAuthDetailBean userAuthDetailBean = (UserAuthDetailBean) o;
                         if (userAuthDetailBean.getVerify() == 2) {
                             //认证中
@@ -348,23 +403,35 @@ public class AuthenticationModel extends BaseViewModel {
                             bodyVisible.set(View.GONE);
                             labelAuthStatusVisible.set(View.VISIBLE);
                             status = AUTH_SUCCESS;
-                        } else if (userAuthDetailBean.getVerify() == -1) {
-//                            //认证失败
-                            labelAuthStatus.set("认证失败<br />很抱歉，您的认证信息未通过审核<br /> 请在<font color='red'>30</font>天后重审");
-                            iconAuthStatus.set(getApplication().getResources().getDrawable(R.drawable.ic_auth_fail));
-                            status = AUTH_FAIL;
-                            bodyVisible.set(View.GONE);
-                            labelAuthStatusVisible.set(View.VISIBLE);
-//                            bodyVisible.set(View.VISIBLE);
-                            buttonLabel.set("返回首页");
-                        } else if (userAuthDetailBean.getVerify() == 0) {
+                        }
+//                        else if (userAuthDetailBean.getVerify() == -1) {
+////                            //认证失败
+//                            labelAuthStatus.set("认证失败<br />很抱歉，您的认证信息未通过审核<br /> 请在<font color='red'>30</font>天后重审");
+//                            iconAuthStatus.set(getApplication().getResources().getDrawable(R.drawable.ic_auth_fail));
+//                            status = AUTH_FAIL;
+//                            bodyVisible.set(View.GONE);
+//                            labelAuthStatusVisible.set(View.VISIBLE);
+////                            bodyVisible.set(View.VISIBLE);
+//                            buttonLabel.set("返回首页");
+//                        }
+                        else if (userAuthDetailBean.getVerify() == 0 || userAuthDetailBean.getVerify() == -1) {
                             //未提交审核
                             status = INIT;
                             bodyVisible.set(View.VISIBLE);
                             labelAuthStatusVisible.set(View.GONE);
                             buttonLabel.set("下一步");
                         }
-                        ToastUtils.showShort(msg);
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+                        if (code==-2) {
+                            //未提交审核
+                            status = INIT;
+                            bodyVisible.set(View.VISIBLE);
+                            labelAuthStatusVisible.set(View.GONE);
+                            buttonLabel.set("下一步");
+                        }
                     }
 
                     @Override

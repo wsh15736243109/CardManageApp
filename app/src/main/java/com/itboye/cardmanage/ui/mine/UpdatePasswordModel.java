@@ -45,8 +45,13 @@ public class UpdatePasswordModel extends BaseViewModel {
 
                 new ApiDisposableObserver() {
                     @Override
-                    public void onResult(Object o, String msg) {
+                    public void onResult(Object o, String msg, int code) {
                         ToastUtils.showShort(msg);
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+
                     }
 
                     @Override

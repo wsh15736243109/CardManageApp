@@ -1,5 +1,6 @@
 package com.itboye.cardmanage.ui.home;
 
+import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -54,6 +55,16 @@ public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBindi
             @Override
             public void onPageScrollStateChanged(int i) {
 
+            }
+        });
+    }
+
+    @Override
+    public void initViewObservable() {
+        viewModel.selectIndex.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                binding.viewPager.setCurrentItem(viewModel.selectIndex.get());
             }
         });
     }

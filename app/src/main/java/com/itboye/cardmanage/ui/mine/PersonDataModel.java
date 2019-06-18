@@ -58,7 +58,7 @@ public class PersonDataModel extends BaseViewModel {
 
                 new ApiDisposableObserver() {
                     @Override
-                    public void onResult(Object o, String msg) {
+                    public void onResult(Object o, String msg, int code) {
                         UploadImageBean uploadImageBean = (UploadImageBean) o;
                         //重新更新本地用户缓存
                         UserInfoBean userInfoBean = UserUtil.getUserInfo();
@@ -66,6 +66,11 @@ public class PersonDataModel extends BaseViewModel {
                         UserUtil.saveUser(userInfoBean);
                         ToastUtils.showShort(msg);
                         finish();
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+
                     }
 
                     @Override
@@ -92,13 +97,18 @@ public class PersonDataModel extends BaseViewModel {
 
                 new ApiDisposableObserver() {
                     @Override
-                    public void onResult(Object o, String msg) {
+                    public void onResult(Object o, String msg, int code) {
                         //重新更新本地用户缓存
                         UserInfoBean userInfoBean = UserUtil.getUserInfo();
                         userInfoBean.setNickname(nickName.get());
                         UserUtil.saveUser(userInfoBean);
                         ToastUtils.showShort(msg);
                         finish();
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+
                     }
 
                     @Override

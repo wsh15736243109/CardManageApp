@@ -74,10 +74,16 @@ public class AddCardModel extends BaseViewModel {
         }
         if (type == 0) {
             //添加支付卡
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addPaymentCard(cardNumber.get(), bankName.get(), reservedPhone.get(), cardNumber.get().substring(cardNumber.get().length() - 3), "20201010", bill_date.get(), repayment_date.get(), "by_Zmf_bindDebitCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addPaymentCard(cardNumber.get(), bankName.get(), reservedPhone.get(), cardNumber.get().substring(cardNumber.get().length() - 3), "20201010", bill_date.get(), repayment_date.get(), "by_UserBankCard_bindPayCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
-                public void onResult(Object o, String msg) {
+                public void onResult(Object o, String msg, int code) {
                     ToastUtils.showShort(msg + "====" + o);
+                }
+
+
+                @Override
+                public void onError(int code, String msg) {
+
                 }
 
                 @Override
@@ -87,10 +93,15 @@ public class AddCardModel extends BaseViewModel {
             });
         } else if (type == 1) {
             //添加结算卡
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addSettlementCard(cardNumber.get(), bankName.get(), reservedPhone.get(), "by_Zmf_bindDebitCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addSettlementCard(cardNumber.get(), bankName.get(), reservedPhone.get(), "by_UserBankCard_bindDebitCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
-                public void onResult(Object o, String msg) {
+                public void onResult(Object o, String msg, int code) {
                     ToastUtils.showShort(msg + "====" + o);
+                }
+
+                @Override
+                public void onError(int code, String msg) {
+
                 }
 
                 @Override
@@ -122,10 +133,15 @@ public class AddCardModel extends BaseViewModel {
 
                 new ApiDisposableObserver() {
                     @Override
-                    public void onResult(Object o, String msg) {
+                    public void onResult(Object o, String msg, int code) {
                         branchBankBeanArrayList = (ArrayList<BranchBankBean>) o;
                         ui.searchBranch.set(!ui.searchBranch.get());
                         ToastUtils.showShort(msg);
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+
                     }
 
                     @Override

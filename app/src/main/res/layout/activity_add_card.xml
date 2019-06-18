@@ -182,7 +182,6 @@
                             android:layout_height="wrap_content"
                             android:text="@={viewModel.bankName}"
                             android:textSize="@dimen/dp_12"
-                            android:enabled="false"
                             android:background="@null"
                             android:layout_marginLeft="@dimen/dp_12"
                             android:layout_marginRight="@dimen/dp_12"/>

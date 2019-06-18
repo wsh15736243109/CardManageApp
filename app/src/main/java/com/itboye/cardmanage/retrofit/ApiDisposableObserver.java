@@ -16,7 +16,9 @@ import static com.itboye.cardmanage.retrofit.ApiDisposableObserver.CodeRule.CODE
  */
 
 public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
-    public abstract void onResult(T t, String msg);
+    public abstract void onResult(T t, String msg, int code);
+
+    public abstract void onError(int code, String msg);
 
 
     public abstract void dialogDismiss();
@@ -36,6 +38,7 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
         KLog.e(e.getMessage());
         if (e.getCause() instanceof DataResultException) {
             DataResultException rError = (DataResultException) e.getCause();
+            onError(rError.getCode(), rError.getMessage());
             ToastUtils.showShort(rError.getMessage());
             return;
         } else if (e instanceof ResponseThrowable) {
@@ -66,7 +69,7 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
             case 200:
             case 0:
                 if (baseResponse.getData() != null)
-                    onResult((T) baseResponse.getData(), baseResponse.getMsg());
+                    onResult((T) baseResponse.getData(), baseResponse.getMsg(), baseResponse.getCode());
                 break;
             case CODE__1006:
                 ToastUtils.showShort(baseResponse.getMsg());

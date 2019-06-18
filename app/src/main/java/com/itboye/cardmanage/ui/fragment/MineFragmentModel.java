@@ -11,6 +11,7 @@ import com.itboye.cardmanage.util.UserUtil;
 import com.itboye.cardmanage.web.WebActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import me.goldze.mvvmhabit.base.BaseViewModel;
+import me.goldze.mvvmhabit.utils.KLog;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class MineFragmentModel extends BaseViewModel {
@@ -21,6 +22,7 @@ public class MineFragmentModel extends BaseViewModel {
     public MineFragmentModel(@NonNull Application application) {
         super(application);
         ToastUtils.showShort(headUrl.get());
+        KLog.v("头像地址=" + UserUtil.getUserInfo().getAvatar());
         headUrl.set(UserUtil.getUserInfo().getAvatar());
     }
 
