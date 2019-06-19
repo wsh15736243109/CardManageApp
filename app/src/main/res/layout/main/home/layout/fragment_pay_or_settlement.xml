@@ -15,7 +15,6 @@
     </data>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                       xmlns:tools="http://schemas.android.com/tools"
                                                        android:layout_width="match_parent"
                                                        android:layout_height="match_parent"
                                                        android:background="@color/line_gray_d8d8d8">
@@ -25,15 +24,15 @@
                 android:orientation="vertical"
                 android:layout_height="match_parent">
 
-            <!--
-                                app:itemBinding="@{viewModel.itemBinding}"
-                                app:items="@{viewModel.xiaoEJiSu}"
-                                app:layoutManager="@{LayoutManagers.grid(3)}"
-                                app:lineManager="@{LineManagers.both()}"-->
+
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:background="@color/white"
                     android:layout_width="match_parent"
+                    app:itemBinding="@{viewModel.itemBinding}"
+                    app:items="@{viewModel.observableList}"
+                    app:layoutManager="@{LayoutManagers.linear()}"
+                    app:lineManager="@{LineManagers.vertical()}"
                     android:layout_height="wrap_content"/>
 
             <TextView
