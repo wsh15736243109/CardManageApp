@@ -41,10 +41,9 @@
         <activity android:name=".ui.mine.RepaymentDetailActivity"/>
         <activity android:name=".ui.mine.ChoosePreCardActivity"/>
         <activity android:name=".ui.home.CardManageActivity"/>
-        <activity android:name=".ui.home.AddCardActivity">
-        </activity>
-        <activity android:name=".ui.home.ReceiveMoneyActivity">
-        </activity>
+        <activity android:name=".ui.home.AddCardActivity"/>
+        <activity android:name=".ui.home.ReceiveMoneyActivity"/>
+        <activity android:name=".ui.home.CardDetailActivity"/>
     </application>
 
 </manifest>

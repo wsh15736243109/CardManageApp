@@ -35,7 +35,7 @@ public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBindi
 
         binding.viewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager(),
                 new ArrayList<Fragment>() {{
-                    add(PayOrSettlementCardFragment.newInstance("1", ""));
+                    add(PayOrSettlementCardFragment.newInstance("3", ""));
                     add(PayOrSettlementCardFragment.newInstance("2", ""));
                 }}, null));
         //自动适配ViewPager页面切换

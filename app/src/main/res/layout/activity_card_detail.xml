@@ -41,19 +41,18 @@
                     android:layout_width="wrap_content"
                     android:layout_toRightOf="@+id/iv_bank_icon"
                     app:layout_constraintTop_toTopOf="@+id/iv_bank_icon"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_bank_icon"
                     app:layout_constraintLeft_toRightOf="@+id/iv_bank_icon"
                     android:layout_marginLeft="@dimen/dp_6"
-                    android:text="上海银行信用卡"
+                    android:text="@{viewModel.bankName}"
                     android:layout_height="wrap_content"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_toRightOf="@+id/iv_bank_icon"
-                    app:layout_constraintTop_toTopOf="@+id/iv_bank_icon"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_bank_icon"
                     app:layout_constraintLeft_toRightOf="@+id/iv_bank_icon"
                     android:layout_marginLeft="@dimen/dp_6"
+                    android:text="@{viewModel.cardNo}"
                     android:layout_height="wrap_content"/>
         </android.support.constraint.ConstraintLayout>
 
@@ -63,6 +62,7 @@
                 android:layout_marginTop="@dimen/dp_12"
                 android:background="@drawable/view_bg_white_grey_selector"
                 android:gravity="center_vertical"
+                android:onClick="@{()->viewModel.clickListen(1)}"
                 android:orientation="horizontal">
 
             <TextView
@@ -78,6 +78,8 @@
                     android:layout_height="wrap_content"
                     android:hint="选择账单日"
                     android:textSize="@dimen/dp_12"
+                    android:text="@={viewModel.billDate}"
+                    android:enabled="false"
                     android:background="@null"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginRight="@dimen/dp_12"/>
@@ -88,6 +90,7 @@
                 android:layout_height="46dp"
                 android:layout_marginTop="@dimen/dp_1"
                 android:background="@drawable/view_bg_white_grey_selector"
+                android:onClick="@{()->viewModel.clickListen(2)}"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -103,9 +106,66 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="选择还款日"
+                    android:text="@={viewModel.repaymentDate}"
+                    android:textSize="@dimen/dp_12"
+                    android:enabled="false"
+                    android:background="@null"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_marginRight="@dimen/dp_12"/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@drawable/view_bg_white_grey_selector"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:drawablePadding="@dimen/dp_4"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:text="安全码"
+                    android:textSize="14sp"/>
+
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入信用卡背后安全码后三位数"
+                    android:text="@={viewModel.securityCode}"
                     android:textSize="@dimen/dp_12"
                     android:background="@null"
                     android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_marginRight="@dimen/dp_12"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@drawable/view_bg_white_grey_selector"
+                android:gravity="center_vertical"
+                android:onClick="@{()->viewModel.clickListen(4)}"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:drawablePadding="@dimen/dp_4"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:text="有效日期"
+                    android:textSize="14sp"/>
+
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入信用卡有效时间"
+                    android:textSize="@dimen/dp_12"
+                    android:background="@null"
+                    android:text="@={viewModel.validDate}"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:enabled="false"
                     android:layout_marginRight="@dimen/dp_12"/>
         </LinearLayout>
 
@@ -128,7 +188,7 @@
             <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="￥5000"
+                    android:text="@={viewModel.singleLimit}"
                     android:textSize="@dimen/dp_12"
                     android:background="@null"
                     android:layout_marginLeft="@dimen/dp_12"
@@ -154,9 +214,10 @@
             <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="￥5000"
+                    android:hint=""
                     android:textSize="@dimen/dp_12"
                     android:background="@null"
+                    android:text="@={viewModel.oneDayLimit}"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginRight="@dimen/dp_12"/>
         </LinearLayout>

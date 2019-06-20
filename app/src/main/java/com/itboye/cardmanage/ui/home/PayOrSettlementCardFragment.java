@@ -7,10 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
+import com.itboye.cardmanage.adapter.CardManageItemAdapter;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
 import com.itboye.cardmanage.databinding.FragmentLoanBinding;
@@ -32,7 +37,7 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
     List<Fragment> mFragmentList;
     List<String> mTitles;
     FragmentPageAdapter mFragmentPageAdapter;
-    private String cardUse = "1";
+    private String cardUse = "3";
     int pageIndex = 1;
 
     public PayOrSettlementCardFragment() {
@@ -92,6 +97,15 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
         DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         decoration.setDrawable(drawable);
         binding.recyclerView.addItemDecoration(decoration);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        viewModel.adapter = new CardManageItemAdapter(viewModel.observableList);
+        viewModel.adapter.bindToRecyclerView(binding.recyclerView);
+        viewModel.adapter.setOnItemChildClickListener((adapter, view, position) -> {
+            ToastUtils.showShort("进入卡片详情");
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("model", viewModel.observableList.get(position));
+            startActivity(CardDetailActivity.class,bundle);
+        });
         viewModel.getCardList(cardUse, pageIndex);
     }
 

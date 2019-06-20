@@ -5,6 +5,7 @@ import com.itboye.cardmanage.bean.UploadImageBean;
 import com.itboye.cardmanage.bean.UserAuthDetailBean;
 import com.itboye.cardmanage.bean.UserInfoBean;
 
+import com.itboye.cardmanage.model.CardManageModel;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.*;
@@ -192,7 +193,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<ArrayList<String>>> cardList(@Field("card_usage") String card_usage, @Field("page_index") String page_index, @Field("page_size") String page_size, @Field("service_type") String serviceType);
+    Observable<BaseResponse<ArrayList<CardManageModel>>> cardList(@Field("card_usage") String card_usage, @Field("page_index") String page_index, @Field("page_size") String page_size, @Field("service_type") String serviceType);
 
     /**
      * 绑定结算卡
