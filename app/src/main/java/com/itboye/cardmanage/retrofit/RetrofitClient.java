@@ -145,6 +145,7 @@ public class RetrofitClient {
                             throw new RuntimeException("缺少 service_type参数");
                         }
                         String json = json1.toString();
+                        json = json.equals("{}") ? "" : json;
                         Log.d(TAG, time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
 //                        KLog.d("sign====" + (time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json));
                         body = new FormBody.Builder()

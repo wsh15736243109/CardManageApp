@@ -24,6 +24,7 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
 
     @Override
     public void initData() {
-
+        //获取支付通道
+        viewModel.getPayWay();
     }
 }

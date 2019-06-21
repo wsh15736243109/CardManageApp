@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.retrofit;
 
 
+import com.itboye.cardmanage.bean.PayWaybean;
 import com.itboye.cardmanage.bean.UploadImageBean;
 import com.itboye.cardmanage.bean.UserAuthDetailBean;
 import com.itboye.cardmanage.bean.UserInfoBean;
@@ -248,7 +249,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> queryPayWays(@Field("service_type") String serviceType);
+    Observable<BaseResponse<ArrayList<PayWaybean>>> queryPayWays(@Field("service_type") String serviceType);
 
     /**
      * 创建自动收款订单

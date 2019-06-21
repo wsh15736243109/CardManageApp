@@ -130,7 +130,7 @@
                     android:textSize="14sp"/>
 
             <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="请输入信用卡背后安全码后三位数"
                     android:text="@={viewModel.securityCode}"
@@ -186,7 +186,7 @@
                     android:textSize="14sp"/>
 
             <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@={viewModel.singleLimit}"
                     android:textSize="@dimen/dp_12"
@@ -212,7 +212,7 @@
                     android:textSize="14sp"/>
 
             <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint=""
                     android:textSize="@dimen/dp_12"

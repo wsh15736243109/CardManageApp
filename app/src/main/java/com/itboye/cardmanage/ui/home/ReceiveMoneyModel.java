@@ -4,6 +4,7 @@ import android.app.Application;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import com.itboye.cardmanage.bean.PayWaybean;
 import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
@@ -12,6 +13,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.ToastUtils;
+
+import java.util.ArrayList;
 
 public class ReceiveMoneyModel extends BaseViewModel {
 
@@ -53,6 +56,26 @@ public class ReceiveMoneyModel extends BaseViewModel {
         //选择支付卡
         Bundle bundle = new Bundle();
         bundle.putInt("type", 0);
-        startActivity(CardManageActivity.class,bundle);
+        startActivity(CardManageActivity.class, bundle);
+    }
+
+    public void getPayWay() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).queryPayWays("by_PaymentChannel_query"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+            @Override
+            public void onResult(Object o, String msg, int code) {
+                ArrayList<PayWaybean> payWaybeanArrayList = (ArrayList<PayWaybean>) o;
+                ToastUtils.showShort(msg+"payWaybeanArrayList"+payWaybeanArrayList.toString());
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
+            }
+
+            @Override
+            public void dialogDismiss() {
+                dismissDialog();
+            }
+        });
     }
 }
