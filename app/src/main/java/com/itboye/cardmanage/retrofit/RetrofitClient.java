@@ -147,6 +147,7 @@ public class RetrofitClient {
                         String json = json1.toString();
                         json = json.equals("{}") ? "" : json;
                         Log.d(TAG, time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
+                        String sign = DataSignatureUtil.md5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
 //                        KLog.d("sign====" + (time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json));
                         body = new FormBody.Builder()
                                 .add("app_type", "android")
@@ -161,8 +162,7 @@ public class RetrofitClient {
                                 .add("sid", UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getSid())
                                 .add("app_request_time", time + "")
                                 .add("buss_data", json)
-                                .add("sign", DataSignatureUtil.md5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json))
-//                                .add("sign",sign)
+                                .add("sign", sign)
                                 .build();
                     }
                     // 若请求体不为Null，重新构建post请求，并传入修改后的参数体

@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.app.Application;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.DatePicker;
 import com.itboye.cardmanage.bean.BranchBankBean;
 import com.itboye.cardmanage.retrofit.*;
@@ -27,6 +29,8 @@ public class AddCardModel extends BaseViewModel {
 
     public ObservableField<String> bill_date = new ObservableField<>("20201010");//账单日
     public ObservableField<String> repayment_date = new ObservableField<>("20201010");//还款日
+    public ObservableInt cardJieSuanKa = new ObservableInt(View.VISIBLE);//结算卡
+    public ObservableInt cardZhiFuKa = new ObservableInt(View.GONE);//支付卡
     public String branchNo = "";
     public int type = 0;
 
@@ -114,6 +118,9 @@ public class AddCardModel extends BaseViewModel {
 
     UIChangeListener ui = new UIChangeListener();
 
+    public void setAddCardType(int type) {
+    }
+
     public class UIChangeListener {
         ObservableBoolean searchBranch = new ObservableBoolean(false);
         ObservableBoolean showDate = new ObservableBoolean(false);
@@ -161,5 +168,18 @@ public class AddCardModel extends BaseViewModel {
     public void showDate(int type) {
         chooseType = type;
         ui.showDate.set(!ui.showDate.get());
+    }
+
+    public void photo(int type) {
+        switch (type) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
     }
 }

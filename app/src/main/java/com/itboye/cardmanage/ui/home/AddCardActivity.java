@@ -13,6 +13,7 @@ import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.bean.BranchBankBean;
 import com.itboye.cardmanage.databinding.ActivityAddCardBinding;
 import com.itboye.cardmanage.widget.TimePickerFragment;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,8 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
     @Override
     public void initData() {
         viewModel.type = getIntent().getIntExtra("type", 0);
+        ToastUtils.showShort(viewModel.type+"");
+        viewModel.setAddCardType(viewModel.type);
     }
 
     @Override

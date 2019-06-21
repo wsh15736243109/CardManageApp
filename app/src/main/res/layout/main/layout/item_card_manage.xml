@@ -12,18 +12,16 @@
 
     <ImageView
             android:id="@+id/iv_card_manage_icon"
-            android:layout_width="54dp"
-            android:background="@drawable/ic_360"
-            android:layout_height="54dp"/>
+            android:layout_width="36dp"
+            android:layout_height="36dp"/>
 
     <TextView
             android:id="@+id/tv_card_manage_bank"
             android:layout_width="wrap_content"
-            android:text="item.branch_bank}"
             app:layout_constraintTop_toTopOf="@+id/iv_card_manage_icon"
             app:layout_constraintLeft_toRightOf="@+id/iv_card_manage_icon"
             android:layout_marginLeft="@dimen/dp_6"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:textColor="@color/white"
             android:layout_height="wrap_content"/>
 
@@ -34,7 +32,6 @@
             android:text="信用卡"
             app:layout_constraintTop_toBottomOf="@+id/tv_card_manage_bank"
             app:layout_constraintLeft_toRightOf="@+id/iv_card_manage_icon"
-            android:padding="@dimen/dp_6"
             android:layout_marginTop="@dimen/dp_6"
             android:layout_height="wrap_content"/>
 
@@ -43,7 +40,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="item.card_no}"
             android:textColor="@color/white"
             android:textSize="@dimen/dp_16"
             android:padding="@dimen/dp_6"
@@ -52,6 +48,32 @@
             />
 
 
+    <TextView
+            android:id="@+id/item_card_manage_daikou"
+            android:background="@color/white"
+            android:layout_width="60dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_6"
+            app:layout_constraintRight_toLeftOf="@+id/item_card_manage_daifu"
+            android:layout_marginRight="@dimen/dp_6"
+            android:text="开通代扣"
+            android:padding="@dimen/dp_6"
+            android:textSize="@dimen/dp_12"
+            />
+    <TextView
+            android:id="@+id/item_card_manage_daifu"
+            android:background="@color/white"
+            android:layout_width="60dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginRight="@dimen/dp_6"
+            app:layout_constraintRight_toLeftOf="@+id/item_card_manage_master"
+            android:text="开通代付"
+            android:padding="@dimen/dp_6"
+            android:textSize="@dimen/dp_12"
+            />
     <TextView
             android:id="@+id/item_card_manage_master"
             android:background="@color/white"

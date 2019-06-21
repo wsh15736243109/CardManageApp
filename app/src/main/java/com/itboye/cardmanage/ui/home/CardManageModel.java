@@ -57,6 +57,6 @@ public class CardManageModel extends BaseViewModel {
     public void addCard() {
         Bundle bundle = new Bundle();
         bundle.putInt("type", type);
-        startActivity(AddCardActivity.class);
+        startActivity(AddCardActivity.class,bundle);
     }
 }
