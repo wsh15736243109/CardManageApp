@@ -137,6 +137,9 @@ public class RetrofitClient {
                             try {
                                 serviceType = json1.getString("service_type");
                                 json1.remove("service_type");
+                                if (!json1.keys().hasNext()) {
+                                    json1.put("uid", UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getId() + "");
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -144,8 +147,8 @@ public class RetrofitClient {
                         if (serviceType == null) {
                             throw new RuntimeException("缺少 service_type参数");
                         }
+
                         String json = json1.toString();
-                        json = json.equals("{}") ? "" : json;
                         Log.d(TAG, time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
                         String sign = DataSignatureUtil.md5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
 //                        KLog.d("sign====" + (time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json));
