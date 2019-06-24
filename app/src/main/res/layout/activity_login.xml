@@ -22,11 +22,12 @@
             android:paddingTop="@dimen/dp_32"
             tools:context=".ui.login.LoginActivity">
 
-        <ImageView
+        <com.itboye.cardmanage.widget.roundImage.SWImageView
                 android:id="@+id/iv_lg_logo"
-                android:background="@mipmap/ic_launcher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                app:type="circle"
+                android:background="@color/gray"
+                android:layout_width="80dp"
+                android:layout_height="80dp"/>
 
         <TextView
                 android:id="@+id/tv_1"
@@ -289,7 +290,7 @@
 
         <com.itboye.cardmanage.widget.CircleImageView
                 android:layout_width="@dimen/dp_60"
-                android:background="@mipmap/ic_launcher"
+                android:background="@drawable/ic_login_wx"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:id="@+id/tv_login_wx"
                 app:layout_constraintRight_toRightOf="parent"

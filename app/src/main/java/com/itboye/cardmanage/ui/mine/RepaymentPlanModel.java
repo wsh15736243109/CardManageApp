@@ -4,6 +4,7 @@ import android.app.Application;
 import android.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
@@ -30,16 +31,17 @@ public class RepaymentPlanModel extends BaseViewModel {
                     .set(BR.item, R.layout.item_repayment_plan)
                     .bindExtra(BR.listener, new OnMyItemClickListener<LoanModel>() {
                         @Override
-                        public void onItemClick(int position232323, LoanModel item) {
+                        public void onItemClick(View view,int position232323, LoanModel item) {
                             Bundle bundle = new Bundle();
                             bundle.putInt("type", 0);
                             startActivity(RepaymentDetailActivity.class, bundle);
                         }
 
                         @Override
-                        public void onLongClick() {
-                            ToastUtils.showShort(position + "item 长按了吗>>>>>>");
+                        public void onItemClick(int position, LoanModel item) {
+
                         }
+
                     });
         }
     });

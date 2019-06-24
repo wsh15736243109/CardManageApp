@@ -6,6 +6,7 @@ import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.view.View;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.bean.CardBean;
@@ -52,14 +53,15 @@ public class HomeFragmentModel extends BaseViewModel {
                     .set(BR.item, R.layout.item_home_card)
                     .bindExtra(BR.listener, new OnMyItemClickListener<CardBean>() {
                         @Override
-                        public void onItemClick(int position232323, CardBean item) {
+                        public void onItemClick(View view, int position232323, CardBean item) {
                             ToastUtils.showShort(position + "item 点击了吗>>>>>>" + item + "______________" + position232323);
                         }
 
                         @Override
-                        public void onLongClick() {
-                            ToastUtils.showShort(position + "item 长按了吗>>>>>>");
+                        public void onItemClick(int position, CardBean item) {
+
                         }
+
                     });
         }
     });

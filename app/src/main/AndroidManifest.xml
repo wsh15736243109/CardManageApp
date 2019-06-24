@@ -44,6 +44,10 @@
         <activity android:name=".ui.home.AddCardActivity"/>
         <activity android:name=".ui.home.ReceiveMoneyActivity"/>
         <activity android:name=".ui.home.CardDetailActivity"/>
+        <activity android:name=".ui.home.Open">
+        </activity>
+        <activity android:name=".ui.home.AuthMobileActivity">
+        </activity>
     </application>
 
 </manifest>

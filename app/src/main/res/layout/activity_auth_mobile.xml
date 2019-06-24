@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.text.Html"/>
+        <variable
+                name="viewModel"
+                type="com.itboye.cardmanage.ui.home.AuthMobileModel"/>
+    </data>
+
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".ui.home.AuthMobileActivity">
+
+        <com.itboye.cardmanage.widget.CommonTitleBar
+                android:layout_width="match_parent"
+                app:title_text="验证手机号"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="验证码"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/dp_12"
+                android:textColor="#ff000000"
+                android:textSize="24sp"
+                />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:text="验证码已经发送到你的手机号码上"
+                android:textColor="#ff666666"
+                android:textSize="15sp"
+                />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+86 138 8888 8888"
+                android:layout_gravity="center"
+                android:textColor="#ffe10c23"
+                android:textSize="18sp"
+                />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/dp_12"
+                android:layout_height="wrap_content">
+
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@={Html.fromHtml(viewModel.yzStatus)}"
+                android:textColor="#ff666666"
+                android:textSize="12sp"
+                android:layout_gravity="center"
+                />
+
+        <com.itboye.cardmanage.widget.MyButton
+                android:text="立即验证"
+                android:layout_margin="@dimen/dp_12"
+                android:textColor="@color/white"
+                android:padding="@dimen/dp_10"
+                android:background="@color/red"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->viewModel.authMobile()}"
+                android:layout_marginTop="@dimen/dp_32"
+                app:corner="@dimen/dp_6"
+                app:pressBgc="@color/orange"
+                android:id="@+id/tv_authMobile"/>
+    </LinearLayout>
+
+</layout>

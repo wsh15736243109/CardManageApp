@@ -2,7 +2,7 @@
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+        >
 
     <data>
 
@@ -23,7 +23,7 @@
             android:layout_marginTop="@dimen/dp_12"
             android:layout_marginLeft="@dimen/dp_12"
             android:layout_marginRight="@dimen/dp_12"
-            android:onClick="@{()->listener.onItemClick(6,item)}">
+            android:onClick="@{()->listener.onItemClick(0,item)}">
 
         <ImageView
                 android:id="@+id/iv_loan_icon"

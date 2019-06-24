@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.text.Html"/>
+        <variable
+                name="viewModel"
+                type="com.itboye.cardmanage.ui.home.OpenModel"/>
+    </data>
+
+    <RelativeLayout
+            android:orientation="vertical"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.home.Open">
+
+        <com.itboye.cardmanage.widget.CommonTitleBar
+                android:layout_width="match_parent"
+                android:id="@+id/titleBar"
+                android:layout_height="wrap_content"/>
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_below="@+id/titleBar"
+                android:layout_above="@+id/tv_open"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:id="@+id/tv_content"
+                        android:layout_width="match_parent"
+                        android:text="@{Html.fromHtml(viewModel.xieyi)}"
+                        android:gravity="center"
+                        android:layout_height="match_parent"/>
+
+
+            </LinearLayout>
+        </ScrollView>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_above="@+id/tv_open"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_12"
+                android:layout_height="wrap_content"
+                android:text="*开通代付功能即表示您已经同意《代付服务协议》"
+                android:textColor="#ffe52f1d"
+                android:textSize="12sp"
+                />
+
+        <com.itboye.cardmanage.widget.MyButton
+                android:text="去开通"
+                android:layout_margin="@dimen/dp_12"
+                android:layout_gravity="right"
+                android:textColor="@color/white"
+                android:padding="@dimen/dp_10"
+                android:background="@color/red"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:onClick="@{()->viewModel.open()}"
+                android:layout_marginTop="@dimen/dp_32"
+                app:corner="@dimen/dp_6"
+                app:pressBgc="@color/orange"
+                android:id="@+id/tv_open"/>
+    </RelativeLayout>
+</layout>

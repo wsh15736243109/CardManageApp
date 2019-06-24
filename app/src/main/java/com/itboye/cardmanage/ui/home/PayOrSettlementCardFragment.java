@@ -11,16 +11,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.CardManageItemAdapter;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
-import com.itboye.cardmanage.databinding.FragmentLoanBinding;
 import com.itboye.cardmanage.databinding.FragmentPayOrSettlementBinding;
-import com.itboye.cardmanage.ui.fragment.LoanFragmentModel;
+import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import java.util.List;
@@ -98,13 +96,34 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
         decoration.setDrawable(drawable);
         binding.recyclerView.addItemDecoration(decoration);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        viewModel.adapter = new CardManageItemAdapter(viewModel.observableList);
+        viewModel.adapter = new CardManageItemAdapter(viewModel.observableList, new OnMyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position, Object item) {
+                Bundle bundle = new Bundle();
+                switch (view.getId()) {
+                    case R.id.item_card_manage_daikou://代扣
+                        bundle.putInt("type", 0);
+                        startActivity(Open.class, bundle);
+                        break;
+                    case R.id.item_card_manage_daifu://代付
+                        bundle.putInt("type", 1);
+                        startActivity(Open.class, bundle);
+                        break;
+                    case R.id.item_card_manage_master:
+                        break;//设为主卡
+                }
+            }
+
+            @Override
+            public void onItemClick(int position, Object item) {
+
+            }
+        });
         viewModel.adapter.bindToRecyclerView(binding.recyclerView);
         viewModel.adapter.setOnItemChildClickListener((adapter, view, position) -> {
-            ToastUtils.showShort("进入卡片详情");
             Bundle bundle = new Bundle();
             bundle.putSerializable("model", viewModel.observableList.get(position));
-            startActivity(CardDetailActivity.class,bundle);
+            startActivity(CardDetailActivity.class, bundle);
         });
         viewModel.getCardList(cardUse, pageIndex);
     }

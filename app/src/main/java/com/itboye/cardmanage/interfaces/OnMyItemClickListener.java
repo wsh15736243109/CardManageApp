@@ -1,7 +1,9 @@
 package com.itboye.cardmanage.interfaces;
 
-public interface OnMyItemClickListener<T> {
-    void onItemClick(int position, T item);
+import android.view.View;
 
-    void onLongClick();
+public interface OnMyItemClickListener<T> {
+    void onItemClick(View view,int position, T item);
+
+    void onItemClick(int position, T item);
 }
