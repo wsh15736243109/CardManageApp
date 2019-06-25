@@ -158,15 +158,13 @@ public class LoginModel extends BaseViewModel {
                 ToastUtils.showShort("两次密码不一致");
                 return;
             }
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).forgetPasswordByCode(userName.get(), "", "android", "", userYzm.get(), "by_UserLoginSession_registerByMobileCode"),
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).forgetPasswordByCode(userName.get(), "86", confirm_userPassword.get(), userYzm.get(), "by_UserLoginSession_updatePwdByMobileCode"),
                     getLifecycleProvider(), disposable -> showDialog(),
 
                     new ApiDisposableObserver() {
                         @Override
                         public void onResult(Object o, String msg, int code) {
                             ToastUtils.showShort(msg);
-                            startActivity(MainActivity.class);
-                            finish();
                         }
 
                         @Override

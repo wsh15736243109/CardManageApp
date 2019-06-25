@@ -86,9 +86,8 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<String>> forgetPasswordByCode(@Field("mobile") String phone,
-                                                          @Field("device_token") String device_token,
-                                                          @Field("device_type") String device_type,
-                                                          @Field("loginInfo") String loginInfo,
+                                                          @Field("country_no") String country_no,
+                                                          @Field("new_pwd") String new_pwd,
                                                           @Field("code") String code,
                                                           @Field("service_type") String service_type);
 
@@ -284,6 +283,20 @@ public interface API {
     @POST("/")
     Observable<BaseResponse<String>> setMasterBalance(@Field("id") String id,
                                                       @Field("card_usage") String card_usage,
+                                                      @Field("service_type") String serviceType);
+
+    /**
+     * 发起收款请求
+     * @param id
+     * @param card_usage
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> sendPayment(@Field("order_code") String id,
+                                                      @Field("code") String card_usage,
                                                       @Field("service_type") String serviceType);
 
 }
