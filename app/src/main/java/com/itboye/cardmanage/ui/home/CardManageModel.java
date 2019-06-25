@@ -14,7 +14,8 @@ public class CardManageModel extends BaseViewModel {
 
     public TextView tab1;
     public TextView tab2;
-    private int type;
+    public int type = 0;
+    private int index;
     public ObservableInt selectIndex = new ObservableInt(1);
 
     public CardManageModel(@NonNull Application application) {
@@ -27,7 +28,7 @@ public class CardManageModel extends BaseViewModel {
     }
 
     public void switchTitle(int type) {
-        this.type = type;
+        this.index = type;
         switch (type) {
             case 0://支付卡
                 //选中第一个tab
@@ -56,7 +57,8 @@ public class CardManageModel extends BaseViewModel {
     //添加卡
     public void addCard() {
         Bundle bundle = new Bundle();
+        bundle.putInt("index", index);
         bundle.putInt("type", type);
-        startActivity(AddCardActivity.class,bundle);
+        startActivity(AddCardActivity.class, bundle);
     }
 }

@@ -101,7 +101,6 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         if (uc != null) {
             uc.startActivityEvent.postValue(params);
         }
-
     }
 
     /**

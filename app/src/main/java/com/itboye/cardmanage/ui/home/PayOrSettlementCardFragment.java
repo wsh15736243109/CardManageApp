@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.ui.home;
 
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,8 +20,14 @@ import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
 import com.itboye.cardmanage.databinding.FragmentPayOrSettlementBinding;
 import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
+import com.itboye.cardmanage.retrofit.API;
+import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
+import com.itboye.cardmanage.retrofit.AppUtils;
+import com.itboye.cardmanage.retrofit.RetrofitClient;
+import me.goldze.mvvmhabit.bus.RxBus;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +44,7 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
     FragmentPageAdapter mFragmentPageAdapter;
     private String cardUse = "3";
     int pageIndex = 1;
+    String type = "0";
 
     public PayOrSettlementCardFragment() {
         // Required empty public constructor
@@ -77,6 +85,7 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
     @Override
     public void initParam() {
         cardUse = getArguments().getString(ARG_PARAM1);
+        type = getArguments().getString(ARG_PARAM2);
     }
 
     @Override
@@ -99,19 +108,39 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
         viewModel.adapter = new CardManageItemAdapter(viewModel.observableList, new OnMyItemClickListener() {
             @Override
             public void onItemClick(View view, int position, Object item) {
-                Bundle bundle = new Bundle();
-                switch (view.getId()) {
-                    case R.id.item_card_manage_daikou://代扣
-                        bundle.putInt("type", 0);
-                        startActivity(Open.class, bundle);
-                        break;
-                    case R.id.item_card_manage_daifu://代付
-                        bundle.putInt("type", 1);
-                        startActivity(Open.class, bundle);
-                        break;
-                    case R.id.item_card_manage_master:
-                        break;//设为主卡
-                }
+                com.itboye.cardmanage.model.CardManageModel model = (com.itboye.cardmanage.model.CardManageModel) item;
+                    Bundle bundle = new Bundle();
+                    switch (view.getId()) {
+                        case R.id.item_card_manage_daikou://代扣
+                            bundle.putInt("type", 0);
+                            startActivity(Open.class, bundle);
+                            break;
+                        case R.id.item_card_manage_daifu://代付
+                            bundle.putInt("type", 1);
+                            startActivity(Open.class, bundle);
+                            break;
+                        case R.id.item_card_manage_master:
+                            ToastUtils.showShort("设置主卡");
+                            //设为主卡
+                            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).setMasterBalance(model.getId(), cardUse, "by_UserBankCard_setMasterBalance"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
+                                @Override
+                                public void onResult(Object o, String msg, int code) {
+                                    ToastUtils.showShort(msg);
+                                }
+
+                                @Override
+                                public void onError(int code, String msg) {
+                                    ToastUtils.showShort(msg);
+
+                                }
+
+                                @Override
+                                public void dialogDismiss() {
+                                    viewModel.dismissDialog();
+                                }
+                            });
+                            break;
+                    }
             }
 
             @Override
@@ -121,9 +150,14 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
         });
         viewModel.adapter.bindToRecyclerView(binding.recyclerView);
         viewModel.adapter.setOnItemChildClickListener((adapter, view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("model", viewModel.observableList.get(position));
-            startActivity(CardDetailActivity.class, bundle);
+            if (type == "1") {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("model", viewModel.observableList.get(position));
+                startActivity(CardDetailActivity.class, bundle);
+            } else {
+                RxBus.getDefault().post(viewModel.observableList.get(position));
+                getActivity().finish();
+            }
         });
         viewModel.getCardList(cardUse, pageIndex);
     }

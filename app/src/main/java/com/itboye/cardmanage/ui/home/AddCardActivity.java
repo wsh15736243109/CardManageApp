@@ -35,9 +35,8 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
 
     @Override
     public void initData() {
-        viewModel.type = getIntent().getIntExtra("type", 0);
-        ToastUtils.showShort(viewModel.type+"");
-        viewModel.setAddCardType(viewModel.type);
+        viewModel.index = getIntent().getIntExtra("index", 0);
+        viewModel.setAddCardType(viewModel.index);
     }
 
     @Override

@@ -149,26 +149,26 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<String>> userUpdateAuth(@Field("user_id") String user_id,
-                                                 @Field("mobile") String mobile,
-                                                 @Field("name") String name,
-                                                 @Field("id_no") String id_no,
-                                                 @Field("card_no") String card_no,
-                                                 @Field("opening_bank") String opening_bank,
-                                                 @Field("branch_bank") String branch_bank,
-                                                 @Field("id_front_img") String id_front_img,
-                                                 @Field("id_back_img") String id_back_img,
-                                                 @Field("id_hold_img") String id_hold_img,
-                                                 @Field("bank_img") String bank_img,
-                                                 @Field("branch_no") String branch_no,
-                                                 @Field("id_front_img_id") String id_front_img_id,
-                                                 @Field("id_back_img_id") String id_back_img_id,
-                                                 @Field("id_hold_img_id") String id_hold_img_id,
-                                                 @Field("bank_img_id") String bank_img_id,
-                                                 @Field("expire_date") String validityTime,
-                                                 @Field("zipcode") String zipCode,
-                                                 @Field("email") String email,
-                                                 @Field("address") String address,
-                                                 @Field("service_type") String service_type);
+                                                    @Field("mobile") String mobile,
+                                                    @Field("name") String name,
+                                                    @Field("id_no") String id_no,
+                                                    @Field("card_no") String card_no,
+                                                    @Field("opening_bank") String opening_bank,
+                                                    @Field("branch_bank") String branch_bank,
+                                                    @Field("id_front_img") String id_front_img,
+                                                    @Field("id_back_img") String id_back_img,
+                                                    @Field("id_hold_img") String id_hold_img,
+                                                    @Field("bank_img") String bank_img,
+                                                    @Field("branch_no") String branch_no,
+                                                    @Field("id_front_img_id") String id_front_img_id,
+                                                    @Field("id_back_img_id") String id_back_img_id,
+                                                    @Field("id_hold_img_id") String id_hold_img_id,
+                                                    @Field("bank_img_id") String bank_img_id,
+                                                    @Field("expire_date") String validityTime,
+                                                    @Field("zipcode") String zipCode,
+                                                    @Field("email") String email,
+                                                    @Field("address") String address,
+                                                    @Field("service_type") String service_type);
 
     @Headers("Content-Type:application/x-www-form-urlencoded;charset=utf-8")
     @FormUrlEncoded
@@ -270,4 +270,20 @@ public interface API {
                                                         @Field("pay_card_id") String pay_card_id,
                                                         @Field("withdraw_card_id") String withdraw_card_id,
                                                         @Field("pay_channel_id") String pay_channel_id, @Field("service_type") String serviceType);
+
+    /**
+     * 设置主卡
+     *
+     * @param id
+     * @param card_usage
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> setMasterBalance(@Field("id") String id,
+                                                      @Field("card_usage") String card_usage,
+                                                      @Field("service_type") String serviceType);
+
 }

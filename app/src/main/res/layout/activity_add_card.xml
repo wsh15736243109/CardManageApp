@@ -261,7 +261,7 @@
 
                 <LinearLayout
                         android:id="@+id/ll_xinyongka"
-                        app:isVisible="@{viewModel.type==0}"
+                        app:isVisible="@{viewModel.index==0}"
                         android:layout_width="match_parent"
                         android:orientation="vertical"
                         android:layout_height="wrap_content">
@@ -401,7 +401,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                        app:isVisible="@{viewModel.type==1}"
+                        app:isVisible="@{viewModel.index==1}"
                         android:layout_width="match_parent"
                         android:orientation="vertical"
                         android:layout_marginTop="@dimen/dp_6"

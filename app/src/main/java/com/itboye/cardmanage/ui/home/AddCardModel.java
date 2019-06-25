@@ -32,7 +32,7 @@ public class AddCardModel extends BaseViewModel {
     public ObservableInt cardJieSuanKa = new ObservableInt(View.VISIBLE);//结算卡
     public ObservableInt cardZhiFuKa = new ObservableInt(View.GONE);//支付卡
     public String branchNo = "";
-    public int type = 0;
+    public int index = 0;
 
     String bank_card_id = "";
     public ArrayList<BranchBankBean> branchBankBeanArrayList = new ArrayList<>();
@@ -76,7 +76,7 @@ public class AddCardModel extends BaseViewModel {
             ToastUtils.showShort("请输入银行卡预留手机号码");
             return;
         }
-        if (type == 0) {
+        if (index == 0) {
             //添加支付卡
             AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addPaymentCard(cardNumber.get(), bankName.get(), reservedPhone.get(), cardNumber.get().substring(cardNumber.get().length() - 3), "20201010", bill_date.get(), repayment_date.get(), "by_UserBankCard_bindPayCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
@@ -95,7 +95,7 @@ public class AddCardModel extends BaseViewModel {
                     dismissDialog();
                 }
             });
-        } else if (type == 1) {
+        } else if (index == 1) {
             //添加结算卡
             AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addSettlementCard(cardNumber.get(), bankName.get(), reservedPhone.get(), "by_UserBankCard_bindDebitCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
