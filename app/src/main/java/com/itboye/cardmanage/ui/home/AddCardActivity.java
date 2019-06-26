@@ -1,8 +1,10 @@
 package com.itboye.cardmanage.ui.home;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.widget.DatePicker;
 import android.widget.ListView;
@@ -12,9 +14,15 @@ import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.bean.BranchBankBean;
 import com.itboye.cardmanage.databinding.ActivityAddCardBinding;
+import com.itboye.cardmanage.util.GlideUtil;
 import com.itboye.cardmanage.widget.TimePickerFragment;
+import com.yancy.imageselector.ImageConfig;
+import com.yancy.imageselector.ImageLoader;
+import com.yancy.imageselector.ImageSelector;
+import com.yancy.imageselector.ImageSelectorActivity;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
+import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,12 +60,42 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
             }
         });
 
+
         viewModel.ui.showDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 showDate();
             }
         });
+
+
+        viewModel.ui.choosePic.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                openLibrary(101);
+            }
+        });
+    }
+
+    //选择图片
+    private void openLibrary(int requestCode) {
+        ImageConfig imageConfig
+                = new ImageConfig.Builder((ImageLoader) (context, path, imageView) -> GlideUtil.display(context, path, imageView))
+                .steepToolBarColor(getApplication().getResources().getColor(R.color.white))
+                .titleBgColor(getApplication().getResources().getColor(R.color.white))
+                .titleSubmitTextColor(getApplication().getResources().getColor(R.color.white))
+                .titleTextColor(getApplication().getResources().getColor(R.color.red))
+                // (截图默认配置：关闭    比例 1：1    输出分辨率  500*500)
+//                .crop(2, 1, 1000, 500)
+                // 开启单选   （默认为多选）
+                .requestCode(requestCode)
+                .singleSelect()
+                // 开启拍照功能 （默认关闭）
+                .showCamera()
+                // 拍照后存放的图片路径（默认 /temp/picture） （会自动创建）
+                .filePath("/ImageSelector/Pictures")
+                .build();
+        ImageSelector.open(this, imageConfig);   // 开启图片选择器
     }
 
     private void showDate() {
@@ -93,4 +131,14 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
         alert.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101 && resultCode == RESULT_OK && data != null) {
+            List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
+            String path = pathList.get(0);
+            GlideUtil.display(this, path, binding.ivBankHold);
+            viewModel.uploadImage(path, requestCode);
+        }
+    }
 }

@@ -1,7 +1,6 @@
 package com.itboye.cardmanage.ui.home;
 
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.CardManageItemAdapter;
@@ -27,7 +25,6 @@ import com.itboye.cardmanage.retrofit.RetrofitClient;
 import me.goldze.mvvmhabit.bus.RxBus;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,7 +71,6 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
 
     @Override
     public void onUserVisible() {
-        ToastUtils.showShort(cardUse);
     }
 
     @Override

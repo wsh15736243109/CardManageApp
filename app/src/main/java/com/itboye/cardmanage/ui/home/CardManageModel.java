@@ -1,13 +1,12 @@
 package com.itboye.cardmanage.ui.home;
 
 import android.app.Application;
-import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
 import com.itboye.cardmanage.R;
-import android.support.annotation.NonNull;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 
 public class CardManageModel extends BaseViewModel {
@@ -36,15 +35,8 @@ public class CardManageModel extends BaseViewModel {
                 tab2.setBackgroundDrawable((getApplication().getResources().getDrawable(R.drawable.tab_right_select_style_bg_white)));
                 tab1.setTextColor(ContextCompat.getColor(getApplication(), R.color.white));
                 tab2.setTextColor(ContextCompat.getColor(getApplication(), R.color.red));
-//                if (fragment1 == null) {
-//                    fragment1 = WagesBillsFragment.newInstance("$index", "")
-//                    fragmentTransaction!!.add(R.id.frameLayout_wagesbills, fragment1)
-//                } else {
-//                    fragmentTransaction!!.show(fragment1)
-//                }
                 break;
             case 1://结算卡
-
                 tab1.setBackgroundDrawable((getApplication().getResources().getDrawable(R.drawable.tab_left_select_style_bg_white)));
                 tab2.setBackgroundDrawable((getApplication().getResources().getDrawable(R.drawable.tab_right_select_style_bg_green)));
                 tab2.setTextColor(ContextCompat.getColor(getApplication(), R.color.white));

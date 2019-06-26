@@ -207,7 +207,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> addSettlementCard(@Field("card_no") String card_no, @Field("bank_name") String bank_name, @Field("mobile") String mobile, @Field("service_type") String serviceType);
+    Observable<BaseResponse<CardManageModel>> addSettlementCard(@Field("card_no") String card_no, @Field("bank_name") String bank_name, @Field("mobile") String mobile, @Field("bank_img") String bank_img, @Field("service_type") String serviceType);
 
     /**
      * 添加支付卡
@@ -225,7 +225,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> addPaymentCard(@Field("card_no") String card_no, @Field("bank_name") String bank_name, @Field("mobile") String mobile, @Field("cvn2") String cvn2, @Field("expire_date") String expire_date, @Field("bill_date") String bill_date, @Field("repayment_date") String repayment_date, @Field("service_type") String serviceType);
+    Observable<BaseResponse<CardManageModel>> addPaymentCard(@Field("card_no") String card_no, @Field("bank_name") String bank_name, @Field("mobile") String mobile, @Field("cvn2") String cvn2, @Field("expire_date") String expire_date, @Field("bill_date") String bill_date, @Field("repayment_date") String repayment_date, @Field("service_type") String serviceType);
 
     /**
      * 查询认证信息

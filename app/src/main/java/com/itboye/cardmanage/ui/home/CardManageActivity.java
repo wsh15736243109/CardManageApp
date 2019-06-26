@@ -33,7 +33,6 @@ public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBindi
         viewModel.tab2 = binding.tabitem2;
         viewModel.switchTitle(0);
         viewModel.type = getIntent().getIntExtra("type", 0);//是否跳转选择支付卡
-
         binding.viewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager(),
                 new ArrayList<Fragment>() {{
                     add(PayOrSettlementCardFragment.newInstance("3",  viewModel.type+""));
