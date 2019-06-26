@@ -13,10 +13,16 @@ import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.bean.PayWaybean;
 import com.itboye.cardmanage.databinding.ActivityReceiveMoneyBinding;
+import com.itboye.cardmanage.model.CardManageModel;
+import io.reactivex.disposables.Disposable;
+import me.goldze.mvvmhabit.bus.RxBus;
+import me.goldze.mvvmhabit.bus.RxSubscriptions;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyBinding, ReceiveMoneyModel> {
 
+
+    private Disposable mSubscription;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -32,6 +38,14 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
     public void initData() {
         //获取支付通道
         viewModel.getPayWay();
+
+        mSubscription = RxBus.getDefault().toObservable(CardManageModel.class)
+                .subscribe(s -> {
+                    viewModel.pay_card_id = s.getId();//支付卡id
+                    binding.tvCardBank.setText(s.getBranch_bank());
+                });
+        //将订阅者加入管理站
+        RxSubscriptions.add(mSubscription);
     }
 
     @Override
@@ -56,8 +70,8 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
                             @Override
                             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                                 if (b) {
-                                    viewModel.pay_channel_id =(compoundButton.getTag() + "");
-                                }else{
+                                    viewModel.pay_channel_id = (compoundButton.getTag() + "");
+                                } else {
 
                                 }
                             }
@@ -69,6 +83,8 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
                 }
             }
         });
+
+
     }
 
 }

@@ -59,7 +59,7 @@
                             android:textSize="14sp"/>
 
                     <EditText
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="姓名"
                             android:text="@={viewModel.cardOwner}"
@@ -86,7 +86,7 @@
                             android:textSize="14sp"/>
 
                     <EditText
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="身份证号码"
                             android:text="@={viewModel.idnumber}"
@@ -115,7 +115,8 @@
                             android:textSize="14sp"/>
 
                     <EditText
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_toLeftOf="@+id/iv_scan"
                             android:layout_height="wrap_content"
                             android:hint="请输入银行卡卡号"
                             android:text="@={viewModel.cardNumber}"
@@ -127,6 +128,7 @@
                             android:layout_marginRight="@dimen/dp_12"/>
 
                     <ImageView
+                            android:id="@+id/iv_scan"
                             android:layout_width="wrap_content"
                             android:src="@drawable/ic_scan"
                             android:layout_marginRight="@dimen/dp_6"
@@ -153,7 +155,7 @@
                             android:textSize="14sp"/>
 
                     <EditText
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="确认银行卡卡号"
                             android:text="@={viewModel.cardNumberRe}"
@@ -180,7 +182,7 @@
                             android:textSize="14sp"/>
 
                     <EditText
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@={viewModel.bankName}"
                             android:textSize="@dimen/dp_12"
@@ -249,7 +251,7 @@
                             android:textSize="14sp"/>
 
                     <EditText
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="请输入银行卡预留手机号"
                             android:text="@={viewModel.reservedPhone}"
@@ -305,7 +307,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请在此输入您的账单日"
                                 android:text="@={viewModel.bill_date}"
@@ -333,7 +335,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请输入您的还款日"
                                 android:text="@={viewModel.repayment_date}"
@@ -361,12 +363,13 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请输入信用卡背后安全码后三位数"
                                 android:text="@={viewModel.safetyCode}"
                                 android:textSize="@dimen/dp_12"
                                 android:background="@null"
+                                android:maxEms="3"
                                 android:layout_marginLeft="@dimen/dp_12"
                                 android:layout_marginRight="@dimen/dp_12"/>
                     </LinearLayout>
@@ -389,7 +392,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请输入信用卡有效时间"
                                 android:text="@={viewModel.validDate}"

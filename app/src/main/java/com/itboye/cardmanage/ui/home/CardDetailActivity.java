@@ -2,12 +2,20 @@ package com.itboye.cardmanage.ui.home;
 
 import android.databinding.Observable;
 import android.os.Bundle;
+import android.view.View;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.databinding.ActivityCardDetailBinding;
 import com.itboye.cardmanage.model.CardManageModel;
+import com.itboye.cardmanage.retrofit.API;
+import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
+import com.itboye.cardmanage.retrofit.AppUtils;
+import com.itboye.cardmanage.retrofit.RetrofitClient;
 import com.itboye.cardmanage.widget.TimePickerFragment;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class CardDetailActivity extends BaseMVVMActivity<ActivityCardDetailBinding, CardDetailModel> {
 
@@ -41,6 +49,34 @@ public class CardDetailActivity extends BaseMVVMActivity<ActivityCardDetailBindi
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 showDate(4);
+            }
+        });
+        binding.titleBar.getTvRight().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //解除绑定
+                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).unbindCard(viewModel.getDetailModel().getId(), "by_UserBankCard_unbind"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        showDialog("解绑中");
+                    }
+                }, new ApiDisposableObserver() {
+                    @Override
+                    public void onResult(Object o, String msg, int code) {
+                        ToastUtils.showShort("" + msg);
+                        finish();
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+
+                    }
+
+                    @Override
+                    public void dialogDismiss() {
+                        dismissDialog();
+                    }
+                });
             }
         });
     }

@@ -35,10 +35,10 @@ public class AddCardModel extends BaseViewModel {
     public ObservableField<String> branchBankName = new ObservableField<>("杭州");//支行名称
     public ObservableField<String> reservedPhone = new ObservableField<>("13858066033");//预留手机号
 
-    public ObservableField<String> bill_date = new ObservableField<>("20201010");//账单日
-    public ObservableField<String> repayment_date = new ObservableField<>("20201010");//还款日
-    public ObservableField<String> safetyCode = new ObservableField<>("20201010");//安全码
-    public ObservableField<String> validDate = new ObservableField<>("20201010");//有效日期
+    public ObservableField<String> bill_date = new ObservableField<>("202010");//账单日
+    public ObservableField<String> repayment_date = new ObservableField<>("202010");//还款日
+    public ObservableField<String> safetyCode = new ObservableField<>("202");//安全码
+    public ObservableField<String> validDate = new ObservableField<>("202010");//有效日期
     public ObservableInt cardJieSuanKa = new ObservableInt(View.VISIBLE);//结算卡
     public ObservableInt cardZhiFuKa = new ObservableInt(View.GONE);//支付卡
     public String branchNo = "";
@@ -100,7 +100,7 @@ public class AddCardModel extends BaseViewModel {
             AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addPaymentCard(cardNumber.get(), bankName.get(), reservedPhone.get(), safetyCode.get(), validDate.get(), bill_date.get(), repayment_date.get(), "by_UserBankCard_bindPayCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
                 public void onResult(Object o, String msg, int code) {
-                    ToastUtils.showShort(msg + "====" + o);
+                    ToastUtils.showShort(msg);
                 }
 
 
@@ -116,10 +116,10 @@ public class AddCardModel extends BaseViewModel {
             });
         } else if (index == 1) {
             //添加结算卡
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addSettlementCard(cardNumber.get(), bankName.get(), reservedPhone.get(), bank_img_id,"by_UserBankCard_bindDebitCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addSettlementCard(cardNumber.get(), bankName.get(), reservedPhone.get(), bank_img_id, branchBankName.get(), "by_UserBankCard_bindBalanceCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
                 public void onResult(Object o, String msg, int code) {
-                    ToastUtils.showShort(msg + "====" + o);
+                    ToastUtils.showShort(msg);
                 }
 
                 @Override

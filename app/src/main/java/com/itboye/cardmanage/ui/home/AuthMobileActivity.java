@@ -6,7 +6,7 @@ import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.databinding.ActivityAuthMobileBinding;
 
-public class AuthMobileActivity extends BaseMVVMActivity<ActivityAuthMobileBinding,AuthMobileModel> {
+public class AuthMobileActivity extends BaseMVVMActivity<ActivityAuthMobileBinding, AuthMobileModel> {
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -20,6 +20,8 @@ public class AuthMobileActivity extends BaseMVVMActivity<ActivityAuthMobileBindi
 
     @Override
     public void initData() {
-
+        viewModel.bankId = getIntent().getStringExtra("bank_id");
+        binding.phone.setText(getIntent().getStringExtra("phone"));
+        viewModel.sendAuthCode();
     }
 }

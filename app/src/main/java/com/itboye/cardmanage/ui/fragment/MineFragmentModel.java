@@ -21,9 +21,6 @@ public class MineFragmentModel extends BaseViewModel {
 
     public MineFragmentModel(@NonNull Application application) {
         super(application);
-        ToastUtils.showShort(headUrl.get());
-        KLog.v("头像地址=" + UserUtil.getUserInfo().getAvatar());
-        headUrl.set(UserUtil.getUserInfo().getAvatar());
     }
 
     UIChangeObser uc = new UIChangeObser();

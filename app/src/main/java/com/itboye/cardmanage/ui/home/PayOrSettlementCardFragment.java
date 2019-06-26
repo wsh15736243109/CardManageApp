@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.ui.home;
 
 
+import android.databinding.Observable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +23,8 @@ import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
+import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import me.goldze.mvvmhabit.bus.RxBus;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
@@ -105,38 +108,39 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
             @Override
             public void onItemClick(View view, int position, Object item) {
                 com.itboye.cardmanage.model.CardManageModel model = (com.itboye.cardmanage.model.CardManageModel) item;
-                    Bundle bundle = new Bundle();
-                    switch (view.getId()) {
-                        case R.id.item_card_manage_daikou://代扣
-                            bundle.putInt("type", 0);
-                            startActivity(Open.class, bundle);
-                            break;
-                        case R.id.item_card_manage_daifu://代付
-                            bundle.putInt("type", 1);
-                            startActivity(Open.class, bundle);
-                            break;
-                        case R.id.item_card_manage_master:
-                            ToastUtils.showShort("设置主卡");
-                            //设为主卡
-                            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).setMasterBalance(model.getId(), cardUse, "by_UserBankCard_setMasterBalance"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
-                                @Override
-                                public void onResult(Object o, String msg, int code) {
-                                    ToastUtils.showShort(msg);
-                                }
+                Bundle bundle = new Bundle();
+                bundle.putString("bank_id", model.getId());
+                bundle.putString("phone", model.getMobile());
+                switch (view.getId()) {
+                    case R.id.item_card_manage_daikou://代扣
+                        bundle.putInt("type", 0);
+                        startActivity(Open.class, bundle);
+                        break;
+                    case R.id.item_card_manage_daifu://代付
+                        bundle.putInt("type", 1);
+                        startActivity(Open.class, bundle);
+                        break;
+                    case R.id.item_card_manage_master:
+                        //设为主卡
+                        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).setMasterBalance(model.getId(), cardUse, "by_UserBankCard_setMasterBalance"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
+                            @Override
+                            public void onResult(Object o, String msg, int code) {
+                                ToastUtils.showShort(msg);
+                            }
 
-                                @Override
-                                public void onError(int code, String msg) {
-                                    ToastUtils.showShort(msg);
+                            @Override
+                            public void onError(int code, String msg) {
+                                ToastUtils.showShort(msg);
 
-                                }
+                            }
 
-                                @Override
-                                public void dialogDismiss() {
-                                    viewModel.dismissDialog();
-                                }
-                            });
-                            break;
-                    }
+                            @Override
+                            public void dialogDismiss() {
+                                viewModel.dismissDialog();
+                            }
+                        });
+                        break;
+                }
             }
 
             @Override
@@ -146,7 +150,7 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
         });
         viewModel.adapter.bindToRecyclerView(binding.recyclerView);
         viewModel.adapter.setOnItemChildClickListener((adapter, view, position) -> {
-            if (type == "1") {
+            if (type.equals("1")) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("model", viewModel.observableList.get(position));
                 startActivity(CardDetailActivity.class, bundle);
@@ -155,7 +159,30 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
                 getActivity().finish();
             }
         });
-        viewModel.getCardList(cardUse, pageIndex);
+        viewModel.pageIndex = pageIndex;
+        viewModel.cardUse = cardUse;
+        viewModel.getCardList();
+        binding.srRefresh.setOnRefreshListener(new OnRefreshLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshLayout) {
+                viewModel.pageIndex++;
+                viewModel.getCardList();
+
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                viewModel.pageIndex = 1;
+                viewModel.getCardList();
+            }
+        });
+        viewModel.refreshLoad.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                binding.srRefresh.finishRefresh();
+                binding.srRefresh.finishLoadMore();
+            }
+        });
     }
 
     @Override

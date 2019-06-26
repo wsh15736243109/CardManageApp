@@ -18,6 +18,7 @@
             tools:context=".ui.home.CardManageActivity">
 
         <com.itboye.cardmanage.widget.CommonTitleBar
+                android:id="@+id/titleBar"
                 app:title_text="卡片管理"
                 app:right_text="解除绑定"
                 android:layout_width="match_parent"

@@ -97,13 +97,13 @@ public class ReceiveMoneyModel extends BaseViewModel {
     @Override
     public void registerRxBus() {
         super.registerRxBus();
-        mSubscription = RxBus.getDefault().toObservable(CardManageModel.class)
-                .subscribe(s -> {
-                    pay_card_id = s.getId();//支付卡id
-                    ToastUtils.showShort(pay_card_id);
-                });
-        //将订阅者加入管理站
-        RxSubscriptions.add(mSubscription);
+//        mSubscription = RxBus.getDefault().toObservable(CardManageModel.class)
+//                .subscribe(s -> {
+//                    pay_card_id = s.getId();//支付卡id
+//                    ToastUtils.showShort(pay_card_id);
+//                });
+//        //将订阅者加入管理站
+//        RxSubscriptions.add(mSubscription);
     }
 
 

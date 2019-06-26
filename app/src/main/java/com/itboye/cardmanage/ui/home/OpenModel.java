@@ -2,6 +2,7 @@ package com.itboye.cardmanage.ui.home;
 
 import android.app.Application;
 import android.databinding.ObservableField;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.ToastUtils;
@@ -15,6 +16,8 @@ public class OpenModel extends BaseViewModel {
             "划线的形式提示您重点注意。除非您已阅读并接受本协" +
             "议所有条款， 否则您无权使用平台提供的服务。您使用" +
             "平台的服务即视为您已阅读并同意本协议的约束。");
+    public String bank_id;
+    public String phone;
 
     public OpenModel(@NonNull Application application) {
         super(application);
@@ -43,7 +46,9 @@ public class OpenModel extends BaseViewModel {
     }
 
     public void open(){
-        startActivity(AuthMobileActivity.class);
-        ToastUtils.showShort("下一步");
+        Bundle bundle=new Bundle();
+        bundle.putString("bank_id",bank_id);
+        bundle.putString("phone",phone);
+        startActivity(AuthMobileActivity.class,bundle);
     }
 }

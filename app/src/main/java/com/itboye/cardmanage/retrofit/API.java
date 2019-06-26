@@ -207,7 +207,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<CardManageModel>> addSettlementCard(@Field("card_no") String card_no, @Field("bank_name") String bank_name, @Field("mobile") String mobile, @Field("bank_img") String bank_img, @Field("service_type") String serviceType);
+    Observable<BaseResponse<CardManageModel>> addSettlementCard(@Field("card_no") String card_no, @Field("bank_name") String bank_name, @Field("mobile") String mobile, @Field("bank_img") String bank_img, @Field("branch_name") String branch_name, @Field("service_type") String serviceType);
 
     /**
      * 添加支付卡
@@ -226,6 +226,18 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<CardManageModel>> addPaymentCard(@Field("card_no") String card_no, @Field("bank_name") String bank_name, @Field("mobile") String mobile, @Field("cvn2") String cvn2, @Field("expire_date") String expire_date, @Field("bill_date") String bill_date, @Field("repayment_date") String repayment_date, @Field("service_type") String serviceType);
+
+    /**
+     * 解绑卡片
+     *
+     * @param id
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> unbindCard(@Field("id") String id, @Field("service_type") String serviceType);
 
     /**
      * 查询认证信息
@@ -281,12 +293,13 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> setMasterBalance(@Field("id") String id,
-                                                      @Field("card_usage") String card_usage,
-                                                      @Field("service_type") String serviceType);
+    Observable<BaseResponse<CardManageModel>> setMasterBalance(@Field("id") String id,
+                                                               @Field("card_usage") String card_usage,
+                                                               @Field("service_type") String serviceType);
 
     /**
      * 发起收款请求
+     *
      * @param id
      * @param card_usage
      * @param serviceType
@@ -296,7 +309,37 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<String>> sendPayment(@Field("order_code") String id,
-                                                      @Field("code") String card_usage,
-                                                      @Field("service_type") String serviceType);
+                                                 @Field("code") String card_usage,
+                                                 @Field("service_type") String serviceType);
 
+
+    /**
+     * 代扣协议
+     *
+     * @param bank_id
+     * @param verification_code
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> signWithholding(@Field("bank_id") String bank_id,
+                                                     @Field("verification_code") String verification_code,
+                                                     @Field("service_type") String serviceType);
+
+    /**
+     * 代付协议
+     *
+     * @param bank_id
+     * @param verification_code
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> signRepay(@Field("bank_id") String bank_id,
+                                               @Field("verification_code") String verification_code,
+                                               @Field("service_type") String serviceType);
 }

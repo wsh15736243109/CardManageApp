@@ -3,6 +3,12 @@ package com.itboye.cardmanage.ui.home;
 import android.app.Application;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
+import com.itboye.cardmanage.retrofit.API;
+import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
+import com.itboye.cardmanage.retrofit.AppUtils;
+import com.itboye.cardmanage.retrofit.RetrofitClient;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
@@ -11,6 +17,8 @@ public class AuthMobileModel extends BaseViewModel {
     public ObservableField<String> yzStatus = new ObservableField<>("没收到验证码?<font color='red'>重新发送</font>");
 
     int status = 1;
+    public String bankId;
+    public String verificationCode;
 
     public AuthMobileModel(@NonNull Application application) {
         super(application);
@@ -37,4 +45,27 @@ public class AuthMobileModel extends BaseViewModel {
 
     }
 
+    public void sendAuthCode() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signWithholding(bankId, verificationCode, "by_UserBankCard_signWithhold"), getLifecycleProvider(), new Consumer<Disposable>() {
+            @Override
+            public void accept(Disposable disposable) throws Exception {
+                showDialog();
+            }
+        }, new ApiDisposableObserver() {
+            @Override
+            public void onResult(Object o, String msg, int code) {
+                ToastUtils.showShort(msg);
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
+            }
+
+            @Override
+            public void dialogDismiss() {
+            dismissDialog();
+            }
+        });
+    }
 }

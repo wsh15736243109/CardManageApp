@@ -24,6 +24,8 @@ public class Open extends BaseMVVMActivity<ActivityOpenBinding, OpenModel> {
     @Override
     public void initData() {
         type = getIntent().getIntExtra("type", 0);
+        viewModel.bank_id = getIntent().getStringExtra("bank_id");
+        viewModel.phone = getIntent().getStringExtra("phone");
         binding.titleBar.setTitle(type == 0 ? "开通代扣" : "开通代付");
     }
 }

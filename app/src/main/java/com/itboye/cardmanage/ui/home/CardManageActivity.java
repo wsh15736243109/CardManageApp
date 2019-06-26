@@ -35,7 +35,7 @@ public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBindi
         viewModel.type = getIntent().getIntExtra("type", 0);//是否跳转选择支付卡
         binding.viewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager(),
                 new ArrayList<Fragment>() {{
-                    add(PayOrSettlementCardFragment.newInstance("3",  viewModel.type+""));
+                    add(PayOrSettlementCardFragment.newInstance("1",  viewModel.type+""));
                     add(PayOrSettlementCardFragment.newInstance("2",  viewModel.type+""));
                 }}, null));
         //自动适配ViewPager页面切换

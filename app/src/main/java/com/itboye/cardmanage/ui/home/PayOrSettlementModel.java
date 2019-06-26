@@ -2,6 +2,7 @@ package com.itboye.cardmanage.ui.home;
 
 import android.app.Application;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
@@ -18,7 +19,9 @@ import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import me.goldze.mvvmhabit.base.BaseViewModel;
+import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass;
 
@@ -32,6 +35,7 @@ public class PayOrSettlementModel extends BaseViewModel {
     public final ObservableList<com.itboye.cardmanage.model.CardManageModel>
             observableList = new ObservableArrayList<>();
     public ObservableField<Integer> isEmpty = new ObservableField<>(View.GONE);
+    public ObservableBoolean refreshLoad = new ObservableBoolean(false);
     public CardManageItemAdapter adapter;
 
     public PayOrSettlementModel(@NonNull Application application) {
@@ -43,7 +47,10 @@ public class PayOrSettlementModel extends BaseViewModel {
         startActivity(AddCardActivity.class);
     }
 
-    public void getCardList(String cardUse, int pageIndex) {
+    String cardUse;
+    int pageIndex;
+
+    public void getCardList() {
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).cardList(cardUse, pageIndex + "", "10", "by_UserBankCard_query"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
@@ -53,13 +60,18 @@ public class PayOrSettlementModel extends BaseViewModel {
                 } else {
                     isEmpty.set(View.VISIBLE);
                 }
+                if (pageIndex==1) {
+                    observableList.clear();
+                }
                 observableList.addAll(ar);
                 adapter.notifyDataSetChanged();
+                refreshLoad.set(!refreshLoad.get());
             }
 
             @Override
             public void onError(int code, String msg) {
                 isEmpty.set(View.VISIBLE);
+                refreshLoad.set(!refreshLoad.get());
             }
 
             @Override

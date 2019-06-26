@@ -3,6 +3,7 @@ package com.itboye.cardmanage.ui.fragment;
 import android.app.Application;
 import android.content.Intent;
 import android.databinding.ObservableField;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -101,7 +102,9 @@ public class HomeFragmentModel extends BaseViewModel {
             startActivity(ReceiveMoneyActivity.class);
 
         } else {
-            startActivity(CardManageActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("type", 1);
+            startActivity(CardManageActivity.class, bundle);
         }
     }
 
