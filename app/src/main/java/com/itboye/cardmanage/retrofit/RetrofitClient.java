@@ -133,12 +133,14 @@ public class RetrofitClient {
                         String serviceVersion = "100";
                         JSONObject json1 = JsonMapHelper.parseJsonToMap(content);
                         String serviceType = null;
+                        String uid = UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getId() + "";
+                        String sid = UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getSid() + "";
                         if (json1.has("service_type")) {
                             try {
                                 serviceType = json1.getString("service_type");
                                 json1.remove("service_type");
                                 if (!json1.keys().hasNext()) {
-                                    json1.put("uid", UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getId() + "");
+                                    json1.put("uid", uid);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -149,9 +151,8 @@ public class RetrofitClient {
                         }
 
                         String json = json1.toString();
-                        Log.d(TAG, time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
                         String sign = DataSignatureUtil.md5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
-//                        KLog.d("sign====" + (time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json));
+                        KLog.d("sign====" + (time + "_" + client_secret + "_" + serviceType + "_" + serviceVersion + "_" + json));
                         body = new FormBody.Builder()
                                 .add("app_type", "android")
                                 .add("app_version", "1.0.0")
@@ -160,9 +161,9 @@ public class RetrofitClient {
                                 .add("service_version", serviceVersion)
                                 .add("service_type", serviceType)
                                 .add("client_id", client_id)
-                                .add("uid", UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getId() + "")
+                                .add("uid", uid)
 //                                .add("uid", "13")
-                                .add("sid", UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getSid())
+                                .add("sid", sid)
                                 .add("app_request_time", time + "")
                                 .add("buss_data", json)
                                 .add("sign", sign)

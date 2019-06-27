@@ -306,7 +306,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> sendPayment(@Field("order_code") String id,
+    Observable<BaseResponse<ReceiveMoneyAuthPassBean>> sendPayment(@Field("order_code") String id,
                                                  @Field("code") String card_usage,
                                                  @Field("service_type") String serviceType);
 

@@ -9,6 +9,13 @@ import java.io.Serializable;
 public class CardManageModel implements Serializable {
 
 
+    public String getChooseType() {
+        return chooseType;
+    }
+
+    public void setChooseType(String chooseType) {
+        this.chooseType = chooseType;
+    }
 
     /**
      * id : 5
@@ -36,6 +43,8 @@ public class CardManageModel implements Serializable {
      * branch_no : 104****077
      * pay_agree_id :
      */
+
+    String chooseType = "1";
 
     private String id;
     private String uid;

@@ -6,6 +6,7 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.bean.PayWaybean;
+import com.itboye.cardmanage.bean.ReceiveMoneyAuthPassBean;
 import com.itboye.cardmanage.model.CardManageModel;
 import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
@@ -24,8 +25,8 @@ public class ReceiveMoneyModel extends BaseViewModel {
 
     public ObservableField<String> amount = new ObservableField<>("");
     public ObservableField<String> note = new ObservableField<>("");
-    public String pay_card_id = "7";//支付卡id
-    public String withdraw_card_id = "34";//到账结算卡id
+    public String pay_card_id = "40";//支付卡id
+    public String withdraw_card_id = "46";//到账结算卡id
     public String pay_channel_id = "13";//支付通道id
     public String order_code;//订单号
     public String code;//验证码
@@ -68,12 +69,13 @@ public class ReceiveMoneyModel extends BaseViewModel {
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, code, "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
-                Bundle bundle=new Bundle();
-                bundle.putInt("type",3);
-                bundle.putString("phone",phone);
-                bundle.putString("order_code",order_code);
-                startActivity(AuthMobileActivity.class,bundle);
-                ToastUtils.showShort(msg);
+                ReceiveMoneyAuthPassBean moneyAuthPassBean = (ReceiveMoneyAuthPassBean) o;
+                Bundle bundle = new Bundle();
+                bundle.putInt("type", 3);
+                bundle.putString("phone", phone);
+                bundle.putString("order_code", order_code);
+                startActivity(AuthMobileActivity.class, bundle);
+                ToastUtils.showShort(o.toString()+"");
             }
 
             @Override

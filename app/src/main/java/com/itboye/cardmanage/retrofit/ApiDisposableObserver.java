@@ -42,7 +42,7 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
         if (e.getCause() instanceof DataResultException) {
             DataResultException rError = (DataResultException) e.getCause();
             onError(rError.getCode(), rError.getMessage());
-            ToastUtils.showShort(rError.getMessage() + "DataResultException");
+            ToastUtils.showShort(rError.getMessage());
             return;
         } else if (e instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) e;
@@ -54,7 +54,7 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
                 ToastUtils.showShort("网络连接错误，请检查网络连接");
                 return;
             }
-            ToastUtils.showShort(rError.getMessage() + "ResponseThrowable");
+            ToastUtils.showShort(rError.getMessage());
             return;
         } else {
 

@@ -37,9 +37,7 @@ public class AuthMobileModel extends BaseViewModel {
                     receiveMoneyAuth();
                 } else {
                     sendAuthCode(true);
-                    //验证
-                    yzStatus.set("验证成功，返回首页");
-                    status = 2;
+
                 }
                 break;
             case 2:
@@ -60,6 +58,7 @@ public class AuthMobileModel extends BaseViewModel {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(msg);
+                finish();
             }
 
             @Override
@@ -85,7 +84,9 @@ public class AuthMobileModel extends BaseViewModel {
                 @Override
                 public void onResult(Object o, String msg, int code) {
                     if (isAuth) {
-
+                        //验证
+                        yzStatus.set("验证成功，返回首页");
+                        status = 2;
                     } else {
 
                     }
@@ -94,7 +95,13 @@ public class AuthMobileModel extends BaseViewModel {
 
                 @Override
                 public void onError(int code, String msg) {
+                    if (isAuth) {
+                        //验证
+                        yzStatus.set("验证失败，重新尝试");
+                        status = 3;
+                    } else {
 
+                    }
                 }
 
                 @Override

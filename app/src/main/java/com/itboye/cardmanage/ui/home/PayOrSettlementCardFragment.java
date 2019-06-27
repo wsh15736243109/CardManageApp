@@ -44,7 +44,7 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
     List<Fragment> mFragmentList;
     List<String> mTitles;
     FragmentPageAdapter mFragmentPageAdapter;
-    private String cardUse = "3";
+    private String cardUse = "1";
     int pageIndex = 1;
     String type = "0";
 
@@ -158,6 +158,7 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
         });
         viewModel.adapter.bindToRecyclerView(binding.recyclerView);
         viewModel.adapter.setOnItemChildClickListener((adapter, view, position) -> {
+            viewModel.observableList.get(position).setChooseType(cardUse);
             if (type.equals("1")) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("model", viewModel.observableList.get(position));
