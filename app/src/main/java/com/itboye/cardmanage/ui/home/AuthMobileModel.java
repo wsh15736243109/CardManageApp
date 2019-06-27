@@ -19,6 +19,7 @@ public class AuthMobileModel extends BaseViewModel {
     int status = 1;
     public String bankId;
     public String verificationCode;
+    int type = 1;
 
     public AuthMobileModel(@NonNull Application application) {
         super(application);
@@ -29,6 +30,8 @@ public class AuthMobileModel extends BaseViewModel {
             case 1:
                 //立即验证
                 ToastUtils.showShort("立即验证");
+                sendAuthCode(true);
+                //验证
                 yzStatus.set("验证成功，返回首页");
                 status = 2;
                 break;
@@ -45,27 +48,62 @@ public class AuthMobileModel extends BaseViewModel {
 
     }
 
-    public void sendAuthCode() {
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signWithholding(bankId, verificationCode, "by_UserBankCard_signWithhold"), getLifecycleProvider(), new Consumer<Disposable>() {
-            @Override
-            public void accept(Disposable disposable) throws Exception {
-                showDialog();
-            }
-        }, new ApiDisposableObserver() {
-            @Override
-            public void onResult(Object o, String msg, int code) {
-                ToastUtils.showShort(msg);
-            }
+    public void sendAuthCode(boolean isAuth) {
+        if (type == 1) {//开通代扣
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signWithholding(bankId, verificationCode, "by_UserBankCard_signWithhold"), getLifecycleProvider(), new Consumer<Disposable>() {
+                @Override
+                public void accept(Disposable disposable) throws Exception {
+                    showDialog();
+                }
+            }, new ApiDisposableObserver() {
+                @Override
+                public void onResult(Object o, String msg, int code) {
+                    if (isAuth) {
 
-            @Override
-            public void onError(int code, String msg) {
+                    }else{
 
-            }
+                    }
+                    ToastUtils.showShort(msg);
+                }
 
-            @Override
-            public void dialogDismiss() {
-            dismissDialog();
-            }
-        });
+                @Override
+                public void onError(int code, String msg) {
+
+                }
+
+                @Override
+                public void dialogDismiss() {
+                    dismissDialog();
+                }
+            });
+        } else {
+            //开通代付
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signRepay(bankId, verificationCode, "by_UserBankCard_signWithhold"), getLifecycleProvider(), new Consumer<Disposable>() {
+                @Override
+                public void accept(Disposable disposable) throws Exception {
+                    showDialog();
+                }
+            }, new ApiDisposableObserver() {
+                @Override
+                public void onResult(Object o, String msg, int code) {
+                    if (isAuth) {
+
+                    }else{
+
+                    }
+                    ToastUtils.showShort(msg);
+                }
+
+                @Override
+                public void onError(int code, String msg) {
+
+                }
+
+                @Override
+                public void dialogDismiss() {
+                    dismissDialog();
+                }
+            });
+        }
     }
 }

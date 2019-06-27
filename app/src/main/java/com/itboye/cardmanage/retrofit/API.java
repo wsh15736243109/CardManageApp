@@ -1,10 +1,7 @@
 package com.itboye.cardmanage.retrofit;
 
 
-import com.itboye.cardmanage.bean.PayWaybean;
-import com.itboye.cardmanage.bean.UploadImageBean;
-import com.itboye.cardmanage.bean.UserAuthDetailBean;
-import com.itboye.cardmanage.bean.UserInfoBean;
+import com.itboye.cardmanage.bean.*;
 
 import com.itboye.cardmanage.model.CardManageModel;
 import io.reactivex.Observable;
@@ -342,4 +339,18 @@ public interface API {
     Observable<BaseResponse<String>> signRepay(@Field("bank_id") String bank_id,
                                                @Field("verification_code") String verification_code,
                                                @Field("service_type") String serviceType);
+
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> authDetail(@Field("service_type") String serviceType);
+
+
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<NoticeBean>> noticeMessage(@Field("page_index") String page_index,
+                                                       @Field("page_size") String page_size,
+                                                       @Field("service_type") String serviceType);
+
 }

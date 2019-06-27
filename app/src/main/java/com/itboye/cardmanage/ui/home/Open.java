@@ -26,6 +26,7 @@ public class Open extends BaseMVVMActivity<ActivityOpenBinding, OpenModel> {
         type = getIntent().getIntExtra("type", 0);
         viewModel.bank_id = getIntent().getStringExtra("bank_id");
         viewModel.phone = getIntent().getStringExtra("phone");
+        viewModel.type = type;
         binding.titleBar.setTitle(type == 0 ? "开通代扣" : "开通代付");
     }
 }

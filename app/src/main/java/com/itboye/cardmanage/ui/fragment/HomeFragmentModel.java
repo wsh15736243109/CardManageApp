@@ -7,16 +7,26 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.bean.CardBean;
+import com.itboye.cardmanage.bean.NoticeBean;
 import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
 import com.itboye.cardmanage.model.HomeTopModel;
 import com.itboye.cardmanage.model.LoanModel;
+import com.itboye.cardmanage.retrofit.API;
+import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
+import com.itboye.cardmanage.retrofit.AppUtils;
+import com.itboye.cardmanage.retrofit.RetrofitClient;
 import com.itboye.cardmanage.ui.home.CardManageActivity;
 import com.itboye.cardmanage.ui.home.ReceiveMoneyActivity;
 import com.itboye.cardmanage.ui.mine.RepaymentPlanActivity;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
@@ -26,6 +36,8 @@ import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass;
 import java.util.ArrayList;
 
 public class HomeFragmentModel extends BaseViewModel {
+
+    private NoticeBean noticeBean;
     public HomeFragmentModel(@NonNull Application application) {
         super(application);
         initAr1();
@@ -55,7 +67,6 @@ public class HomeFragmentModel extends BaseViewModel {
                     .bindExtra(BR.listener, new OnMyItemClickListener<CardBean>() {
                         @Override
                         public void onItemClick(View view, int position232323, CardBean item) {
-                            ToastUtils.showShort(position + "item 点击了吗>>>>>>" + item + "______________" + position232323);
                         }
 
                         @Override
@@ -111,4 +122,6 @@ public class HomeFragmentModel extends BaseViewModel {
     public void moreRepaymentPlan() {
         startActivity(RepaymentPlanActivity.class);
     }
+
+
 }

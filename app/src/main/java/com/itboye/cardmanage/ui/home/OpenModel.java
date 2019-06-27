@@ -5,7 +5,6 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import me.goldze.mvvmhabit.base.BaseViewModel;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class OpenModel extends BaseViewModel {
     public ObservableField<String> xieyi = new ObservableField<>("<font color='black'><b>代扣服务协议</b></font><br />本协议是用户与平台之间的法律协议， 是用户注" +
@@ -18,6 +17,7 @@ public class OpenModel extends BaseViewModel {
             "平台的服务即视为您已阅读并同意本协议的约束。");
     public String bank_id;
     public String phone;
+    public int type;
 
     public OpenModel(@NonNull Application application) {
         super(application);
@@ -45,10 +45,11 @@ public class OpenModel extends BaseViewModel {
         }
     }
 
-    public void open(){
-        Bundle bundle=new Bundle();
-        bundle.putString("bank_id",bank_id);
-        bundle.putString("phone",phone);
-        startActivity(AuthMobileActivity.class,bundle);
+    public void open() {
+        Bundle bundle = new Bundle();
+        bundle.putString("bank_id", bank_id);
+        bundle.putString("phone", phone);
+        bundle.putInt("type", type);
+        startActivity(AuthMobileActivity.class, bundle);
     }
 }
