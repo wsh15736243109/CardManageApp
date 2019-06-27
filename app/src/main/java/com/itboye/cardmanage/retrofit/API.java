@@ -353,4 +353,9 @@ public interface API {
                                                        @Field("page_size") String page_size,
                                                        @Field("service_type") String serviceType);
 
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<ArrayList<TranslationBean>>> translationRecord(@Field("month") String month,
+                                                           @Field("service_type") String serviceType);
 }

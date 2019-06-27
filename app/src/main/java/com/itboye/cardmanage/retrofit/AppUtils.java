@@ -24,6 +24,7 @@ public class AppUtils {
                 .doOnSubscribe(onSubscribe)
                 .subscribe(apiDisposableObserver);
     }
+
     /**
      * @param observable
      * @param provider
@@ -41,4 +42,20 @@ public class AppUtils {
                 .subscribe(apiDisposableObserver);
     }
 
+
+    /**
+     * 97      * 获取系统SDK版本
+     * 98      *
+     * 99      * @return
+     * 100
+     */
+    public static int getSDKVersionNumber() {
+        int sdkVersion;
+        try {
+            sdkVersion = Integer.valueOf(android.os.Build.VERSION.SDK);
+        } catch (NumberFormatException e) {
+            sdkVersion = 0;
+        }
+        return sdkVersion;
+    }
 }
