@@ -277,7 +277,8 @@ public interface API {
                                                         @Field("note") String note,
                                                         @Field("pay_card_id") String pay_card_id,
                                                         @Field("withdraw_card_id") String withdraw_card_id,
-                                                        @Field("pay_channel_id") String pay_channel_id, @Field("service_type") String serviceType);
+                                                        @Field("pay_channel_id") String pay_channel_id,
+                                                        @Field("service_type") String serviceType);
 
     /**
      * 设置主卡

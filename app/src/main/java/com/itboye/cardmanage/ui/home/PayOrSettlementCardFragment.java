@@ -2,6 +2,7 @@ package com.itboye.cardmanage.ui.home;
 
 
 import android.databinding.Observable;
+import android.databinding.ObservableList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
 import com.itboye.cardmanage.databinding.FragmentPayOrSettlementBinding;
 import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
+import com.itboye.cardmanage.model.CardManageModel;
 import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
@@ -125,6 +127,12 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
                         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).setMasterBalance(model.getId(), cardUse, "by_UserBankCard_setMasterBalance"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
                             @Override
                             public void onResult(Object o, String msg, int code) {
+                                ObservableList<CardManageModel> observableList = viewModel.observableList;
+                                for (int i = 0; i < observableList.size(); i++) {
+                                    observableList.get(i).setMaster(0);
+                                }
+                                viewModel.observableList.get(position).setMaster(1);
+                                viewModel.adapter.notifyDataSetChanged();
                                 ToastUtils.showShort(msg);
                             }
 

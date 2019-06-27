@@ -42,6 +42,7 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
         mSubscription = RxBus.getDefault().toObservable(CardManageModel.class)
                 .subscribe(s -> {
                     viewModel.pay_card_id = s.getId();//支付卡id
+                    viewModel.phone = s.getMobile();//支付卡id
                     binding.tvCardBank.setText(s.getBranch_bank());
                 });
         //将订阅者加入管理站

@@ -25,12 +25,13 @@ public class ReceiveMoneyModel extends BaseViewModel {
     public ObservableField<String> amount = new ObservableField<>("");
     public ObservableField<String> note = new ObservableField<>("");
     public String pay_card_id = "7";//支付卡id
-    public String withdraw_card_id = "13";//到账结算卡id
+    public String withdraw_card_id = "34";//到账结算卡id
     public String pay_channel_id = "13";//支付通道id
-    public String order_code = "13";//支付通道id
-    public String code = "13";//支付通道id
+    public String order_code;//订单号
+    public String code;//验证码
     public ObservableBoolean payChannel = new ObservableBoolean(false);
     public ArrayList<PayWaybean> payWaybeanArrayList;
+    public String phone;
 
     public ReceiveMoneyModel(@NonNull Application application) {
         super(application);
@@ -43,12 +44,11 @@ public class ReceiveMoneyModel extends BaseViewModel {
             return;
         }
         //立即下单
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createPaymentOrder(amount.get(), note.get(), pay_card_id, withdraw_card_id, pay_channel_id, "by_CbOrder_quickOrder"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createPaymentOrder(Double.parseDouble(amount.get()) * 100 + "", /*note.get()*/Double.parseDouble(amount.get()) * 100 + "", pay_card_id, withdraw_card_id, pay_channel_id, "by_CbOrder_quickOrder"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
-                order_code = msg;
+                order_code = o + "";
                 sendPayment();
-                ToastUtils.showShort(msg);
             }
 
             @Override
@@ -63,11 +63,16 @@ public class ReceiveMoneyModel extends BaseViewModel {
         });
     }
 
-    //发起收款请求
+    //发起收款请求(第一次发送验证码 第二次制支付)
     private void sendPayment() {
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, code, "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
+                Bundle bundle=new Bundle();
+                bundle.putInt("type",3);
+                bundle.putString("phone",phone);
+                bundle.putString("order_code",order_code);
+                startActivity(AuthMobileActivity.class,bundle);
                 ToastUtils.showShort(msg);
             }
 

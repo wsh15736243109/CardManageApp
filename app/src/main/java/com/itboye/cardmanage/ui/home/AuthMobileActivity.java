@@ -21,6 +21,7 @@ public class AuthMobileActivity extends BaseMVVMActivity<ActivityAuthMobileBindi
     @Override
     public void initData() {
         viewModel.bankId = getIntent().getStringExtra("bank_id");
+        viewModel.order_code = getIntent().getStringExtra("order_code");
         viewModel.type = getIntent().getIntExtra("type",1);
         binding.phone.setText(getIntent().getStringExtra("phone"));
         viewModel.sendAuthCode(false);

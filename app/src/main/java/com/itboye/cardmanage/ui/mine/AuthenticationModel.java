@@ -342,21 +342,21 @@ public class AuthenticationModel extends BaseViewModel {
                         switch (type) {
                             case 101:
                                 path1 = temp;
-                                id_front_img = IMAGEURL + uploadImageBean.getRelative_path();
+                                id_front_img =  uploadImageBean.getRelative_path();
                                 id_front_img_id = uploadImageBean.getOss_key();
                                 break;
                             case 102:
                                 path2 = temp;
-                                id_back_img = IMAGEURL + uploadImageBean.getRelative_path();
+                                id_back_img =  uploadImageBean.getRelative_path();
                                 id_back_img_id = uploadImageBean.getOss_key();
                                 break;
                             case 103:
-                                id_hold_img = IMAGEURL + uploadImageBean.getRelative_path();
+                                id_hold_img =  uploadImageBean.getRelative_path();
                                 id_hold_img_id = uploadImageBean.getOss_key();
                                 path3 = temp;
                                 break;
                             case 104:
-                                bank_img = IMAGEURL + uploadImageBean.getRelative_path();
+                                bank_img =  uploadImageBean.getRelative_path();
                                 bank_img_id = uploadImageBean.getOss_key();
                                 path4 = temp;
                                 break;

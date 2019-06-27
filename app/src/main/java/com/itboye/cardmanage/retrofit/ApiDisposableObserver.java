@@ -8,6 +8,9 @@ import me.goldze.mvvmhabit.utils.KLog;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.goldze.mvvmhabit.utils.Utils;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
 import static com.itboye.cardmanage.retrofit.ApiDisposableObserver.CodeRule.CODE__1006;
 
 /**
@@ -39,12 +42,22 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
         if (e.getCause() instanceof DataResultException) {
             DataResultException rError = (DataResultException) e.getCause();
             onError(rError.getCode(), rError.getMessage());
-            ToastUtils.showShort(rError.getMessage());
+            ToastUtils.showShort(rError.getMessage() + "DataResultException");
             return;
         } else if (e instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) e;
-            ToastUtils.showShort(rError.getMessage());
+            if (rError.getCause() instanceof SocketTimeoutException) {
+                ToastUtils.showShort("连接超时，请稍后重试");
+                return;
+            }
+            if (rError.getCause() instanceof UnknownHostException) {
+                ToastUtils.showShort("网络连接错误，请检查网络连接");
+                return;
+            }
+            ToastUtils.showShort(rError.getMessage() + "ResponseThrowable");
             return;
+        } else {
+
         }
         ToastUtils.showShort("网络异常");
     }
@@ -149,7 +162,6 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
         static final int CODE_530 = 530;
         //请求的操作异常终止：未知的页面类型
         static final int CODE_551 = 551;
-        static final int CODE__1006 = 1006;//会员到期
-        static final int CODE__4 = -4;//未认证
+        static final int CODE__1006 = 1006;
     }
 }

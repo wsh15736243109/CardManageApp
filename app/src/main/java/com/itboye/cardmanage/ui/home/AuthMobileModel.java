@@ -2,6 +2,7 @@ package com.itboye.cardmanage.ui.home;
 
 import android.app.Application;
 import android.databinding.ObservableField;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
@@ -15,10 +16,12 @@ import me.goldze.mvvmhabit.utils.ToastUtils;
 public class AuthMobileModel extends BaseViewModel {
 
     public ObservableField<String> yzStatus = new ObservableField<>("没收到验证码?<font color='red'>重新发送</font>");
+    public ObservableField<String> code = new ObservableField<>();
 
     int status = 1;
     public String bankId;
     public String verificationCode;
+    public String order_code;
     int type = 1;
 
     public AuthMobileModel(@NonNull Application application) {
@@ -29,11 +32,15 @@ public class AuthMobileModel extends BaseViewModel {
         switch (status) {
             case 1:
                 //立即验证
-                ToastUtils.showShort("立即验证");
-                sendAuthCode(true);
-                //验证
-                yzStatus.set("验证成功，返回首页");
-                status = 2;
+                if (type == 3) {
+                    //收款验证
+                    receiveMoneyAuth();
+                } else {
+                    sendAuthCode(true);
+                    //验证
+                    yzStatus.set("验证成功，返回首页");
+                    status = 2;
+                }
                 break;
             case 2:
                 //验证成功，返回首页
@@ -48,6 +55,25 @@ public class AuthMobileModel extends BaseViewModel {
 
     }
 
+    private void receiveMoneyAuth() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, code.get(), "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+            @Override
+            public void onResult(Object o, String msg, int code) {
+                ToastUtils.showShort(msg);
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
+            }
+
+            @Override
+            public void dialogDismiss() {
+                dismissDialog();
+            }
+        });
+    }
+
     public void sendAuthCode(boolean isAuth) {
         if (type == 1) {//开通代扣
             AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signWithholding(bankId, verificationCode, "by_UserBankCard_signWithhold"), getLifecycleProvider(), new Consumer<Disposable>() {
@@ -60,7 +86,7 @@ public class AuthMobileModel extends BaseViewModel {
                 public void onResult(Object o, String msg, int code) {
                     if (isAuth) {
 
-                    }else{
+                    } else {
 
                     }
                     ToastUtils.showShort(msg);
@@ -76,7 +102,7 @@ public class AuthMobileModel extends BaseViewModel {
                     dismissDialog();
                 }
             });
-        } else {
+        } else if (type == 2) {
             //开通代付
             AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signRepay(bankId, verificationCode, "by_UserBankCard_signWithhold"), getLifecycleProvider(), new Consumer<Disposable>() {
                 @Override
@@ -88,7 +114,7 @@ public class AuthMobileModel extends BaseViewModel {
                 public void onResult(Object o, String msg, int code) {
                     if (isAuth) {
 
-                    }else{
+                    } else {
 
                     }
                     ToastUtils.showShort(msg);
@@ -104,6 +130,8 @@ public class AuthMobileModel extends BaseViewModel {
                     dismissDialog();
                 }
             });
+        } else if (type == 3) {
+
         }
     }
 }
