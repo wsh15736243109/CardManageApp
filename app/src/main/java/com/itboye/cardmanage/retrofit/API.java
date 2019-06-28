@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.retrofit;
 
 
+import android.databinding.ObservableField;
 import com.itboye.cardmanage.bean.*;
 
 import com.itboye.cardmanage.model.CardManageModel;
@@ -307,8 +308,8 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<ReceiveMoneyAuthPassBean>> sendPayment(@Field("order_code") String id,
-                                                 @Field("code") String card_usage,
-                                                 @Field("service_type") String serviceType);
+                                                                   @Field("code") String card_usage,
+                                                                   @Field("service_type") String serviceType);
 
 
     /**
@@ -322,7 +323,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> signWithholding(@Field("bank_id") String bank_id,
+    Observable<BaseResponse<ArrayList>> signWithholding(@Field("bank_id") String bank_id,
                                                      @Field("verification_code") String verification_code,
                                                      @Field("service_type") String serviceType);
 
@@ -337,7 +338,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<String>> signRepay(@Field("bank_id") String bank_id,
+    Observable<BaseResponse<ArrayList>> signRepay(@Field("bank_id") String bank_id,
                                                @Field("verification_code") String verification_code,
                                                @Field("service_type") String serviceType);
 
@@ -358,5 +359,65 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<ArrayList<TranslationBean>>> translationRecord(@Field("month") String month,
-                                                           @Field("service_type") String serviceType);
+                                                                           @Field("service_type") String serviceType);
+
+    /**
+     * 添加还款计划
+     *
+     * @param amount
+     * @param days
+     * @param pre_store_money
+     * @param fee
+     * @param preStoreCardIds
+     * @param creditCardIds
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> createCbPlan(@Field("money") String amount,
+                                                  @Field("days") String days,
+                                                  @Field("pre_store_money") String pre_store_money,
+                                                  @Field("fee") Double fee,
+                                                  @Field("pre_store_card_id") String preStoreCardIds,
+                                                  @Field("credit_card_ids") String creditCardIds, @Field("service_type") String serviceType);
+
+    /**
+     * 重启还款计划
+     *
+     * @param id
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> restartCbPlan(@Field("id") String id, @Field("service_type") String serviceType);
+
+    /**
+     * 查询还款计划
+     *
+     * @param page_index
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<ArrayList<CardManageModel>>> queryRepaymentPlan(@Field("page_index") String page_index, @Field("service_type") String serviceType);
+
+
+    /**
+     * 自动还款获取手续费(根据每次还款额度+ 银行卡数量）
+     * @param page_index
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<Double>> getRepaymentFee(@Field("money") double money,
+                                                     @Field("card_count") int card_count,
+                                                     @Field("days") int days,@Field("service_type") String serviceType);
 }

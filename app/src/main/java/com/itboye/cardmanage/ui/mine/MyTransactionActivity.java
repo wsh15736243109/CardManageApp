@@ -22,6 +22,7 @@ import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.utils.MaterialDialogUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Timer;
 
 public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslationBinding, MyTranslationModel> {
@@ -29,6 +30,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
 
     private MaterialDialog dialog;
     String month;
+    int year;
     ArrayList<TranslationBean> ar = new ArrayList<>();
     private MyTranslationAdapter adapter;
 
@@ -48,17 +50,16 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
         binding.rvTranslation.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         adapter = new MyTranslationAdapter(ar);
         binding.rvTranslation.setAdapter(adapter);
-
+        year = Calendar.getInstance().get(Calendar.YEAR);
         setRightClickListener(() -> {
-
-            TimePickerFragment newFragment = new TimePickerFragment(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-
-                }
-            }, 0, 0, 0);
+            TimePickerFragment newFragment = new TimePickerFragment(this, (datePicker, i, i1, i2) -> {
+                year = i;
+                month = i1 + 1 + "";
+                myTranslationRecord();
+            }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
             newFragment.getDatePicker().setCalendarViewShown(false);
             newFragment.getDatePicker().setSpinnersShown(true);
+            newFragment.setCanceledOnTouchOutside(false);
             newFragment.show();
 //            MaterialDialog.Builder builder = MaterialDialogUtils.showDateDialog(this, "选择时间", "嗯嗯");
 //            dialog = builder.show();
@@ -67,6 +68,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
     }
 
     void myTranslationRecord() {
+        binding.tvBillDate.setText(year + "年" + month + "月账单");
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).translationRecord(month, "by_CbOrder_querySimple"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
             @Override
             public void accept(Disposable disposable) throws Exception {
@@ -75,6 +77,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
         }, new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
+                ar.clear();
                 ar.addAll((ArrayList<TranslationBean>) o);
                 adapter.notifyDataSetChanged();
             }

@@ -25,9 +25,9 @@ public class ReceiveMoneyModel extends BaseViewModel {
 
     public ObservableField<String> amount = new ObservableField<>("");
     public ObservableField<String> note = new ObservableField<>("");
-    public String pay_card_id = "40";//支付卡id
-    public String withdraw_card_id = "46";//到账结算卡id
-    public String pay_channel_id = "13";//支付通道id
+    public String pay_card_id = "";//支付卡id
+    public String withdraw_card_id = "";//到账结算卡id
+    public String pay_channel_id = "";//支付通道id
     public String order_code;//订单号
     public String code;//验证码
     public ObservableBoolean payChannel = new ObservableBoolean(false);
@@ -75,7 +75,7 @@ public class ReceiveMoneyModel extends BaseViewModel {
                 bundle.putString("phone", phone);
                 bundle.putString("order_code", order_code);
                 startActivity(AuthMobileActivity.class, bundle);
-                ToastUtils.showShort(o.toString()+"");
+                ToastUtils.showShort(msg);
             }
 
             @Override
@@ -90,10 +90,10 @@ public class ReceiveMoneyModel extends BaseViewModel {
         });
     }
 
-    public void choosePayCard() {
+    public void choosePayCard(int index) {
         //选择支付卡
         Bundle bundle = new Bundle();
-        bundle.putInt("index", 0);
+        bundle.putInt("index", index);
         bundle.putInt("type", 0);
         startActivity(CardManageActivity.class, bundle);
     }

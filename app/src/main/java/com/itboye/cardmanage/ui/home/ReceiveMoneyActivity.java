@@ -1,9 +1,7 @@
 package com.itboye.cardmanage.ui.home;
 
-import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -17,7 +15,6 @@ import com.itboye.cardmanage.model.CardManageModel;
 import io.reactivex.disposables.Disposable;
 import me.goldze.mvvmhabit.bus.RxBus;
 import me.goldze.mvvmhabit.bus.RxSubscriptions;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyBinding, ReceiveMoneyModel> {
 
@@ -43,12 +40,13 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
                 .subscribe(s -> {
                     if (s.getChooseType().equals("1")) {
                         viewModel.pay_card_id = s.getId();//支付卡id
-                    }else{
-                        viewModel.withdraw_card_id = s.getId();//支付卡id
+                        binding.tvCardBank.setText(s.getBranch_bank());
+                    } else {
+                        viewModel.withdraw_card_id = s.getId();//结算卡账户id
+                        binding.tvWithdrawCard.setText(s.getBranch_bank());//结算卡账户
 
                     }
                     viewModel.phone = s.getMobile();//支付卡id
-                    binding.tvCardBank.setText(s.getBranch_bank());
                 });
         //将订阅者加入管理站
         RxSubscriptions.add(mSubscription);

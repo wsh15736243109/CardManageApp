@@ -46,12 +46,9 @@
                         android:orientation="vertical">
 
                     <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_repayment_plan"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            app:itemBinding="@{viewModel.itemBind2}"
-                            app:items="@{viewModel.planList}"
-                            app:layoutManager="@{LayoutManagers.linear()}"
-                            app:lineManager="@{LineManagers.vertical()}"
                             />
 
                 </LinearLayout>

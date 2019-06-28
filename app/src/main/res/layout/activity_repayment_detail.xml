@@ -47,10 +47,13 @@
                             android:layout_height="wrap_content"/>
 
                     <EditText
+                            android:id="@+id/et_amount"
                             android:layout_marginLeft="@dimen/dp_6"
                             android:layout_width="match_parent"
                             android:hint="请输入您的预算"
+                            android:inputType="numberDecimal"
                             android:textSize="@dimen/dp_16"
+                            android:text="@={viewModel.amount}"
                             android:textColor="@color/white"
                             android:textColorHint="@color/white"
                             android:layout_height="wrap_content"/>
@@ -63,16 +66,19 @@
 
                     <TextView
                             android:layout_width="wrap_content"
-                            android:text="预算    ￥"
+                            android:text="周期"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dp_16"
                             android:layout_height="wrap_content"/>
 
                     <EditText
+                            android:id="@+id/et_days"
                             android:layout_marginLeft="@dimen/dp_6"
                             android:layout_width="match_parent"
-                            android:hint="请输入您的预算"
+                            android:hint="请输入您的还款周期"
+                            android:inputType="number"
                             android:textColor="@color/white"
+                            android:text="@={viewModel.days}"
                             android:textSize="@dimen/dp_16"
                             android:textColorHint="@color/white"
                             android:layout_height="wrap_content"/>
@@ -86,7 +92,7 @@
                     <TextView
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:text="0.00 手续费"
+                            android:text="@={viewModel.fee}"
                             android:textColor="@color/golden_F6C087"
                             android:gravity="center"
                             android:layout_height="wrap_content"/>
@@ -128,19 +134,21 @@
                     android:layout_height="wrap_content"/>
 
             <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_repayment_card"
                     android:layout_width="match_parent"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginRight="@dimen/dp_12"
+                    android:background="@color/red"
                     android:layout_height="wrap_content"/>
 
             <Button
                     android:id="@+id/bt_add_repayment"
                     android:layout_width="match_parent"
-                    android:text="+添加还款计划"
+                    android:text="+添加还款计划卡"
                     android:background="@drawable/shape_dotted_strok_radius_0"
                     android:layout_alignParentBottom="true"
                     android:layout_margin="@dimen/dp_12"
-                    android:onClick="@{()->viewModel.addRepaymentPlan()}"
+                    android:onClick="@{()->viewModel.addRepaymentPlan(1,-1)}"
                     android:textColor="@color/red"
                     android:layout_height="wrap_content"/>
 
@@ -153,6 +161,7 @@
                     android:layout_height="wrap_content"/>
 
             <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_credit_card"
                     android:layout_width="match_parent"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginRight="@dimen/dp_12"
@@ -165,7 +174,7 @@
                     android:background="@drawable/shape_dotted_strok_radius_0"
                     android:layout_alignParentBottom="true"
                     android:layout_margin="@dimen/dp_12"
-                    android:onClick="@{()->viewModel.addPreCard()}"
+                    android:onClick="@{()->viewModel.addRepaymentPlan(2,1)}"
                     android:textColor="@color/red"
                     android:layout_height="wrap_content"/>
         </LinearLayout>

@@ -111,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:layout_marginTop="@dimen/dp_12"
-                android:onClick="@{()->viewModel.choosePayCard()}"
+                android:onClick="@{()->viewModel.choosePayCard(0)}"
                 android:background="@drawable/view_bg_white_grey_selector"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -150,6 +150,7 @@
                 android:layout_marginTop="@dimen/dp_1"
                 android:background="@drawable/view_bg_white_grey_selector"
                 android:gravity="center_vertical"
+                android:onClick="@{()->viewModel.choosePayCard(1)}"
                 android:orientation="horizontal">
 
             <TextView
@@ -162,6 +163,7 @@
                     android:textSize="14sp"/>
 
             <TextView
+                    android:id="@+id/tv_withdraw_card"
                     android:layout_width="wrap_content"
                     android:drawablePadding="@dimen/dp_4"
                     android:layout_height="wrap_content"

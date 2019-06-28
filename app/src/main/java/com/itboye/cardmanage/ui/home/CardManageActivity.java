@@ -32,14 +32,16 @@ public class CardManageActivity extends BaseMVVMActivity<ActivityCardManageBindi
         viewModel.tab1 = binding.tabitem1;
         viewModel.tab2 = binding.tabitem2;
         viewModel.switchTitle(0);
+        selecctIndex = getIntent().getIntExtra("index", 0);
         viewModel.type = getIntent().getIntExtra("type", 0);//是否跳转选择支付卡
         binding.viewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager(),
                 new ArrayList<Fragment>() {{
-                    add(PayOrSettlementCardFragment.newInstance("1",  viewModel.type+""));
-                    add(PayOrSettlementCardFragment.newInstance("2",  viewModel.type+""));
+                    add(PayOrSettlementCardFragment.newInstance("1", viewModel.type + ""));
+                    add(PayOrSettlementCardFragment.newInstance("2", viewModel.type + ""));
                 }}, null));
         //自动适配ViewPager页面切换
-        binding.viewPager.setCurrentItem(getIntent().getIntExtra("index", 0));
+        binding.viewPager.setCurrentItem(selecctIndex);
+        viewModel.switchTitle(selecctIndex);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {

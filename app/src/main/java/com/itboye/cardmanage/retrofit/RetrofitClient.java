@@ -151,6 +151,7 @@ public class RetrofitClient {
                         }
 
                         String json = json1.toString();
+                        Log.v(TAG,"sign====" + (time + "_" + client_secret + "_" + serviceType + "_" + serviceVersion + "_" + json));
                         String sign = DataSignatureUtil.md5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
                         KLog.d("sign====" + (time + "_" + client_secret + "_" + serviceType + "_" + serviceVersion + "_" + json));
                         body = new FormBody.Builder()

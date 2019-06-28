@@ -38,7 +38,7 @@
         <activity android:name=".ui.mine.UpdatePasswordActivity"/>
         <activity android:name=".ui.mine.FeedbackActivity"/>
         <activity android:name=".ui.mine.AuthenticationActivity"/>
-        <activity android:name=".ui.mine.RepaymentDetailActivity"/>
+        <activity android:name=".ui.mine.RepaymentDetailActivity" android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.mine.ChoosePreCardActivity"/>
         <activity android:name=".ui.home.CardManageActivity"/>
         <activity android:name=".ui.home.AddCardActivity"/>
@@ -47,6 +47,8 @@
         <activity android:name=".ui.home.Open">
         </activity>
         <activity android:name=".ui.home.AuthMobileActivity">
+        </activity>
+        <activity android:name=".ui.mine.CardListActivity">
         </activity>
     </application>
 

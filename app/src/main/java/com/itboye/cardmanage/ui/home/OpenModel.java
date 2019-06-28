@@ -24,7 +24,7 @@ public class OpenModel extends BaseViewModel {
     }
 
     public void setXieyi(int type) {
-        if (type == 0) {
+        if (type == 1) {
             xieyi.set("<font color='black'><b>代扣服务协议</b></font>代扣服务协议本协议是用户与平台之间的法律协议， 是用户注" +
                     "册账号并使用平台服务或非经注册程序直接使用平台服" +
                     "务时的通用条款。 请您务必审慎阅读、充分理解本协议" +

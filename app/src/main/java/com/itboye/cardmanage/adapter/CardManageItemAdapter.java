@@ -30,6 +30,9 @@ public class CardManageItemAdapter extends BaseQuickAdapter<CardManageModel, Bas
         helper.setText(R.id.item_card_manage_master, item.getMaster() == 0 ? "设为主卡" : "主卡");
         helper.setText(R.id.tv_card_manage_no, item.getCard_no());
         helper.addOnClickListener(R.id.cl_root);
+
+        helper.setVisible(R.id.item_card_manage_daifu, item.getPay_agree_id().isEmpty());//是否签约代付
+        helper.setVisible(R.id.item_card_manage_daikou, item.getWithdraw_agree_id().isEmpty());//是否签约代扣
         helper.setOnClickListener(R.id.item_card_manage_daikou, new View.OnClickListener() {
             @Override
             public void onClick(View view) {

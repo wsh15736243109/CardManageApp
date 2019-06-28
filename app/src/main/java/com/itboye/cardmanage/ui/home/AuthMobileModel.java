@@ -8,6 +8,7 @@ import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
+import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
@@ -20,7 +21,7 @@ public class AuthMobileModel extends BaseViewModel {
 
     int status = 1;
     public String bankId;
-    public String verificationCode;
+    public ObservableField<String> verificationCode=new ObservableField<>("");
     public String order_code;
     int type = 1;
 
@@ -37,7 +38,6 @@ public class AuthMobileModel extends BaseViewModel {
                     receiveMoneyAuth();
                 } else {
                     sendAuthCode(true);
-
                 }
                 break;
             case 2:
@@ -75,12 +75,14 @@ public class AuthMobileModel extends BaseViewModel {
 
     public void sendAuthCode(boolean isAuth) {
         if (type == 1) {//开通代扣
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signWithholding(bankId, verificationCode, "by_UserBankCard_signWithhold"), getLifecycleProvider(), new Consumer<Disposable>() {
-                @Override
-                public void accept(Disposable disposable) throws Exception {
-                    showDialog();
+            if (isAuth) {
+                if (verificationCode.get().equals("")) {
+                    ToastUtils.showShort("请填写收到的验证码");
+                    return;
                 }
-            }, new ApiDisposableObserver() {
+            }
+            ToastUtils.showShort("验证码=="+verificationCode.get());
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signWithholding(bankId, verificationCode.get(), "by_UserBankCard_signWithhold"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
                 public void onResult(Object o, String msg, int code) {
                     if (isAuth) {
@@ -111,12 +113,7 @@ public class AuthMobileModel extends BaseViewModel {
             });
         } else if (type == 2) {
             //开通代付
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signRepay(bankId, verificationCode, "by_UserBankCard_signWithhold"), getLifecycleProvider(), new Consumer<Disposable>() {
-                @Override
-                public void accept(Disposable disposable) throws Exception {
-                    showDialog();
-                }
-            }, new ApiDisposableObserver() {
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signRepay(bankId, verificationCode.get(), "by_UserBankCard_signRepay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
                 public void onResult(Object o, String msg, int code) {
                     if (isAuth) {

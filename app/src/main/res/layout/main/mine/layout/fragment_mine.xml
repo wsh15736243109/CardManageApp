@@ -76,7 +76,7 @@
                                     android:id="@+id/tv_phone"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="157*****4124"
+                                    android:text="@={viewModel.mobile}"
                                     android:layout_below="@+id/tv_user_name"
                                     android:layout_margin="@dimen/dp_4"/>
 

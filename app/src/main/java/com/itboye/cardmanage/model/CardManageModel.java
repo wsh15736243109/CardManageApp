@@ -45,6 +45,15 @@ public class CardManageModel implements Serializable {
      */
 
     String chooseType = "1";
+    boolean isCheck;
+
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
 
     private String id;
     private String uid;
@@ -70,6 +79,15 @@ public class CardManageModel implements Serializable {
     private int status;
     private String branch_no;
     private String pay_agree_id;
+    private String withdraw_agree_id;
+
+    public String getWithdraw_agree_id() {
+        return withdraw_agree_id;
+    }
+
+    public void setWithdraw_agree_id(String withdraw_agree_id) {
+        this.withdraw_agree_id = withdraw_agree_id;
+    }
 
     public String getId() {
         return id;

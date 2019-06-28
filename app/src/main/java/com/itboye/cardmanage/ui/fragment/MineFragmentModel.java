@@ -17,6 +17,7 @@ import me.goldze.mvvmhabit.utils.ToastUtils;
 public class MineFragmentModel extends BaseViewModel {
 
     public ObservableField<String> nickname = new ObservableField<>(UserUtil.getUserInfo().getNickname());
+    public ObservableField<String> mobile = new ObservableField<>(UserUtil.getUserInfo().getMobile());
     public ObservableField<String> headUrl = new ObservableField<>(UserUtil.getUserInfo().getAvatar());
 
     public MineFragmentModel(@NonNull Application application) {

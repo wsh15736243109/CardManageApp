@@ -41,7 +41,7 @@ public class TimePickerFragment extends DatePickerDialog
             } else if (SDKVersion > 14) {
                 //只显示年月
                 ((ViewGroup) ((ViewGroup) dp.getChildAt(0)).getChildAt(0))
-                        .getChildAt(1).setVisibility(View.GONE);//.getChildAt(0)
+                        .getChildAt(2).setVisibility(View.GONE);//.getChildAt(0)
                 //只显示年日
                 //                ((ViewGroup) ((ViewGroup) dp.getChildAt(0)).getChildAt(0))
                 //                .getChildAt(2).setVisibility(View.GONE);

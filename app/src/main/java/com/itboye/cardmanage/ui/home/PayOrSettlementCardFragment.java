@@ -115,11 +115,11 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
                 bundle.putString("phone", model.getMobile());
                 switch (view.getId()) {
                     case R.id.item_card_manage_daikou://代扣
-                        bundle.putInt("type", 0);
+                        bundle.putInt("type", 1);
                         startActivity(Open.class, bundle);
                         break;
                     case R.id.item_card_manage_daifu://代付
-                        bundle.putInt("type", 1);
+                        bundle.putInt("type", 2);
                         startActivity(Open.class, bundle);
                         break;
                     case R.id.item_card_manage_master:
