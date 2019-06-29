@@ -324,8 +324,8 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<ArrayList>> signWithholding(@Field("bank_id") String bank_id,
-                                                     @Field("verification_code") String verification_code,
-                                                     @Field("service_type") String serviceType);
+                                                        @Field("verification_code") String verification_code,
+                                                        @Field("service_type") String serviceType);
 
     /**
      * 代付协议
@@ -339,8 +339,8 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<ArrayList>> signRepay(@Field("bank_id") String bank_id,
-                                               @Field("verification_code") String verification_code,
-                                               @Field("service_type") String serviceType);
+                                                  @Field("verification_code") String verification_code,
+                                                  @Field("service_type") String serviceType);
 
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
@@ -410,7 +410,9 @@ public interface API {
 
     /**
      * 自动还款获取手续费(根据每次还款额度+ 银行卡数量）
-     * @param page_index
+     *
+     * @param money
+     * @param card_count
      * @param serviceType
      * @return
      */
@@ -419,5 +421,23 @@ public interface API {
     @POST("/")
     Observable<BaseResponse<Double>> getRepaymentFee(@Field("money") double money,
                                                      @Field("card_count") int card_count,
-                                                     @Field("days") int days,@Field("service_type") String serviceType);
+                                                     @Field("days") int days, @Field("service_type") String serviceType);
+
+
+    /**
+     * 获取首页相关信息
+     * @param position
+     * @param page_index
+     * @param page_size
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<ArrayList>> getBanners(@Field("position") String position,
+                                                @Field("page_index") int page_index,
+                                                @Field("page_size") int page_size, @Field("service_type") String serviceType);
+
+
 }

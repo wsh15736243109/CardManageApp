@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
-
     <android.support.constraint.ConstraintLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -25,7 +23,7 @@
         <TextView
                 android:id="@+id/tv_remain_days"
                 android:layout_width="wrap_content"
-                android:text="剩余12天 "
+                android:text="剩余12天"
                 android:background="@drawable/shape_strok_red_radius_0"
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="11dp"
@@ -72,6 +70,5 @@
                     android:text="账单日"
                     />
         </LinearLayout>
-
     </android.support.constraint.ConstraintLayout>
 </layout>

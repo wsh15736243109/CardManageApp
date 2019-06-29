@@ -13,6 +13,10 @@ import com.itboye.cardmanage.ui.fragment.CardFragment;
 import com.itboye.cardmanage.ui.fragment.HomeFragment;
 import com.itboye.cardmanage.ui.fragment.LoanFragment;
 import com.itboye.cardmanage.ui.fragment.MineFragment;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import me.goldze.mvvmhabit.bus.RxBus;
+import me.goldze.mvvmhabit.bus.RxSubscriptions;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
@@ -21,6 +25,9 @@ import me.majiajie.pagerbottomtabstrip.item.NormalItemView;
 import java.util.ArrayList;
 
 public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainModel> {
+
+    private Disposable mSubscription;
+    private NavigationController navigationController;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -34,7 +41,7 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
 
     @Override
     public void initData() {
-        NavigationController navigationController = binding.tab.custom()
+        navigationController = binding.tab.custom()
                 .addItem(newItem(R.mipmap.ic_home_select, R.mipmap.ic_home_select, "首页"))
                 .addItem(newItem(R.mipmap.ic_card_default, R.mipmap.ic_bancard_selected, "办卡"))
                 .addItem(newItem(R.mipmap.ic_daikuan_default, R.mipmap.ic_loan_selected, "贷款"))
@@ -87,6 +94,19 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
 
             }
         });
+        registerRxBus();
+    }
+
+    private void registerRxBus() {
+        mSubscription = RxBus.getDefault().toObservable(Integer.class)
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer s) throws Exception {
+                        navigationController.setSelect(s);
+                    }
+                });
+        //将订阅者加入管理站
+        RxSubscriptions.add(mSubscription);
     }
 
     /**

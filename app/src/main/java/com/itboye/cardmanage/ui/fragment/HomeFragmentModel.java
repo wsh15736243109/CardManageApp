@@ -16,6 +16,7 @@ import com.itboye.cardmanage.ui.home.CardManageActivity;
 import com.itboye.cardmanage.ui.home.ReceiveMoneyActivity;
 import com.itboye.cardmanage.ui.mine.RepaymentPlanActivity;
 import me.goldze.mvvmhabit.base.BaseViewModel;
+import me.goldze.mvvmhabit.bus.RxBus;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 import me.tatarka.bindingcollectionadapter2.OnItemBind;
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass;
@@ -110,5 +111,14 @@ public class HomeFragmentModel extends BaseViewModel {
         startActivity(RepaymentPlanActivity.class);
     }
 
+    public void toDaikuan(int index){
+
+        RxBus.getDefault().post(index);
+
+    }
+
+    public void toBanka(){
+
+    }
 
 }
