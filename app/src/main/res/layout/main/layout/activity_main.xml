@@ -15,6 +15,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:context="com.jinlu.mimi.ui.main.MainActivity">
+
         <com.itboye.cardmanage.widget.CommonTitleBar
                 android:id="@+id/titlebar"
                 android:layout_width="match_parent"
@@ -22,12 +23,25 @@
                 app:title_text=""
                 app:title_text_color="@color/black"
                 android:layout_height="wrap_content"/>
+
         <com.itboye.cardmanage.widget.NoTouchViewPager
                 android:layout_below="@+id/titlebar"
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/tab"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:background="@color/red_fff2f4"
+                android:text="您尚未完成认证,认证后方可收款！马上认证"
+                android:onClick="@{()->viewModel.toAuth()}"
+                app:isVisible="@{viewModel.authStatus}"
+                android:padding="@dimen/dp_6"
+                android:gravity="center"
+                android:textColor="@color/red"
+                android:layout_above="@+id/tab"
+                android:layout_height="wrap_content"/>
 
         <me.majiajie.pagerbottomtabstrip.PageNavigationView
                 android:id="@+id/tab"

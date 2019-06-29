@@ -1,14 +1,17 @@
 package com.itboye.cardmanage.ui.fragment;
 
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.itboye.cardmanage.BR;
@@ -33,6 +36,8 @@ import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.itboye.cardmanage.util.SizeUtils.dip2px;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -133,7 +138,46 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
         });
     }
 
+    ArrayList<ImageView> cursorImageView = new ArrayList<>();
+
     private void initRepaymentAdater() {
+        ArrayList<Fragment> arr = new ArrayList<>();
+        arr.add(new HomeRepaymentFragment());
+        arr.add(new HomeRepaymentFragment());
+        arr.add(new HomeRepaymentFragment());
+        for (int i = 0; i < arr.size(); i++) {
+            Fragment fragment = arr.get(i);
+            ImageView imageView = new ImageView(getActivity());
+            imageView.setBackgroundDrawable(getResources().getDrawable(i == 0 ? R.drawable.item_cursor_select : R.drawable.item_cursor_unselect));
+            int dp = dip2px(getActivity(), 2);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(dip2px(getActivity(), 9), dip2px(getActivity(), 2));
+            layoutParams.setMargins(dp, dp, dp, dp);
+            binding.llRepaymentCursor.addView(imageView, layoutParams);
+            cursorImageView.add(imageView);
+        }
+        binding.vpRepayment.setAdapter(new FragmentPageAdapter(getFragmentManager(), arr, null));
+        binding.vpRepayment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                for (int i1 = 0; i1 < cursorImageView.size(); i1++) {
+                    if (i == i1) {
+                        cursorImageView.get(i1).setBackgroundDrawable(getResources().getDrawable(R.drawable.item_cursor_select));
+                    } else {
+                        cursorImageView.get(i1).setBackgroundDrawable(getResources().getDrawable(R.drawable.item_cursor_unselect));
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
     private void getRepaymentPlan() {
