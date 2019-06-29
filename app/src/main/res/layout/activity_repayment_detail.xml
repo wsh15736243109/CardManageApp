@@ -21,163 +21,167 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        <LinearLayout
+        <ScrollView
+                android:layout_width="match_parent"
                 android:layout_below="@+id/titleBar"
                 android:layout_above="@+id/tv_save"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:background="@color/black"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                 <LinearLayout
                         android:layout_width="match_parent"
-                        android:padding="@dimen/dp_6"
+                        android:orientation="vertical"
+                        android:background="@color/black"
                         android:layout_height="wrap_content">
 
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:text="预算    ￥"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/dp_16"
-                            android:layout_height="wrap_content"/>
-
-                    <EditText
-                            android:id="@+id/et_amount"
-                            android:layout_marginLeft="@dimen/dp_6"
+                    <LinearLayout
                             android:layout_width="match_parent"
-                            android:hint="请输入您的预算"
-                            android:inputType="numberDecimal"
-                            android:textSize="@dimen/dp_16"
-                            android:text="@={viewModel.amount}"
-                            android:textColor="@color/white"
-                            android:textColorHint="@color/white"
-                            android:layout_height="wrap_content"/>
+                            android:padding="@dimen/dp_6"
+                            android:layout_height="wrap_content">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:text="预算    ￥"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/dp_16"
+                                android:layout_height="wrap_content"/>
+
+                        <EditText
+                                android:id="@+id/et_amount"
+                                android:layout_marginLeft="@dimen/dp_6"
+                                android:layout_width="match_parent"
+                                android:hint="请输入您的预算"
+                                android:inputType="numberDecimal"
+                                android:textSize="@dimen/dp_16"
+                                android:text="@={viewModel.amount}"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white"
+                                android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:padding="@dimen/dp_6"
+                            android:layout_height="wrap_content">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:text="周期"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/dp_16"
+                                android:layout_height="wrap_content"/>
+
+                        <EditText
+                                android:id="@+id/et_days"
+                                android:layout_marginLeft="@dimen/dp_6"
+                                android:layout_width="match_parent"
+                                android:hint="请输入您的还款周期"
+                                android:inputType="number"
+                                android:textColor="@color/white"
+                                android:text="@={viewModel.days}"
+                                android:textSize="@dimen/dp_16"
+                                android:textColorHint="@color/white"
+                                android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_margin="@dimen/dp_12"
+                            android:layout_height="wrap_content">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:text="@={viewModel.fee}"
+                                android:textColor="@color/golden_F6C087"
+                                android:gravity="center"
+                                android:layout_height="wrap_content"/>
+
+                        <View
+                                android:layout_width="@dimen/dp_1"
+                                android:background="@color/golden_F6C087"
+                                android:layout_height="20dp"/>
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="0.00 预存"
+                                android:textColor="@color/golden_F6C087"
+                                android:layout_height="wrap_content"/>
+
+                        <View
+                                android:layout_width="@dimen/dp_1"
+                                android:background="@color/golden_F6C087"
+                                android:layout_height="20dp"/>
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="0.00 预期还款总额"
+                                android:textColor="@color/golden_F6C087"
+                                android:layout_height="wrap_content"/>
+                    </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
+                <TextView
                         android:layout_width="match_parent"
+                        android:text="| 还款计划卡"
                         android:padding="@dimen/dp_6"
-                        android:layout_height="wrap_content">
+                        android:gravity="center_vertical"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
 
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:text="周期"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/dp_16"
-                            android:layout_height="wrap_content"/>
-
-                    <EditText
-                            android:id="@+id/et_days"
-                            android:layout_marginLeft="@dimen/dp_6"
-                            android:layout_width="match_parent"
-                            android:hint="请输入您的还款周期"
-                            android:inputType="number"
-                            android:textColor="@color/white"
-                            android:text="@={viewModel.days}"
-                            android:textSize="@dimen/dp_16"
-                            android:textColorHint="@color/white"
-                            android:layout_height="wrap_content"/>
-                </LinearLayout>
-
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_repayment_card"
                         android:layout_width="match_parent"
+                        android:layout_marginLeft="@dimen/dp_12"
+                        android:layout_marginRight="@dimen/dp_12"
+                        android:layout_height="wrap_content"/>
+
+                <Button
+                        android:id="@+id/bt_add_repayment"
+                        android:layout_width="match_parent"
+                        android:text="+添加还款计划卡"
+                        android:background="@drawable/shape_dotted_strok_radius_0"
+                        android:layout_alignParentBottom="true"
                         android:layout_margin="@dimen/dp_12"
-                        android:layout_height="wrap_content">
+                        android:onClick="@{()->viewModel.addRepaymentPlan(1,-1)}"
+                        android:textColor="@color/red"
+                        android:layout_height="wrap_content"/>
 
-                    <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:text="@={viewModel.fee}"
-                            android:textColor="@color/golden_F6C087"
-                            android:gravity="center"
-                            android:layout_height="wrap_content"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:text="| 预存资金卡"
+                        android:padding="@dimen/dp_6"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
 
-                    <View
-                            android:layout_width="@dimen/dp_1"
-                            android:background="@color/golden_F6C087"
-                            android:layout_height="20dp"/>
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_credit_card"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="@dimen/dp_12"
+                        android:layout_marginRight="@dimen/dp_12"
+                        android:layout_height="wrap_content"/>
 
-                    <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="0.00 预存"
-                            android:textColor="@color/golden_F6C087"
-                            android:layout_height="wrap_content"/>
-
-                    <View
-                            android:layout_width="@dimen/dp_1"
-                            android:background="@color/golden_F6C087"
-                            android:layout_height="20dp"/>
-
-                    <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="0.00 预期还款总额"
-                            android:textColor="@color/golden_F6C087"
-                            android:layout_height="wrap_content"/>
-                </LinearLayout>
+                <Button
+                        android:id="@+id/bt_add_pre_card"
+                        android:layout_width="match_parent"
+                        android:text="+添加预存资金卡"
+                        android:background="@drawable/shape_dotted_strok_radius_0"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="@dimen/dp_12"
+                        android:onClick="@{()->viewModel.addRepaymentPlan(2,1)}"
+                        android:textColor="@color/red"
+                        android:layout_height="wrap_content"/>
             </LinearLayout>
-
-            <TextView
-                    android:layout_width="match_parent"
-                    android:text="| 还款计划卡"
-                    android:padding="@dimen/dp_6"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/black"
-                    android:layout_height="wrap_content"/>
-
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_repayment_card"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginRight="@dimen/dp_12"
-                    android:background="@color/red"
-                    android:layout_height="wrap_content"/>
-
-            <Button
-                    android:id="@+id/bt_add_repayment"
-                    android:layout_width="match_parent"
-                    android:text="+添加还款计划卡"
-                    android:background="@drawable/shape_dotted_strok_radius_0"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="@dimen/dp_12"
-                    android:onClick="@{()->viewModel.addRepaymentPlan(1,-1)}"
-                    android:textColor="@color/red"
-                    android:layout_height="wrap_content"/>
-
-            <TextView
-                    android:layout_width="match_parent"
-                    android:text="| 预存资金卡"
-                    android:padding="@dimen/dp_6"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/black"
-                    android:layout_height="wrap_content"/>
-
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_credit_card"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="@dimen/dp_12"
-                    android:layout_marginRight="@dimen/dp_12"
-                    android:layout_height="wrap_content"/>
-
-            <Button
-                    android:id="@+id/bt_add_pre_card"
-                    android:layout_width="match_parent"
-                    android:text="+添加预存资金卡"
-                    android:background="@drawable/shape_dotted_strok_radius_0"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="@dimen/dp_12"
-                    android:onClick="@{()->viewModel.addRepaymentPlan(2,1)}"
-                    android:textColor="@color/red"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
+        </ScrollView>
 
         <com.itboye.cardmanage.widget.MyButton
                 android:text="保存"
@@ -189,10 +193,24 @@
                 android:gravity="center"
                 android:layout_height="wrap_content"
                 android:onClick="@{()->viewModel.save()}"
-                android:layout_margin="@dimen/dp_32"
                 app:corner="@dimen/dp_6"
-                android:layout_alignParentBottom="true"
+                android:layout_above="@+id/tv_restart"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
                 app:pressBgc="@color/orange"
                 android:id="@+id/tv_save"/>
+        <TextView
+                android:text="重启此计划"
+                android:layout_gravity="right"
+                android:padding="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->viewModel.restartCbPlan()}"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
+                app:pressBgc="@color/orange"
+                android:id="@+id/tv_restart"/>
     </RelativeLayout>
 </layout>

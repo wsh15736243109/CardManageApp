@@ -6,6 +6,7 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.interfaces.MineClickType;
+import com.itboye.cardmanage.ui.home.CardManageActivity;
 import com.itboye.cardmanage.ui.mine.*;
 import com.itboye.cardmanage.util.UserUtil;
 import com.itboye.cardmanage.web.WebActivity;
@@ -19,6 +20,7 @@ public class MineFragmentModel extends BaseViewModel {
     public ObservableField<String> nickname = new ObservableField<>(UserUtil.getUserInfo().getNickname());
     public ObservableField<String> mobile = new ObservableField<>(UserUtil.getUserInfo().getMobile());
     public ObservableField<String> headUrl = new ObservableField<>(UserUtil.getUserInfo().getAvatar());
+    public ObservableField<String> authStatus = new ObservableField<>(UserUtil.getUserInfo().getId_validate() == 1 ? "已认证" : "未认证");
 
     public MineFragmentModel(@NonNull Application application) {
         super(application);
@@ -54,6 +56,13 @@ public class MineFragmentModel extends BaseViewModel {
                 startActivity(SettingActivity.class);
                 break;
         }
+    }
+
+    public void card(int index) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", 1);
+        bundle.putInt("index", index);
+        startActivity(CardManageActivity.class, bundle);
     }
 
     public void toAuthActivity() {

@@ -12,6 +12,7 @@ import android.view.View;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.RepaymentCardListAdapter;
+import com.itboye.cardmanage.adapter.RepaymentPreCardListAdapter;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.databinding.ActivityRepaymentDetailBinding;
 import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
@@ -35,6 +36,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
 
     ArrayList<CardManageModel> cardList = new ArrayList<>();
     private RepaymentCardListAdapter repaymentCardAdapter;
+    private RepaymentPreCardListAdapter preCardAdapter;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -93,6 +95,20 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
     }
 
     private void initCreditCardListAdapter() {
+        cardList.add(new CardManageModel());
+        preCardAdapter = new RepaymentPreCardListAdapter(cardList, new OnMyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position, Object item) {
+
+            }
+
+            @Override
+            public void onItemClick(int position, Object item) {
+
+            }
+        });
+        binding.rvCreditCard.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvCreditCard.setAdapter(preCardAdapter);
 
     }
 
@@ -105,11 +121,10 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
 
             @Override
             public void onItemClick(int position, Object item) {
-
+                viewModel.addRepaymentPlan(2,1);
             }
         });
         binding.rvRepaymentCard.setLayoutManager(new LinearLayoutManager(this));
-        binding.rvRepaymentCard.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         binding.rvRepaymentCard.setAdapter(repaymentCardAdapter);
 
     }
@@ -131,6 +146,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                         }
                     }
                     repaymentCardAdapter.notifyDataSetChanged();
+                    preCardAdapter.notifyDataSetChanged();
                     if (usage == 1) {
                         viewModel.preStoreCardIds = stringBuffer1.substring(0, stringBuffer1.length() - 1);
                     } else {
