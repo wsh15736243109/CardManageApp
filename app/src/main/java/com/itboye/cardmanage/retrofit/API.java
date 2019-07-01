@@ -435,9 +435,13 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<ArrayList>> getBanners(@Field("position") String position,
+    Observable<BaseResponse<BannerBean>> getBanners(@Field("position") String position,
                                                 @Field("page_index") int page_index,
                                                 @Field("page_size") int page_size, @Field("service_type") String serviceType);
 
 
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<HomeBean>> getBannersAndNotice(@Field("service_type") String serviceType);
 }

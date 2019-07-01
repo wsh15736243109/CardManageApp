@@ -64,10 +64,7 @@
                 <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_top"
                         android:background="@color/white"
-                        app:itemBinding="@{viewModel.itemBinding}"
-                        app:items="@{viewModel.topArray}"
                         app:layoutManager="@{LayoutManagers.grid(4)}"
-                        app:lineManager="@{LineManagers.both()}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -133,7 +130,7 @@
                         android:layout_height="wrap_content">
 
                     <ImageView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_centerInParent="true"
                             android:background="@drawable/banner"
                             android:scaleType="centerCrop"
@@ -161,14 +158,15 @@
                             android:drawablePadding="@dimen/dp_12"
                             android:layout_height="wrap_content"/>
                 </RelativeLayout>
-
-                <android.support.v7.widget.RecyclerView
-                        android:background="@color/white"
-                        android:layout_width="match_parent"
+<!--
                         app:itemBinding="@{viewModel.itemBinding}"
                         app:items="@{viewModel.xiaoEJiSu}"
+                        app:lineManager="@{LineManagers.both()}"-->
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_loan"
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
                         app:layoutManager="@{LayoutManagers.grid(3)}"
-                        app:lineManager="@{LineManagers.both()}"
                         android:layout_height="wrap_content"/>
 
                 <RelativeLayout
@@ -194,12 +192,10 @@
                 </RelativeLayout>
 
                 <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_more_card"
                         android:background="@color/white"
                         android:layout_width="match_parent"
-                        app:itemBinding="@{viewModel.itemBind}"
-                        app:items="@{viewModel.cardArray}"
                         app:layoutManager="@{LayoutManagers.linear()}"
-                        app:lineManager="@{LineManagers.vertical()}"
                         android:layout_height="wrap_content"/>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

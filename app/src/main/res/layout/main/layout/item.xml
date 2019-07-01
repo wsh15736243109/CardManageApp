@@ -1,35 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <data>
-
-        <import type="android.text.Html"/>
-
-        <variable
-                name="item"
-                type="com.itboye.cardmanage.model.HomeTopModel"/>
-    </data>
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
-                    android:padding="@dimen/dp_12"
                     android:gravity="center"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:layout_marginLeft="@dimen/dp_6"
+                    android:layout_marginRight="@dimen/dp_6"
                     android:layout_height="wrap_content">
 
         <ImageView
                 android:id="@+id/iv_home_top"
-                android:layout_width="@dimen/dp_35"
-                android:src="@{item.drawableObservableField}"
+                android:layout_width="130dp"
                 android:layout_centerHorizontal="true"
-                android:layout_height="@dimen/dp_35"/>
+                android:layout_height="130dp"/>
 
         <TextView
+                android:id="@+id/tv_home_top"
                 android:layout_width="wrap_content"
-                android:text="@{Html.fromHtml(item.title)}"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:layout_below="@+id/iv_home_top"
                 android:textSize="@dimen/dp_12"
+                android:visibility="gone"
                 android:layout_height="wrap_content"/>
     </RelativeLayout>
 </layout>

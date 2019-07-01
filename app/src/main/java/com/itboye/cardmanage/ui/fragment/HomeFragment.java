@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
+import com.itboye.cardmanage.adapter.BannerAdapter;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.adapter.RepaymentListAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
+import com.itboye.cardmanage.bean.BannerBean;
+import com.itboye.cardmanage.bean.HomeBean;
 import com.itboye.cardmanage.bean.NoticeBean;
 import com.itboye.cardmanage.databinding.FragmentHomeBinding;
 import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
@@ -53,8 +57,8 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
     FragmentPageAdapter mFragmentPageAdapter;
 
     int pageIndex = 1;
-    private NoticeBean noticeBean;
     private ArrayList<CardManageModel> repaymentList = new ArrayList<>();
+    private HomeBean bannerBean;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -110,7 +114,7 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 
     @Override
     public void initData() {
-        getAuthDetail();
+//        getAuthDetail();
         initRepaymentAdater();
         getRepaymentPlan();
         getHomeData();
@@ -120,10 +124,50 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
     }
 
     private void getHomeData() {
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getBanners("002001002", 1, 10, "by_Banners_query"), viewModel.getLifecycleProvider(), disposable -> {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getBannersAndNotice("by_AppComb_index"), viewModel.getLifecycleProvider(), disposable -> {
         }, new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
+                bannerBean = (HomeBean) o;
+                BannerAdapter bannerAdapter = new BannerAdapter(bannerBean.getApply_card(), new OnMyItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position, Object item) {
+
+                    }
+
+                    @Override
+                    public void onItemClick(int position, Object item) {
+
+                    }
+                });
+                binding.rvTop.setAdapter(bannerAdapter);//顶部数据
+
+                BannerAdapter bannerAdapter2 = new BannerAdapter(bannerBean.getLend(), new OnMyItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position, Object item) {
+
+                    }
+
+                    @Override
+                    public void onItemClick(int position, Object item) {
+
+                    }
+                });
+                binding.rvLoan.setAdapter(bannerAdapter2);//中部数据
+                BannerAdapter bannerAdapter3 = new BannerAdapter(bannerBean.getCarousel(), new OnMyItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position, Object item) {
+
+                    }
+
+                    @Override
+                    public void onItemClick(int position, Object item) {
+
+                    }
+                });
+                binding.rvMoreCard.setAdapter(bannerAdapter3); //底部数据
+                //公告
+                setViewFliperItem();
             }
 
             @Override
@@ -146,7 +190,6 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
         arr.add(new HomeRepaymentFragment());
         arr.add(new HomeRepaymentFragment());
         for (int i = 0; i < arr.size(); i++) {
-            Fragment fragment = arr.get(i);
             ImageView imageView = new ImageView(getActivity());
             imageView.setBackgroundDrawable(getResources().getDrawable(i == 0 ? R.drawable.item_cursor_select : R.drawable.item_cursor_unselect));
             int dp = dip2px(getActivity(), 2);
@@ -187,10 +230,6 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
             public void onResult(Object o, String msg, int code) {
                 repaymentList.clear();
                 repaymentList.addAll((ArrayList<CardManageModel>) o);
-                repaymentList.add(new CardManageModel());
-                repaymentList.add(new CardManageModel());
-                repaymentList.add(new CardManageModel());
-
                 if (repaymentList.isEmpty() || repaymentList.size() <= 0) {
                     ToastUtils.showShort("暂无还款计划");
                 }
@@ -209,30 +248,30 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
     }
 
 
-    public void getAuthDetail() {
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).noticeMessage(pageIndex + "", "10", "by_Message_querySystemNoticeMessage"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
-            @Override
-            public void accept(Disposable disposable) throws Exception {
-
-            }
-        }, new ApiDisposableObserver() {
-            @Override
-            public void onResult(Object o, String msg, int code) {
-                noticeBean = (NoticeBean) o;
-                setViewFliperItem();
-            }
-
-            @Override
-            public void onError(int code, String msg) {
-
-            }
-
-            @Override
-            public void dialogDismiss() {
-
-            }
-        });
-    }
+//    public void getAuthDetail() {
+//        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).noticeMessage(pageIndex + "", "10", "by_Message_querySystemNoticeMessage"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
+//            @Override
+//            public void accept(Disposable disposable) throws Exception {
+//
+//            }
+//        }, new ApiDisposableObserver() {
+//            @Override
+//            public void onResult(Object o, String msg, int code) {
+//                noticeBean = (NoticeBean) o;
+//                setViewFliperItem();
+//            }
+//
+//            @Override
+//            public void onError(int code, String msg) {
+//
+//            }
+//
+//            @Override
+//            public void dialogDismiss() {
+//
+//            }
+//        });
+//    }
 
     @Override
     public void initViewObservable() {
@@ -240,14 +279,14 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
     }
 
     private void setViewFliperItem() {
-        for (int i = 0; i < noticeBean.getList().size(); i++) {
+        for (int i = 0; i < bannerBean.getNotice().size(); i++) {
             View item = LayoutInflater.from(getActivity()).inflate(R.layout.item_notice, null);
             LinearLayout parent = item.findViewById(R.id.flipper_item);
 //            parent.setBackgroundResource(noticeBean[i]);
             TextView text1 = item.findViewById(R.id.tv1);
             text1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_platform_announcement, 0, 0, 0);
             text1.setCompoundDrawablePadding(12);
-            text1.setText(noticeBean.getList().get(i).getContent());
+            text1.setText(bannerBean.getNotice().get(i).getContent());
             binding.viewFlipper.addView(item);
         }
         binding.viewFlipper.startFlipping();

@@ -8,15 +8,17 @@ import android.support.annotation.NonNull;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 
 public class HomeTopModel extends BaseViewModel {
-    public ObservableField<Drawable> drawableObservableField = new ObservableField<>();
+//    public ObservableField<Drawable> drawableObservableField = new ObservableField<>();
+    public ObservableField<String> drawableObservableField = new ObservableField<>();
     public String title;
 
     public HomeTopModel(@NonNull Application application) {
         super(application);
     }
 
-    public HomeTopModel setIcon(int icon) {
-        drawableObservableField.set(getApplication().getResources().getDrawable(icon));
+    public HomeTopModel setIcon(String icon) {
+//        drawableObservableField.set(getApplication().getResources().getDrawable(icon));
+        drawableObservableField.set(icon);
         return this;
     }
 
