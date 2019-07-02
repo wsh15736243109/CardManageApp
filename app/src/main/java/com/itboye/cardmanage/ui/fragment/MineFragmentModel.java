@@ -20,13 +20,21 @@ public class MineFragmentModel extends BaseViewModel {
     public ObservableField<String> nickname = new ObservableField<>(UserUtil.getUserInfo().getNickname());
     public ObservableField<String> mobile = new ObservableField<>(UserUtil.getUserInfo().getMobile());
     public ObservableField<String> headUrl = new ObservableField<>(UserUtil.getUserInfo().getAvatar());
-    public ObservableField<String> authStatus = new ObservableField<>(UserUtil.getUserInfo().getId_validate() == 1 ? "已认证" : "未认证");
+    public ObservableField<String> authStatus = new ObservableField<>("未认证");
 
     public MineFragmentModel(@NonNull Application application) {
         super(application);
     }
 
     UIChangeObser uc = new UIChangeObser();
+
+    public void initAuthStatus() {
+        if (UserUtil.getUserInfo() != null) {
+            authStatus.set(UserUtil.getUserInfo().getId_validate() == 1 ? "已认证" : "未认证");
+        } else {
+            authStatus.set("未认证");
+        }
+    }
 
     public class UIChangeObser {
         public ObservableBoolean photo = new ObservableBoolean(false);
@@ -66,6 +74,8 @@ public class MineFragmentModel extends BaseViewModel {
     }
 
     public void toAuthActivity() {
-        startActivity(AuthenticationActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", 0);
+        startActivity(AuthenticationActivity.class, bundle);
     }
 }

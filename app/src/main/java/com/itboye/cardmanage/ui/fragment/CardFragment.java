@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.webkit.WebViewClient;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
+import com.itboye.cardmanage.databinding.FragmentCardBinding;
 import com.itboye.cardmanage.databinding.FragmentHomeBinding;
 
 import java.util.List;
@@ -19,7 +21,7 @@ import java.util.List;
  * Use the {@link CardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CardFragment extends BaseLazyFragment<FragmentHomeBinding,CardFragmentModel> {
+public class CardFragment extends BaseLazyFragment<FragmentCardBinding, CardFragmentModel> {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -81,7 +83,8 @@ public class CardFragment extends BaseLazyFragment<FragmentHomeBinding,CardFragm
 
     @Override
     public void initData() {
-
+        binding.webView.setWebViewClient(new WebViewClient());
+        binding.webView.loadUrl(viewModel.url.get());
     }
 
     @Override

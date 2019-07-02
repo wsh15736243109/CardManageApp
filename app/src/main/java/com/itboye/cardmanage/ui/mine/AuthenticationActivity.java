@@ -1,12 +1,10 @@
 package com.itboye.cardmanage.ui.mine;
 
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import com.itboye.cardmanage.BR;
@@ -41,6 +39,9 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
 
     @Override
     public void initData() {
+        //查看认证资料 0
+        viewModel.type = getIntent().getIntExtra("type", 0);
+        //添加认证 1
         //先查询认证状态
         viewModel.queryAuthStatus();
     }

@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public abstract class BaseLazyFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends RxFragment {
     protected V binding;
-    protected VM viewModel;
+    public VM viewModel;
     protected int viewModelId;
 //    private LoadingDialog dialog;
     /********************lazyload****************************/

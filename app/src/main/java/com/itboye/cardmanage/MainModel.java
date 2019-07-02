@@ -2,6 +2,7 @@ package com.itboye.cardmanage;
 
 import android.app.Application;
 import android.databinding.ObservableField;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import com.itboye.cardmanage.retrofit.AppUtils;
@@ -16,8 +17,12 @@ public class MainModel extends BaseViewModel {
 
     public MainModel(@NonNull Application application) {
         super(application);
+
+    }
+
+    public void setAuthStatus(){
         if (UserUtil.getUserInfo()!=null) {
-            authStatus.set(UserUtil.getUserInfo().getId_validate() == 1 ? true: false);
+            authStatus.set(UserUtil.getUserInfo().getId_validate() == 0);
         }else{
             authStatus.set(false);
         }
@@ -25,7 +30,9 @@ public class MainModel extends BaseViewModel {
 
     public void toAuth() {
         //去验证
-        startActivity(AuthenticationActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putInt("type",1);
+        startActivity(AuthenticationActivity.class,bundle);
     }
 
 

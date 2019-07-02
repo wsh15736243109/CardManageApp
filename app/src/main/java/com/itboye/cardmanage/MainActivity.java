@@ -8,11 +8,18 @@ import android.view.View;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
+import com.itboye.cardmanage.bean.UserAuthDetailBean;
+import com.itboye.cardmanage.bean.UserInfoBean;
 import com.itboye.cardmanage.databinding.ActivityMainBinding;
+import com.itboye.cardmanage.retrofit.API;
+import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
+import com.itboye.cardmanage.retrofit.AppUtils;
+import com.itboye.cardmanage.retrofit.RetrofitClient;
 import com.itboye.cardmanage.ui.fragment.CardFragment;
 import com.itboye.cardmanage.ui.fragment.HomeFragment;
 import com.itboye.cardmanage.ui.fragment.LoanFragment;
 import com.itboye.cardmanage.ui.fragment.MineFragment;
+import com.itboye.cardmanage.util.UserUtil;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.bus.RxBus;
@@ -23,6 +30,7 @@ import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.item.NormalItemView;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainModel> {
 
@@ -95,16 +103,42 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
             }
         });
         registerRxBus();
+        //获取认证信息
+        getUserAuthDetail();
+    }
+
+    public void getUserAuthDetail() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).queryAuthInfo(
+                UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getId() + "",
+                "by_UserIdCard_info"),
+                viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(),
+
+                new ApiDisposableObserver() {
+                    @Override
+                    public void onResult(Object o, String msg, int code) {
+                        UserAuthDetailBean user = (UserAuthDetailBean) o;
+                        UserInfoBean userInfoBean = UserUtil.getUserInfo();
+                        userInfoBean.setId_validate(user.getVerify());
+                        UserUtil.saveUser(userInfoBean);
+                        viewModel.setAuthStatus();//MainActivity的认证状态
+                        //我的页面认证状态
+                        ((MineFragment) getSupportFragmentManager().getFragments().get(3)).viewModel.initAuthStatus();
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+                    }
+
+                    @Override
+                    public void dialogDismiss() {
+                        dismissDialog();
+                    }
+                });
     }
 
     private void registerRxBus() {
         mSubscription = RxBus.getDefault().toObservable(Integer.class)
-                .subscribe(new Consumer<Integer>() {
-                    @Override
-                    public void accept(Integer s) throws Exception {
-                        navigationController.setSelect(s);
-                    }
-                });
+                .subscribe(s -> navigationController.setSelect(s));
         //将订阅者加入管理站
         RxSubscriptions.add(mSubscription);
     }

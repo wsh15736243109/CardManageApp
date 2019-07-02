@@ -127,6 +127,7 @@ public class LoginModel extends BaseViewModel {
                         @Override
                         public void onResult(Object o, String msg, int code) {
                             ToastUtils.showShort(msg);
+                            UserUtil.saveUser((UserInfoBean) o);
                             startActivity(MainActivity.class);
                             finish();
                         }

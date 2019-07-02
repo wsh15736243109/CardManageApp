@@ -27,13 +27,17 @@
                 android:layout_height="match_parent"
                 tools:context=".ui.fragment.HomeFragment">
 
-            <android.support.v7.widget.RecyclerView
+            <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--binding:itemBinding="@{viewModel.itemBinding}"-->
+                    <!--binding:items="@{viewModel.hobbies}"-->
+                    <!--binding:layoutManager="@{LayoutManagers.linear()}"-->
+                    <!--binding:lineManager="@{LineManagers.vertical()}"/>-->
+            <WebView
+                    android:id="@+id/webView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    binding:itemBinding="@{viewModel.itemBinding}"
-                    binding:items="@{viewModel.hobbies}"
-                    binding:layoutManager="@{LayoutManagers.linear()}"
-                    binding:lineManager="@{LineManagers.vertical()}"/>
+                    android:layout_height="match_parent"/>
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </LinearLayout>

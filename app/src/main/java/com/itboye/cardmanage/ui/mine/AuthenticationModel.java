@@ -63,6 +63,7 @@ public class AuthenticationModel extends BaseViewModel {
 
 
     public Status status = PHOTO_IDENTITY;
+    public int type = 0;
     private String id_front_img = "";//身份证正面照
     private String id_back_img = "";//身份证反面照
     private String id_hold_img = "";//手持身份证
@@ -76,6 +77,7 @@ public class AuthenticationModel extends BaseViewModel {
     private String id_hold_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//手持身份证id
     private String bank_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//银行卡拍照id
     public UserAuthDetailBean userAuthDetailBean = new UserAuthDetailBean();
+    private int vertify;
 
     public AuthenticationModel(@NonNull Application application) {
         super(application);
@@ -136,7 +138,12 @@ public class AuthenticationModel extends BaseViewModel {
                 }
                 setThird();
                 status = PHOTO_CARD;
-                buttonLabel.set("提交审核");
+
+                if (vertify == 1) {
+                    buttonLabel.set("返回首页");
+                } else {
+                    buttonLabel.set("提交审核");
+                }
                 break;
             case PHOTO_CARD:
                 if (bank_img_id == null) {
@@ -164,11 +171,16 @@ public class AuthenticationModel extends BaseViewModel {
                     return;
                 }
                 status3.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
-                //先要获取银行卡信息
-                if (branchNo.isEmpty()) {
-                    branchBankSearch();
+
+                if (vertify == 1) {
+                    finish();
                 } else {
-                    submitAuth();
+                    //先要获取银行卡信息
+                    if (branchNo.isEmpty()) {
+                        branchBankSearch();
+                    } else {
+                        submitAuth();
+                    }
                 }
                 break;
             case AUTH_FAIL:
@@ -295,7 +307,9 @@ public class AuthenticationModel extends BaseViewModel {
         authCard.set(View.VISIBLE);
         photo3.set(View.GONE);
         photo4.set(View.VISIBLE);
-        buttonLabel.set("提交审核");
+        if (vertify == 1) {
+            buttonLabel.set("返回首页");
+        }
         status2.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
     }
 
@@ -316,7 +330,12 @@ public class AuthenticationModel extends BaseViewModel {
         photo1.set(View.GONE);
         photo3.set(View.VISIBLE);
         photo4.set(View.GONE);
-        buttonLabel.set("下一步");
+        if (vertify == 1) {
+            buttonLabel.set("下一页");
+        } else {
+            buttonLabel.set("下一步");
+        }
+
     }
 
     UIChangeListener ui = new UIChangeListener();
@@ -391,6 +410,7 @@ public class AuthenticationModel extends BaseViewModel {
                     @Override
                     public void onResult(Object o, String msg, int code) {
                         userAuthDetailBean = (UserAuthDetailBean) o;
+                        vertify = userAuthDetailBean.getVerify();
                         if (userAuthDetailBean.getVerify() == 2) {
                             //认证中
                             labelAuthStatus.set("资料提交成功正在审核<br /><font color='gray'>预计1-2个工作日完成，请耐心等待</font>");
@@ -403,7 +423,7 @@ public class AuthenticationModel extends BaseViewModel {
                             //认证成功
 //                            labelAuthStatus.set("恭喜您认证成功");
                             labelAuthStatus.set("");
-//                            buttonLabel.set("返回首页");
+                            buttonLabel.set("下一页");
                             ToastUtils.showShort("认证已经成功");
                             //显示该用户的认证资料
                             ui.uiChange.set(!ui.uiChange.get());

@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.webkit.WebViewClient;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
@@ -83,10 +84,13 @@ public class LoanFragment extends BaseLazyFragment<FragmentLoanBinding, LoanFrag
 
     @Override
     public void initData() {
-        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_shape_10);
-        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-        decoration.setDrawable(drawable);
-        binding.recyclerView.addItemDecoration(decoration);
+//        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_shape_10);
+//        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+//        decoration.setDrawable(drawable);
+//        binding.recyclerView.addItemDecoration(decoration);
+        binding.webView.setWebViewClient(new WebViewClient(){
+        });
+        binding.webView.loadUrl(viewModel.url.get());
     }
 
     @Override
