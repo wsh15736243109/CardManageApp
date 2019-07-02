@@ -14,4 +14,12 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    @Test
+    fun cal() {
+        var num1 = "0.5"
+        var num2 = "2.0"
+        var num3 = "25"
+        System.out.println(num3.toDouble() * num1.toDouble() - num2.toDouble())
+    }
 }

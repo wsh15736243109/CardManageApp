@@ -99,12 +99,12 @@
 
                         <com.itboye.cardmanage.widget.RatioImageView
                                 app:ratio="1"
-                                android:id="@+id/ri_photo1"
                                 android:layout_width="match_parent"
                                 android:background="@drawable/ic_zhengmian"
                                 android:layout_height="wrap_content"/>
 
                         <ImageView
+                                android:id="@+id/ri_photo1"
                                 android:layout_width="match_parent"
                                 android:layout_height="80dp"
                                 android:layout_margin="@dimen/dp_24"
@@ -120,13 +120,13 @@
                             android:layout_height="wrap_content">
 
                         <com.itboye.cardmanage.widget.RatioImageView
-                                android:id="@+id/ri_photo2"
                                 app:ratio="1"
                                 android:layout_width="match_parent"
                                 android:background="@drawable/ic_zhengmian"
                                 android:layout_height="wrap_content"/>
 
                         <ImageView
+                                android:id="@+id/ri_photo2"
                                 android:layout_width="match_parent"
                                 android:layout_height="80dp"
                                 android:layout_margin="@dimen/dp_24"
@@ -151,12 +151,12 @@
 
                         <com.itboye.cardmanage.widget.RatioImageView
                                 app:ratio="1"
-                                android:id="@+id/ri_photo3"
                                 android:layout_width="match_parent"
                                 android:background="@drawable/ic_zhengmian"
                                 android:layout_height="wrap_content"/>
 
                         <ImageView
+                                android:id="@+id/ri_photo3"
                                 android:layout_width="match_parent"
                                 android:layout_height="80dp"
                                 android:layout_margin="@dimen/dp_24"
@@ -199,20 +199,21 @@
                             android:padding="@dimen/dp_12"
                             android:layout_height="wrap_content">
 
+
+
+                        <com.itboye.cardmanage.widget.RatioImageView
+                                app:ratio="1"
+                                android:layout_width="match_parent"
+                                android:background="@drawable/ic_zhengmian"
+                                android:layout_height="wrap_content"/>
+
                         <ImageView
+                                android:id="@+id/ri_photo4"
                                 android:layout_width="match_parent"
                                 android:layout_height="80dp"
                                 android:layout_margin="@dimen/dp_24"
                                 android:background="@drawable/ic_zheng"
                                 android:layout_centerHorizontal="true"/>
-
-                        <com.itboye.cardmanage.widget.RatioImageView
-                                app:ratio="1"
-                                android:id="@+id/ri_photo4"
-                                android:layout_width="match_parent"
-                                android:background="@drawable/ic_photo_card"
-                                android:layout_height="wrap_content"/>
-
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -260,7 +261,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请输入您的真实姓名"
                                 android:text="@={viewModel.realName}"
@@ -288,7 +289,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请输入您的身份证号码"
                                 android:text="@={viewModel.idnumber}"
@@ -316,7 +317,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请输入您的身份证地址"
                                 android:text="@={viewModel.addr}"
@@ -344,7 +345,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请输入您的邮箱"
                                 android:text="@={viewModel.email}"
@@ -371,7 +372,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请输入您户籍所在邮编号"
                                 android:text="@={viewModel.zipCode}"
@@ -398,7 +399,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请输入您的证件有效期"
                                 android:text="@={viewModel.validityTime}"
@@ -432,7 +433,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请输入银行卡号"
                                 android:text="@={viewModel.bankNumber}"
@@ -459,7 +460,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请再次输入银行卡号"
                                 android:text="@={viewModel.bankNumberAgain}"
@@ -486,7 +487,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="输入卡号,自动识别"
                                 android:text="@={viewModel.bankName}"
@@ -514,7 +515,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请搜索支行"
                                 android:text="@={viewModel.branchBankName}"
@@ -548,7 +549,7 @@
                                 android:textSize="14sp"/>
 
                         <EditText
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="请输入银行预留手机号"
                                 android:text="@={viewModel.bankReservePhone}"

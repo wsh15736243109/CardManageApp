@@ -13,6 +13,7 @@ import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.bean.BranchBankBean;
+import com.itboye.cardmanage.bean.UserAuthDetailBean;
 import com.itboye.cardmanage.databinding.ActivityAuthenticationBinding;
 import com.itboye.cardmanage.util.GlideUtil;
 import com.yancy.imageselector.ImageConfig;
@@ -80,6 +81,21 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
                 }
             }
         });
+        viewModel.ui.uiChange.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                setAuthView(viewModel.userAuthDetailBean);
+            }
+        });
+    }
+
+    private void setAuthView(UserAuthDetailBean userAuthDetailBean) {
+        GlideUtil.display(AuthenticationActivity.this, userAuthDetailBean.getId_front_img(), binding.riPhoto1);
+        GlideUtil.display(AuthenticationActivity.this, userAuthDetailBean.getId_back_img(), binding.riPhoto2);
+        GlideUtil.display(AuthenticationActivity.this, userAuthDetailBean.getId_hold_img(), binding.riPhoto3);
+        GlideUtil.display(AuthenticationActivity.this, userAuthDetailBean.getBank_front_img(), binding.riPhoto4);
+
+
     }
 
     private void showBranchBankList(ArrayList<BranchBankBean> branchBankBeanArrayList) {

@@ -54,7 +54,7 @@ public class AuthMobileModel extends BaseViewModel {
     }
 
     private void receiveMoneyAuth() {
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, code.get(), "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, verificationCode.get(), "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(msg);

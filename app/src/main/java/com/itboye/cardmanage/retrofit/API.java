@@ -299,16 +299,16 @@ public interface API {
     /**
      * 发起收款请求
      *
-     * @param id
-     * @param card_usage
+     * @param order_code
+     * @param code
      * @param serviceType
      * @return
      */
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<ReceiveMoneyAuthPassBean>> sendPayment(@Field("order_code") String id,
-                                                                   @Field("code") String card_usage,
+    Observable<BaseResponse<ReceiveMoneyAuthPassBean>> sendPayment(@Field("order_code") String order_code,
+                                                                   @Field("code") String code,
                                                                    @Field("service_type") String serviceType);
 
 

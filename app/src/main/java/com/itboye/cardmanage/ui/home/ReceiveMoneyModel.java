@@ -24,12 +24,12 @@ import java.util.ArrayList;
 public class ReceiveMoneyModel extends BaseViewModel {
 
     public ObservableField<String> amount = new ObservableField<>("");
-    public ObservableField<String> note = new ObservableField<>("");
+    public ObservableField<String> note = new ObservableField<>("0");
+    public ObservableField<String> arrivalAmount = new ObservableField<>("0");
     public String pay_card_id = "";//支付卡id
     public String withdraw_card_id = "";//到账结算卡id
     public String pay_channel_id = "";//支付通道id
     public String order_code;//订单号
-    public String code;//验证码
     public ObservableBoolean payChannel = new ObservableBoolean(false);
     public ArrayList<PayWaybean> payWaybeanArrayList;
     public String phone;
@@ -64,9 +64,9 @@ public class ReceiveMoneyModel extends BaseViewModel {
         });
     }
 
-    //发起收款请求(第一次发送验证码 第二次制支付)
+    //发起收款请求(第一次发送验证码 第二次支付)
     private void sendPayment() {
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, code, "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, null, "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ReceiveMoneyAuthPassBean moneyAuthPassBean = (ReceiveMoneyAuthPassBean) o;
@@ -75,7 +75,7 @@ public class ReceiveMoneyModel extends BaseViewModel {
                 bundle.putString("phone", phone);
                 bundle.putString("order_code", order_code);
                 startActivity(AuthMobileActivity.class, bundle);
-                ToastUtils.showShort(msg);
+                ToastUtils.showShort("验证码已发送");
             }
 
             @Override

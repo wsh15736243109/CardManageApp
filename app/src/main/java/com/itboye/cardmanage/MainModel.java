@@ -16,7 +16,11 @@ public class MainModel extends BaseViewModel {
 
     public MainModel(@NonNull Application application) {
         super(application);
-        authStatus.set(UserUtil.getUserInfo().getId_validate() == 1 ? true: false);
+        if (UserUtil.getUserInfo()!=null) {
+            authStatus.set(UserUtil.getUserInfo().getId_validate() == 1 ? true: false);
+        }else{
+            authStatus.set(false);
+        }
     }
 
     public void toAuth() {

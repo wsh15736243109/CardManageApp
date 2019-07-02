@@ -75,6 +75,7 @@ public class AuthenticationModel extends BaseViewModel {
     private String id_back_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//身份证反面照id
     private String id_hold_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//手持身份证id
     private String bank_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//银行卡拍照id
+    public UserAuthDetailBean userAuthDetailBean = new UserAuthDetailBean();
 
     public AuthenticationModel(@NonNull Application application) {
         super(application);
@@ -93,6 +94,8 @@ public class AuthenticationModel extends BaseViewModel {
                 setFirst();
                 status = PHOTO_IDENTITY;
                 break;
+
+            case AUTH_SUCCESS:
             case PHOTO_IDENTITY:
                 if (id_front_img_id == null || id_back_img_id == null) {
                     ToastUtils.showShort("请先上传身份证正反面");
@@ -170,7 +173,7 @@ public class AuthenticationModel extends BaseViewModel {
                 break;
             case AUTH_FAIL:
             case AUTH_ING:
-            case AUTH_SUCCESS:
+//            case AUTH_SUCCESS:
                 finish();
                 break;
         }
@@ -232,6 +235,7 @@ public class AuthenticationModel extends BaseViewModel {
                     @Override
                     public void onResult(Object o, String msg, int code) {
                         ToastUtils.showShort(msg);
+                        finish();
                     }
 
                     @Override
@@ -342,21 +346,21 @@ public class AuthenticationModel extends BaseViewModel {
                         switch (type) {
                             case 101:
                                 path1 = temp;
-                                id_front_img =  uploadImageBean.getRelative_path();
+                                id_front_img = uploadImageBean.getRelative_path();
                                 id_front_img_id = uploadImageBean.getOss_key();
                                 break;
                             case 102:
                                 path2 = temp;
-                                id_back_img =  uploadImageBean.getRelative_path();
+                                id_back_img = uploadImageBean.getRelative_path();
                                 id_back_img_id = uploadImageBean.getOss_key();
                                 break;
                             case 103:
-                                id_hold_img =  uploadImageBean.getRelative_path();
+                                id_hold_img = uploadImageBean.getRelative_path();
                                 id_hold_img_id = uploadImageBean.getOss_key();
                                 path3 = temp;
                                 break;
                             case 104:
-                                bank_img =  uploadImageBean.getRelative_path();
+                                bank_img = uploadImageBean.getRelative_path();
                                 bank_img_id = uploadImageBean.getOss_key();
                                 path4 = temp;
                                 break;
@@ -386,7 +390,7 @@ public class AuthenticationModel extends BaseViewModel {
                 new ApiDisposableObserver() {
                     @Override
                     public void onResult(Object o, String msg, int code) {
-                        UserAuthDetailBean userAuthDetailBean = (UserAuthDetailBean) o;
+                        userAuthDetailBean = (UserAuthDetailBean) o;
                         if (userAuthDetailBean.getVerify() == 2) {
                             //认证中
                             labelAuthStatus.set("资料提交成功正在审核<br /><font color='gray'>预计1-2个工作日完成，请耐心等待</font>");
@@ -397,12 +401,31 @@ public class AuthenticationModel extends BaseViewModel {
                             buttonLabel.set("返回首页");
                         } else if (userAuthDetailBean.getVerify() == 1) {
                             //认证成功
-                            labelAuthStatus.set("恭喜您认证成功");
-                            buttonLabel.set("返回首页");
-                            iconAuthStatus.set(getApplication().getResources().getDrawable(R.drawable.ic_auth_success));
-                            bodyVisible.set(View.GONE);
+//                            labelAuthStatus.set("恭喜您认证成功");
+                            labelAuthStatus.set("");
+//                            buttonLabel.set("返回首页");
+                            ToastUtils.showShort("认证已经成功");
+                            //显示该用户的认证资料
+                            ui.uiChange.set(!ui.uiChange.get());
+//                            iconAuthStatus.set(getApplication().getResources().getDrawable(R.drawable.ic_auth_success));
+                            bodyVisible.set(View.VISIBLE);
                             labelAuthStatusVisible.set(View.VISIBLE);
                             status = AUTH_SUCCESS;
+                            realName.set(userAuthDetailBean.getName());
+                            idnumber.set(userAuthDetailBean.getId_no());
+                            addr.set(userAuthDetailBean.getAddress());
+                            email.set(userAuthDetailBean.getEmail());
+                            zipCode.set(userAuthDetailBean.getZipcode());
+                            zipCode.set(userAuthDetailBean.getZipcode());
+                            id_back_img = userAuthDetailBean.getId_back_img();
+                            id_front_img = userAuthDetailBean.getId_front_img();
+                            bank_img = userAuthDetailBean.getBank_front_img();
+                            id_hold_img = userAuthDetailBean.getId_hold_img();
+                            bankNumber.set(userAuthDetailBean.getBank_card_no());
+                            bankNumberAgain.set(userAuthDetailBean.getBank_card_no());
+                            bankName.set(userAuthDetailBean.getOpening_bank());
+                            branchBankName.set(userAuthDetailBean.getBranch_bank());
+                            bankReservePhone.set(userAuthDetailBean.getMobile());
                         }
 //                        else if (userAuthDetailBean.getVerify() == -1) {
 ////                            //认证失败
@@ -425,7 +448,7 @@ public class AuthenticationModel extends BaseViewModel {
 
                     @Override
                     public void onError(int code, String msg) {
-                        if (code==-2) {
+                        if (code == -2) {
                             //未提交审核
                             status = INIT;
                             bodyVisible.set(View.VISIBLE);
@@ -447,6 +470,7 @@ public class AuthenticationModel extends BaseViewModel {
         ObservableBoolean photo3 = new ObservableBoolean(false);
         ObservableBoolean photo4 = new ObservableBoolean(false);
         ObservableBoolean searchBranch = new ObservableBoolean(false);
+        ObservableBoolean uiChange = new ObservableBoolean(false);
     }
 
     public void photo(int type) {
