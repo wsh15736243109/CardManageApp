@@ -62,7 +62,7 @@ public class PersonDataModel extends BaseViewModel {
                         UploadImageBean uploadImageBean = (UploadImageBean) o;
                         //重新更新本地用户缓存
                         UserInfoBean userInfoBean = UserUtil.getUserInfo();
-                        userInfoBean.setAvatar(Global.BASEURL + uploadImageBean.getRelative_path());
+                        userInfoBean.setAvatar(uploadImageBean.getRelative_path());
                         UserUtil.saveUser(userInfoBean);
                         ToastUtils.showShort(msg);
                         finish();

@@ -1,29 +1,23 @@
 package com.itboye.cardmanage.ui.fragment;
 
 
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.BannerAdapter;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
-import com.itboye.cardmanage.adapter.RepaymentListAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
-import com.itboye.cardmanage.bean.BannerBean;
 import com.itboye.cardmanage.bean.HomeBean;
-import com.itboye.cardmanage.bean.NoticeBean;
 import com.itboye.cardmanage.databinding.FragmentHomeBinding;
 import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
 import com.itboye.cardmanage.model.CardManageModel;
@@ -31,11 +25,9 @@ import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
-import com.itboye.cardmanage.ui.mine.RepaymentDetailActivity;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import me.goldze.mvvmhabit.bus.RxBus;
-import me.goldze.mvvmhabit.bus.RxSubscriptions;
+import com.itboye.cardmanage.widget.ImageViewHolder;
+import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -114,10 +106,12 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 
     @Override
     public void initData() {
+        initRefresh();
 //        getAuthDetail();
         initRepaymentAdater();
         getRepaymentPlan();
         getHomeData();
+
         //为RecyclerView增加分割线，水平和垂直方向都有。增加分割线值比如为32。
 //        RecycleGridDivider decoration = new RecycleGridDivider(1);
 //        binding.rvTop.addItemDecoration(decoration);
@@ -128,8 +122,12 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
         }, new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
+                binding.srRefresh.finishRefresh();
                 bannerBean = (HomeBean) o;
-                BannerAdapter bannerAdapter = new BannerAdapter(bannerBean.getApply_card(), new OnMyItemClickListener() {
+                HomeBean.ApplyCardBean bean = new HomeBean.ApplyCardBean();
+                bean.setImg_url("http://img2.imgtn.bdimg.com/it/u=1718395925,3485808025&fm=26&gp=0.jpg");
+                bannerBean.getLend().add(bean);
+                BannerAdapter bannerAdapter = new BannerAdapter(bannerBean.getLend(), R.layout.item, new OnMyItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position, Object item) {
 
@@ -142,7 +140,7 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
                 });
                 binding.rvTop.setAdapter(bannerAdapter);//顶部数据
 
-                BannerAdapter bannerAdapter2 = new BannerAdapter(bannerBean.getLend(), new OnMyItemClickListener() {
+                BannerAdapter bannerAdapter2 = new BannerAdapter(bannerBean.getLend(), R.layout.item, new OnMyItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position, Object item) {
 
@@ -154,7 +152,7 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
                     }
                 });
                 binding.rvLoan.setAdapter(bannerAdapter2);//中部数据
-                BannerAdapter bannerAdapter3 = new BannerAdapter(bannerBean.getCarousel(), new OnMyItemClickListener() {
+                BannerAdapter bannerAdapter3 = new BannerAdapter(bannerBean.getApply_card(), R.layout.item_width, new OnMyItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position, Object item) {
 
@@ -168,6 +166,8 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
                 binding.rvMoreCard.setAdapter(bannerAdapter3); //底部数据
                 //公告
                 setViewFliperItem();
+                //轮播图
+                setbanner();
             }
 
             @Override
@@ -177,18 +177,43 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 
             @Override
             public void dialogDismiss() {
+                binding.srRefresh.finishRefresh();
 //                dismissDialog();
             }
         });
+    }
+
+    private void setbanner() {
+//        binding.ca.setPageIndicator(new int[]{R.drawable.banner_unselect, R.drawable.banner_select});//  这个是设置指示器的方法
+//        convenientBanner.setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);// 设置指示器方向
+        //设置开始轮播以及轮播时间  建议在onResume方法中设置
+        HomeBean.ApplyCardBean bean = new HomeBean.ApplyCardBean();
+        HomeBean.ApplyCardBean bean1 = new HomeBean.ApplyCardBean();
+        bean.setImg_url("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1022109268,3759531978&fm=27&gp=0.jpg");
+        bean1.setImg_url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2035447233,1717815544&fm=27&gp=0.jpg");
+        bannerBean.getCarousel().add(bean);
+        bannerBean.getCarousel().add(bean1);
+        binding.banner.setManualPageable(true);//设置不能手动影响  默认是手指触摸 轮播图不能翻页
+        binding.banner.setCanLoop(true);  //默认true,设置轮播图是否轮
+        binding.banner.setPages((CBViewHolderCreator<ImageViewHolder>) () -> new ImageViewHolder(), bannerBean.getCarousel());
+        binding.banner.startTurning(3000);
+        binding.banner.setOnItemClickListener(position -> {
+//            String tagUrlType = bannerBeanArrayList.get(position).getUrl_type();
+//            String tagUrl = bannerBeanArrayList.get(position).getUrl();
+//            String imageUrl = imgSunsunUrl + bannerBeanArrayList.get(position).getImg();
+//            String title = bannerBeanArrayList.get(position).getTitle();
+//            goToTaoBao(tagUrl, tagUrlType, imageUrl, title);
+        });
+
     }
 
     ArrayList<ImageView> cursorImageView = new ArrayList<>();
 
     private void initRepaymentAdater() {
         ArrayList<Fragment> arr = new ArrayList<>();
-        arr.add(new HomeRepaymentFragment());
-        arr.add(new HomeRepaymentFragment());
-        arr.add(new HomeRepaymentFragment());
+        arr.add(new HomeRepaymentFragment(1));
+        arr.add(new HomeRepaymentFragment(0));
+        arr.add(new HomeRepaymentFragment(0));
         for (int i = 0; i < arr.size(); i++) {
             ImageView imageView = new ImageView(getActivity());
             imageView.setBackgroundDrawable(getResources().getDrawable(i == 0 ? R.drawable.item_cursor_select : R.drawable.item_cursor_unselect));
@@ -248,30 +273,19 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
     }
 
 
-//    public void getAuthDetail() {
-//        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).noticeMessage(pageIndex + "", "10", "by_Message_querySystemNoticeMessage"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
-//            @Override
-//            public void accept(Disposable disposable) throws Exception {
-//
-//            }
-//        }, new ApiDisposableObserver() {
-//            @Override
-//            public void onResult(Object o, String msg, int code) {
-//                noticeBean = (NoticeBean) o;
-//                setViewFliperItem();
-//            }
-//
-//            @Override
-//            public void onError(int code, String msg) {
-//
-//            }
-//
-//            @Override
-//            public void dialogDismiss() {
-//
-//            }
-//        });
-//    }
+    void initRefresh() {
+        binding.srRefresh.setOnRefreshListener(new OnRefreshLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshLayout) {
+
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                getHomeData();
+            }
+        });
+    }
 
     @Override
     public void initViewObservable() {
@@ -284,8 +298,8 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
             LinearLayout parent = item.findViewById(R.id.flipper_item);
 //            parent.setBackgroundResource(noticeBean[i]);
             TextView text1 = item.findViewById(R.id.tv1);
-            text1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_platform_announcement, 0, 0, 0);
-            text1.setCompoundDrawablePadding(12);
+//            text1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_platform_announcement, 0, 0, 0);
+//            text1.setCompoundDrawablePadding(12);
             text1.setText(bannerBean.getNotice().get(i).getContent());
             binding.viewFlipper.addView(item);
         }

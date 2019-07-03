@@ -18,8 +18,8 @@ import java.util.List;
 public class BannerAdapter extends BaseQuickAdapter<HomeBean.ApplyCardBean, BaseViewHolder> {
     private final OnMyItemClickListener onMyClickLisenter;
 
-    public BannerAdapter(@Nullable List<HomeBean.ApplyCardBean> data, OnMyItemClickListener onMyClickLisenter) {
-        super(R.layout.item, data);
+    public BannerAdapter(@Nullable List<HomeBean.ApplyCardBean> data, int layout, OnMyItemClickListener onMyClickLisenter) {
+        super(layout, data);
         this.onMyClickLisenter = onMyClickLisenter;
     }
 
@@ -27,7 +27,7 @@ public class BannerAdapter extends BaseQuickAdapter<HomeBean.ApplyCardBean, Base
     protected void convert(BaseViewHolder helper, HomeBean.ApplyCardBean item) {
 //        helper.setText(R.id.tv_card_no, item.getCard_no());
 //        helper.setText(R.id.tv_home_top, Html.fromHtml(item.get() + "<br />"));
-        GlideUtil.display(App.getInstance(), item.getImg_url(),  helper.getView(R.id.iv_home_top));
+        GlideUtil.display(App.getInstance(), item.getImg_url(), helper.getView(R.id.iv_home_top));
 //        helper.setBackgroundRes(R.id.tv_check_status, item.isCheck() ? R.drawable.ic_checked : R.drawable.ic_uncheck);
 //        helper.setOnClickListener(R.id.tv_check_status, (View.OnClickListener) view -> onMyClickLisenter.onItemClick(helper.getAdapterPosition(),item));
     }

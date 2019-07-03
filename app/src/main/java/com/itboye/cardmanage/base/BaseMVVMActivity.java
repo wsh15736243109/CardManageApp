@@ -32,7 +32,7 @@ import java.util.Map;
 public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends RxAppCompatActivity implements SwipeBackActivityBase {
 
     protected V binding;
-    protected VM viewModel;
+    public VM viewModel;
     private int viewModelId;
     private SwipeBackActivityHelper mHelper;
     private MaterialDialog dialog;

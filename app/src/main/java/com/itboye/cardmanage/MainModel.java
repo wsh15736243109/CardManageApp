@@ -14,6 +14,7 @@ import me.goldze.mvvmhabit.utils.ToastUtils;
 public class MainModel extends BaseViewModel {
 
     public ObservableField authStatus = new ObservableField(true);
+    public ObservableField<String> authLabel = new ObservableField<>("您尚未完成认证,认证后方可收款！<u>马上认证</u>");
 
     public MainModel(@NonNull Application application) {
         super(application);

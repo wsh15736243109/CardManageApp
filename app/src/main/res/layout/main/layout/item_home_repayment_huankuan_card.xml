@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
+    <data>
+
+        <import type="android.text.Html"/>
+        <variable
+                name="viewModel"
+                type="com.itboye.cardmanage.ui.fragment.HomeRepaymentModel"/>
+    </data>
+
     <android.support.constraint.ConstraintLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,18 +18,9 @@
             android:padding="@dimen/dp_12"
             android:layout_margin="@dimen/dp_12">
 
-        <TextView
-                android:id="@+id/tv_bank_name"
-                android:layout_width="wrap_content"
-                android:text="中国银行"
-                android:drawablePadding="@dimen/dp_6"
-                app:layout_constraintTop_toTopOf="@+id/iv_bank_bg"
-                android:drawableLeft="@drawable/ic_checked"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:textSize="16dp"
-                android:layout_height="wrap_content"/>
 
         <TextView
+                android:visibility="@{viewModel.type}"
                 android:id="@+id/tv_remain_days"
                 android:layout_width="wrap_content"
                 android:text="剩余12天"
@@ -36,10 +36,11 @@
 
         <LinearLayout
                 android:id="@+id/content"
-                app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_remain_days"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="@{viewModel.type}"
                 android:paddingTop="@dimen/dp_24"
                 android:paddingBottom="@dimen/dp_24"
                 >
@@ -73,9 +74,24 @@
         </LinearLayout>
 
         <TextView
+                android:id="@+id/tv_no_plan"
+                android:visibility="@{viewModel.no_plan_label_visible}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{Html.fromHtml(viewModel.no_plan_label)}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:gravity="center"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textColor="#ff000000"
+                android:textSize="15sp"
+                />
+
+        <TextView
                 android:id="@+id/tv_change_pre_card"
                 android:layout_width="wrap_content"
-                android:text="立即还款"
+                android:text="@={viewModel.repaymentStatus}"
                 android:background="@drawable/rounded_rect_red"
                 android:paddingTop="@dimen/dp_6"
                 android:paddingBottom="@dimen/dp_6"

@@ -60,7 +60,7 @@ public class PayOrSettlementModel extends BaseViewModel {
                 } else {
                     isEmpty.set(View.VISIBLE);
                 }
-                if (pageIndex==1) {
+                if (pageIndex == 1) {
                     observableList.clear();
                 }
                 observableList.addAll(ar);

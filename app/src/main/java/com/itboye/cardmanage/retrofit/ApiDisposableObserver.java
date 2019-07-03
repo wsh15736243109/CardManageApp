@@ -42,7 +42,9 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
         if (e.getCause() instanceof DataResultException) {
             DataResultException rError = (DataResultException) e.getCause();
             onError(rError.getCode(), rError.getMessage());
-            ToastUtils.showShort(rError.getMessage());
+            if (rError.getCode()!=-2) {
+                ToastUtils.showShort(rError.getMessage());
+            }
             return;
         } else if (e instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) e;

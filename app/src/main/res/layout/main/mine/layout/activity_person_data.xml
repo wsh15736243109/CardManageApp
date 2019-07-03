@@ -5,6 +5,7 @@
 
     <data>
 
+        <import type="com.itboye.cardmanage.R"/>
         <variable
                 name="viewModel"
                 type="com.itboye.cardmanage.ui.mine.PersonDataModel"/>
@@ -31,10 +32,10 @@
                 android:layout_height="wrap_content">
 
             <com.itboye.cardmanage.widget.roundImage.SWImageView
-                    android:background="@mipmap/test"
-                    app:type="round"
+                    app:type="circle"
                     app:url="@{viewModel.headUrl}"
                     android:layout_width="@dimen/dp_66"
+                    app:placeholderRes="@{R.drawable.ic_default_head}"
                     android:layout_height="@dimen/dp_66"/>
 
             <TextView

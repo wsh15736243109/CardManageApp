@@ -21,14 +21,16 @@ public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, Base
     protected void convert(BaseViewHolder helper, TranslationBean item) {
         helper.setText(R.id.tv_translation_title, item.getNote());
         String content;
-        if (item.getAmount() >= 0) {
-            content = "<font color='orange'>+" + item.getAmount() + "</font><br />到账成功";
+        int withdraw_status = item.getWithdraw_status();
+        if (withdraw_status == 1) {
+            content = "<font color='orange'>" + (item.getAmount() > 0 ? "+" : "-") + item.getAmount() / 100 + "</font><br />到账成功";
         } else {
-            content = "<font color='green'>-" + item.getAmount() + "</font><br />失败";
+            content = "<font color='green'>" + (item.getAmount() > 0 ? "+" : "-") + item.getAmount() / 100 + "</font><br />到账失败";
 
         }
+
         helper.setText(R.id.tv_translation_content, Html.fromHtml(content));
-        helper.setText(R.id.tv_translation_date, TimeUtils.timeFormat(item.getCreate_time()*1000, "yyy-MM-dd HH:mm:ss"));
+        helper.setText(R.id.tv_translation_date, TimeUtils.timeFormat(item.getCreate_time() * 1000, "yyy-MM-dd HH:mm:ss"));
         helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_shouru);
     }
 }

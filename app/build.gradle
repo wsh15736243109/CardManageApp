@@ -67,6 +67,7 @@ dependencies {
     implementation rootProject.ext.dependencies["BaseRecyclerViewAdapterHelper"]
     implementation project(':mvvmhabit')
     implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.bigkoo:convenientbanner:2.0.5'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

@@ -31,6 +31,9 @@ public class MineFragmentModel extends BaseViewModel {
     public void initAuthStatus() {
         if (UserUtil.getUserInfo() != null) {
             authStatus.set(UserUtil.getUserInfo().getId_validate() == 1 ? "已认证" : "未认证");
+            nickname.set(UserUtil.getUserInfo().getNickname());
+            mobile.set(UserUtil.getUserInfo().getMobile());
+            headUrl.set(UserUtil.getUserInfo().getAvatar());
         } else {
             authStatus.set("未认证");
         }

@@ -28,18 +28,31 @@ import static com.itboye.cardmanage.util.ImageCompress.compress;
 
 public class AuthenticationModel extends BaseViewModel {
 
-    public ObservableField<String> bankReservePhone = new ObservableField<>("13858066033");//银行预留手机
-    public ObservableField<String> branchBankName = new ObservableField<>("中国工商银行股份有限公司杭州南苑支行");//支行名称
-    public ObservableField<String> bankName = new ObservableField<>("中国工商银行");//银行名称
-    public ObservableField<String> bankNumberAgain = new ObservableField<>("6222081202007602202");//再次银行卡账号
-    public ObservableField<String> bankNumber = new ObservableField<>("6222081202007602202");//银行卡号
+    public ObservableField<String> bankReservePhone = new ObservableField<>("");//银行预留手机
+    public ObservableField<String> branchBankName = new ObservableField<>("");//支行名称
+    public ObservableField<String> bankName = new ObservableField<>("");//银行名称
+    public ObservableField<String> bankNumberAgain = new ObservableField<>("");//再次银行卡账号
+    public ObservableField<String> bankNumber = new ObservableField<>("");//银行卡号
 
-    public ObservableField<String> realName = new ObservableField<>("周波");//姓名
-    public ObservableField<String> idnumber = new ObservableField<>("330327198407040039");//身份证号
-    public ObservableField<String> addr = new ObservableField<>("浙江省杭州市下沙智慧谷");//地址
-    public ObservableField<String> email = new ObservableField<>("1147806268@qq.com");//邮箱
-    public ObservableField<String> zipCode = new ObservableField<>("057111");//邮编
-    public ObservableField<String> validityTime = new ObservableField<>("20211001");//证件有效期
+    public ObservableField<String> realName = new ObservableField<>("");//姓名
+    public ObservableField<String> idnumber = new ObservableField<>("");//身份证号
+    public ObservableField<String> addr = new ObservableField<>("");//地址
+    public ObservableField<String> email = new ObservableField<>("");//邮箱
+    public ObservableField<String> zipCode = new ObservableField<>("");//邮编
+    public ObservableField<String> validityTime = new ObservableField<>("");//证件有效期
+
+//    public ObservableField<String> bankReservePhone = new ObservableField<>("13858066033");//银行预留手机
+//    public ObservableField<String> branchBankName = new ObservableField<>("中国工商银行股份有限公司杭州南苑支行");//支行名称
+//    public ObservableField<String> bankName = new ObservableField<>("中国工商银行");//银行名称
+//    public ObservableField<String> bankNumberAgain = new ObservableField<>("6222081202007602202");//再次银行卡账号
+//    public ObservableField<String> bankNumber = new ObservableField<>("6222081202007602202");//银行卡号
+//
+//    public ObservableField<String> realName = new ObservableField<>("周波");//姓名
+//    public ObservableField<String> idnumber = new ObservableField<>("330327198407040039");//身份证号
+//    public ObservableField<String> addr = new ObservableField<>("浙江省杭州市下沙智慧谷");//地址
+//    public ObservableField<String> email = new ObservableField<>("1147806268@qq.com");//邮箱
+//    public ObservableField<String> zipCode = new ObservableField<>("057111");//邮编
+//    public ObservableField<String> validityTime = new ObservableField<>("20211001");//证件有效期
 
     public ObservableField<String> labelAuthStatus = new ObservableField<>("");//认证状态文字
     public ObservableField<Drawable> iconAuthStatus = new ObservableField<>();//认证状态图标
@@ -72,10 +85,15 @@ public class AuthenticationModel extends BaseViewModel {
     public String branchNo = "";
 
 
-    private String id_front_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//身份证正面照id
-    private String id_back_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//身份证反面照id
-    private String id_hold_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//手持身份证id
-    private String bank_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//银行卡拍照id
+    private String id_front_img_id = "";//身份证正面照id
+    private String id_back_img_id = "";//身份证反面照id
+    private String id_hold_img_id = "";//手持身份证id
+    private String bank_img_id = "";//银行卡拍照id
+
+//    private String id_front_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//身份证正面照id
+//    private String id_back_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//身份证反面照id
+//    private String id_hold_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//手持身份证id
+//    private String bank_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//银行卡拍照id
     public UserAuthDetailBean userAuthDetailBean = new UserAuthDetailBean();
     private int vertify;
 

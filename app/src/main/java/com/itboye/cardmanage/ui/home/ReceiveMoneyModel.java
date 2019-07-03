@@ -45,7 +45,7 @@ public class ReceiveMoneyModel extends BaseViewModel {
             return;
         }
         //立即下单
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createPaymentOrder(Double.parseDouble(amount.get()) * 100 + "", /*note.get()*/Double.parseDouble(amount.get()) * 100 + "", pay_card_id, withdraw_card_id, pay_channel_id, "by_CbOrder_quickOrder"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createPaymentOrder(Double.parseDouble(amount.get()) * 100 + "", /*note.get()*/(amount.get()) + "", pay_card_id, withdraw_card_id, pay_channel_id, "by_CbOrder_quickOrder"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
                 order_code = o + "";

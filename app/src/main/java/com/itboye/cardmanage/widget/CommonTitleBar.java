@@ -219,10 +219,10 @@ public final class CommonTitleBar extends LinearLayout {
             int ui = decor.getSystemUiVisibility();
 //            if (isLight) {
             //light --> a|=b的意思就是把a和b按位或然后赋值给a,   按位或的意思就是先把a和b都换成2进制，然后用或操作，相当于a=a|b
-            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+//            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
 //            } else {
 //                //dark  --> &是位运算里面，与运算,  a&=b相当于 a = a&b,  ~非运算符
-//                ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
 //            }
             decor.setSystemUiVisibility(ui);
         }

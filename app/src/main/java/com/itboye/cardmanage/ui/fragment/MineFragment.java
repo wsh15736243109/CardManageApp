@@ -4,17 +4,23 @@ package com.itboye.cardmanage.ui.fragment;
 import android.Manifest;
 import android.databinding.Observable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.itboye.cardmanage.BR;
+import com.itboye.cardmanage.MainActivity;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
 import com.itboye.cardmanage.databinding.FragmentMineBinding;
+import com.itboye.cardmanage.util.UserUtil;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import io.reactivex.functions.Consumer;
+import me.goldze.mvvmhabit.utils.KLog;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import java.util.List;
@@ -62,7 +68,6 @@ public class MineFragment extends BaseLazyFragment<FragmentMineBinding, MineFrag
 
     @Override
     public void onUserVisible() {
-
     }
 
     @Override
@@ -73,6 +78,12 @@ public class MineFragment extends BaseLazyFragment<FragmentMineBinding, MineFrag
     @Override
     public void initParam() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).getUserAuthDetail();
     }
 
     @Override
@@ -87,7 +98,10 @@ public class MineFragment extends BaseLazyFragment<FragmentMineBinding, MineFrag
 
     @Override
     public void initData() {
-
+        binding.srRefresh.setOnRefreshListener(refreshLayout -> {
+            ((MainActivity) getActivity()).getUserAuthDetail();
+            new Handler().postDelayed(() -> refreshLayout.finishRefresh(), 3000);
+        });
     }
 
     @Override
@@ -97,14 +111,11 @@ public class MineFragment extends BaseLazyFragment<FragmentMineBinding, MineFrag
             public void onPropertyChanged(Observable sender, int propertyId) {
                 RxPermissions rxPermissions = new RxPermissions(getActivity());
                 rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        .subscribe(new Consumer<Boolean>() {
-                            @Override
-                            public void accept(Boolean aBoolean) throws Exception {
-                                if (aBoolean) {
-                                    viewModel.toAuthActivity();
-                                } else {
-                                    ToastUtils.showShort("拍照权限被拒绝");
-                                }
+                        .subscribe(aBoolean -> {
+                            if (aBoolean) {
+                                viewModel.toAuthActivity();
+                            } else {
+                                ToastUtils.showShort("拍照权限被拒绝");
                             }
                         });
                 viewModel.uc.photo.set(false);

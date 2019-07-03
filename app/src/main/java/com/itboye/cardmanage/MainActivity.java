@@ -50,7 +50,7 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
     @Override
     public void initData() {
         navigationController = binding.tab.custom()
-                .addItem(newItem(R.mipmap.ic_home_select, R.mipmap.ic_home_select, "首页"))
+                .addItem(newItem(R.mipmap.ic_home_default, R.mipmap.ic_home_select, "首页"))
                 .addItem(newItem(R.mipmap.ic_card_default, R.mipmap.ic_bancard_selected, "办卡"))
                 .addItem(newItem(R.mipmap.ic_daikuan_default, R.mipmap.ic_loan_selected, "贷款"))
                 .addItem(newItem(R.mipmap.ic_mine_default, R.mipmap.ic_mine_selected, "我的"))
