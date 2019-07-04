@@ -14,7 +14,6 @@ import com.itboye.cardmanage.util.UserUtil;
 import com.itboye.cardmanage.web.WebActivity;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.KLog;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class MineFragmentModel extends BaseViewModel {
 
@@ -36,6 +35,7 @@ public class MineFragmentModel extends BaseViewModel {
             nickname.set(UserUtil.getUserInfo().getNickname());
             mobile.set(UserUtil.getUserInfo().getMobile());
             headUrl.set(UserUtil.getUserInfo().getAvatar());
+            headUrl.set("http://admin.361fit.cn/img/logo@2x.05fe4930.png");
             KLog.v("头像地址===" + headUrl.get());
             if (UserUtil.getUserInfo().getGrade_id().equals("1")) {
                 //普通会员ic_vip_normal

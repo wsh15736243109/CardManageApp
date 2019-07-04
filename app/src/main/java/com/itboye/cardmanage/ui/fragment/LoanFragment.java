@@ -8,7 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
@@ -88,7 +91,18 @@ public class LoanFragment extends BaseLazyFragment<FragmentLoanBinding, LoanFrag
 //        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
 //        decoration.setDrawable(drawable);
 //        binding.recyclerView.addItemDecoration(decoration);
-        binding.webView.setWebViewClient(new WebViewClient(){
+        binding.webView.setWebViewClient(new WebViewClient());
+        binding.webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                if (newProgress == 100) {
+                    binding.webProgress.setVisibility(View.GONE);
+                } else {
+                    binding.webProgress.setVisibility(View.VISIBLE);
+                    binding.webProgress.setProgress(newProgress);
+                }
+            }
         });
         binding.webView.loadUrl(viewModel.url.get());
     }

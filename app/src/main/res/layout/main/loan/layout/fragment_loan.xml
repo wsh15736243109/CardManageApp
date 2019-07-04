@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:binding="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -14,25 +17,27 @@
                 type="com.itboye.cardmanage.ui.fragment.LoanFragmentModel"/>
     </data>
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            xmlns:binding="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="match_parent">
 
-        <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/recyclerView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--binding:itemBinding="@{viewModel.itemBind2}"-->
-        <!--binding:items="@{viewModel.hobbies}"-->
-        <!--binding:layoutManager="@{LayoutManagers.linear()}"-->
-        <!--binding:lineManager="@{LineManagers.vertical()}"/>-->
-
-        <WebView
-                android:id="@+id/webView"
+        <ProgressBar
+                android:id="@+id/web_progress"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:progressDrawable="@drawable/progress_drawable"
+                android:layout_height="2dp"/>
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <WebView
+                    android:id="@+id/webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </LinearLayout>
+
 </layout>

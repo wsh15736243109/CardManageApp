@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
@@ -84,6 +87,18 @@ public class CardFragment extends BaseLazyFragment<FragmentCardBinding, CardFrag
     @Override
     public void initData() {
         binding.webView.setWebViewClient(new WebViewClient());
+        binding.webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                if (newProgress == 100) {
+                    binding.webProgress.setVisibility(View.GONE);
+                } else {
+                    binding.webProgress.setVisibility(View.VISIBLE);
+                    binding.webProgress.setProgress(newProgress);
+                }
+            }
+        });
         binding.webView.loadUrl(viewModel.url.get());
     }
 

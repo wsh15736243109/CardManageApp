@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
                 name="viewModel"
                 type="com.itboye.cardmanage.web.WebModel"/>
     </data>
+
     <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -19,6 +22,13 @@
                 android:layout_height="wrap_content"
                 app:title_text="Web"
                 />
+
+        <ProgressBar
+                android:id="@+id/web_progress"
+                android:layout_width="match_parent"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:progressDrawable="@drawable/progress_drawable"
+                android:layout_height="2dp"/>
 
         <WebView
                 android:id="@+id/webView"
