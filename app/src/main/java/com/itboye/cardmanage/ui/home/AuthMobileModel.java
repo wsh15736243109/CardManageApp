@@ -114,106 +114,110 @@ public class AuthMobileModel extends BaseViewModel {
         String serviceType = "";
         status = 1;
         initUI();
-        if (type == 1) {  //开通代扣
-            serviceType = "by_UserBankCard_signWithhold";
-            if (isAuth) {
-                if (verificationCode.get().equals("")) {
-                    ToastUtils.showShort("请填写收到的验证码");
-                    return;
+        switch (type) {
+            case 1:   //开通代扣
+                serviceType = "by_UserBankCard_signWithhold";
+                if (isAuth) {
+                    if (verificationCode.get().equals("")) {
+                        ToastUtils.showShort("请填写收到的验证码");
+                        return;
+                    }
+                    AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signAuth(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                        @Override
+                        public void onResult(Object o, String msg, int code) {
+                            //验证
+                            setAuthStatus(true, msg);
+                        }
+
+                        @Override
+                        public void onError(int code, String msg) {
+                            setAuthStatus(false, msg);
+                        }
+
+                        @Override
+                        public void dialogDismiss() {
+                            dismissDialog();
+                        }
+                    });
+                } else {
+                    AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                        @Override
+                        public void onResult(Object o, String msg, int code) {
+                            //验证码发送成功
+                            setCodeSendStatus(true);
+                        }
+
+                        @Override
+                        public void onError(int code, String msg) {
+                            setCodeSendStatus(false);
+                        }
+
+                        @Override
+                        public void dialogDismiss() {
+                            dismissDialog();
+                        }
+                    });
                 }
-                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signAuth(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
-                    @Override
-                    public void onResult(Object o, String msg, int code) {
-                        //验证
-                        setAuthStatus(true, msg);
-                    }
 
-                    @Override
-                    public void onError(int code, String msg) {
-                        setAuthStatus(false, msg);
+                break;
+            case 2: //开通代付
+                serviceType = "by_UserBankCard_signRepay";
+                if (isAuth) {
+                    if (verificationCode.get().isEmpty()) {
+                        ToastUtils.showShort("请填写收到的验证码");
+                        return;
                     }
+                    AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signAuth(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                        @Override
+                        public void onResult(Object o, String msg, int code) {
+                            status = 2;
+                            setAuthStatus(true, msg);
+                            ToastUtils.showShort(msg);
+                        }
 
-                    @Override
-                    public void dialogDismiss() {
-                        dismissDialog();
-                    }
-                });
-            } else {
-                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
-                    @Override
-                    public void onResult(Object o, String msg, int code) {
-                        //验证码发送成功
-                        setCodeSendStatus(true);
-                    }
+                        @Override
+                        public void onError(int code, String msg) {
+                            status = 3;
+                            setAuthStatus(false, msg);
+                        }
 
-                    @Override
-                    public void onError(int code, String msg) {
-                        setCodeSendStatus(false);
-                    }
+                        @Override
+                        public void dialogDismiss() {
+                            dismissDialog();
+                        }
+                    });
+                } else {
+                    //开通代付
+                    AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, null, serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                        @Override
+                        public void onResult(Object o, String msg, int code) {
+                            setCodeSendStatus(true);
+                        }
 
-                    @Override
-                    public void dialogDismiss() {
-                        dismissDialog();
-                    }
-                });
-            }
+                        @Override
+                        public void onError(int code, String msg) {
+                            setCodeSendStatus(false);
+                        }
 
-        } else if (type == 2) {//开通代付
-            serviceType = "by_UserBankCard_signRepay";
-            if (isAuth) {
-                if (verificationCode.get().isEmpty()) {
-                    ToastUtils.showShort("请填写收到的验证码");
-                    return;
+                        @Override
+                        public void dialogDismiss() {
+                            dismissDialog();
+                        }
+                    });
                 }
-                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signAuth(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
-                    @Override
-                    public void onResult(Object o, String msg, int code) {
-                        status = 2;
-                        setAuthStatus(true, msg);
-                        ToastUtils.showShort(msg);
+                break;
+            case 3:  //收款验证码验证
+                if (isAuth) {
+                    if (verificationCode.get().equals("")) {
+                        ToastUtils.showShort("请填写收到的验证码");
+                        return;
                     }
-
-                    @Override
-                    public void onError(int code, String msg) {
-                        status = 3;
-                        setAuthStatus(false, msg);
-                    }
-
-                    @Override
-                    public void dialogDismiss() {
-                        dismissDialog();
-                    }
-                });
-            } else {
-                //开通代付
-                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, null, serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
-                    @Override
-                    public void onResult(Object o, String msg, int code) {
-                        setCodeSendStatus(true);
-                    }
-
-                    @Override
-                    public void onError(int code, String msg) {
-                        setCodeSendStatus(false);
-                    }
-
-                    @Override
-                    public void dialogDismiss() {
-                        dismissDialog();
-                    }
-                });
-            }
-        } else if (type == 3) { //收款验证码验证
-            if (isAuth) {
-                if (verificationCode.get().equals("")) {
-                    ToastUtils.showShort("请填写收到的验证码");
-                    return;
+                    receiveMoneyAuth(verificationCode.get(), isAuth);
+                } else {
+                    receiveMoneyAuth(null, isAuth);
                 }
-                receiveMoneyAuth(verificationCode.get(), isAuth);
-            } else {
-                receiveMoneyAuth(null, isAuth);
-            }
 
+                break;
         }
     }
 

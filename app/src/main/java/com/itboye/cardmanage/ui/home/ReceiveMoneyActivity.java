@@ -14,6 +14,7 @@ import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.bean.PayWaybean;
 import com.itboye.cardmanage.databinding.ActivityReceiveMoneyBinding;
 import com.itboye.cardmanage.model.CardManageModel;
+import com.itboye.cardmanage.util.TimeUtils;
 import io.reactivex.disposables.Disposable;
 import me.goldze.mvvmhabit.bus.RxBus;
 import me.goldze.mvvmhabit.bus.RxSubscriptions;
@@ -110,8 +111,8 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
                     for (int i = 0; i < viewModel.payWaybeanArrayList.size(); i++) {
                         PayWaybean payWaybean = viewModel.payWaybeanArrayList.get(i);
                         String title = payWaybean.getTitle();
-                        String timeStart = payWaybean.getDay_time_start();
-                        String timeEnd = payWaybean.getDay_time_end();
+                        String timeStart = TimeUtils.parseTime(TimeUtils.getStrFormat(payWaybean.getDay_time_start(), 4), "HHmm", "HH:mm");
+                        String timeEnd = TimeUtils.parseTime(TimeUtils.getStrFormat(payWaybean.getDay_time_end(), 4), "HHmm", "HH:mm");
                         View view = View.inflate(ReceiveMoneyActivity.this, R.layout.item_pay_channel, null);
                         view.setPadding(0, 24, 24, 24);
                         TextView textView = view.findViewById(R.id.tv_title);
