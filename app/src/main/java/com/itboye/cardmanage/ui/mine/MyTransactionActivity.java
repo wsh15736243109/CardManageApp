@@ -46,6 +46,8 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
 
     @Override
     public void initData() {
+        year = Calendar.getInstance().get(Calendar.YEAR);
+        month = getMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
         binding.rvTranslation.setLayoutManager(new LinearLayoutManager(this));
         binding.rvTranslation.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         adapter = new MyTranslationAdapter(ar);
@@ -54,9 +56,9 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
         setRightClickListener(() -> {
             TimePickerFragment newFragment = new TimePickerFragment(this, (datePicker, i, i1, i2) -> {
                 year = i;
-                month = i1 + 1 + "";
+                month = getMonth(i1 + 1);
                 myTranslationRecord();
-            }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            }, year, Integer.parseInt(month) - 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
             newFragment.getDatePicker().setCalendarViewShown(false);
             newFragment.getDatePicker().setSpinnersShown(true);
             newFragment.setCanceledOnTouchOutside(false);
@@ -67,9 +69,13 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
         myTranslationRecord();
     }
 
+    private String getMonth(int month) {
+        return (month < 10 ? "0" + month : month + "");
+    }
+
     void myTranslationRecord() {
         binding.tvBillDate.setText(year + "年" + month + "月账单");
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).translationRecord(month, "by_CbOrder_querySimple"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).translationRecord(year + month, "by_CbOrder_querySimple"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
             @Override
             public void accept(Disposable disposable) throws Exception {
                 viewModel.showDialog();

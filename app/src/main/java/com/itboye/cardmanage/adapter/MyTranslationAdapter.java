@@ -1,15 +1,13 @@
 package com.itboye.cardmanage.adapter;
 
-import android.text.Html;
-import com.itboye.cardmanage.R;
-
 import android.support.annotation.Nullable;
+import android.text.Html;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.bean.TranslationBean;
 import com.yancy.imageselector.utils.TimeUtils;
 
-import java.net.HttpRetryException;
 import java.util.List;
 
 public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, BaseViewHolder> {
@@ -23,10 +21,10 @@ public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, Base
         String content;
         int withdraw_status = item.getWithdraw_status();
         if (withdraw_status == 1) {
-            content = "<font color='orange'>" + (item.getAmount() > 0 ? "+" : "-") + item.getAmount() / 100 + "</font><br />到账成功";
+            content = "" + (item.getAmount() > 0 ? "<font color='#FF7E00'>+" : "<font color='#31B70E'>-") + item.getAmount() / 100 + "</font><br />" + (item.getAmount() < 0 ? "支出成功" : "到账成功");
         } else {
-            content = "<font color='green'>" + (item.getAmount() > 0 ? "+" : "-") + item.getAmount() / 100 + "</font><br />到账失败";
-
+            content = "" + (item.getAmount() > 0 ? "<font color='#FF7E00'>+" : "<font color='#31B70E'>-") + item.getAmount() / 100 + "</font><br />" + (item.getAmount() < 0 ? "支出失败" : "到账失败");
+//            content = "<font color='#31B70E'>" + (item.getAmount() > 0 ? "+" : "-") + item.getAmount() / 100 + "</font><br />到账失败";
         }
 
         helper.setText(R.id.tv_translation_content, Html.fromHtml(content));

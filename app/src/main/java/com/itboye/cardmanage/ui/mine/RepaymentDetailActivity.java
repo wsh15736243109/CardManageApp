@@ -92,6 +92,30 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                 getFee();
             }
         });
+        binding.titleBar.getTvRight().setOnClickListener(view -> {
+            //删除计划
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).deleteCdPlan("", "by_CbPlan_delete"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
+                @Override
+                public void accept(Disposable disposable) {
+                    viewModel.showDialog();
+                }
+            }, new ApiDisposableObserver() {
+                @Override
+                public void onResult(Object o, String msg, int code) {
+                    ToastUtils.showShort(msg);
+                }
+
+                @Override
+                public void onError(int code, String msg) {
+
+                }
+
+                @Override
+                public void dialogDismiss() {
+                    viewModel.dismissDialog();
+                }
+            });
+        });
     }
 
     private void initCreditCardListAdapter() {
@@ -121,7 +145,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
 
             @Override
             public void onItemClick(int position, Object item) {
-                viewModel.addRepaymentPlan(2,1);
+                viewModel.addRepaymentPlan(2, 1);
             }
         });
         binding.rvRepaymentCard.setLayoutManager(new LinearLayoutManager(this));

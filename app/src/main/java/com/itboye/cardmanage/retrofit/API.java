@@ -383,6 +383,12 @@ public interface API {
                                                   @Field("pre_store_card_id") String preStoreCardIds,
                                                   @Field("credit_card_ids") String creditCardIds, @Field("service_type") String serviceType);
 
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> deleteCdPlan(@Field("id") String id,
+                                                 @Field("service_type") String serviceType);
+
     /**
      * 重启还款计划
      *
