@@ -187,12 +187,12 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 //        binding.ca.setPageIndicator(new int[]{R.drawable.banner_unselect, R.drawable.banner_select});//  这个是设置指示器的方法
 //        convenientBanner.setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);// 设置指示器方向
         //设置开始轮播以及轮播时间  建议在onResume方法中设置
-        HomeBean.ApplyCardBean bean = new HomeBean.ApplyCardBean();
-        HomeBean.ApplyCardBean bean1 = new HomeBean.ApplyCardBean();
-        bean.setImg_url("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1022109268,3759531978&fm=27&gp=0.jpg");
-        bean1.setImg_url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2035447233,1717815544&fm=27&gp=0.jpg");
-        bannerBean.getCarousel().add(bean);
-        bannerBean.getCarousel().add(bean1);
+//        HomeBean.ApplyCardBean bean = new HomeBean.ApplyCardBean();
+//        HomeBean.ApplyCardBean bean1 = new HomeBean.ApplyCardBean();
+//        bean.setImg_url("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1022109268,3759531978&fm=27&gp=0.jpg");
+//        bean1.setImg_url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2035447233,1717815544&fm=27&gp=0.jpg");
+//        bannerBean.getCarousel().add(bean);
+//        bannerBean.getCarousel().add(bean1);
         binding.banner.setManualPageable(true);//设置不能手动影响  默认是手指触摸 轮播图不能翻页
         binding.banner.setCanLoop(true);  //默认true,设置轮播图是否轮
         binding.banner.setPages((CBViewHolderCreator<ImageViewHolder>) () -> new ImageViewHolder(), bannerBean.getCarousel());
@@ -211,9 +211,9 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 
     private void initRepaymentAdater() {
         ArrayList<Fragment> arr = new ArrayList<>();
-        arr.add(new HomeRepaymentFragment(1));
-        arr.add(new HomeRepaymentFragment(0));
-        arr.add(new HomeRepaymentFragment(0));
+        arr.add(HomeRepaymentFragment.newInstance(0, ""));
+        arr.add(HomeRepaymentFragment.newInstance(1, ""));
+        arr.add(HomeRepaymentFragment.newInstance(1, ""));
         for (int i = 0; i < arr.size(); i++) {
             ImageView imageView = new ImageView(getActivity());
             imageView.setBackgroundDrawable(getResources().getDrawable(i == 0 ? R.drawable.item_cursor_select : R.drawable.item_cursor_unselect));
@@ -223,7 +223,7 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
             binding.llRepaymentCursor.addView(imageView, layoutParams);
             cursorImageView.add(imageView);
         }
-        binding.vpRepayment.setAdapter(new FragmentPageAdapter(getFragmentManager(), arr, null));
+        binding.vpRepayment.setAdapter(new FragmentPageAdapter(getChildFragmentManager(), arr, null));
         binding.vpRepayment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {

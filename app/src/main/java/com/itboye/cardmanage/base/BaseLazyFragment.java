@@ -45,9 +45,9 @@ public abstract class BaseLazyFragment<V extends ViewDataBinding, VM extends Bas
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initParam();
         mHelper = new SwipeBackActivityHelper(getActivity());
         mHelper.onActivityCreate();
-        initParam();
     }
 
     @Override

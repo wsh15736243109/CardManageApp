@@ -53,7 +53,7 @@ public class RepaymentPlanActivity extends BaseMVVMActivity<ActivityRepaymentPla
             @Override
             public void onItemClick(int position, Object item) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("type", 0);
+                bundle.putInt("type", 1);
                 startActivity(RepaymentDetailActivity.class, bundle);
             }
         });

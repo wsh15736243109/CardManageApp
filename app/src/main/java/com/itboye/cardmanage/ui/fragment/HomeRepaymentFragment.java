@@ -1,6 +1,5 @@
 package com.itboye.cardmanage.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,23 +13,37 @@ public class HomeRepaymentFragment extends BaseLazyFragment<ItemHomeRepaymentHua
 
     int type;
 
+    public static String ARG_PARAM1 = "type";
+    public static String ARG_PARAM2 = "type2";
+
     public HomeRepaymentFragment() {
 
     }
 
-    @SuppressLint("ValidFragment")
-    public HomeRepaymentFragment(int type) {
-        this.type = type;
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment HomeFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static HomeRepaymentFragment newInstance(int param1, String param2) {
+        HomeRepaymentFragment fragment = new HomeRepaymentFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onFirstUserInvisible() {
-
     }
 
     @Override
     public void onUserVisible() {
-
     }
 
     @Override
@@ -40,7 +53,6 @@ public class HomeRepaymentFragment extends BaseLazyFragment<ItemHomeRepaymentHua
 
     @Override
     public void initParam() {
-
     }
 
     @Override
@@ -55,7 +67,7 @@ public class HomeRepaymentFragment extends BaseLazyFragment<ItemHomeRepaymentHua
 
     @Override
     public void initData() {
-        viewModel.typeValue = type;
+        viewModel.typeValue = getArguments().getInt(ARG_PARAM1);
         viewModel.changeStatus();
     }
 

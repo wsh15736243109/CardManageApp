@@ -13,6 +13,8 @@ import com.itboye.cardmanage.ui.mine.*;
 import com.itboye.cardmanage.util.UserUtil;
 import com.itboye.cardmanage.web.WebActivity;
 import me.goldze.mvvmhabit.base.BaseViewModel;
+import me.goldze.mvvmhabit.utils.KLog;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class MineFragmentModel extends BaseViewModel {
 
@@ -34,6 +36,7 @@ public class MineFragmentModel extends BaseViewModel {
             nickname.set(UserUtil.getUserInfo().getNickname());
             mobile.set(UserUtil.getUserInfo().getMobile());
             headUrl.set(UserUtil.getUserInfo().getAvatar());
+            KLog.v("头像地址===" + headUrl.get());
             if (UserUtil.getUserInfo().getGrade_id().equals("1")) {
                 //普通会员ic_vip_normal
                 vipRes.set(getApplication().getResources().getDrawable(R.drawable.ic_vip_normal));

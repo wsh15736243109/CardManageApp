@@ -4,6 +4,7 @@
     <data>
 
         <import type="android.text.Html"/>
+
         <variable
                 name="viewModel"
                 type="com.itboye.cardmanage.ui.fragment.HomeRepaymentModel"/>
@@ -95,6 +96,7 @@
                 android:background="@drawable/rounded_rect_red"
                 android:paddingTop="@dimen/dp_6"
                 android:paddingBottom="@dimen/dp_6"
+                android:onClick="@{()->viewModel.btnClick()}"
                 android:paddingLeft="@dimen/dp_24"
                 android:paddingRight="@dimen/dp_24"
                 app:layout_constraintRight_toRightOf="parent"

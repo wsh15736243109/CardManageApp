@@ -118,6 +118,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         });
     }
 
+    //预存资金卡
     private void initCreditCardListAdapter() {
         cardList.add(new CardManageModel());
         preCardAdapter = new RepaymentPreCardListAdapter(cardList, new OnMyItemClickListener() {
@@ -136,6 +137,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
 
     }
 
+    //还款计划卡
     private void initRepaymentCardListAdapter() {
         repaymentCardAdapter = new RepaymentCardListAdapter(cardList, new OnMyItemClickListener() {
             @Override

@@ -191,7 +191,9 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<ArrayList<CardManageModel>>> cardList(@Field("card_usage") String card_usage, @Field("page_index") String page_index, @Field("page_size") String page_size, @Field("service_type") String serviceType);
+    Observable<BaseResponse<ArrayList<CardManageModel>>> cardList(@Field("card_usage") String card_usage,
+                                                                  @Field("page_index") String page_index,
+                                                                  @Field("page_size") String page_size, @Field("service_type") String serviceType);
 
     /**
      * 绑定结算卡

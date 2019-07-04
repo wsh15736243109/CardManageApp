@@ -202,6 +202,6 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.getCardList();
+            viewModel.getCardList();
     }
 }

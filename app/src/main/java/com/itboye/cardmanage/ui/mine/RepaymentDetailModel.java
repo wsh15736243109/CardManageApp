@@ -54,7 +54,7 @@ public class RepaymentDetailModel extends BaseViewModel {
         //保存计划
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createCbPlan(amount.get(), days.get(), pre_store_money, Double.valueOf(fee.get()), preStoreCardIds, creditCardIds, "by_CbPlan_create"), getLifecycleProvider(), new Consumer<Disposable>() {
             @Override
-            public void accept(Disposable disposable) throws Exception {
+            public void accept(Disposable disposable) {
                 showDialog();
             }
         }, new ApiDisposableObserver() {
@@ -80,7 +80,7 @@ public class RepaymentDetailModel extends BaseViewModel {
         //重启计划
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).restartCbPlan(id, "by_CbPlan_reboot"), getLifecycleProvider(), new Consumer<Disposable>() {
             @Override
-            public void accept(Disposable disposable) throws Exception {
+            public void accept(Disposable disposable) {
                 showDialog();
             }
         }, new ApiDisposableObserver() {

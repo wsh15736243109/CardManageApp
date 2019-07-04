@@ -51,6 +51,9 @@ public class PayOrSettlementModel extends BaseViewModel {
     int pageIndex;
 
     public void getCardList() {
+        if (cardUse == null) {
+            return;
+        }
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).cardList(cardUse, pageIndex + "", "10", "by_UserBankCard_query"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
