@@ -149,9 +149,8 @@
                     <com.bigkoo.convenientbanner.ConvenientBanner
                             android:id="@+id/banner"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"/>
 
-                    </com.bigkoo.convenientbanner.ConvenientBanner>
                 </com.itboye.cardmanage.widget.LoweRelaLayout>
 
                 <RelativeLayout

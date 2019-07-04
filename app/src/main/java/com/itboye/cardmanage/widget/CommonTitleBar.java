@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -44,6 +45,7 @@ public final class CommonTitleBar extends LinearLayout {
     private int background_color;
     boolean needStatusBarHeight = false;
     private int titleColor;
+    private int statusbar_bg;
 
     public View getLayRoot() {
         return layRoot;
@@ -162,6 +164,7 @@ public final class CommonTitleBar extends LinearLayout {
 
         //背景
         background_color = mTypedArray.getColor(R.styleable.title_bar_background_color, getResources().getColor(R.color.white));
+        statusbar_bg = mTypedArray.getColor(R.styleable.title_bar_statusbar_bg, getResources().getColor(R.color.white));
         mTypedArray.recycle();
 
 
@@ -195,7 +198,7 @@ public final class CommonTitleBar extends LinearLayout {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        initSystemBar(true, background_color);
+//        initSystemBar(true, background_color);
     }
 
     public void initSystemBar(Boolean isLight, int background_color) {
@@ -212,7 +215,7 @@ public final class CommonTitleBar extends LinearLayout {
             //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             //设置状态栏颜色
-            window.setStatusBarColor(background_color);
+            window.setStatusBarColor(statusbar_bg);
 
 //            //状态栏颜色接近于白色，文字图标变成黑色
             View decor = window.getDecorView();
@@ -222,7 +225,7 @@ public final class CommonTitleBar extends LinearLayout {
 //            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
 //            } else {
 //                //dark  --> &是位运算里面，与运算,  a&=b相当于 a = a&b,  ~非运算符
-                ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
 //            }
             decor.setSystemUiVisibility(ui);
         }
@@ -238,13 +241,13 @@ public final class CommonTitleBar extends LinearLayout {
 //            //状态栏颜色接近于白色，文字图标变成黑色
         View decor = window.getDecorView();
         int ui = decor.getSystemUiVisibility();
-        if (isLight) {
-            //light --> a|=b的意思就是把a和b按位或然后赋值给a,   按位或的意思就是先把a和b都换成2进制，然后用或操作，相当于a=a|b
-            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-        } else {
+//        if (isLight) {
+//            //light --> a|=b的意思就是把a和b按位或然后赋值给a,   按位或的意思就是先把a和b都换成2进制，然后用或操作，相当于a=a|b
+//            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+//        } else {
             //dark  --> &是位运算里面，与运算,  a&=b相当于 a = a&b,  ~非运算符
             ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-        }
+//        }
         decor.setSystemUiVisibility(ui);
     }
 

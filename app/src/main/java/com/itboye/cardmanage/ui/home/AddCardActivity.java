@@ -23,10 +23,7 @@ import com.yancy.imageselector.ImageSelectorActivity;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import javax.xml.transform.Result;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, AddCardModel> {
 
@@ -99,13 +96,28 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
     }
 
     private void showDate() {
+
+        int year = Calendar.getInstance().get(Calendar.YEAR), month = Calendar.getInstance().get(Calendar.MONTH), dayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        switch (viewModel.chooseType) {
+            case 0://账单日
+                year = -1;
+                month = -1;
+                break;
+            case 1://还款日
+                year = -1;
+                month = -1;
+                break;
+            case 2://有效期
+                dayOfMonth = -1;
+                break;
+        }
         TimePickerFragment newFragment = new TimePickerFragment(this, (datePicker, i, i1, i2) -> {
-            if (viewModel.chooseType == 0) {
-                viewModel.bill_date.set(i + "" + i1 + "" + i2);
+            if (viewModel.chooseType == 0 || viewModel.chooseType == 1) {
+                viewModel.bill_date.set(i2 + "");
             } else {
-                viewModel.repayment_date.set(i + "" + i1 + "" + i2);
+                viewModel.repayment_date.set(i + "" + i1);
             }
-        }, 0, 0, 0);
+        }, year, month, dayOfMonth);
         newFragment.getDatePicker().setCalendarViewShown(false);
         newFragment.getDatePicker().setSpinnersShown(true);
         newFragment.show();

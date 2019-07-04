@@ -19,8 +19,13 @@ import static com.itboye.cardmanage.retrofit.AppUtils.getSDKVersionNumber;
 public class TimePickerFragment extends DatePickerDialog
         implements TimePickerDialog.OnTimeSetListener {
 
+    int year, month, dayOfMonth;
+
     public TimePickerFragment(@NonNull Context context, @Nullable OnDateSetListener listener, int year, int month, int dayOfMonth) {
         super(context, AlertDialog.THEME_HOLO_LIGHT, listener, year, month, dayOfMonth);
+        this.year = year;
+        this.month = month;
+        this.dayOfMonth = dayOfMonth;
     }
 
     @Override
@@ -35,13 +40,37 @@ public class TimePickerFragment extends DatePickerDialog
         DatePicker dp = findDatePicker((ViewGroup) getWindow().getDecorView());// 设置弹出年月日
         if (dp != null) {
             if (SDKVersion < 11) {
-                ((ViewGroup) dp.getChildAt(0)).getChildAt(1).setVisibility(
-                        View.GONE);
-
+                if (this.year == -1) {
+                    ((ViewGroup) dp.getChildAt(0)).getChildAt(0).setVisibility(
+                            View.GONE);
+                }
+                if (this.month == -1) {
+                    ((ViewGroup) dp.getChildAt(0)).getChildAt(1).setVisibility(
+                            View.GONE);
+                }
+                if (this.dayOfMonth == -1) {
+                    ((ViewGroup) dp.getChildAt(0)).getChildAt(2).setVisibility(
+                            View.GONE);
+                }
             } else if (SDKVersion > 14) {
+                if (this.year == -1) {
+
+                    ((ViewGroup) ((ViewGroup) dp.getChildAt(0)).getChildAt(0))
+                            .getChildAt(0).setVisibility(View.GONE);
+                }
+                if (this.month == -1) {
+
+                    ((ViewGroup) ((ViewGroup) dp.getChildAt(0)).getChildAt(0))
+                            .getChildAt(1).setVisibility(View.GONE);
+                }
+                if (this.dayOfMonth == -1) {
+
+                    ((ViewGroup) ((ViewGroup) dp.getChildAt(0)).getChildAt(0))
+                            .getChildAt(2).setVisibility(View.GONE);
+                }
                 //只显示年月
-                ((ViewGroup) ((ViewGroup) dp.getChildAt(0)).getChildAt(0))
-                        .getChildAt(2).setVisibility(View.GONE);//.getChildAt(0)
+//                ((ViewGroup) ((ViewGroup) dp.getChildAt(0)).getChildAt(0))
+//                        .getChildAt(2).setVisibility(View.GONE);//.getChildAt(0)
                 //只显示年日
                 //                ((ViewGroup) ((ViewGroup) dp.getChildAt(0)).getChildAt(0))
                 //                .getChildAt(2).setVisibility(View.GONE);

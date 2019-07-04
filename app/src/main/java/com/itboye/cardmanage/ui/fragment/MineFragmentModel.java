@@ -3,17 +3,16 @@ package com.itboye.cardmanage.ui.fragment;
 import android.app.Application;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.interfaces.MineClickType;
 import com.itboye.cardmanage.ui.home.CardManageActivity;
 import com.itboye.cardmanage.ui.mine.*;
 import com.itboye.cardmanage.util.UserUtil;
 import com.itboye.cardmanage.web.WebActivity;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import me.goldze.mvvmhabit.base.BaseViewModel;
-import me.goldze.mvvmhabit.utils.KLog;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class MineFragmentModel extends BaseViewModel {
 
@@ -21,6 +20,7 @@ public class MineFragmentModel extends BaseViewModel {
     public ObservableField<String> mobile = new ObservableField<>(UserUtil.getUserInfo().getMobile());
     public ObservableField<String> headUrl = new ObservableField<>(UserUtil.getUserInfo().getAvatar());
     public ObservableField<String> authStatus = new ObservableField<>("未认证");
+    public ObservableField<Drawable> vipRes = new ObservableField<>();
 
     public MineFragmentModel(@NonNull Application application) {
         super(application);
@@ -34,6 +34,13 @@ public class MineFragmentModel extends BaseViewModel {
             nickname.set(UserUtil.getUserInfo().getNickname());
             mobile.set(UserUtil.getUserInfo().getMobile());
             headUrl.set(UserUtil.getUserInfo().getAvatar());
+            if (UserUtil.getUserInfo().getGrade_id().equals("1")) {
+                //普通会员ic_vip_normal
+                vipRes.set(getApplication().getResources().getDrawable(R.drawable.ic_vip_normal));
+            } else if (UserUtil.getUserInfo().getGrade_id().equals("2")) {
+                //VIP会员
+                vipRes.set(getApplication().getResources().getDrawable(R.drawable.ic_vip));
+            }
         } else {
             authStatus.set("未认证");
         }

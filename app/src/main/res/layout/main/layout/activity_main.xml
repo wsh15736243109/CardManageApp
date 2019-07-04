@@ -23,6 +23,7 @@
                 android:layout_width="match_parent"
                 app:left_icon_visible="false"
                 app:title_text=""
+                app:statusbar_bg="@color/text_main_DD2824"
                 app:title_text_color="@color/black"
                 android:layout_height="wrap_content"/>
 

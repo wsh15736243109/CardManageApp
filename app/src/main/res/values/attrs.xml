@@ -41,6 +41,7 @@
         <attr name="title_drawable_right" format="reference" />
         <attr name="background_color" format="reference" />
         <attr name="needStatusBarHeight" format="boolean"/>
+        <attr name="statusbar_bg" format="color"/>
     </declare-styleable>
     <!--比例-->
     <declare-styleable name="LoweImageView">

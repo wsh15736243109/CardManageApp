@@ -79,6 +79,7 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
 
             @Override
             public void onPageSelected(int i) {
+                binding.titlebar.setVisibility(View.VISIBLE);
                 binding.titlebar.getLayRoot().setVisibility(View.VISIBLE);
                 binding.titlebar.setStatusUI(true);
                 binding.titlebar.setBarBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.white));
@@ -94,6 +95,7 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
                     binding.titlebar.setTitle("贷款");
                 } else if (i == 3) {
                     binding.titlebar.setTitle("");
+                    binding.titlebar.setVisibility(View.GONE);
                 }
             }
 

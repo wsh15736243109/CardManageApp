@@ -27,18 +27,18 @@ import java.util.List;
 import static com.itboye.cardmanage.util.ImageCompress.compress;
 
 public class AddCardModel extends BaseViewModel {
-    public ObservableField<String> cardOwner = new ObservableField<>("周波");//持卡人姓名
-    public ObservableField<String> idnumber = new ObservableField<>("330327198407040039");//身份证号
-    public ObservableField<String> cardNumber = new ObservableField<>("4984513072905775");//银行卡号
-    public ObservableField<String> cardNumberRe = new ObservableField<>("4984513072905775");//确认银行卡
-    public ObservableField<String> bankName = new ObservableField<>("浦发银行");//开户行名称
-    public ObservableField<String> branchBankName = new ObservableField<>("杭州");//支行名称
-    public ObservableField<String> reservedPhone = new ObservableField<>("13858066033");//预留手机号
+    public ObservableField<String> cardOwner = new ObservableField<>("");//持卡人姓名
+    public ObservableField<String> idnumber = new ObservableField<>("");//身份证号
+    public ObservableField<String> cardNumber = new ObservableField<>("");//银行卡号
+    public ObservableField<String> cardNumberRe = new ObservableField<>("");//确认银行卡
+    public ObservableField<String> bankName = new ObservableField<>("");//开户行名称
+    public ObservableField<String> branchBankName = new ObservableField<>("");//支行名称
+    public ObservableField<String> reservedPhone = new ObservableField<>("");//预留手机号
 
-    public ObservableField<String> bill_date = new ObservableField<>("202010");//账单日
-    public ObservableField<String> repayment_date = new ObservableField<>("202010");//还款日
-    public ObservableField<String> safetyCode = new ObservableField<>("573");//安全码
-    public ObservableField<String> validDate = new ObservableField<>("2303");//有效日期
+    public ObservableField<String> bill_date = new ObservableField<>("");//账单日
+    public ObservableField<String> repayment_date = new ObservableField<>("");//还款日
+    public ObservableField<String> safetyCode = new ObservableField<>("");//安全码
+    public ObservableField<String> validDate = new ObservableField<>("");//有效日期
     public ObservableInt cardJieSuanKa = new ObservableInt(View.VISIBLE);//结算卡
     public ObservableInt cardZhiFuKa = new ObservableInt(View.GONE);//支付卡
     public String branchNo = "";
