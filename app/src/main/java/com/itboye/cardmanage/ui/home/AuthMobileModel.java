@@ -55,8 +55,10 @@ public class AuthMobileModel extends BaseViewModel {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(msg);
-                RxBus.getDefault().post(1);//关闭Open.class
-                finish();
+                //验证成功 显示验证成功界面
+
+//                RxBus.getDefault().post(1);//关闭Open.class
+//                finish();
             }
 
             @Override

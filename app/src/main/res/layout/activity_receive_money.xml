@@ -20,6 +20,7 @@
         <com.itboye.cardmanage.widget.CommonTitleBar
                 android:id="@+id/titleBar"
                 app:title_text="收款"
+                app:right_icon_resource="@drawable/ic_feilv"
                 app:background_color="@color/red"
                 app:left_icon_resource="@drawable/ic_back_white"
                 app:title_text_color="@color/white"

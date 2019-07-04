@@ -79,6 +79,13 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
 
             }
         });
+
+        binding.titleBar.getTvRight().setOnClickListener(new View.OnClickListener() {//费率介绍
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void caculateArrivalAmount() {
