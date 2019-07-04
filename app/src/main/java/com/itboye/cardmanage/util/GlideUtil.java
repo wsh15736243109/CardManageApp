@@ -20,6 +20,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.itboye.cardmanage.R;
+import me.goldze.mvvmhabit.utils.KLog;
 
 import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
@@ -32,8 +33,11 @@ import static com.itboye.cardmanage.util.SizeUtils.getScreenWidth;
  */
 
 public class GlideUtil {
+    public static String TAG = "image";
+
     public static void display(Context context, String url, ImageView imageView) {
         display(context, url, imageView, DiskCacheStrategy.DATA, R.drawable.ic_empty, true, false);
+        KLog.v(TAG, "图片路径==" + url);
     }
 
     public static void displayForCircle(Context context, String url, ImageView imageView) {
@@ -51,7 +55,8 @@ public class GlideUtil {
     public static void display(Context context, String url, ImageView imageView, boolean centerCrop) {
         display(context, url, imageView, DiskCacheStrategy.DATA, R.drawable.ic_empty, centerCrop, false);
     }
-    public static void display(Context context, String url, ImageView imageView,int defaultImage, boolean centerCrop) {
+
+    public static void display(Context context, String url, ImageView imageView, int defaultImage, boolean centerCrop) {
         display(context, url, imageView, DiskCacheStrategy.DATA, defaultImage, centerCrop, false);
     }
 
@@ -82,7 +87,7 @@ public class GlideUtil {
             options = options.transform(new GlideCircleTransform());
         }
         Glide.with(context).load(url).apply(options).into(imageView);
-        Log.v("image_url","glide load:"+url);
+        Log.v("image_url", "glide load:" + url);
     }
 
     public static void display(Context context, int url, ImageView imageView, boolean centerCrop, boolean isCircle) {
@@ -160,7 +165,7 @@ public class GlideUtil {
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         int imageWidth = resource.getWidth();
                         int imageHeight = resource.getHeight();
-                        int width = getScreenWidth(context)-dip2px(context,24) ;//固定宽度
+                        int width = getScreenWidth(context) - dip2px(context, 24);//固定宽度
                         //宽度固定,然后根据原始宽高比得到此固定宽度需要的高度
                         int height = width * imageHeight / imageWidth;
                         ViewGroup.LayoutParams para = imageView.getLayoutParams();

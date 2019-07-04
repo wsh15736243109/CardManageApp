@@ -1,5 +1,6 @@
 package com.itboye.cardmanage.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeBean {
@@ -8,6 +9,15 @@ public class HomeBean {
     private List<ApplyCardBean> apply_card;
     private List<ApplyCardBean> carousel;
     private List<ApplyCardBean> lend;
+    private List<ApplyCardBean> homeTop = new ArrayList<>();
+
+    public List<ApplyCardBean> getHomeTop() {
+        return homeTop;
+    }
+
+    public void setHomeTop(List<ApplyCardBean> homeTop) {
+        this.homeTop = homeTop;
+    }
 
     public List<NoticeBean> getNotice() {
         return notice;
@@ -126,13 +136,41 @@ public class HomeBean {
          * w : 100
          * h : 100
          */
+        public ApplyCardBean() {
+
+        }
+
+        public ApplyCardBean(String title, int img_res, String jump_type, String jump_url) {
+            this.setTitle(title);
+            this.setImg_res(img_res);
+            this.setJump_type(jump_type);
+            this.setJump_url(jump_url);
+        }
 
         private int id;
         private String jump_type;
         private String jump_url;
         private String img_url;
+        private int img_res;
+        private String title;
         private int w;
         private int h;
+
+        public int getImg_res() {
+            return img_res;
+        }
+
+        public void setImg_res(int img_res) {
+            this.img_res = img_res;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
         public int getId() {
             return id;

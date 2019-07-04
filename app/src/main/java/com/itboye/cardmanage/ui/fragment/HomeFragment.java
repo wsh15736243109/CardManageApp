@@ -18,6 +18,7 @@ import com.itboye.cardmanage.adapter.BannerAdapter;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
 import com.itboye.cardmanage.bean.HomeBean;
+import com.itboye.cardmanage.config.Global;
 import com.itboye.cardmanage.databinding.FragmentHomeBinding;
 import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
 import com.itboye.cardmanage.model.CardManageModel;
@@ -25,6 +26,8 @@ import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
+import com.itboye.cardmanage.ui.mine.MyTransactionActivity;
+import com.itboye.cardmanage.web.WebActivity;
 import com.itboye.cardmanage.widget.ImageViewHolder;
 import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -124,10 +127,8 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
             public void onResult(Object o, String msg, int code) {
                 binding.srRefresh.finishRefresh();
                 bannerBean = (HomeBean) o;
-                HomeBean.ApplyCardBean bean = new HomeBean.ApplyCardBean();
-                bean.setImg_url("http://img2.imgtn.bdimg.com/it/u=1718395925,3485808025&fm=26&gp=0.jpg");
-                bannerBean.getLend().add(bean);
-                BannerAdapter bannerAdapter = new BannerAdapter(bannerBean.getLend(), R.layout.item, new OnMyItemClickListener() {
+                initTopArray();
+                BannerAdapter bannerAdapter = new BannerAdapter(bannerBean.getHomeTop(), R.layout.item, new OnMyItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position, Object item) {
 
@@ -135,7 +136,35 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 
                     @Override
                     public void onItemClick(int position, Object item) {
+                        if (bannerBean.getHomeTop() != null) {
+                            String title = bannerBean.getHomeTop().get(position).getTitle();
+                            String url = bannerBean.getHomeTop().get(position).getJump_url();
+                            String type = bannerBean.getHomeTop().get(position).getJump_type();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("title", title);
+                            if (type.equalsIgnoreCase("2")) {
+                                bundle.putString("url", url);
+                            }
+                            if (title.equalsIgnoreCase("升级VIP")) {
+                            }
+                            if (title.equalsIgnoreCase("操作帮助")) {
+                                startActivity(WebActivity.class, bundle);
+                            }
+                            if (title.equalsIgnoreCase("联系客服")) {
+                                startActivity(WebActivity.class, bundle);
 
+                            }
+                            if (title.equalsIgnoreCase("常见问题")) {
+                                startActivity(WebActivity.class, bundle);
+                            }
+                            if (title.equalsIgnoreCase("更多")) {
+
+                            }
+                            if (title.equalsIgnoreCase("交易记录")) {
+                                startActivity(MyTransactionActivity.class);
+                            }
+
+                        }
                     }
                 });
                 binding.rvTop.setAdapter(bannerAdapter);//顶部数据
@@ -148,7 +177,10 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 
                     @Override
                     public void onItemClick(int position, Object item) {
-
+                        Bundle bundle = new Bundle();
+                        bundle.putString("title", ((HomeBean.ApplyCardBean) item).getTitle());
+                        bundle.putString("url", ((HomeBean.ApplyCardBean) item).getJump_url());
+                        startActivity(WebActivity.class, bundle);
                     }
                 });
                 binding.rvLoan.setAdapter(bannerAdapter2);//中部数据
@@ -161,6 +193,10 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
                     @Override
                     public void onItemClick(int position, Object item) {
 
+                        Bundle bundle = new Bundle();
+                        bundle.putString("title", ((HomeBean.ApplyCardBean) item).getTitle());
+                        bundle.putString("url", ((HomeBean.ApplyCardBean) item).getJump_url());
+                        startActivity(WebActivity.class, bundle);
                     }
                 });
                 binding.rvMoreCard.setAdapter(bannerAdapter3); //底部数据
@@ -181,6 +217,21 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 //                dismissDialog();
             }
         });
+    }
+
+    private void initTopArray() {
+        HomeBean.ApplyCardBean bean = new HomeBean.ApplyCardBean("交易记录", R.drawable.ic_jiaoyijilu, "1", null);
+        bannerBean.getHomeTop().add(bean);
+        bean = new HomeBean.ApplyCardBean("升级VIP", R.drawable.ic_shengjivip, "2", Global.H5URL + Global.UPDATE_VIP);
+        bannerBean.getHomeTop().add(bean);
+        bean = new HomeBean.ApplyCardBean("操作帮助", R.drawable.ic_caozuobangzhu, "2", Global.H5URL + Global.OPERATE_HELP);
+        bannerBean.getHomeTop().add(bean);
+        bean = new HomeBean.ApplyCardBean("联系客服", R.drawable.ic_lianxikefu, "2", Global.H5URL + Global.CONTACT_CUSTOMER);
+        bannerBean.getHomeTop().add(bean);
+        bean = new HomeBean.ApplyCardBean("常见问题", R.drawable.ic_changjianwenti, "2", Global.H5URL + Global.NORMAL_PROBLEM);
+        bannerBean.getHomeTop().add(bean);
+        bean = new HomeBean.ApplyCardBean("更多", R.drawable.ic_more, "1", null);
+        bannerBean.getHomeTop().add(bean);
     }
 
     private void setbanner() {

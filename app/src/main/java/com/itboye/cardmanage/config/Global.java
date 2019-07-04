@@ -6,6 +6,12 @@ package com.itboye.cardmanage.config;
  * @Description:
  */
 public class Global {
+    public static final String NORMAL_PROBLEM = "/#/faq";//常见问题web
+    public static final String CONTACT_CUSTOMER = "/#/contact";//联系客服
+    public static final String ABOUT_US = "#/aboutus";//关于我们
+    public static final String DOWNLOAD_APP = "#/download";//更新APP
+    public static final String UPDATE_VIP = "";//升级VIP
+    public static final String OPERATE_HELP = "#/operationProcess";//操作流程
     public static String HEAD = "http://";
     public static String HOST = "api.361fit.cn";
     public static String WEB_HOST = "admin.361fit.cn";

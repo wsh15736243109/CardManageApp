@@ -36,12 +36,12 @@ public class SettingModel extends BaseViewModel {
                 break;//用户反馈
             case ABOUT_US:
                 bundle.putString("title", "关于我们");
-                bundle.putString("url", Global.H5URL + "#/aboutus");
+                bundle.putString("url", Global.H5URL + Global.ABOUT_US);
                 startActivity(WebActivity.class, bundle);
                 break;//关于我们
             case CHECK_UPDATE:
                 bundle.putString("title", "版本更新");
-                bundle.putString("url", Global.H5URL + "#/download");
+                bundle.putString("url", Global.H5URL + Global.DOWNLOAD_APP);
                 startActivity(WebActivity.class, bundle);
                 break;//检查更新
             case CLEAN_CACHE://清理缓存

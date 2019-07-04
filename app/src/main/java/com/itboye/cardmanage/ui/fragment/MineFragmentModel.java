@@ -64,12 +64,12 @@ public class MineFragmentModel extends BaseViewModel {
                 startActivity(RepaymentPlanActivity.class);
                 break;
             case CONTACT_CUSTOMER_SERVICE:
-                bundle.putString("url", Global.H5URL+"/#/contact ");
-                bundle.putString("title", "常见问题");
+                bundle.putString("url", Global.H5URL+Global.CONTACT_CUSTOMER);
+                bundle.putString("title", "联系客服");
                 startActivity(WebActivity.class, bundle);
                 break;
             case NORMAL_PROBLEM:
-                bundle.putString("url", Global.H5URL+"/#/faq");
+                bundle.putString("url", Global.H5URL+Global.NORMAL_PROBLEM);
                 bundle.putString("title", "常见问题");
                 startActivity(WebActivity.class, bundle);
                 break;

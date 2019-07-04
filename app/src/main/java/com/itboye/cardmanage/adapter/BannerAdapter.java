@@ -2,6 +2,7 @@ package com.itboye.cardmanage.adapter;
 
 import android.support.annotation.Nullable;
 import android.text.Html;
+import android.view.View;
 import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -25,10 +26,23 @@ public class BannerAdapter extends BaseQuickAdapter<HomeBean.ApplyCardBean, Base
 
     @Override
     protected void convert(BaseViewHolder helper, HomeBean.ApplyCardBean item) {
-//        helper.setText(R.id.tv_card_no, item.getCard_no());
+        if (item.getImg_res() != 0) {
+            helper.setText(R.id.tv_home_top, item.getTitle());
+            GlideUtil.display(App.getInstance(), item.getImg_res(), helper.getView(R.id.iv_home_top), false);
+            helper.setGone(R.id.tv_home_top, true);
+
+        } else {
+            try {
+
+                helper.setGone(R.id.tv_home_top, false);
+            }catch (Exception e){
+
+            }
 //        helper.setText(R.id.tv_home_top, Html.fromHtml(item.get() + "<br />"));
-        GlideUtil.display(App.getInstance(), item.getImg_url(), helper.getView(R.id.iv_home_top));
+            GlideUtil.display(App.getInstance(), item.getImg_url(), helper.getView(R.id.iv_home_top));
 //        helper.setBackgroundRes(R.id.tv_check_status, item.isCheck() ? R.drawable.ic_checked : R.drawable.ic_uncheck);
-//        helper.setOnClickListener(R.id.tv_check_status, (View.OnClickListener) view -> onMyClickLisenter.onItemClick(helper.getAdapterPosition(),item));
+        }
+        helper.setOnClickListener(R.id.rl_root, (View.OnClickListener) view -> onMyClickLisenter.onItemClick(helper.getAdapterPosition(), item));
+
     }
 }
