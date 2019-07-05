@@ -25,7 +25,7 @@
         <com.itboye.cardmanage.widget.roundImage.SWImageView
                 android:id="@+id/iv_lg_logo"
                 app:type="circle"
-                android:background="@color/gray"
+                android:background="@drawable/ic_logo"
                 android:layout_width="80dp"
                 android:layout_height="80dp"/>
 

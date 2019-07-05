@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.R;
+import com.itboye.cardmanage.config.Global;
 import com.itboye.cardmanage.interfaces.MineClickType;
 import com.itboye.cardmanage.ui.home.CardManageActivity;
 import com.itboye.cardmanage.ui.mine.*;
@@ -63,10 +64,12 @@ public class MineFragmentModel extends BaseViewModel {
                 startActivity(RepaymentPlanActivity.class);
                 break;
             case CONTACT_CUSTOMER_SERVICE:
-                startActivity(CustomerServiceActivity.class);
+                bundle.putString("url", Global.H5URL+"/#/contact ");
+                bundle.putString("title", "常见问题");
+                startActivity(WebActivity.class, bundle);
                 break;
             case NORMAL_PROBLEM:
-                bundle.putString("url", "http://www.baidu.com");
+                bundle.putString("url", Global.H5URL+"/#/faq");
                 bundle.putString("title", "常见问题");
                 startActivity(WebActivity.class, bundle);
                 break;

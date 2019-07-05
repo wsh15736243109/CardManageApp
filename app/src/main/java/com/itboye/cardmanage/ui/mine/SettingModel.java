@@ -1,15 +1,23 @@
 package com.itboye.cardmanage.ui.mine;
 
 import android.app.Application;
+import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import com.itboye.cardmanage.config.Global;
 import com.itboye.cardmanage.interfaces.MineClickType;
 import com.itboye.cardmanage.ui.SplashActivity;
+import com.itboye.cardmanage.util.CacheUtil;
 import com.itboye.cardmanage.util.UserUtil;
 import com.itboye.cardmanage.web.WebActivity;
 import me.goldze.mvvmhabit.base.BaseViewModel;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class SettingModel extends BaseViewModel {
+
+    public ObservableField<String> versionName = new ObservableField<>("");
+    public ObservableField<String> cacheData = new ObservableField<>("");
+
     public SettingModel(@NonNull Application application) {
         super(application);
     }
@@ -28,13 +36,19 @@ public class SettingModel extends BaseViewModel {
                 break;//用户反馈
             case ABOUT_US:
                 bundle.putString("title", "关于我们");
-                bundle.putString("url", "");
+                bundle.putString("url", Global.H5URL + "#/aboutus");
                 startActivity(WebActivity.class, bundle);
                 break;//关于我们
             case CHECK_UPDATE:
+                bundle.putString("title", "版本更新");
+                bundle.putString("url", Global.H5URL + "#/download");
+                startActivity(WebActivity.class, bundle);
                 break;//检查更新
-            case CLEAN_CACHE:
-                break;//清理缓存
+            case CLEAN_CACHE://清理缓存
+                CacheUtil.clearAllCache(getApplication());
+                cacheData.set("0K");
+                ToastUtils.showShort("缓存已清理");
+                break;
             case CURRENT_VERSION:
                 break;//当前版本
             case LOGIN_OUT:
