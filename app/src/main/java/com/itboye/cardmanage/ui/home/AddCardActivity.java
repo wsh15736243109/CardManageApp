@@ -1,12 +1,10 @@
 package com.itboye.cardmanage.ui.home;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import com.itboye.cardmanage.BR;
@@ -20,9 +18,7 @@ import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageLoader;
 import com.yancy.imageselector.ImageSelector;
 import com.yancy.imageselector.ImageSelectorActivity;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 
-import javax.xml.transform.Result;
 import java.util.*;
 
 public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, AddCardModel> {
@@ -112,10 +108,12 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
                 break;
         }
         TimePickerFragment newFragment = new TimePickerFragment(this, (datePicker, i, i1, i2) -> {
-            if (viewModel.chooseType == 0 || viewModel.chooseType == 1) {
+            if (viewModel.chooseType == 0) {
                 viewModel.bill_date.set(i2 + "");
+            } else if (viewModel.chooseType == 1) {
+                viewModel.repayment_date.set(i2 + "");
             } else {
-                viewModel.repayment_date.set(i + "" + i1);
+                viewModel.validDate.set(i + "" + (i1 + 1 < 10 ? "0" + (i1 + 1) : (i1 + 1) + ""));
             }
         }, year, month, dayOfMonth);
         newFragment.getDatePicker().setCalendarViewShown(false);

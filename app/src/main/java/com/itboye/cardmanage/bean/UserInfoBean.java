@@ -29,6 +29,8 @@ public class UserInfoBean implements Serializable {
     private String grade_id;
     private int id_validate;
     private String nickname;
+    private String name = "";
+    private String id_no = "";
     private String avatar;
     private String idcode;
     private int invite_uid;
@@ -40,6 +42,22 @@ public class UserInfoBean implements Serializable {
     private long last_login_ip;
     private int mobile_auth;
     private String sid;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId_no() {
+        return id_no;
+    }
+
+    public void setId_no(String id_no) {
+        this.id_no = id_no;
+    }
 
     public String getGrade_id() {
         return grade_id;

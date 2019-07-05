@@ -325,7 +325,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<ArrayList>> signWithholding(@Field("bank_id") String bank_id,
+    Observable<BaseResponse<AuthBean>> signWithholding(@Field("bank_id") String bank_id,
                                                         @Field("verification_code") String verification_code,
                                                         @Field("service_type") String serviceType);
 

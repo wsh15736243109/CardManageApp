@@ -81,7 +81,6 @@ public class AuthMobileModel extends BaseViewModel {
                     return;
                 }
             }
-            ToastUtils.showShort("验证码=="+verificationCode.get());
             AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signWithholding(bankId, verificationCode.get(), "by_UserBankCard_signWithhold"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
                 public void onResult(Object o, String msg, int code) {
@@ -89,6 +88,7 @@ public class AuthMobileModel extends BaseViewModel {
                         //验证
                         yzStatus.set("验证成功，返回首页");
                         status = 2;
+                        finish();
                     } else {
 
                     }

@@ -113,7 +113,7 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).queryAuthInfo(
                 UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getId() + "",
                 "by_UserIdCard_info"),
-                viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(),
+                viewModel.getLifecycleProvider(), disposable ->{}, /*viewModel.showDialog(),*/
 
                 new ApiDisposableObserver() {
                     @Override
@@ -121,6 +121,8 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
                         UserAuthDetailBean user = (UserAuthDetailBean) o;
                         UserInfoBean userInfoBean = UserUtil.getUserInfo();
                         userInfoBean.setId_validate(user.getVerify());
+                        userInfoBean.setName(user.getName());
+                        userInfoBean.setId_no(user.getId_no());
                         UserUtil.saveUser(userInfoBean);
                         viewModel.setAuthStatus();//MainActivity的认证状态
                         //我的页面认证状态
@@ -133,7 +135,7 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
 
                     @Override
                     public void dialogDismiss() {
-                        dismissDialog();
+//                        dismissDialog();
                     }
                 });
     }

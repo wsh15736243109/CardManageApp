@@ -102,7 +102,7 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
                         String timeStart = payWaybean.getDay_time_start();
                         String timeEnd = payWaybean.getDay_time_end();
                         View view = View.inflate(ReceiveMoneyActivity.this, R.layout.item_pay_channel, null);
-                        view.setPadding(24, 24, 24, 24);
+                        view.setPadding(0, 24, 24, 24);
                         TextView textView = view.findViewById(R.id.tv_title);
                         CheckBox checkBox = view.findViewById(R.id.cb_check);
                         checkBox.setTag(i);

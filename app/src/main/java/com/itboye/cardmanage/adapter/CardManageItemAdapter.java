@@ -33,24 +33,9 @@ public class CardManageItemAdapter extends BaseQuickAdapter<CardManageModel, Bas
 
         helper.setVisible(R.id.item_card_manage_daifu, item.getPay_agree_id().isEmpty());//是否签约代付
         helper.setVisible(R.id.item_card_manage_daikou, item.getWithdraw_agree_id().isEmpty());//是否签约代扣
-        helper.setOnClickListener(R.id.item_card_manage_daikou, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onMyItemClickListener.onItemClick(view, helper.getAdapterPosition(), item);
-            }
-        });
-        helper.setOnClickListener(R.id.item_card_manage_daifu, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onMyItemClickListener.onItemClick(view, helper.getAdapterPosition(), item);
-            }
-        });
-        helper.setOnClickListener(R.id.item_card_manage_master, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onMyItemClickListener.onItemClick(view, helper.getAdapterPosition(), item);
-            }
-        });
+        helper.setOnClickListener(R.id.item_card_manage_daikou, (View.OnClickListener) view -> onMyItemClickListener.onItemClick(view, helper.getAdapterPosition(), item));
+        helper.setOnClickListener(R.id.item_card_manage_daifu, (View.OnClickListener) view -> onMyItemClickListener.onItemClick(view, helper.getAdapterPosition(), item));
+        helper.setOnClickListener(R.id.item_card_manage_master, (View.OnClickListener) view -> onMyItemClickListener.onItemClick(view, helper.getAdapterPosition(), item));
     }
 
     private int getBankResource(int bankType) {

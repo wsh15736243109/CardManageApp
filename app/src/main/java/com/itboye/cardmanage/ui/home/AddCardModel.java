@@ -1,19 +1,15 @@
 package com.itboye.cardmanage.ui.home;
 
-import android.app.AlertDialog;
 import android.app.Application;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.DatePicker;
 import com.itboye.cardmanage.bean.BranchBankBean;
 import com.itboye.cardmanage.bean.UploadImageBean;
 import com.itboye.cardmanage.retrofit.*;
 import com.itboye.cardmanage.util.UserUtil;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 import okhttp3.MediaType;
@@ -27,8 +23,8 @@ import java.util.List;
 import static com.itboye.cardmanage.util.ImageCompress.compress;
 
 public class AddCardModel extends BaseViewModel {
-    public ObservableField<String> cardOwner = new ObservableField<>("");//持卡人姓名
-    public ObservableField<String> idnumber = new ObservableField<>("");//身份证号
+    public ObservableField<String> cardOwner = new ObservableField<>(UserUtil.getUserInfo().getName());//持卡人姓名
+    public ObservableField<String> idnumber = new ObservableField<>(UserUtil.getUserInfo().getId_no());//身份证号
     public ObservableField<String> cardNumber = new ObservableField<>("");//银行卡号
     public ObservableField<String> cardNumberRe = new ObservableField<>("");//确认银行卡
     public ObservableField<String> bankName = new ObservableField<>("");//开户行名称
@@ -97,7 +93,7 @@ public class AddCardModel extends BaseViewModel {
                 return;
             }
             //添加支付卡
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addPaymentCard(cardNumber.get(), bankName.get(), reservedPhone.get(), safetyCode.get(), validDate.get(), bill_date.get(), repayment_date.get(), "by_UserBankCard_bindPayCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addPaymentCard(cardNumber.get(), bankName.get(), reservedPhone.get(), safetyCode.get(), validDate.get().substring(2), bill_date.get(), repayment_date.get(), "by_UserBankCard_bindPayCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
                 public void onResult(Object o, String msg, int code) {
                     ToastUtils.showShort(msg);
