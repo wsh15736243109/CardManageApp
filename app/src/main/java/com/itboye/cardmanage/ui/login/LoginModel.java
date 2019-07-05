@@ -30,6 +30,7 @@ public class LoginModel extends BaseViewModel {
     public ObservableField<String> userYzm = new ObservableField<>();
     public ObservableField<String> loginType = new ObservableField<>("密码登录>>");
     public ObservableField<String> getOperateType = new ObservableField<>("登录");
+    public ObservableField<String> registerLabel = new ObservableField<>("赶紧登录吧");
     public ObservableField<Integer> res = new ObservableField<>();
     public ObservableField<String> resD = new ObservableField<>("https://www.baidu.com/img/dong_96c3c31cae66e61ed02644d732fcd5f8.gif");
     public ObservableInt rlLoginYzm = new ObservableInt(View.VISIBLE);
@@ -184,41 +185,35 @@ public class LoginModel extends BaseViewModel {
     /**
      * 密码登录或验证码
      */
-    public BindingCommand loginByPwdOrYzm = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            rlLoginConfirmPsd.set(View.GONE);
-            if (OPERTA_TYPE == 1) {
-                rlLoginYzm.set(View.GONE);
-                rlLoginPsd.set(View.VISIBLE);
-                setGetOperateType(2);
-            } else {
-                rlLoginYzm.set(View.VISIBLE);
-                rlLoginPsd.set(View.GONE);
-                setGetOperateType(1);
-            }
+    public BindingCommand loginByPwdOrYzm = new BindingCommand(() -> {
+        rlLoginConfirmPsd.set(View.GONE);
+        if (OPERTA_TYPE == 1) {
+            rlLoginYzm.set(View.GONE);
+            rlLoginPsd.set(View.VISIBLE);
+            setGetOperateType(2);
+        } else {
+            rlLoginYzm.set(View.VISIBLE);
+            rlLoginPsd.set(View.GONE);
+            setGetOperateType(1);
         }
+        registerLabel.set("赶紧登录吧");
     });
     //注册按钮
-    public BindingCommand onRegister = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            setGetOperateType(3);
-            rlLoginYzm.set(View.VISIBLE);
-            rlLoginPsd.set(View.VISIBLE);
-            rlLoginConfirmPsd.set(View.VISIBLE);
-        }
+    public BindingCommand onRegister = new BindingCommand(() -> {
+        setGetOperateType(3);
+        rlLoginYzm.set(View.VISIBLE);
+        rlLoginPsd.set(View.VISIBLE);
+        rlLoginConfirmPsd.set(View.VISIBLE);
+        registerLabel.set("赶紧注册吧");
     });
 
     //忘记密码按钮
-    public BindingCommand onForgetPassword = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            setGetOperateType(4);
-            rlLoginYzm.set(View.VISIBLE);
-            rlLoginPsd.set(View.VISIBLE);
-            rlLoginConfirmPsd.set(View.VISIBLE);
-        }
+    public BindingCommand onForgetPassword = new BindingCommand(() -> {
+        setGetOperateType(4);
+        rlLoginYzm.set(View.VISIBLE);
+        rlLoginPsd.set(View.VISIBLE);
+        rlLoginConfirmPsd.set(View.VISIBLE);
+        registerLabel.set("找回密码");
     });
 
     public UIChangeObser uc = new UIChangeObser();

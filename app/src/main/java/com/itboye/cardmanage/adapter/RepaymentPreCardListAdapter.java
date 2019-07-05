@@ -13,14 +13,21 @@ import java.util.List;
 
 public class RepaymentPreCardListAdapter extends BaseQuickAdapter<CardManageModel, BaseViewHolder> {
     private final OnMyItemClickListener onMyClickLisenter;
+    private final int type;
 
-    public RepaymentPreCardListAdapter(@Nullable List<CardManageModel> data, OnMyItemClickListener onMyClickLisenter) {
+    public RepaymentPreCardListAdapter(@Nullable List<CardManageModel> data, int type, OnMyItemClickListener onMyClickLisenter) {
         super(R.layout.item_repayment_yucunzijin_card, data);
         this.onMyClickLisenter = onMyClickLisenter;
+        this.type = type;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, CardManageModel item) {
+        if (type==0) {//添加的卡
+
+        }else{//计划详情的卡
+
+        }
 //        helper.setText(R.id.tv_card_no, item.getCard_no());
         helper.setText(R.id.tv_bank_name, "建设银行(255***12546)");
         helper.setText(R.id.tv_repaid_yue, Html.fromHtml("账户余额:<font color='red'>￥5000</font>"));

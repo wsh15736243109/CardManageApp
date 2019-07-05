@@ -31,8 +31,9 @@ public class CardManageItemAdapter extends BaseQuickAdapter<CardManageModel, Bas
         helper.setText(R.id.tv_card_manage_no, item.getCard_no());
         helper.addOnClickListener(R.id.cl_root);
 
-        helper.setVisible(R.id.item_card_manage_daifu, item.getPay_agree_id().isEmpty());//是否签约代付
-        helper.setVisible(R.id.item_card_manage_daikou, item.getWithdraw_agree_id().isEmpty());//是否签约代扣
+//        helper.setGone(R.id.item_card_manage_daifu, true);//是否签约代付
+        helper.setGone(R.id.item_card_manage_daifu, item.getWithdraw_agree_id().isEmpty());//是否签约代付
+        helper.setGone(R.id.item_card_manage_daikou, item.getPay_agree_id().isEmpty());//是否签约代扣
         helper.setOnClickListener(R.id.item_card_manage_daikou, (View.OnClickListener) view -> onMyItemClickListener.onItemClick(view, helper.getAdapterPosition(), item));
         helper.setOnClickListener(R.id.item_card_manage_daifu, (View.OnClickListener) view -> onMyItemClickListener.onItemClick(view, helper.getAdapterPosition(), item));
         helper.setOnClickListener(R.id.item_card_manage_master, (View.OnClickListener) view -> onMyItemClickListener.onItemClick(view, helper.getAdapterPosition(), item));

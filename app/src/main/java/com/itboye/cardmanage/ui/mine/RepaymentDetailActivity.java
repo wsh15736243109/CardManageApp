@@ -35,6 +35,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
     private Disposable mSubscription;
 
     ArrayList<CardManageModel> cardList = new ArrayList<>();
+    ArrayList<CardManageModel> cardList2 = new ArrayList<>();
     private RepaymentCardListAdapter repaymentCardAdapter;
     private RepaymentPreCardListAdapter preCardAdapter;
 
@@ -120,8 +121,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
 
     //预存资金卡
     private void initCreditCardListAdapter() {
-        cardList.add(new CardManageModel());
-        preCardAdapter = new RepaymentPreCardListAdapter(cardList, new OnMyItemClickListener() {
+        preCardAdapter = new RepaymentPreCardListAdapter(cardList2, type, new OnMyItemClickListener() {
             @Override
             public void onItemClick(View view, int position, Object item) {
 
@@ -139,7 +139,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
 
     //还款计划卡
     private void initRepaymentCardListAdapter() {
-        repaymentCardAdapter = new RepaymentCardListAdapter(cardList, new OnMyItemClickListener() {
+        repaymentCardAdapter = new RepaymentCardListAdapter(cardList, type, new OnMyItemClickListener() {
             @Override
             public void onItemClick(View view, int position, Object item) {
 
@@ -162,21 +162,21 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                     int usage = s.getInt("usage");
                     StringBuffer stringBuffer1 = new StringBuffer();
                     StringBuffer stringBuffer2 = new StringBuffer();
-                    cardList.clear();
                     for (CardManageModel model : temp) {
                         if (usage == 1) {
                             stringBuffer1.append(model.getId() + ",");
                             cardList.add(model);
                         } else {
                             stringBuffer2.append(model.getId() + ",");
+                            cardList2.add(model);
                         }
                     }
                     repaymentCardAdapter.notifyDataSetChanged();
                     preCardAdapter.notifyDataSetChanged();
                     if (usage == 1) {
-                        viewModel.preStoreCardIds = stringBuffer1.substring(0, stringBuffer1.length() - 1);
+                        viewModel.creditCardIds = stringBuffer1.substring(0, stringBuffer1.length() - 1);
                     } else {
-                        viewModel.creditCardIds = stringBuffer2.substring(0, stringBuffer2.length() - 1);
+                        viewModel.preStoreCardIds = stringBuffer2.substring(0, stringBuffer2.length() - 1);
                     }
                 });
         //将订阅者加入管理站

@@ -41,7 +41,6 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
     public void initData() {
         //获取支付通道
         viewModel.getPayWay();
-
         mSubscription = RxBus.getDefault().toObservable(CardManageModel.class)
                 .subscribe(s -> {
                     if (s.getChooseType().equals("1")) {
@@ -53,6 +52,11 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
 
                     }
                     viewModel.phone = s.getMobile();//支付卡id
+                });
+
+        RxBus.getDefault().toObservable(Integer.class)
+                .subscribe(s -> {
+                    finish();
                 });
         //将订阅者加入管理站
         RxSubscriptions.add(mSubscription);

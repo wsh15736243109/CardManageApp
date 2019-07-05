@@ -315,7 +315,7 @@ public interface API {
 
 
     /**
-     * 代扣协议
+     * 签约代扣、代付协议 发送验证码
      *
      * @param bank_id
      * @param verification_code
@@ -325,12 +325,12 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<AuthBean>> signWithholding(@Field("bank_id") String bank_id,
-                                                        @Field("verification_code") String verification_code,
-                                                        @Field("service_type") String serviceType);
+    Observable<BaseResponse<ArrayList>> signGetCode(@Field("bank_id") String bank_id,
+                                                   @Field("verification_code") String verification_code,
+                                                   @Field("service_type") String serviceType);
 
     /**
-     * 代付协议
+     * 签约代扣、代付协议 验证
      *
      * @param bank_id
      * @param verification_code
@@ -340,9 +340,9 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<ArrayList>> signRepay(@Field("bank_id") String bank_id,
-                                                  @Field("verification_code") String verification_code,
-                                                  @Field("service_type") String serviceType);
+    Observable<BaseResponse<AuthBean>> signAuth(@Field("bank_id") String bank_id,
+                                                 @Field("verification_code") String verification_code,
+                                                 @Field("service_type") String serviceType);
 
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
@@ -389,7 +389,7 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<String>> deleteCdPlan(@Field("id") String id,
-                                                 @Field("service_type") String serviceType);
+                                                  @Field("service_type") String serviceType);
 
     /**
      * 重启还款计划
@@ -434,6 +434,7 @@ public interface API {
 
     /**
      * 获取首页相关信息
+     *
      * @param position
      * @param page_index
      * @param page_size
@@ -444,8 +445,8 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<BannerBean>> getBanners(@Field("position") String position,
-                                                @Field("page_index") int page_index,
-                                                @Field("page_size") int page_size, @Field("service_type") String serviceType);
+                                                    @Field("page_index") int page_index,
+                                                    @Field("page_size") int page_size, @Field("service_type") String serviceType);
 
 
     @Headers("Content-Type:application/x-www-form-urlencoded")

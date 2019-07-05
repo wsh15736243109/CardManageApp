@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_12"
+                android:layout_margin="@dimen/dp_12"
                 app:corner="@dimen/dp_6"
                 app:pressBgc="@color/orange"
                 android:layout_alignParentBottom="true"

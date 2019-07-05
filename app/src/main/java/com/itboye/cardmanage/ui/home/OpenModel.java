@@ -52,4 +52,6 @@ public class OpenModel extends BaseViewModel {
         bundle.putInt("type", type);
         startActivity(AuthMobileActivity.class, bundle);
     }
+
+
 }

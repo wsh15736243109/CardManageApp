@@ -81,10 +81,10 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
         dialogDismiss();
         switch (baseResponse.getCode()) {
             //请求成功, 正确的操作方式
-            case 200:
-            case 0:
+            case "200":
+            case "0":
                 if (baseResponse.getData() != null)
-                    onResult((T) baseResponse.getData(), baseResponse.getMsg(), baseResponse.getCode());
+                    onResult((T) baseResponse.getData(), baseResponse.getMsg(), Integer.parseInt(baseResponse.getCode()));
                 break;
             case CODE__1006:
                 ToastUtils.showShort(baseResponse.getMsg());
@@ -164,6 +164,6 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
         static final int CODE_530 = 530;
         //请求的操作异常终止：未知的页面类型
         static final int CODE_551 = 551;
-        static final int CODE__1006 = 1006;
+        static final String CODE__1006 = "1006";
     }
 }

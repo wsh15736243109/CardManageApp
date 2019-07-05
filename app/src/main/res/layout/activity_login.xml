@@ -32,9 +32,9 @@
         <TextView
                 android:id="@+id/tv_1"
                 app:layout_constraintTop_toBottomOf="@+id/iv_lg_logo"
-                android:text="赶紧登录吧"
+                android:text="欢迎来到信用卡APP"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_18"
+                android:textSize="22sp"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
         <TextView
                 android:id="@+id/tv_2"
                 app:layout_constraintTop_toBottomOf="@+id/tv_1"
-                android:text="赶紧登录吧"
+                android:text="@={viewModel.registerLabel}"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

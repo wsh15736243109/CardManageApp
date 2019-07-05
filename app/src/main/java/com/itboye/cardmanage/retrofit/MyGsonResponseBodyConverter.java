@@ -23,8 +23,13 @@ public class MyGsonResponseBodyConverter implements Converter {
         String response = responseBody.string();
         try {
             BaseResponse baseBean = gson.fromJson(response, BaseResponse.class);
-            if (baseBean.getCode() != 0) {
-                throw new DataResultException(baseBean.getMsg(), baseBean.getCode());
+            if (!baseBean.getCode().equals("0")) {
+                try {
+                    Integer.parseInt(baseBean.getCode());
+                } catch (NumberFormatException num) {
+                    baseBean.setCode("-1");
+                }
+                throw new DataResultException(baseBean.getMsg(), Integer.parseInt(baseBean.getCode()));
             }
             return gson.fromJson((response), type);
         } finally {

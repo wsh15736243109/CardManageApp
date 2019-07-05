@@ -2,16 +2,13 @@ package com.itboye.cardmanage.ui.home;
 
 import android.app.Application;
 import android.databinding.ObservableField;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
+import me.goldze.mvvmhabit.bus.RxBus;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class AuthMobileModel extends BaseViewModel {
@@ -21,7 +18,7 @@ public class AuthMobileModel extends BaseViewModel {
 
     int status = 1;
     public String bankId;
-    public ObservableField<String> verificationCode=new ObservableField<>("");
+    public ObservableField<String> verificationCode = new ObservableField<>("");
     public String order_code;
     int type = 1;
 
@@ -58,12 +55,14 @@ public class AuthMobileModel extends BaseViewModel {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(msg);
+                RxBus.getDefault().post(1);//关闭Open.class
                 finish();
             }
 
             @Override
             public void onError(int code, String msg) {
-
+                RxBus.getDefault().post(1);//关闭Open.class
+                finish();
             }
 
             @Override
@@ -74,67 +73,119 @@ public class AuthMobileModel extends BaseViewModel {
     }
 
     public void sendAuthCode(boolean isAuth) {
-        if (type == 1) {//开通代扣
+        String serviceType = "";
+        if (type == 1) {  //开通代扣
+            serviceType = "by_UserBankCard_signWithhold";
             if (isAuth) {
                 if (verificationCode.get().equals("")) {
                     ToastUtils.showShort("请填写收到的验证码");
                     return;
                 }
-            }
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signWithholding(bankId, verificationCode.get(), "by_UserBankCard_signWithhold"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
-                @Override
-                public void onResult(Object o, String msg, int code) {
-                    if (isAuth) {
+                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signAuth(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                    @Override
+                    public void onResult(Object o, String msg, int code) {
                         //验证
                         yzStatus.set("验证成功，返回首页");
                         status = 2;
+                        RxBus.getDefault().post(1);//关闭Open.class
                         finish();
-                    } else {
-
+                        ToastUtils.showShort(msg);
                     }
-                    ToastUtils.showShort(msg);
-                }
 
-                @Override
-                public void onError(int code, String msg) {
-                    if (isAuth) {
+                    @Override
+                    public void onError(int code, String msg) {
                         //验证
-                        yzStatus.set("验证失败，重新尝试");
+//                        yzStatus.set("验证失败，重新尝试");
                         status = 3;
-                    } else {
-
+                        RxBus.getDefault().post(1);//关闭Open.class
+                        finish();
                     }
-                }
 
-                @Override
-                public void dialogDismiss() {
-                    dismissDialog();
-                }
-            });
-        } else if (type == 2) {
-            //开通代付
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signRepay(bankId, verificationCode.get(), "by_UserBankCard_signRepay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
-                @Override
-                public void onResult(Object o, String msg, int code) {
-                    if (isAuth) {
-
-                    } else {
-
+                    @Override
+                    public void dialogDismiss() {
+                        dismissDialog();
                     }
-                    ToastUtils.showShort(msg);
-                }
+                });
+            } else {
+                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                    @Override
+                    public void onResult(Object o, String msg, int code) {
+                        yzStatus.set("验证成功，返回首页");
+                        status = 2;
+                        RxBus.getDefault().post(1);//关闭Open.class
+                        finish();
+                        ToastUtils.showShort(msg);
+                    }
 
-                @Override
-                public void onError(int code, String msg) {
+                    @Override
+                    public void onError(int code, String msg) {
+//                        if (isAuth) {
+//                            //验证
+////                        yzStatus.set("验证失败，重新尝试");
+                        RxBus.getDefault().post(1);//关闭Open.class
+                        finish();
+                        status = 3;
+//                        RxBus.getDefault().post(1);//关闭Open.class
+//                        finish();
+//                        } else {
+//
+//                        }
+                    }
 
-                }
+                    @Override
+                    public void dialogDismiss() {
+                        dismissDialog();
+                    }
+                });
+            }
 
-                @Override
-                public void dialogDismiss() {
-                    dismissDialog();
+        } else if (type == 2) {//开通代付
+            serviceType = "by_UserBankCard_signRepay";
+            if (isAuth) {
+                if (verificationCode.get().isEmpty()) {
+                    ToastUtils.showShort("请填写收到的验证码");
+                    return;
                 }
-            });
-        } else if (type == 3) {
+                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, null, serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                    @Override
+                    public void onResult(Object o, String msg, int code) {
+                        ToastUtils.showShort(msg);
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+
+                        RxBus.getDefault().post(1);//关闭Open.class
+                        finish();
+                    }
+
+                    @Override
+                    public void dialogDismiss() {
+                        dismissDialog();
+                    }
+                });
+            } else {
+                //开通代付
+                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                    @Override
+                    public void onResult(Object o, String msg, int code) {
+                        ToastUtils.showShort(msg);
+                    }
+
+                    @Override
+                    public void onError(int code, String msg) {
+
+                        RxBus.getDefault().post(1);//关闭Open.class
+                        finish();
+                    }
+
+                    @Override
+                    public void dialogDismiss() {
+                        dismissDialog();
+                    }
+                });
+            }
+        } else if (type == 3) { //收款验证码验证
 
         }
     }

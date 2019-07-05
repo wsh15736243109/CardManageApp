@@ -5,6 +5,9 @@ import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.databinding.ActivityAuthMobileBinding;
+import io.reactivex.disposables.Disposable;
+import me.goldze.mvvmhabit.bus.RxBus;
+import me.goldze.mvvmhabit.bus.RxSubscriptions;
 
 public class AuthMobileActivity extends BaseMVVMActivity<ActivityAuthMobileBinding, AuthMobileModel> {
 
@@ -25,5 +28,8 @@ public class AuthMobileActivity extends BaseMVVMActivity<ActivityAuthMobileBindi
         viewModel.type = getIntent().getIntExtra("type",1);
         binding.phone.setText(getIntent().getStringExtra("phone"));
         viewModel.sendAuthCode(false);
+
     }
+
+
 }
