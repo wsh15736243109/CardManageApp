@@ -23,14 +23,14 @@ public class RepaymentPreCardListAdapter extends BaseQuickAdapter<CardManageMode
 
     @Override
     protected void convert(BaseViewHolder helper, CardManageModel item) {
-        if (type==0) {//添加的卡
-
-        }else{//计划详情的卡
-
+        if (type == 0) {//添加的卡
+            helper.setGone(R.id.ll_content, false);
+        } else {//计划详情的卡
+            helper.setGone(R.id.ll_content, true);
+            helper.setText(R.id.tv_repaid_yue, Html.fromHtml("账户余额:<font color='red'>￥5000</font>"));
         }
 //        helper.setText(R.id.tv_card_no, item.getCard_no());
-        helper.setText(R.id.tv_bank_name, "建设银行(255***12546)");
-        helper.setText(R.id.tv_repaid_yue, Html.fromHtml("账户余额:<font color='red'>￥5000</font>"));
+        helper.setText(R.id.tv_bank_name, item.getBranch_bank() + "(" + item.getCard_no() + ")");
 //        helper.setText(R.id.tv_repayment_date,  "2019-6-29<br />还款时间");
 //        helper.setText(R.id.tv_repaid_amount,  "300<br />已还金额");
 //        helper.setText(R.id.tv_bill_amount,  "2019-7-29<br />账单日");

@@ -26,5 +26,6 @@ public class CardListAdapter extends BaseQuickAdapter<CardManageModel, BaseViewH
         helper.setText(R.id.tv_title, Html.fromHtml(item.getBranch_bank() + "<br />信用卡"));
         helper.setBackgroundRes(R.id.tv_check_status, item.isCheck() ? R.drawable.ic_checked : R.drawable.ic_uncheck);
         helper.setOnClickListener(R.id.tv_check_status, (View.OnClickListener) view -> onMyClickLisenter.onItemClick(helper.getAdapterPosition(),item));
+        helper.setOnClickListener(R.id.cl_root, (View.OnClickListener) view -> onMyClickLisenter.onItemClick(helper.getAdapterPosition(),item));
     }
 }

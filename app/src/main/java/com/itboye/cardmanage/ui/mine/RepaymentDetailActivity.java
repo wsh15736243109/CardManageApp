@@ -2,13 +2,21 @@ package com.itboye.cardmanage.ui.mine;
 
 import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
+import android.graphics.drawable.ColorDrawable;
 import android.icu.text.TimeZoneFormat;
+import android.media.Image;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.RepaymentCardListAdapter;
@@ -21,6 +29,7 @@ import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
+import com.itboye.cardmanage.util.SizeUtils;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.bus.RxBus;
@@ -95,27 +104,62 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         });
         binding.titleBar.getTvRight().setOnClickListener(view -> {
             //删除计划
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).deleteCdPlan("", "by_CbPlan_delete"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
-                @Override
-                public void accept(Disposable disposable) {
-                    viewModel.showDialog();
-                }
-            }, new ApiDisposableObserver() {
-                @Override
-                public void onResult(Object o, String msg, int code) {
-                    ToastUtils.showShort(msg);
-                }
+            AlertDialog alertDialog = new AlertDialog.Builder(RepaymentDetailActivity.this, R.style.AlertDialogStyle).create();
+            View view1 = View.inflate(RepaymentDetailActivity.this, R.layout.dialog_delete, null);
 
-                @Override
-                public void onError(int code, String msg) {
-
-                }
-
-                @Override
-                public void dialogDismiss() {
-                    viewModel.dismissDialog();
-                }
+//            ColorDrawable dw = new ColorDrawable(0x00000000);
+//            view1.setBackgroundDrawable(dw);
+            TextView btn_cancel = view1.findViewById(R.id.btn_cancel);
+            TextView btn_ok = view1.findViewById(R.id.btn_ok);
+            TextView tv_content = view1.findViewById(R.id.tv_content);
+            ImageView iv_close = view1.findViewById(R.id.iv_close);
+            tv_content.setText(Html.fromHtml("<b>删除计划</b><br />删除后将在次日生效"));
+            alertDialog.setView(view1);
+            btn_cancel.setOnClickListener(view2 -> alertDialog.dismiss());
+            btn_ok.setOnClickListener(view22 -> {
+                deletePlan();
+                alertDialog.dismiss();
             });
+            iv_close.setOnClickListener(view22 -> alertDialog.dismiss());
+            alertDialog.show();
+
+            //这种设置宽高的方式也是好使的！！！-- show 前调用，show 后调用都可以！！！
+            view1.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                int height = v.getHeight();     //此处的view 和v 其实是同一个控件
+                int contentHeight = view1.getHeight();
+                int needHeight = (int) (SizeUtils.getScreenHeight(getApplicationContext()) / 2.5);
+                int width = SizeUtils.getScreenWidth(getApplicationContext()) / 2;
+
+//                if (contentHeight > needHeight) {
+                //注意：这里的 LayoutParams 必须是 FrameLayout的！！
+                view1.setLayoutParams(new FrameLayout.LayoutParams(width,
+                        needHeight));
+//                }
+            });
+        });
+    }
+
+    private void deletePlan() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).deleteCdPlan("", "by_CbPlan_delete"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
+            @Override
+            public void accept(Disposable disposable) {
+                viewModel.showDialog();
+            }
+        }, new ApiDisposableObserver() {
+            @Override
+            public void onResult(Object o, String msg, int code) {
+                ToastUtils.showShort(msg);
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
+            }
+
+            @Override
+            public void dialogDismiss() {
+                viewModel.dismissDialog();
+            }
         });
     }
 
@@ -193,7 +237,6 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         if (!binding.etAmount.getText().toString().isEmpty()) {
             money = Double.parseDouble(binding.etAmount.getText().toString());
         }
-
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getRepaymentFee(money * 100, cardList.size(), days, "by_CbPlan_getFee"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
             @Override
             public void accept(Disposable disposable) throws Exception {
@@ -202,7 +245,8 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         }, new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
-                viewModel.fee.set("" + (o));
+                viewModel.fee.set(o + "<br />手续费(元)");
+                viewModel.feeValue = (double) o;
             }
 
             @Override

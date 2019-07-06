@@ -6,6 +6,7 @@
 
     <data>
 
+        <import type="android.text.Html"/>
         <variable
                 name="viewModel"
                 type="com.itboye.cardmanage.ui.mine.RepaymentDetailModel"/>
@@ -96,7 +97,7 @@
                         <TextView
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
-                                android:text="@={viewModel.fee}"
+                                android:text="@{Html.fromHtml(viewModel.fee)}"
                                 android:textColor="@color/golden_F6C087"
                                 android:gravity="center"
                                 android:layout_height="wrap_content"/>
@@ -110,7 +111,7 @@
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="0.00 预存"
+                                android:text="@{Html.fromHtml(viewModel.yucun)}"
                                 android:textColor="@color/golden_F6C087"
                                 android:layout_height="wrap_content"/>
 
@@ -123,7 +124,7 @@
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="0.00 预期还款总额"
+                                android:text="@{Html.fromHtml(viewModel.yuqihuankuanzonge)}"
                                 android:textColor="@color/golden_F6C087"
                                 android:layout_height="wrap_content"/>
                     </LinearLayout>
@@ -201,6 +202,7 @@
                 android:layout_marginRight="@dimen/dp_12"
                 app:pressBgc="@color/orange"
                 android:id="@+id/tv_save"/>
+
         <TextView
                 android:text="重启此计划"
                 android:layout_gravity="right"

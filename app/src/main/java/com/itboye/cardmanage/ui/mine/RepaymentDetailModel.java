@@ -23,8 +23,14 @@ public class RepaymentDetailModel extends BaseViewModel {
     public String id;
 
     public ObservableField<String> amount = new ObservableField<>("");
-    public ObservableField<String> fee = new ObservableField<>();
+    public ObservableField<String> fee = new ObservableField<>("0.00<br />手续费（元）");
+    public double feeValue = -1;
     public ObservableField<String> days = new ObservableField<>("");
+    public double daysValue = 0;
+    public ObservableField<String> yucun = new ObservableField<>("0.00<br />预存（元）");
+    public double yucunValue = 0;
+    public ObservableField<String> yuqihuankuanzonge = new ObservableField<>("0.00<br />预期还款总额（元）");
+    public double yuqihuankuanzongeValue = 0;
 
     public RepaymentDetailModel(@NonNull Application application) {
         super(application);
@@ -51,13 +57,29 @@ public class RepaymentDetailModel extends BaseViewModel {
 
     //保存
     public void save() {
+        if (amount.get().isEmpty()) {
+            ToastUtils.showShort("请填写预算金额");
+            return;
+        }
+        if (days.get().isEmpty()) {
+            ToastUtils.showShort("请填写还款周期");
+            return;
+        }
+        if (feeValue == -1) {
+            ToastUtils.showShort("手续费获取失败，请稍后再试");
+            return;
+        }
+        if (creditCardIds == null) {
+            ToastUtils.showShort("请选择还款计划卡");
+            return;
+        }
+        if (preStoreCardIds == null) {
+            ToastUtils.showShort("请选择预存资金卡");
+            return;
+        }
+
         //保存计划
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createCbPlan(amount.get(), days.get(), pre_store_money, Double.valueOf(fee.get()), preStoreCardIds, creditCardIds, "by_CbPlan_create"), getLifecycleProvider(), new Consumer<Disposable>() {
-            @Override
-            public void accept(Disposable disposable) {
-                showDialog();
-            }
-        }, new ApiDisposableObserver() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createCbPlan(amount.get(), days.get(), pre_store_money, feeValue, preStoreCardIds, creditCardIds, "by_CbPlan_create"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(msg);
@@ -77,13 +99,28 @@ public class RepaymentDetailModel extends BaseViewModel {
     }
 
     public void restartCbPlan() {
+        if (amount.get().isEmpty()) {
+            ToastUtils.showShort("请填写预算金额");
+            return;
+        }
+        if (days.get().isEmpty()) {
+            ToastUtils.showShort("请填写还款周期");
+            return;
+        }
+        if (feeValue == -1) {
+            ToastUtils.showShort("手续费获取失败，请稍后再试");
+            return;
+        }
+        if (creditCardIds == null) {
+            ToastUtils.showShort("请选择还款计划卡");
+            return;
+        }
+        if (preStoreCardIds == null) {
+            ToastUtils.showShort("请选择预存资金卡");
+            return;
+        }
         //重启计划
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).restartCbPlan(id, "by_CbPlan_reboot"), getLifecycleProvider(), new Consumer<Disposable>() {
-            @Override
-            public void accept(Disposable disposable) {
-                showDialog();
-            }
-        }, new ApiDisposableObserver() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).restartCbPlan(id, "by_CbPlan_reboot"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(msg);

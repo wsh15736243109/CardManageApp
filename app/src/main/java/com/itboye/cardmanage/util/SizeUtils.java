@@ -75,4 +75,17 @@ public class SizeUtils {
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
     }
+    /**
+     * 获得屏幕宽
+     */
+    public static int getScreenHeight(Context context) {
+        if (context == null) {
+            return 0;
+        }
+        WindowManager wm = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.heightPixels;
+    }
 }

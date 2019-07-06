@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="500dp">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_above="@+id/iv_close"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:src="@drawable/ic_dialog_delete_bg"
+                android:scaleType="centerCrop"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:id="@+id/tv_content"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="删除计划"
+                android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="@dimen/dp_12"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/btn_cancel"
+                    android:background="@drawable/bg_btn_cancel"
+                    android:layout_width="wrap_content"
+                    android:text="取消"
+                    android:paddingLeft="@dimen/dp_12"
+                    android:paddingRight="@dimen/dp_12"
+                    android:paddingTop="@dimen/dp_6"
+                    android:paddingBottom="@dimen/dp_6"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/btn_ok"
+                    android:layout_width="wrap_content"
+                    android:text="确定"
+                    android:paddingLeft="@dimen/dp_12"
+                    android:paddingRight="@dimen/dp_12"
+                    android:paddingTop="@dimen/dp_6"
+                    android:paddingBottom="@dimen/dp_6"
+                    android:background="@drawable/bg_btn_ok"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_toRightOf="@+id/btn_cancel"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/dp_24"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/guanbi"
+            android:layout_height="wrap_content"/>
+
+</RelativeLayout>

@@ -2,7 +2,7 @@
 <layout>
 
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
@@ -14,11 +14,14 @@
 
         <TextView
                 android:id="@+id/tv_bank_name"
-                android:layout_width="wrap_content"
-                android:text="中国银行"
+                android:layout_toLeftOf="@+id/tv_change_pre_card"
+                android:layout_marginRight="@dimen/dp_6"
+                android:layout_width="match_parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_change_pre_card"
+                android:text=""
                 android:drawablePadding="@dimen/dp_6"
                 app:layout_constraintTop_toTopOf="@+id/iv_bank_bg"
-                android:drawableLeft="@drawable/ic_verified"
+                android:drawableLeft="@drawable/ic_checked"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:textSize="16dp"
                 android:layout_height="wrap_content"/>
@@ -26,16 +29,18 @@
         <TextView
                 android:id="@+id/tv_change_pre_card"
                 android:layout_width="wrap_content"
-                android:text="更换预存卡 "
+                android:layout_alignParentRight="true"
+                android:text="更换预存卡"
                 android:background="@drawable/rounded_rect_red"
                 app:layout_constraintRight_toRightOf="parent"
                 android:padding="@dimen/dp_6"
-                android:textSize="12dp"
+                android:textSize="9dp"
                 android:textColor="@color/white"
                 android:layout_height="wrap_content"/>
 
         <LinearLayout
-                app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"
+                android:id="@+id/ll_content"
+                android:layout_below="@+id/tv_change_pre_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -47,9 +52,9 @@
                     android:gravity="center"
                     android:layout_marginTop="@dimen/dp_12"
                     android:layout_height="wrap_content"
-                    android:text="账户余额："
+                    android:text=""
                     />
         </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 </layout>
