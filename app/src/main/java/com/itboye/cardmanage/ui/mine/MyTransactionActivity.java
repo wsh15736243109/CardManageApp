@@ -58,7 +58,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
                 year = i;
                 month = getMonth(i1 + 1);
                 myTranslationRecord();
-            }, year, Integer.parseInt(month) - 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            }, year, Integer.parseInt(month) - 1, -1);
             newFragment.getDatePicker().setCalendarViewShown(false);
             newFragment.getDatePicker().setSpinnersShown(true);
             newFragment.setCanceledOnTouchOutside(false);
@@ -77,7 +77,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
         binding.tvBillDate.setText(year + "年" + month + "月账单");
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).translationRecord(year + month, "by_CbOrder_querySimple"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
             @Override
-            public void accept(Disposable disposable) throws Exception {
+            public void accept(Disposable disposable) {
                 viewModel.showDialog();
             }
         }, new ApiDisposableObserver() {

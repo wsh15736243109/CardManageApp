@@ -26,7 +26,17 @@ public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, Base
             content = "" + (item.getAmount() > 0 ? "<font color='#FF7E00'>+" : "<font color='#31B70E'>-") + item.getAmount() / 100 + "</font><br />" + (item.getAmount() < 0 ? "支出失败" : "到账失败");
 //            content = "<font color='#31B70E'>" + (item.getAmount() > 0 ? "+" : "-") + item.getAmount() / 100 + "</font><br />到账失败";
         }
+        //withdraw_status 提现状态 notify_status 支付状态 -1 是失败
+        if (item.getWithdraw_status() == -1) {//提现失败
 
+        } else {
+
+        }
+        if (item.getNotify_status() == -1) {//支付失败
+
+        } else {
+
+        }
         helper.setText(R.id.tv_translation_content, Html.fromHtml(content));
         helper.setText(R.id.tv_translation_date, TimeUtils.timeFormat(item.getCreate_time() * 1000, "yyy-MM-dd HH:mm:ss"));
         helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_shouru);

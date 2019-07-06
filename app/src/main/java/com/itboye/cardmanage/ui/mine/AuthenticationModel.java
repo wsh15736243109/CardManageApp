@@ -73,6 +73,7 @@ public class AuthenticationModel extends BaseViewModel {
     public ObservableField<Drawable> status1 = new ObservableField<>();
     public ObservableField<Drawable> status2 = new ObservableField<>();
     public ObservableField<Drawable> status3 = new ObservableField<>();
+    public ObservableField<Boolean> canOperate = new ObservableField<>(false);
 
 
     public Status status = PHOTO_IDENTITY;
@@ -90,7 +91,7 @@ public class AuthenticationModel extends BaseViewModel {
     private String id_hold_img_id = "";//手持身份证id
     private String bank_img_id = "";//银行卡拍照id
 
-//    private String id_front_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//身份证正面照id
+    //    private String id_front_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//身份证正面照id
 //    private String id_back_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//身份证反面照id
 //    private String id_hold_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//手持身份证id
 //    private String bank_img_id = "20190603-1502-7a525013-44af-46cd-93ea-5e0dae61596c";//银行卡拍照id
@@ -114,45 +115,53 @@ public class AuthenticationModel extends BaseViewModel {
                 setFirst();
                 status = PHOTO_IDENTITY;
                 break;
-
             case AUTH_SUCCESS:
             case PHOTO_IDENTITY:
-                if (id_front_img_id == null || id_back_img_id == null) {
-                    ToastUtils.showShort("请先上传身份证正反面");
-                    return;
-                }
+                if (status == AUTH_SUCCESS) {
 
-                if (realName.get().isEmpty()) {
-                    ToastUtils.showShort("请输入姓名");
-                    return;
-                }
-                if (idnumber.get().isEmpty()) {
-                    ToastUtils.showShort("请输入身份证号");
-                    return;
-                }
-                if (idnumber.get().isEmpty()) {
-                    ToastUtils.showShort("请输入地址");
-                    return;
-                }
-                if (email.get().isEmpty()) {
-                    ToastUtils.showShort("请输入邮箱");
-                    return;
-                }
-                if (zipCode.get().isEmpty()) {
-                    ToastUtils.showShort("请输入邮编");
-                    return;
-                }
-                if (validityTime.get().isEmpty()) {
-                    ToastUtils.showShort("请输入证件有效期");
-                    return;
+                } else {
+
+                    if (id_front_img_id == null || id_back_img_id == null) {
+                        ToastUtils.showShort("请先上传身份证正反面");
+                        return;
+                    }
+
+                    if (realName.get().isEmpty()) {
+                        ToastUtils.showShort("请输入姓名");
+                        return;
+                    }
+                    if (idnumber.get().isEmpty()) {
+                        ToastUtils.showShort("请输入身份证号");
+                        return;
+                    }
+                    if (idnumber.get().isEmpty()) {
+                        ToastUtils.showShort("请输入地址");
+                        return;
+                    }
+                    if (email.get().isEmpty()) {
+                        ToastUtils.showShort("请输入邮箱");
+                        return;
+                    }
+                    if (zipCode.get().isEmpty()) {
+                        ToastUtils.showShort("请输入邮编");
+                        return;
+                    }
+                    if (validityTime.get().isEmpty()) {
+                        ToastUtils.showShort("请输入证件有效期");
+                        return;
+                    }
                 }
                 setSecond();
                 status = PHOTO_HAND_IDENTITY;
                 break;
             case PHOTO_HAND_IDENTITY:
-                if (id_hold_img_id == null) {
-                    ToastUtils.showShort("请先上传手持身份证正面照");
-                    return;
+                if (status == AUTH_SUCCESS) {
+
+                } else {
+                    if (id_hold_img_id == null) {
+                        ToastUtils.showShort("请先上传手持身份证正面照");
+                        return;
+                    }
                 }
                 setThird();
                 status = PHOTO_CARD;
@@ -164,29 +173,33 @@ public class AuthenticationModel extends BaseViewModel {
                 }
                 break;
             case PHOTO_CARD:
-                if (bank_img_id == null) {
-                    ToastUtils.showShort("请先上传银行卡正面照");
-                    return;
-                }
-                if (bankNumber.get().isEmpty()) {
-                    ToastUtils.showShort("请输入银行卡号");
-                    return;
-                }
-                if (bankNumberAgain.get().isEmpty()) {
-                    ToastUtils.showShort("请再次输入银行卡号");
-                    return;
-                }
-                if (bankName.get().isEmpty()) {
-                    ToastUtils.showShort("开户行名称获取失败");
-                    return;
-                }
-                if (branchBankName.get().isEmpty()) {
-                    ToastUtils.showShort("支行名称获取失败");
-                    return;
-                }
-                if (bankReservePhone.get().isEmpty()) {
-                    ToastUtils.showShort("请输入银行预留手机号");
-                    return;
+                if (status == AUTH_SUCCESS) {
+
+                } else {
+                    if (bank_img_id == null) {
+                        ToastUtils.showShort("请先上传银行卡正面照");
+                        return;
+                    }
+                    if (bankNumber.get().isEmpty()) {
+                        ToastUtils.showShort("请输入银行卡号");
+                        return;
+                    }
+                    if (bankNumberAgain.get().isEmpty()) {
+                        ToastUtils.showShort("请再次输入银行卡号");
+                        return;
+                    }
+                    if (bankName.get().isEmpty()) {
+                        ToastUtils.showShort("开户行名称获取失败");
+                        return;
+                    }
+                    if (branchBankName.get().isEmpty()) {
+                        ToastUtils.showShort("支行名称获取失败");
+                        return;
+                    }
+                    if (bankReservePhone.get().isEmpty()) {
+                        ToastUtils.showShort("请输入银行预留手机号");
+                        return;
+                    }
                 }
                 status3.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
 
@@ -429,6 +442,7 @@ public class AuthenticationModel extends BaseViewModel {
                     public void onResult(Object o, String msg, int code) {
                         userAuthDetailBean = (UserAuthDetailBean) o;
                         vertify = userAuthDetailBean.getVerify();
+                        canOperate.set(userAuthDetailBean.getVerify() == 0);
                         if (userAuthDetailBean.getVerify() == 2) {
                             //认证中
                             labelAuthStatus.set("资料提交成功正在审核<br /><font color='gray'>预计1-2个工作日完成，请耐心等待</font>");
@@ -492,6 +506,7 @@ public class AuthenticationModel extends BaseViewModel {
                             bodyVisible.set(View.VISIBLE);
                             labelAuthStatusVisible.set(View.GONE);
                             buttonLabel.set("下一步");
+                            canOperate.set(true);
                         }
                     }
 
@@ -512,6 +527,9 @@ public class AuthenticationModel extends BaseViewModel {
     }
 
     public void photo(int type) {
+        if (status == AUTH_SUCCESS) {
+            return;
+        }
         switch (type) {
             case 1:
                 ui.photo1.set(!ui.photo1.get());
