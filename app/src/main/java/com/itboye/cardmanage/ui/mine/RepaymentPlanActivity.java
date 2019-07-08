@@ -15,6 +15,8 @@ import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.utils.ToastUtils;
@@ -61,22 +63,37 @@ public class RepaymentPlanActivity extends BaseMVVMActivity<ActivityRepaymentPla
         getRepaymentData();
         binding.rvRepaymentPlan.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
+        binding.srRefresh.setOnRefreshListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                pageIndex++;
+                getRepaymentData();
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                pageIndex = 1;
+                getRepaymentData();
+
+            }
+        });
     }
 
     private void getRepaymentData() {
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).queryRepaymentPlan(pageIndex + "", "by_CbPlan_query"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
-                repaymentList.clear();
+                if (pageIndex == 1) {
+                    repaymentList.clear();
+                }
                 repaymentList.addAll((ArrayList<CardManageModel>) o);
-                repaymentList.add(new CardManageModel());
-                repaymentList.add(new CardManageModel());
-                repaymentList.add(new CardManageModel());
-
                 adapter.notifyDataSetChanged();
                 if (repaymentList.isEmpty() || repaymentList.size() <= 0) {
                     ToastUtils.showShort("暂无还款计划");
                 }
+                binding.srRefresh.finishRefresh();
+                binding.srRefresh.finishLoadMore();
             }
 
             @Override

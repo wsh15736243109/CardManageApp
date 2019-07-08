@@ -1,13 +1,40 @@
 package com.itboye.cardmanage.model;
 
-import android.app.Application;
-import android.support.annotation.NonNull;
-import me.goldze.mvvmhabit.base.BaseViewModel;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
 public class CardManageModel implements Serializable {
 
+
+    /**
+     * id : 7
+     * days : 2
+     * total_fee : 291
+     * plan_status : running
+     * prestore_money : 10291
+     * prestore_card_id : 54
+     * prestore_card_info : {"_entity_version":1,"id":54,"uid":54,"card_type":2,"card_no":"6217856200041637567","opening_bank":"中国银行","branch_bank":"中国银行股份有限公司湖州南街支行","name":"吴锦波","id_no":"350582199402232051","mobile":"18368041445","create_time":1562038143,"update_time":1562551504,"card_usage":2,"card_code":"","verify":1,"front_img":"http:\/\/img.361fit.cn\/uploads\/id_card\/20190702\/0326255d1acee18df10.jpg","master":1,"front_img_id":"20190702-1124-75f409ee-c39e-42bf-bba7-4a73475233ce","bill_date":0,"repayment_date":0,"cvn2":"","expire_date":"","status":1,"branch_no":"104336010016","pay_agree_id":"0e2607b2084247feac74bb767c82ec6e","withdraw_agree_id":"e35a1e69868f4491b743567af1c73144"}
+     * next_proc_time : 1562642757
+     * next_proc_day : 20190709
+     * money : 10000
+     * repay_total_money : 20000
+     * repay_count : 0
+     * failed_log :
+     */
+
+    private int days;
+    private String total_fee;
+    private String plan_status;
+    private double prestore_money;
+    private String prestore_card_id;
+    private String prestore_card_info;
+    private String next_proc_time;
+    private String next_proc_day;
+    private double money;
+    private double repay_total_money;
+    private String repay_count;
+    private String failed_log;
 
     public String getChooseType() {
         return chooseType;
@@ -80,6 +107,8 @@ public class CardManageModel implements Serializable {
     private String branch_no;
     private String pay_agree_id;
     private String withdraw_agree_id;
+
+
 
     public String getWithdraw_agree_id() {
         return withdraw_agree_id;
@@ -279,5 +308,101 @@ public class CardManageModel implements Serializable {
 
     public void setPay_agree_id(String pay_agree_id) {
         this.pay_agree_id = pay_agree_id;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
+    }
+
+    public String getTotal_fee() {
+        return total_fee;
+    }
+
+    public void setTotal_fee(String total_fee) {
+        this.total_fee = total_fee;
+    }
+
+    public String getPlan_status() {
+        return plan_status;
+    }
+
+    public void setPlan_status(String plan_status) {
+        this.plan_status = plan_status;
+    }
+
+    public double getPrestore_money() {
+        return prestore_money;
+    }
+
+    public void setPrestore_money(double prestore_money) {
+        this.prestore_money = prestore_money;
+    }
+
+    public String getPrestore_card_id() {
+        return prestore_card_id;
+    }
+
+    public void setPrestore_card_id(String prestore_card_id) {
+        this.prestore_card_id = prestore_card_id;
+    }
+
+    public String getPrestore_card_info() {
+        return prestore_card_info;
+    }
+
+    public void setPrestore_card_info(String prestore_card_info) {
+        this.prestore_card_info = prestore_card_info;
+    }
+
+    public String getNext_proc_time() {
+        return next_proc_time;
+    }
+
+    public void setNext_proc_time(String next_proc_time) {
+        this.next_proc_time = next_proc_time;
+    }
+
+    public String getNext_proc_day() {
+        return next_proc_day;
+    }
+
+    public void setNext_proc_day(String next_proc_day) {
+        this.next_proc_day = next_proc_day;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public double getRepay_total_money() {
+        return repay_total_money;
+    }
+
+    public void setRepay_total_money(double repay_total_money) {
+        this.repay_total_money = repay_total_money;
+    }
+
+    public String getRepay_count() {
+        return repay_count;
+    }
+
+    public void setRepay_count(String repay_count) {
+        this.repay_count = repay_count;
+    }
+
+    public String getFailed_log() {
+        return failed_log;
+    }
+
+    public void setFailed_log(String failed_log) {
+        this.failed_log = failed_log;
     }
 }

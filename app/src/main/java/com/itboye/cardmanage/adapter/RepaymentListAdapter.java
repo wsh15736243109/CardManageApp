@@ -21,9 +21,11 @@ public class RepaymentListAdapter extends BaseQuickAdapter<CardManageModel, Base
 
     @Override
     protected void convert(BaseViewHolder helper, CardManageModel item) {
-//        helper.setText(R.id.tv_card_no, item.getCard_no());
-//        helper.setText(R.id.tv_title, Html.fromHtml(item.getBranch_bank() + "<br />信用卡"));
-//        helper.setBackgroundRes(R.id.tv_check_status, item.isCheck() ? R.drawable.ic_checked : R.drawable.ic_uncheck);
-        helper.setOnClickListener(R.id.cl_root, (View.OnClickListener) view -> onMyClickLisenter.onItemClick(helper.getAdapterPosition(),item));
+        helper.setText(R.id.tv_loan_text, "计划" + (helper.getAdapterPosition() + 1));
+        helper.setText(R.id.tv_budget, Html.fromHtml(item.getMoney() / 100 + "<br />预算"));//预算
+        helper.setText(R.id.tv_count, Html.fromHtml(item.getDays() + "<br />次数"));//次数
+        helper.setText(R.id.tv_total_amount, Html.fromHtml(item.getPrestore_money() / 100 + "<br />预期还款总额"));//预期还款总额
+        helper.setBackgroundRes(R.id.iv_repayment_status, item.getPlan_status().equals("running") ? R.drawable.ic_repayment_ing : R.drawable.ic_repayment_finish);
+        helper.setOnClickListener(R.id.cl_root, (View.OnClickListener) view -> onMyClickLisenter.onItemClick(helper.getAdapterPosition(), item));
     }
 }

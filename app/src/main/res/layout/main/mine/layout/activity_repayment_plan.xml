@@ -28,10 +28,12 @@
                 android:layout_height="wrap_content"/>
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/sr_refresh"
                 android:layout_below="@+id/titleBar"
                 android:layout_above="@+id/bt_add_repayment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:srlEnableLoadMore="true"
                 tools:context=".ui.fragment.HomeFragment">
 
             <android.support.v4.widget.NestedScrollView
