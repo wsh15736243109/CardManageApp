@@ -23,33 +23,33 @@ public class RepaymentPlanModel extends BaseViewModel {
         super(application);
     }
 
-    public OnItemBindClass itemBind2 = new OnItemBindClass<>().map(LoanModel.class, new OnItemBind<LoanModel>() {
-
-        @Override
-        public void onItemBind(ItemBinding itemBinding, final int position, LoanModel item) {
-            itemBinding.clearExtras()
-                    .set(BR.item, R.layout.item_repayment_plan)
-                    .bindExtra(BR.listener, new OnMyItemClickListener<LoanModel>() {
-                        @Override
-                        public void onItemClick(View view,int position232323, LoanModel item) {
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("type", 0);
-                            startActivity(RepaymentDetailActivity.class, bundle);
-                        }
-
-                        @Override
-                        public void onItemClick(int position, LoanModel item) {
-
-                        }
-
-                    });
-        }
-    });
+//    public OnItemBindClass itemBind2 = new OnItemBindClass<>().map(LoanModel.class, new OnItemBind<LoanModel>() {
+//
+//        @Override
+//        public void onItemBind(ItemBinding itemBinding, final int position, LoanModel item) {
+//            itemBinding.clearExtras()
+//                    .set(BR.item, R.layout.item_repayment_plan)
+//                    .bindExtra(BR.listener, new OnMyItemClickListener<LoanModel>() {
+//                        @Override
+//                        public void onItemClick(View view,int position232323, LoanModel item) {
+//                            Bundle bundle = new Bundle();
+//                            bundle.putInt("type", 0);
+//                            startActivity(RepaymentDetailActivity.class, bundle);
+//                        }
+//
+//                        @Override
+//                        public void onItemClick(int position, LoanModel item) {
+//
+//                        }
+//
+//                    });
+//        }
+//    });
 
     //添加还款计划
     public void addRepaymentPlan() {
         Bundle bundle = new Bundle();
-        bundle.putInt("type", 1);
+        bundle.putInt("type", 0);
         startActivity(RepaymentDetailActivity.class, bundle);
         planList.add(new LoanModel(getApplication()));
     }

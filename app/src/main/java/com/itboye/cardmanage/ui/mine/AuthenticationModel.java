@@ -251,7 +251,6 @@ public class AuthenticationModel extends BaseViewModel {
                         dismissDialog();
                     }
                 });
-
     }
 
 
@@ -465,6 +464,7 @@ public class AuthenticationModel extends BaseViewModel {
                             status = AUTH_SUCCESS;
                             realName.set(userAuthDetailBean.getName());
                             idnumber.set(userAuthDetailBean.getId_no());
+                            validityTime.set(userAuthDetailBean.getExpire_date());
                             addr.set(userAuthDetailBean.getAddress());
                             email.set(userAuthDetailBean.getEmail());
                             zipCode.set(userAuthDetailBean.getZipcode());
@@ -527,7 +527,7 @@ public class AuthenticationModel extends BaseViewModel {
     }
 
     public void photo(int type) {
-        if (status == AUTH_SUCCESS) {
+        if (vertify != 0) {
             return;
         }
         switch (type) {

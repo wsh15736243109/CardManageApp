@@ -222,6 +222,8 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                     } else {
                         viewModel.preStoreCardIds = stringBuffer2.substring(0, stringBuffer2.length() - 1);
                     }
+                    getFee();
+
                 });
         //将订阅者加入管理站
         RxSubscriptions.add(mSubscription);
@@ -237,21 +239,33 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         if (!binding.etAmount.getText().toString().isEmpty()) {
             money = Double.parseDouble(binding.etAmount.getText().toString());
         }
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getRepaymentFee(money * 100, cardList.size(), days, "by_CbPlan_getFee"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getRepaymentFee(money , cardList.size() /*+ cardList2.size()*/, days, "by_CbPlan_getFee"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
             @Override
-            public void accept(Disposable disposable) throws Exception {
+            public void accept(Disposable disposable) {
 //                viewModel.showDialog();
             }
         }, new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
-                viewModel.fee.set(o + "<br />手续费(元)");
-                viewModel.feeValue = (double) o;
+                String value = String.format("%.2f", ((Double) o));
+                viewModel.fee.set(value + "<br />手续费(元)");
+                viewModel.feeValue = value;
+                try {
+                    viewModel.pre_store_money = String.format("%.2f",Double.parseDouble(viewModel.feeValue) + Double.parseDouble(viewModel.amount.get()) / Double.parseDouble(viewModel.days.get()));
+                    viewModel.yucun.set(viewModel.pre_store_money + "<br />预存（元）");
+                } catch (Exception e) {
+                    viewModel.pre_store_money = null;
+                    viewModel.yucun.set("0<br />预存（元）");
+
+                }
             }
 
             @Override
             public void onError(int code, String msg) {
-
+                viewModel.feeValue = "0";
+                viewModel.fee.set("0<br />手续费(元)");
+                viewModel.yucun.set("0<br />预存（元）");
+                viewModel.pre_store_money = null;
             }
 
             @Override

@@ -27,6 +27,7 @@ public class UserAuthDetailBean {
     private String id_front_img;
     private String id_back_img;
     private String id_no;
+    private String expire_date;
     private String id_hold_img;
     private String zipcode;
     private String address;
@@ -39,6 +40,14 @@ public class UserAuthDetailBean {
     private String mobile;
     private String card_code;
     private List<?> log_his;
+
+    public String getExpire_date() {
+        return expire_date;
+    }
+
+    public void setExpire_date(String expire_date) {
+        this.expire_date = expire_date;
+    }
 
     public int getVerify() {
         return verify;

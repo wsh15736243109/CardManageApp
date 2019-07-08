@@ -368,7 +368,7 @@ public interface API {
      *
      * @param amount
      * @param days
-     * @param pre_store_money
+     * @param pre_store_money 预存金额
      * @param fee
      * @param preStoreCardIds
      * @param creditCardIds
@@ -381,7 +381,7 @@ public interface API {
     Observable<BaseResponse<String>> createCbPlan(@Field("money") String amount,
                                                   @Field("days") String days,
                                                   @Field("pre_store_money") String pre_store_money,
-                                                  @Field("fee") Double fee,
+                                                  @Field("fee") String fee,
                                                   @Field("pre_store_card_id") String preStoreCardIds,
                                                   @Field("credit_card_ids") String creditCardIds, @Field("service_type") String serviceType);
 

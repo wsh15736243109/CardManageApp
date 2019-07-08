@@ -146,7 +146,7 @@ public class AuthMobileModel extends BaseViewModel {
                     ToastUtils.showShort("请填写收到的验证码");
                     return;
                 }
-                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, null, serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signAuth(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                     @Override
                     public void onResult(Object o, String msg, int code) {
                         ToastUtils.showShort(msg);
@@ -166,7 +166,7 @@ public class AuthMobileModel extends BaseViewModel {
                 });
             } else {
                 //开通代付
-                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, null, serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                     @Override
                     public void onResult(Object o, String msg, int code) {
                         ToastUtils.showShort(msg);
@@ -174,7 +174,6 @@ public class AuthMobileModel extends BaseViewModel {
 
                     @Override
                     public void onError(int code, String msg) {
-
                         RxBus.getDefault().post(1);//关闭Open.class
                         finish();
                     }

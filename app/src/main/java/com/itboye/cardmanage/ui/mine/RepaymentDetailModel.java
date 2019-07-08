@@ -8,11 +8,10 @@ import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.internal.operators.single.SingleFlatMapIterableFlowable;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.ToastUtils;
+
+import java.math.BigDecimal;
 
 public class RepaymentDetailModel extends BaseViewModel {
 
@@ -24,7 +23,7 @@ public class RepaymentDetailModel extends BaseViewModel {
 
     public ObservableField<String> amount = new ObservableField<>("");
     public ObservableField<String> fee = new ObservableField<>("0.00<br />手续费（元）");
-    public double feeValue = -1;
+    public String feeValue = "";
     public ObservableField<String> days = new ObservableField<>("");
     public double daysValue = 0;
     public ObservableField<String> yucun = new ObservableField<>("0.00<br />预存（元）");
@@ -65,7 +64,7 @@ public class RepaymentDetailModel extends BaseViewModel {
             ToastUtils.showShort("请填写还款周期");
             return;
         }
-        if (feeValue == -1) {
+        if (feeValue == null) {
             ToastUtils.showShort("手续费获取失败，请稍后再试");
             return;
         }
@@ -78,8 +77,15 @@ public class RepaymentDetailModel extends BaseViewModel {
             return;
         }
 
+//        {"credit_card_ids":"56","days":"1","fee":"1328.00","money":"100000.00","pre_store_card_id":"54","pre_store_money":"101328.00"}
+//        {"credit_card_ids":"56","days":"1","fee":"133.00","money":"10000.00","pre_store_card_id":"54","pre_store_money":"10133.00"}
+//        手续费加每次还款金额必须等于预存金额
+//        pre_store_money = String.format("%.2f", Double.parseDouble(feeValue) * 100 + Double.parseDouble(amount.get()) / Double.parseDouble(days.get()) * 100);
+        int value1 = (int) (new BigDecimal(amount.get()).doubleValue() * 100);
+        int value2 = (int) (new BigDecimal(pre_store_money).doubleValue() * 100);
+        int value3 = (int) (new BigDecimal(feeValue).doubleValue() * 100);
         //保存计划
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createCbPlan(amount.get(), days.get(), pre_store_money, feeValue, preStoreCardIds, creditCardIds, "by_CbPlan_create"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createCbPlan(value1 + "", days.get(), value2 + "", value3 + "", preStoreCardIds, creditCardIds, "by_CbPlan_create"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(msg);
@@ -107,7 +113,7 @@ public class RepaymentDetailModel extends BaseViewModel {
             ToastUtils.showShort("请填写还款周期");
             return;
         }
-        if (feeValue == -1) {
+        if (feeValue == null) {
             ToastUtils.showShort("手续费获取失败，请稍后再试");
             return;
         }
