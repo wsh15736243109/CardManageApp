@@ -26,7 +26,7 @@ public class HomeRepaymentModel extends BaseViewModel {
     }
 
     public void changeStatus() {
-        this.type.set(typeValue == 0 ? View.INVISIBLE : View.VISIBLE);
+        this.type.set(View.INVISIBLE);
         no_plan_label_visible.set(typeValue == 0 ? View.VISIBLE : View.GONE);
         repaymentStatus.set(typeValue == 0 ? "添加还款" : "查看计划");
     }

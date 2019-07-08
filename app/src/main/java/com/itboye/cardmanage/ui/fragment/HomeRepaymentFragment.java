@@ -69,7 +69,7 @@ public class HomeRepaymentFragment extends BaseLazyFragment<ItemHomeRepaymentHua
     @Override
     public void initData() {
         binding.tvRemainDays2.setVisibility(View.VISIBLE);
-        binding.tvRemainDays.setVisibility(View.GONE);
+        binding.tvRemainDays.setVisibility(View.INVISIBLE);
         viewModel.typeValue = getArguments().getInt(ARG_PARAM1);
         viewModel.changeStatus();
     }
