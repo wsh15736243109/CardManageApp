@@ -391,6 +391,12 @@ public interface API {
     Observable<BaseResponse<String>> deleteCdPlan(@Field("id") String id,
                                                   @Field("service_type") String serviceType);
 
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<RepaymentDetailBean>> queryPlanInfo(@Field("id") String id,
+                                                  @Field("service_type") String serviceType);
+
     /**
      * 重启还款计划
      *

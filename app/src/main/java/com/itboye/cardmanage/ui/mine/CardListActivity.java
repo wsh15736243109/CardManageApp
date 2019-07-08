@@ -82,26 +82,26 @@ public class CardListActivity extends BaseMVVMActivity<ActivityCardListBinding, 
         usage = getIntent().getIntExtra("usage", 1);//卡片类型
         chooseCount = getIntent().getIntExtra("chooseCount", 1);//最多可选择
         getCardList();
-        binding.tvAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ArrayList selectAr = new ArrayList();
-                for (CardManageModel model : cardManageModelArrayList) {
-                    if (model.isCheck()) {
-                        selectAr.add(model);
-                    }
-                }
-                if (selectAr.size() <= 0) {
-                    ToastUtils.showShort("您还未选择卡片");
-                    return;
-                }
-                Bundle bundle = new Bundle();
-                bundle.putInt("usage", usage);
-                bundle.putSerializable("array", selectAr);
-                RxBus.getDefault().post(bundle);
-                finish();
+        binding.tvAdd.setOnClickListener(view -> sure());
+        binding.titleBar.getTvRight().setOnClickListener(view -> sure());
+    }
+
+    private void sure() {
+        ArrayList selectAr = new ArrayList();
+        for (CardManageModel model : cardManageModelArrayList) {
+            if (model.isCheck()) {
+                selectAr.add(model);
             }
-        });
+        }
+        if (selectAr.size() <= 0) {
+            ToastUtils.showShort("您还未选择卡片");
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putInt("usage", usage);
+        bundle.putSerializable("array", selectAr);
+        RxBus.getDefault().post(bundle);
+        finish();
     }
 
 

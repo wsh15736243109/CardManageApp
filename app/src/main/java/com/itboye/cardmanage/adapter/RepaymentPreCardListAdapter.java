@@ -25,9 +25,11 @@ public class RepaymentPreCardListAdapter extends BaseQuickAdapter<CardManageMode
     protected void convert(BaseViewHolder helper, CardManageModel item) {
         if (type == 0) {//添加的卡
             helper.setGone(R.id.ll_content, false);
+            helper.setGone(R.id.tv_change_pre_card, true);
         } else {//计划详情的卡
             helper.setGone(R.id.ll_content, true);
-            helper.setText(R.id.tv_repaid_yue, Html.fromHtml("账户余额:<font color='red'>￥5000</font>"));
+            helper.setGone(R.id.tv_change_pre_card, false);
+            helper.setText(R.id.tv_repaid_yue, Html.fromHtml("账户余额:<font color='red'>￥" + 0 + "</font>"));
         }
 //        helper.setText(R.id.tv_card_no, item.getCard_no());
         helper.setText(R.id.tv_bank_name, item.getBranch_bank() + "(" + item.getCard_no() + ")");

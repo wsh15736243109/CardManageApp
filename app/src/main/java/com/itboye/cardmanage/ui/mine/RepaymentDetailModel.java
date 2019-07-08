@@ -4,6 +4,9 @@ import android.app.Application;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
+import com.itboye.cardmanage.bean.RepaymentDetailBean;
+import com.itboye.cardmanage.model.CardManageModel;
 import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
@@ -25,6 +28,7 @@ public class RepaymentDetailModel extends BaseViewModel {
     public ObservableField<String> fee = new ObservableField<>("0.00<br />手续费（元）");
     public String feeValue = "";
     public ObservableField<String> days = new ObservableField<>("");
+    public ObservableField<Integer> planType = new ObservableField<>(View.GONE);
     public double daysValue = 0;
     public ObservableField<String> yucun = new ObservableField<>("0.00<br />预存（元）");
     public double yucunValue = 0;
@@ -145,4 +149,11 @@ public class RepaymentDetailModel extends BaseViewModel {
         });
     }
 
+    public void setRepaymentDetail(RepaymentDetailBean model) {
+        amount.set(model.getMoney() / 100 + "");
+        days.set(model.getDays() + "");
+        fee.set(model.getTotal_fee() / 100 + "<br />手续费（元）");
+        yucun.set(model.getPrestore_money() / 100 + "<br />预存（元）");
+        yuqihuankuanzonge.set(model.getRepay_total_money() / 100 + "<br />预存还款总额（元）");
+    }
 }

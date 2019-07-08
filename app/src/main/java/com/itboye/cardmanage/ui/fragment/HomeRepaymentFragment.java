@@ -3,6 +3,7 @@ package com.itboye.cardmanage.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
@@ -67,6 +68,8 @@ public class HomeRepaymentFragment extends BaseLazyFragment<ItemHomeRepaymentHua
 
     @Override
     public void initData() {
+        binding.tvRemainDays2.setVisibility(View.VISIBLE);
+        binding.tvRemainDays.setVisibility(View.GONE);
         viewModel.typeValue = getArguments().getInt(ARG_PARAM1);
         viewModel.changeStatus();
     }

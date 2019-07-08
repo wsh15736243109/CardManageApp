@@ -24,7 +24,7 @@ public class CardManageModel implements Serializable {
      */
 
     private int days;
-    private String total_fee;
+    private double total_fee;
     private String plan_status;
     private double prestore_money;
     private String prestore_card_id;
@@ -35,6 +35,23 @@ public class CardManageModel implements Serializable {
     private double repay_total_money;
     private String repay_count;
     private String failed_log;
+    /**
+     * id : 4
+     * plan_id : 6
+     * card_id : 56
+     * card_bill_day : 19
+     * card_repayment_day : 1
+     * deposit_money : 0
+     * withdraw_money : 0
+     */
+
+    private String plan_id;
+    private String card_id;
+    private int card_bill_day;
+    private int card_repayment_day;
+    private double deposit_money;
+    private double withdraw_money;
+
 
     public String getChooseType() {
         return chooseType;
@@ -318,11 +335,11 @@ public class CardManageModel implements Serializable {
         this.days = days;
     }
 
-    public String getTotal_fee() {
+    public double getTotal_fee() {
         return total_fee;
     }
 
-    public void setTotal_fee(String total_fee) {
+    public void setTotal_fee(double total_fee) {
         this.total_fee = total_fee;
     }
 
@@ -404,5 +421,54 @@ public class CardManageModel implements Serializable {
 
     public void setFailed_log(String failed_log) {
         this.failed_log = failed_log;
+    }
+
+
+    public String getPlan_id() {
+        return plan_id;
+    }
+
+    public void setPlan_id(String plan_id) {
+        this.plan_id = plan_id;
+    }
+
+    public String getCard_id() {
+        return card_id;
+    }
+
+    public void setCard_id(String card_id) {
+        this.card_id = card_id;
+    }
+
+    public int getCard_bill_day() {
+        return card_bill_day;
+    }
+
+    public void setCard_bill_day(int card_bill_day) {
+        this.card_bill_day = card_bill_day;
+    }
+
+    public int getCard_repayment_day() {
+        return card_repayment_day;
+    }
+
+    public void setCard_repayment_day(int card_repayment_day) {
+        this.card_repayment_day = card_repayment_day;
+    }
+
+    public double getDeposit_money() {
+        return deposit_money;
+    }
+
+    public void setDeposit_money(double deposit_money) {
+        this.deposit_money = deposit_money;
+    }
+
+    public double getWithdraw_money() {
+        return withdraw_money;
+    }
+
+    public void setWithdraw_money(double withdraw_money) {
+        this.withdraw_money = withdraw_money;
     }
 }

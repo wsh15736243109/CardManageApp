@@ -40,7 +40,7 @@
 
         <LinearLayout
                 android:id="@+id/ll_content"
-                android:layout_below="@+id/tv_change_pre_card"
+                android:layout_below="@+id/tv_bank_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

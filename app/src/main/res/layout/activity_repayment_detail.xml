@@ -153,6 +153,7 @@
                         android:background="@drawable/shape_dotted_strok_radius_0"
                         android:layout_alignParentBottom="true"
                         android:layout_margin="@dimen/dp_12"
+                        android:visibility="@{viewModel.planType}"
                         android:onClick="@{()->viewModel.addRepaymentPlan(1,-1)}"
                         android:textColor="@color/red"
                         android:layout_height="wrap_content"/>
@@ -180,6 +181,7 @@
                         android:background="@drawable/shape_dotted_strok_radius_0"
                         android:layout_alignParentBottom="true"
                         android:layout_margin="@dimen/dp_12"
+                        android:visibility="@{viewModel.planType}"
                         android:onClick="@{()->viewModel.addRepaymentPlan(2,1)}"
                         android:textColor="@color/red"
                         android:layout_height="wrap_content"/>
@@ -195,6 +197,7 @@
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_height="wrap_content"
+                android:visibility="@{viewModel.planType}"
                 android:onClick="@{()->viewModel.save()}"
                 app:corner="@dimen/dp_6"
                 android:layout_above="@+id/tv_restart"

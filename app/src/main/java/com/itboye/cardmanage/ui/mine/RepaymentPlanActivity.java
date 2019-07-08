@@ -56,11 +56,11 @@ public class RepaymentPlanActivity extends BaseMVVMActivity<ActivityRepaymentPla
             public void onItemClick(int position, Object item) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("type", 1);
+                bundle.putSerializable("model", (CardManageModel)item);
                 startActivity(RepaymentDetailActivity.class, bundle);
             }
         });
 
-        getRepaymentData();
         binding.rvRepaymentPlan.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
@@ -106,5 +106,11 @@ public class RepaymentPlanActivity extends BaseMVVMActivity<ActivityRepaymentPla
                 dismissDialog();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getRepaymentData();
     }
 }

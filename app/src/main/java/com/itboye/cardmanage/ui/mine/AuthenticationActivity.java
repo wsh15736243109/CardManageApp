@@ -1,9 +1,7 @@
 package com.itboye.cardmanage.ui.mine;
 
-import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -13,11 +11,9 @@ import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.bean.BranchBankBean;
 import com.itboye.cardmanage.bean.UserAuthDetailBean;
 import com.itboye.cardmanage.databinding.ActivityAuthenticationBinding;
+import com.itboye.cardmanage.util.GalleryUtil;
 import com.itboye.cardmanage.util.GlideUtil;
-import com.yancy.imageselector.ImageConfig;
-import com.yancy.imageselector.ImageLoader;
-import com.yancy.imageselector.ImageSelector;
-import com.yancy.imageselector.ImageSelectorActivity;
+import com.yancy.gallerypick.inter.IHandlerCallBack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,49 +117,49 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
 
     //选择图片
     private void openLibrary(int requestCode) {
-        ImageConfig imageConfig
-                = new ImageConfig.Builder((ImageLoader) (context, path, imageView) -> GlideUtil.display(context, path, imageView))
-                .steepToolBarColor(getApplication().getResources().getColor(R.color.white))
-                .titleBgColor(getApplication().getResources().getColor(R.color.white))
-                .titleSubmitTextColor(getApplication().getResources().getColor(R.color.white))
-                .titleTextColor(getApplication().getResources().getColor(R.color.red))
-                // (截图默认配置：关闭    比例 1：1    输出分辨率  500*500)
-//                .crop(2, 1, 1000, 500)
-                // 开启单选   （默认为多选）
-                .requestCode(requestCode)
-                .singleSelect()
-                // 开启拍照功能 （默认关闭）
-                .showCamera()
-                // 拍照后存放的图片路径（默认 /temp/picture） （会自动创建）
-                .filePath("/ImageSelector/Pictures")
-                .build();
-        ImageSelector.open(this, imageConfig);   // 开启图片选择器
-    }
+        GalleryUtil.galleryConfig(this, new IHandlerCallBack() {
+            @Override
+            public void onStart() {
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
-            List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
-            String path = pathList.get(0);
-            switch (requestCode) {
-                case 101:
-                    GlideUtil.display(this, path, binding.riPhoto1);
-                    break;
-                case 102:
-                    GlideUtil.display(this, path, binding.riPhoto2);
-                    break;
-                case 103:
-                    GlideUtil.display(this, path, binding.riPhoto3);
-                    break;
-                case 104:
-                    GlideUtil.display(this, path, binding.riPhoto4);
-                    break;
             }
-            viewModel.uploadImage(path, requestCode);
-        }
+
+            @Override
+            public void onSuccess(List<String> photoList) {
+                String path = photoList.get(0);
+                switch (requestCode) {
+                    case 101:
+                        GlideUtil.display(AuthenticationActivity.this, path, binding.riPhoto1);
+                        break;
+                    case 102:
+                        GlideUtil.display(AuthenticationActivity.this, path, binding.riPhoto2);
+                        break;
+                    case 103:
+                        GlideUtil.display(AuthenticationActivity.this, path, binding.riPhoto3);
+                        break;
+                    case 104:
+                        GlideUtil.display(AuthenticationActivity.this, path, binding.riPhoto4);
+                        break;
+                }
+                viewModel.uploadImage(path, requestCode);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
     }
+
 //
 //    @Override
 //    public void onBackPressed() {

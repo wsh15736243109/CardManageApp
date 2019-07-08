@@ -22,6 +22,7 @@ import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.RepaymentCardListAdapter;
 import com.itboye.cardmanage.adapter.RepaymentPreCardListAdapter;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
+import com.itboye.cardmanage.bean.RepaymentDetailBean;
 import com.itboye.cardmanage.databinding.ActivityRepaymentDetailBinding;
 import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
 import com.itboye.cardmanage.model.CardManageModel;
@@ -48,6 +49,8 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
     private RepaymentCardListAdapter repaymentCardAdapter;
     private RepaymentPreCardListAdapter preCardAdapter;
 
+    CardManageModel model;
+
     @Override
     public int initContentView(Bundle savedInstanceState) {
         return R.layout.activity_repayment_detail;
@@ -61,15 +64,19 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
     @Override
     public void initData() {
         type = getIntent().getIntExtra("type", 0);
+        initRepaymentCardListAdapter();//还款计划卡adapter
+        initCreditCardListAdapter();//预存资金卡adapter
         if (type == 0) {
             setTitle("添加还款计划");
         } else {
             setRightText("删除");
             setTitle("计划详情");
+            model = (CardManageModel) getIntent().getSerializableExtra("model");
+            viewModel.id = model.getId();
+            setRepaymentDetail();
         }
+        viewModel.planType.set(type == 0 ? View.VISIBLE : View.GONE);
         registerRx();
-        initRepaymentCardListAdapter();//还款计划卡adapter
-        initCreditCardListAdapter();//预存资金卡adapter
         binding.etAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -106,7 +113,6 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
             //删除计划
             AlertDialog alertDialog = new AlertDialog.Builder(RepaymentDetailActivity.this, R.style.AlertDialogStyle).create();
             View view1 = View.inflate(RepaymentDetailActivity.this, R.layout.dialog_delete, null);
-
 //            ColorDrawable dw = new ColorDrawable(0x00000000);
 //            view1.setBackgroundDrawable(dw);
             TextView btn_cancel = view1.findViewById(R.id.btn_cancel);
@@ -139,13 +145,35 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         });
     }
 
-    private void deletePlan() {
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).deleteCdPlan("", "by_CbPlan_delete"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
+    private void setRepaymentDetail() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).queryPlanInfo(viewModel.id, "by_CbPlan_info"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
             @Override
-            public void accept(Disposable disposable) {
-                viewModel.showDialog();
+            public void onResult(Object o, String msg, int code) {
+                RepaymentDetailBean repaymentDetailBean = (RepaymentDetailBean) o;
+                viewModel.setRepaymentDetail(repaymentDetailBean);
+                //显示还款计划卡
+                cardList.addAll(repaymentDetailBean.get_card());
+                //显示预存资金卡
+                cardList2.add(repaymentDetailBean.getPrestore_card_info());
+
+                repaymentCardAdapter.notifyDataSetChanged();
+                preCardAdapter.notifyDataSetChanged();
             }
-        }, new ApiDisposableObserver() {
+
+            @Override
+            public void onError(int code, String msg) {
+
+            }
+
+            @Override
+            public void dialogDismiss() {
+                viewModel.dismissDialog();
+            }
+        });
+    }
+
+    private void deletePlan() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).deleteCdPlan("", "by_CbPlan_delete"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(msg);
@@ -173,7 +201,8 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
 
             @Override
             public void onItemClick(int position, Object item) {
-
+                //更换预存资金卡
+                viewModel.addRepaymentPlan(2, 1);
             }
         });
         binding.rvCreditCard.setLayoutManager(new LinearLayoutManager(this));
@@ -211,6 +240,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                             stringBuffer1.append(model.getId() + ",");
                             cardList.add(model);
                         } else {
+                            cardList2.clear();
                             stringBuffer2.append(model.getId() + ",");
                             cardList2.add(model);
                         }
@@ -239,7 +269,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         if (!binding.etAmount.getText().toString().isEmpty()) {
             money = Double.parseDouble(binding.etAmount.getText().toString());
         }
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getRepaymentFee(money , cardList.size() /*+ cardList2.size()*/, days, "by_CbPlan_getFee"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getRepaymentFee(money, cardList.size() /*+ cardList2.size()*/, days, "by_CbPlan_getFee"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
             @Override
             public void accept(Disposable disposable) {
 //                viewModel.showDialog();
@@ -251,7 +281,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                 viewModel.fee.set(value + "<br />手续费(元)");
                 viewModel.feeValue = value;
                 try {
-                    viewModel.pre_store_money = String.format("%.2f",Double.parseDouble(viewModel.feeValue) + Double.parseDouble(viewModel.amount.get()) / Double.parseDouble(viewModel.days.get()));
+                    viewModel.pre_store_money = String.format("%.2f", Double.parseDouble(viewModel.feeValue) + Double.parseDouble(viewModel.amount.get()) / Double.parseDouble(viewModel.days.get()));
                     viewModel.yucun.set(viewModel.pre_store_money + "<br />预存（元）");
                 } catch (Exception e) {
                     viewModel.pre_store_money = null;
