@@ -1,0 +1,42 @@
+package com.itboye.cardmanage.adapter;
+
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
+import android.widget.TextView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.itboye.cardmanage.R;
+import com.itboye.cardmanage.app.App;
+import com.itboye.cardmanage.bean.PayWaybean;
+import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
+
+import java.util.List;
+
+public class FeilvAboutAdapter extends BaseQuickAdapter<PayWaybean, BaseViewHolder> {
+
+
+    public FeilvAboutAdapter(@Nullable List<PayWaybean> data, OnMyItemClickListener onMyItemClickListener) {
+        super(R.layout.item_feilv, data);
+    }
+
+    @Override
+    protected void convert(BaseViewHolder helper, PayWaybean item) {
+        helper.setBackgroundRes(R.id.iv_service_logo, R.drawable.ic_feilv_baihuo_logo);
+        helper.setText(R.id.tv_service_name, item.getTitle());
+        helper.setText(R.id.tv_jiaoyi_time, "交易时间：" + item.getDay_time_start() + ":" + item.getDay_time_end());
+        if (item.get_grade() != null && item.get_grade().size() > 0) {
+            helper.setText(R.id.tv_vip_normal, item.get_grade().get(0).getTitle() + "交易手续费：" + item.get_grade().get(0).getFee_per() * 100 + "%" + item.get_grade().get(0).getFixed_fee() + " " + item.get_grade().get(0).getDay_time_start() + "-" + item.get_grade().get(0).getDay_time_end() + "交易");
+//            helper.setText(R.id.tv_xiaofei, item.get_grade().get(0).getStart_amt());
+            TextView tv = helper.getView(R.id.tv_vip);
+            Drawable drawable = App.getInstance().getResources().getDrawable(R.drawable.ic_service_vip_normal);
+            tv.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        }
+        if (item.get_grade() != null && item.get_grade().size() > 1) {
+            helper.setText(R.id.tv_vip_normal, item.get_grade().get(1).getTitle() + "交易手续费：" + item.get_grade().get(1).getFee_per() * 100 + "%" + item.get_grade().get(1).getFixed_fee() + " " + item.get_grade().get(1).getDay_time_start() + "-" + item.get_grade().get(1).getDay_time_end() + "交易");
+            TextView tv = helper.getView(R.id.tv_vip);
+            Drawable drawable = App.getInstance().getResources().getDrawable(R.drawable.ic_service_vip);
+            tv.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+//            helper.setText(R.id.tv_xiaofei, item.get_grade().get(0).getStart_amt());
+        }
+    }
+}

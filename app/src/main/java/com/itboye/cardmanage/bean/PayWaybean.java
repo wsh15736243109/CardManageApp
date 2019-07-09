@@ -145,7 +145,7 @@ public class PayWaybean {
 
         private int id;
         private String title;
-        private String fee_per;
+        private double fee_per;
         private String fixed_fee;
         private String day_time_start;
         private String day_time_end;
@@ -171,11 +171,11 @@ public class PayWaybean {
             this.title = title;
         }
 
-        public String getFee_per() {
+        public double getFee_per() {
             return fee_per;
         }
 
-        public void setFee_per(String fee_per) {
+        public void setFee_per(double fee_per) {
             this.fee_per = fee_per;
         }
 

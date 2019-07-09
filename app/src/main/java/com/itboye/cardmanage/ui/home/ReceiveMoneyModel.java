@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.bean.PayWaybean;
 import com.itboye.cardmanage.bean.ReceiveMoneyAuthPassBean;
+import com.itboye.cardmanage.config.Global;
 import com.itboye.cardmanage.model.CardManageModel;
 import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
+import com.itboye.cardmanage.web.WebActivity;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
@@ -132,6 +134,13 @@ public class ReceiveMoneyModel extends BaseViewModel {
                 dismissDialog();
             }
         });
+    }
+
+    public void toWeb() {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", "升级VIP");
+        bundle.putString("url", Global.H5URL + Global.UPDATE_VIP);
+        startActivity(WebActivity.class, bundle);
     }
 
 //    //移除RxBus

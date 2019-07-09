@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers"/>
+
+        <import type="me.goldze.mvvmhabit.binding.viewadapter.recyclerview.LineManagers"/>
+
+        <import type="android.support.v7.widget.LinearLayoutManager"/>
+
+        <variable
+                name="viewModel"
+                type="com.itboye.cardmanage.ui.home.FeiLvAboutModel"/>
+    </data>
+
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".ui.home.FeiLvAboutActivity">
+
+        <com.itboye.cardmanage.widget.CommonTitleBar
+                android:layout_width="match_parent"
+                app:title_text="费率介绍"
+                android:layout_height="wrap_content"/>
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                app:layoutManager="@{LayoutManagers.linear()}"
+                app:lineManager="@{LineManagers.vertical()}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </LinearLayout>
+</layout>

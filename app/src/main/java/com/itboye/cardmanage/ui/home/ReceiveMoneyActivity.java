@@ -80,11 +80,11 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
             }
         });
 
-        binding.titleBar.getTvRight().setOnClickListener(new View.OnClickListener() {//费率介绍
-            @Override
-            public void onClick(View v) {
-
-            }
+        //费率介绍
+        binding.titleBar.getTvRight().setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("array", viewModel.payWaybeanArrayList);
+            startActivity(FeiLvAboutActivity.class, bundle);
         });
     }
 
