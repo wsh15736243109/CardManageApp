@@ -43,6 +43,13 @@ public class ReceiveMoneyModel extends BaseViewModel {
 
     public void submit() {
         if (amount.get().isEmpty()) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("type", 3);
+            bundle.putString("phone", phone);
+            bundle.putString("order_code", order_code);
+            startActivity(AuthMobileActivity.class, bundle);
+            ToastUtils.showShort("验证码已发送");
+
             ToastUtils.showShort("请输入金额");
             return;
         }
@@ -68,28 +75,11 @@ public class ReceiveMoneyModel extends BaseViewModel {
 
     //发起收款请求(第一次发送验证码 第二次支付)
     private void sendPayment() {
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, null, "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
-            @Override
-            public void onResult(Object o, String msg, int code) {
-                ReceiveMoneyAuthPassBean moneyAuthPassBean = (ReceiveMoneyAuthPassBean) o;
-                Bundle bundle = new Bundle();
-                bundle.putInt("type", 3);
-                bundle.putString("phone", phone);
-                bundle.putString("order_code", order_code);
-                startActivity(AuthMobileActivity.class, bundle);
-                ToastUtils.showShort("验证码已发送");
-            }
-
-            @Override
-            public void onError(int code, String msg) {
-
-            }
-
-            @Override
-            public void dialogDismiss() {
-                dismissDialog();
-            }
-        });
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", 3);
+        bundle.putString("phone", phone);
+        bundle.putString("order_code", order_code);
+        startActivity(AuthMobileActivity.class, bundle);
     }
 
     public void choosePayCard(int index) {
@@ -98,21 +88,6 @@ public class ReceiveMoneyModel extends BaseViewModel {
         bundle.putInt("index", index);
         bundle.putInt("type", 0);
         startActivity(CardManageActivity.class, bundle);
-    }
-
-    //订阅者
-    private Disposable mSubscription;
-
-    @Override
-    public void registerRxBus() {
-        super.registerRxBus();
-//        mSubscription = RxBus.getDefault().toObservable(CardManageModel.class)
-//                .subscribe(s -> {
-//                    pay_card_id = s.getId();//支付卡id
-//                    ToastUtils.showShort(pay_card_id);
-//                });
-//        //将订阅者加入管理站
-//        RxSubscriptions.add(mSubscription);
     }
 
 

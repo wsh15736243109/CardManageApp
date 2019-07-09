@@ -55,5 +55,23 @@ public class Test {
         String outTime = outFormater.format(inDate.getTime());
         return outTime;
     }
+
+    @org.junit.Test
+    public void math() {
+        int num = 0;
+        num = num ^ (int) Math.pow(2, 1);
+        System.out.println("改后值：" + num + " 二进制：" + Integer.toBinaryString(num));
+    }
+
+    //2511
+    @org.junit.Test
+    public void getHHmmddStr() {
+        String str = "02511";
+        StringBuilder stringBuilder = new StringBuilder(str);
+        while (stringBuilder.length() < 6) {
+            stringBuilder.insert(0, "0");
+        }
+        System.out.println("改后值：" + stringBuilder.toString());
+    }
 }
 

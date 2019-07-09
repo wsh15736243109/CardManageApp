@@ -5,6 +5,7 @@
     <data>
 
         <import type="android.text.Html"/>
+
         <variable
                 name="viewModel"
                 type="com.itboye.cardmanage.ui.home.AuthMobileModel"/>
@@ -23,10 +24,13 @@
                 app:title_text="验证手机号"
                 android:layout_height="wrap_content"/>
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
             <TextView
+                    android:visibility="@{viewModel.authStatus}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="验证码"
@@ -34,28 +38,31 @@
                     android:layout_margin="@dimen/dp_12"
                     android:textColor="#ff000000"
                     android:textSize="24sp"
-            />
+                    />
 
             <TextView
+                    android:visibility="@{viewModel.authStatus}"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    android:text="验证码已经发送到你的手机号码上"
+                    android:text="@={viewModel.codeStatus}"
                     android:textColor="#ff666666"
                     android:textSize="15sp"
-            />
+                    />
 
             <TextView
+                    android:visibility="@{viewModel.authStatus}"
                     android:id="@+id/phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="@={viewModel.phone}"
                     android:layout_gravity="center"
                     android:textColor="#ffe10c23"
                     android:textSize="18sp"
-            />
+                    />
 
             <LinearLayout
+                    android:visibility="@{viewModel.authStatus}"
                     android:layout_width="match_parent"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/dp_12"
@@ -68,17 +75,33 @@
             </LinearLayout>
 
             <TextView
+                    android:visibility="@{viewModel.authStatus}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{Html.fromHtml(viewModel.resendCode)}"
+                    android:textColor="#ff666666"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:onClick="@{()->viewModel.sendAuthCode(false)}"
+                    android:layout_gravity="center"
+                    />
+
+            <TextView
+                    android:visibility="@{viewModel.authFail}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@{viewModel.authIcon}"
                     android:text="@{Html.fromHtml(viewModel.yzStatus)}"
                     android:textColor="#ff666666"
-                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:textSize="16sp"
                     android:layout_gravity="center"
-            />
+                    />
         </LinearLayout>
+
         <com.itboye.cardmanage.widget.MyButton
-                android:text="立即验证"
-                android:layout_margin="@dimen/dp_12"
+                android:text="@={viewModel.authButtonLabel}"
+                android:layout_margin="@dimen/dp_24"
                 android:textColor="@color/white"
                 android:padding="@dimen/dp_10"
                 android:background="@color/red"

@@ -1,8 +1,9 @@
 package com.itboye.cardmanage.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PayWaybean {
+public class PayWaybean implements Serializable {
 
     /**
      * id : 1
@@ -128,7 +129,7 @@ public class PayWaybean {
         this._grade = _grade;
     }
 
-    public static class GradeBean {
+    public static class GradeBean implements Serializable {
         /**
          * id : 1
          * title : 普通会员

@@ -2,7 +2,10 @@ package com.itboye.cardmanage.ui.home;
 
 import android.app.Application;
 import android.databinding.ObservableField;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.view.View;
+import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
@@ -13,8 +16,15 @@ import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class AuthMobileModel extends BaseViewModel {
 
-    public ObservableField<String> yzStatus = new ObservableField<>("没收到验证码?<font color='red'>重新发送</font>");
+    public ObservableField<String> yzStatus = new ObservableField<>("");
+    public ObservableField<String> authButtonLabel = new ObservableField<>("立即验证");
+    public ObservableField<String> codeStatus = new ObservableField<>("验证码已经发送到你的手机号码上");
+    public ObservableField<String> resendCode = new ObservableField<>("没收到验证码?<font color='red'>重新发送</font>");
     public ObservableField<String> code = new ObservableField<>();
+    public ObservableField<String> phone = new ObservableField<>();
+    public ObservableField<Integer> authStatus = new ObservableField<>(View.VISIBLE);
+    public ObservableField<Integer> authFail = new ObservableField<>(View.GONE);
+    public ObservableField<Drawable> authIcon = new ObservableField();
 
     int status = 1;
     public String bankId;
@@ -30,41 +40,39 @@ public class AuthMobileModel extends BaseViewModel {
         switch (status) {
             case 1:
                 //立即验证
-                if (type == 3) {
-                    //收款验证
-                    receiveMoneyAuth();
-                } else {
-                    sendAuthCode(true);
-                }
+                sendAuthCode(true);
                 break;
             case 2:
                 //验证成功，返回首页
+                RxBus.getDefault().post(0);//关闭Open.class
                 finish();
                 break;
             case 3:
                 //验证失败，重新验证
-                yzStatus.set("验证失败，重新验证");
-                status = 1;
+                sendAuthCode(false);
                 break;
         }
 
     }
 
-    private void receiveMoneyAuth() {
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, verificationCode.get(), "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+    private void receiveMoneyAuth(String code, boolean isAuth) {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, code, "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
-                ToastUtils.showShort(msg);
-                //验证成功 显示验证成功界面
-
-//                RxBus.getDefault().post(1);//关闭Open.class
-//                finish();
+                if (isAuth) {
+                    setAuthStatus(true, msg);
+                } else {
+                    setCodeSendStatus(true);
+                }
             }
 
             @Override
             public void onError(int code, String msg) {
-                RxBus.getDefault().post(1);//关闭Open.class
-                finish();
+                if (isAuth) {
+                    setAuthStatus(false, msg);
+                } else {
+                    setCodeSendStatus(false);
+                }
             }
 
             @Override
@@ -74,8 +82,38 @@ public class AuthMobileModel extends BaseViewModel {
         });
     }
 
+    private void setAuthStatus(boolean b, String msg) {
+        if (b) {
+            status = 2;
+            yzStatus.set("验证成功<br />系统将在24小时内放款");
+            authButtonLabel.set("返回首页");
+            authStatus.set(View.INVISIBLE);
+            authFail.set(View.VISIBLE);
+            authIcon.set(getApplication().getResources().getDrawable(R.drawable.ic_auth_success));
+            ToastUtils.showShort(msg);
+        } else {
+            status = 3;
+            yzStatus.set("验证失败，重新验证<br />验证码验证失败，请重新验证");
+            authButtonLabel.set("重新验证");
+            authStatus.set(View.INVISIBLE);
+            authFail.set(View.VISIBLE);
+            authIcon.set(getApplication().getResources().getDrawable(R.drawable.ic_phone_auth_fail));
+            ToastUtils.showShort(msg);
+        }
+    }
+
+    private void initUI() {
+        status = 1;
+        yzStatus.set("");
+        authButtonLabel.set("立即验证");
+        authStatus.set(View.VISIBLE);
+        authFail.set(View.INVISIBLE);
+    }
+
     public void sendAuthCode(boolean isAuth) {
         String serviceType = "";
+        status = 1;
+        initUI();
         if (type == 1) {  //开通代扣
             serviceType = "by_UserBankCard_signWithhold";
             if (isAuth) {
@@ -87,20 +125,12 @@ public class AuthMobileModel extends BaseViewModel {
                     @Override
                     public void onResult(Object o, String msg, int code) {
                         //验证
-                        yzStatus.set("验证成功，返回首页");
-                        status = 2;
-                        RxBus.getDefault().post(1);//关闭Open.class
-                        finish();
-                        ToastUtils.showShort(msg);
+                        setAuthStatus(true, msg);
                     }
 
                     @Override
                     public void onError(int code, String msg) {
-                        //验证
-//                        yzStatus.set("验证失败，重新尝试");
-                        status = 3;
-                        RxBus.getDefault().post(1);//关闭Open.class
-                        finish();
+                        setAuthStatus(false, msg);
                     }
 
                     @Override
@@ -112,26 +142,13 @@ public class AuthMobileModel extends BaseViewModel {
                 AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                     @Override
                     public void onResult(Object o, String msg, int code) {
-                        yzStatus.set("验证成功，返回首页");
-                        status = 2;
-                        RxBus.getDefault().post(1);//关闭Open.class
-                        finish();
-                        ToastUtils.showShort(msg);
+                        //验证码发送成功
+                        setCodeSendStatus(true);
                     }
 
                     @Override
                     public void onError(int code, String msg) {
-//                        if (isAuth) {
-//                            //验证
-////                        yzStatus.set("验证失败，重新尝试");
-                        RxBus.getDefault().post(1);//关闭Open.class
-                        finish();
-                        status = 3;
-//                        RxBus.getDefault().post(1);//关闭Open.class
-//                        finish();
-//                        } else {
-//
-//                        }
+                        setCodeSendStatus(false);
                     }
 
                     @Override
@@ -151,14 +168,15 @@ public class AuthMobileModel extends BaseViewModel {
                 AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signAuth(bankId, verificationCode.get(), serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                     @Override
                     public void onResult(Object o, String msg, int code) {
+                        status = 2;
+                        setAuthStatus(true, msg);
                         ToastUtils.showShort(msg);
                     }
 
                     @Override
                     public void onError(int code, String msg) {
-
-                        RxBus.getDefault().post(1);//关闭Open.class
-                        finish();
+                        status = 3;
+                        setAuthStatus(false, msg);
                     }
 
                     @Override
@@ -171,13 +189,12 @@ public class AuthMobileModel extends BaseViewModel {
                 AppUtils.requestData(RetrofitClient.getInstance().create(API.class).signGetCode(bankId, null, serviceType), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                     @Override
                     public void onResult(Object o, String msg, int code) {
-                        ToastUtils.showShort(msg);
+                        setCodeSendStatus(true);
                     }
 
                     @Override
                     public void onError(int code, String msg) {
-                        RxBus.getDefault().post(1);//关闭Open.class
-                        finish();
+                        setCodeSendStatus(false);
                     }
 
                     @Override
@@ -187,7 +204,25 @@ public class AuthMobileModel extends BaseViewModel {
                 });
             }
         } else if (type == 3) { //收款验证码验证
+            if (isAuth) {
+                if (verificationCode.get().equals("")) {
+                    ToastUtils.showShort("请填写收到的验证码");
+                    return;
+                }
+                receiveMoneyAuth(verificationCode.get(), isAuth);
+            } else {
+                receiveMoneyAuth(null, isAuth);
+            }
 
+        }
+    }
+
+    private void setCodeSendStatus(boolean b) {
+        if (b) {
+            codeStatus.set("验证码已发送至您的手机号码上");
+            ToastUtils.showShort("验证码发送成功");
+        } else {
+            codeStatus.set("验证码发送失败");
         }
     }
 }
