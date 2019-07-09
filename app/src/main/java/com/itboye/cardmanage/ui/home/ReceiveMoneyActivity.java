@@ -124,7 +124,10 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
                                 fixAmount = viewModel.payWaybeanArrayList.get(Integer.parseInt(compoundButton.getTag() + "")).getFixed_fee() + "";
                                 caculateArrivalAmount();
                             } else {
-
+                                viewModel.pay_channel_id = "";
+                                fee = "0";
+                                fixAmount = "0";
+                                caculateArrivalAmount();
                             }
                         });
                         textView.setText(title + "(" + payWaybean.getFee_per() + "+" + payWaybean.getFixed_fee() + "   " + timeStart + "-" + timeEnd + "交易)");

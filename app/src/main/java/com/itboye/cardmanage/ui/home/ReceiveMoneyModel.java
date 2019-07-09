@@ -27,7 +27,7 @@ public class ReceiveMoneyModel extends BaseViewModel {
 
     public ObservableField<String> amount = new ObservableField<>("");
     public ObservableField<String> note = new ObservableField<>("0");
-    public ObservableField<String> arrivalAmount = new ObservableField<>("0");
+    public ObservableField<String> arrivalAmount = new ObservableField<>("");
     public String pay_card_id = "";//支付卡id
     public String withdraw_card_id = "";//到账结算卡id
     public String pay_channel_id = "";//支付通道id
@@ -43,16 +43,22 @@ public class ReceiveMoneyModel extends BaseViewModel {
 
     public void submit() {
         if (amount.get().isEmpty()) {
-            Bundle bundle = new Bundle();
-            bundle.putInt("type", 3);
-            bundle.putString("phone", phone);
-            bundle.putString("order_code", order_code);
-            startActivity(AuthMobileActivity.class, bundle);
-            ToastUtils.showShort("验证码已发送");
-
             ToastUtils.showShort("请输入金额");
             return;
         }
+        if (pay_card_id.isEmpty()) {
+            ToastUtils.showShort("请选择支付卡");
+            return;
+        }
+        if (withdraw_card_id.isEmpty()) {
+            ToastUtils.showShort("请选择到账结算卡");
+            return;
+        }
+        if (pay_channel_id.isEmpty()) {
+            ToastUtils.showShort("请选择支付通道");
+            return;
+        }
+
         //立即下单
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createPaymentOrder(Double.parseDouble(amount.get()) * 100 + "", /*note.get()*/(amount.get()) + "", pay_card_id, withdraw_card_id, pay_channel_id, "by_CbOrder_quickOrder"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
