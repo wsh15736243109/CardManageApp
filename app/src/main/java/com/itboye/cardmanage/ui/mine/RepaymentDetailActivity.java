@@ -1,19 +1,12 @@
 package com.itboye.cardmanage.ui.mine;
 
-import android.app.Activity;
-import android.arch.lifecycle.Lifecycle;
-import android.graphics.drawable.ColorDrawable;
-import android.icu.text.TimeZoneFormat;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -76,6 +69,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
             setRepaymentDetail();
         }
         viewModel.planType.set(type == 0 ? View.VISIBLE : View.GONE);
+        viewModel.type.set(type == 0);
         registerRx();
         binding.etAmount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -143,6 +137,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
 //                }
             });
         });
+        binding.tvRestart.setVisibility(type == 1 ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void setRepaymentDetail() {

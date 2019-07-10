@@ -164,7 +164,7 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
                                 caculateArrivalAmount();
                             }
                         });
-                        textView.setText(title + "(" + payWaybean.getFee_per() + "+" + payWaybean.getFixed_fee() + "   " + timeStart + "-" + timeEnd + "交易)");
+                        textView.setText(title + "(" + payWaybean.getFee_per() + "%+" + payWaybean.getFixed_fee() + "   " + timeStart + "-" + timeEnd + "交易)");
                         binding.payChannel.addView(view);
                     }
 

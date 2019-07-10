@@ -23,6 +23,7 @@ public class RepaymentDetailModel extends BaseViewModel {
     public String creditCardIds;
     public String pre_store_money = "1400";
     public String id;
+    public ObservableField<Boolean> type = new ObservableField<>(true);
 
     public ObservableField<String> amount = new ObservableField<>("");
     public ObservableField<String> fee = new ObservableField<>("0.00<br />手续费（元）");

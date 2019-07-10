@@ -23,7 +23,7 @@
                 app:layout_constraintTop_toTopOf="@+id/iv_bank_bg"
                 android:drawableLeft="@drawable/ic_checked"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:textSize="16dp"
+                android:textSize="13dp"
                 android:layout_height="wrap_content"/>
 
         <TextView

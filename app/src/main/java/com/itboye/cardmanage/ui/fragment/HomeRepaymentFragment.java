@@ -9,6 +9,7 @@ import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseLazyFragment;
 import com.itboye.cardmanage.databinding.ItemHomeRepaymentHuankuanCardBinding;
+import com.itboye.cardmanage.model.CardManageModel;
 
 public class HomeRepaymentFragment extends BaseLazyFragment<ItemHomeRepaymentHuankuanCardBinding, HomeRepaymentModel> {
 
@@ -30,11 +31,11 @@ public class HomeRepaymentFragment extends BaseLazyFragment<ItemHomeRepaymentHua
      * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeRepaymentFragment newInstance(int param1, String param2) {
+    public static HomeRepaymentFragment newInstance(int param1, CardManageModel param2) {
         HomeRepaymentFragment fragment = new HomeRepaymentFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,6 +72,7 @@ public class HomeRepaymentFragment extends BaseLazyFragment<ItemHomeRepaymentHua
         binding.tvRemainDays2.setVisibility(View.VISIBLE);
         binding.tvRemainDays.setVisibility(View.INVISIBLE);
         viewModel.typeValue = getArguments().getInt(ARG_PARAM1);
+        viewModel.model = (CardManageModel)getArguments().getSerializable(ARG_PARAM2);
         viewModel.changeStatus();
     }
 

@@ -21,7 +21,7 @@
 
 
         <TextView
-                android:visibility="@{viewModel.type}"
+                android:visibility="@{viewModel.type2}"
                 android:id="@+id/tv_remain_days"
                 android:layout_width="wrap_content"
                 android:text="@={viewModel.remainDays}"

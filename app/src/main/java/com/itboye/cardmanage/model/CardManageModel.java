@@ -33,7 +33,8 @@ public class CardManageModel implements Serializable {
     private String next_proc_day;
     private double money;
     private double repay_total_money;
-    private String repay_count;
+    private int repay_count;
+    private long create_time;
     private String failed_log;
     /**
      * id : 4
@@ -52,6 +53,13 @@ public class CardManageModel implements Serializable {
     private double deposit_money;
     private double withdraw_money;
 
+    public void setCreate_time(long create_time) {
+        this.create_time = create_time;
+    }
+
+    public long getCreate_time() {
+        return create_time;
+    }
 
     public String getChooseType() {
         return chooseType;
@@ -108,7 +116,6 @@ public class CardManageModel implements Serializable {
     private String name;
     private String id_no;
     private String mobile;
-    private String create_time;
     private String update_time;
     private int card_usage;
     private String card_code;
@@ -205,14 +212,6 @@ public class CardManageModel implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-    public String getCreate_time() {
-        return create_time;
-    }
-
-    public void setCreate_time(String create_time) {
-        this.create_time = create_time;
     }
 
     public String getUpdate_time() {
@@ -407,11 +406,11 @@ public class CardManageModel implements Serializable {
         this.repay_total_money = repay_total_money;
     }
 
-    public String getRepay_count() {
+    public int getRepay_count() {
         return repay_count;
     }
 
-    public void setRepay_count(String repay_count) {
+    public void setRepay_count(int repay_count) {
         this.repay_count = repay_count;
     }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <android.support.constraint.ConstraintLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,12 +11,10 @@
             android:layout_margin="@dimen/dp_12">
 
         <TextView
-                android:id="@+id/tv_bank_name"
+                android:id="@+id/tv_card_no"
                 android:layout_width="wrap_content"
-                android:text="中国银行"
                 android:drawablePadding="@dimen/dp_6"
-                app:layout_constraintTop_toTopOf="@+id/iv_bank_bg"
-                android:drawableLeft="@drawable/ic_verified"
+                android:drawableLeft="@drawable/ic_checked"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:textSize="16dp"
                 android:layout_height="wrap_content"/>
@@ -23,7 +22,7 @@
         <TextView
                 android:id="@+id/tv_remain_days"
                 android:layout_width="wrap_content"
-                android:text="剩余12天"
+                android:text="剩余"
                 android:background="@drawable/shape_strok_red_radius_0"
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="11dp"
@@ -35,8 +34,9 @@
                 android:layout_height="wrap_content"/>
 
         <LinearLayout
+                android:layout_marginTop="@dimen/dp_6"
                 android:id="@+id/ll_content"
-                app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_card_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -71,12 +71,12 @@
                     android:text="账单日"
                     />
         </LinearLayout>
-        <TextView
-                android:id="@+id/tv_card_no"
-                app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"
-                android:layout_margin="@dimen/dp_12"
-                android:layout_width="wrap_content"
-                android:text="djmkdjgkfjklkg"
-                android:layout_height="wrap_content"/>
+        <!--<TextView-->
+        <!--android:id="@+id/tv_card_no"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"-->
+        <!--android:layout_margin="@dimen/dp_12"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:text="djmkdjgkfjklkg"-->
+        <!--android:layout_height="wrap_content"/>-->
     </android.support.constraint.ConstraintLayout>
 </layout>

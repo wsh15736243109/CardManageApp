@@ -262,10 +262,10 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 
     private void initRepaymentAdater() {
         ArrayList<Fragment> arr = new ArrayList<>();
-        arr.add(HomeRepaymentFragment.newInstance(0, ""));
-        arr.add(HomeRepaymentFragment.newInstance(1, ""));
-        arr.add(HomeRepaymentFragment.newInstance(1, ""));
-        for (int i = 0; i < arr.size(); i++) {
+//        arr.add(HomeRepaymentFragment.newInstance(0, ""));
+//        arr.add(HomeRepaymentFragment.newInstance(1, ""));
+//        arr.add(HomeRepaymentFragment.newInstance(1, ""));
+        for (int i = 0; i < repaymentList.size(); i++) {
             ImageView imageView = new ImageView(getActivity());
             imageView.setBackgroundDrawable(getResources().getDrawable(i == 0 ? R.drawable.item_cursor_select : R.drawable.item_cursor_unselect));
             int dp = dip2px(getActivity(), 2);
@@ -273,6 +273,7 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
             layoutParams.setMargins(dp, dp, dp, dp);
             binding.llRepaymentCursor.addView(imageView, layoutParams);
             cursorImageView.add(imageView);
+            arr.add(HomeRepaymentFragment.newInstance(1, repaymentList.get(i)));
         }
         binding.vpRepayment.setAdapter(new FragmentPageAdapter(getChildFragmentManager(), arr, null));
         binding.vpRepayment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -306,6 +307,7 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
             public void onResult(Object o, String msg, int code) {
                 repaymentList.clear();
                 repaymentList.addAll((ArrayList<CardManageModel>) o);
+                initRepaymentAdater();
                 if (repaymentList.isEmpty() || repaymentList.size() <= 0) {
                     ToastUtils.showShort("暂无还款计划");
                 }
