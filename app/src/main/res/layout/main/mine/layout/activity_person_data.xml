@@ -6,6 +6,7 @@
     <data>
 
         <import type="com.itboye.cardmanage.R"/>
+
         <variable
                 name="viewModel"
                 type="com.itboye.cardmanage.ui.mine.PersonDataModel"/>
@@ -69,6 +70,8 @@
                     android:text="@={viewModel.nickName}"
                     android:textSize="@dimen/dp_12"
                     android:background="@null"
+                    android:maxLines="1"
+                    android:maxLength="16"
                     android:layout_marginLeft="@dimen/dp_12"
                     android:layout_marginRight="@dimen/dp_12"/>
         </LinearLayout>

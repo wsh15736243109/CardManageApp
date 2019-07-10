@@ -16,6 +16,7 @@ import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
+import com.itboye.cardmanage.util.TimeUtils;
 import com.itboye.cardmanage.widget.TimePickerFragment;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -58,7 +59,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
                 year = i;
                 month = getMonth(i1 + 1);
                 myTranslationRecord();
-            }, year, Integer.parseInt(month) - 1, -1);
+            }, year, Integer.parseInt(month), -1);
             newFragment.getDatePicker().setCalendarViewShown(false);
             newFragment.getDatePicker().setSpinnersShown(true);
             newFragment.setCanceledOnTouchOutside(false);
@@ -70,7 +71,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
     }
 
     private String getMonth(int month) {
-        return (month < 10 ? "0" + month : month + "");
+        return TimeUtils.parseTime(TimeUtils.getStrFormat(month + "", 2), "MM", "MM");
     }
 
     void myTranslationRecord() {

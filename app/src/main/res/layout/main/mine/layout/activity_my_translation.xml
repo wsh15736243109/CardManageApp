@@ -5,6 +5,7 @@
 
     <data>
 
+        <import type="android.text.Html"/>
         <variable
                 name="viewModel"
                 type="com.itboye.cardmanage.ui.mine.MyTranslationModel"/>
@@ -14,6 +15,7 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="match_parent">
+
         <com.itboye.cardmanage.widget.CommonTitleBar
                 app:title_text="交易记录"
                 android:layout_width="match_parent"
@@ -44,8 +46,9 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                        <LinearLayout
-                                android:background="@color/red"
+                        <com.itboye.cardmanage.widget.RatioLinearLayout
+                                app:ratio="2.4"
+                                android:background="@color/red_ff5f34"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
@@ -62,7 +65,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="结余"
                                         android:textColor="@color/white"
-                                        android:layout_margin="@dimen/dp_4"/>
+                                        android:layout_margin="13dp"/>
 
                                 <TextView
                                         android:layout_toRightOf="@+id/tv_user_name"
@@ -71,7 +74,7 @@
                                         android:textColor="@color/white"
                                         android:layout_margin="@dimen/dp_4"
                                         android:text="￥4800.00"
-                                        android:textSize="14sp"/>
+                                        android:textSize="@dimen/dp_25"/>
 
                                 <TextView
                                         android:id="@+id/tv_bill_date"
@@ -80,6 +83,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_alignParentRight="true"
                                         android:text="2019年6月账单"
+                                        android:textSize="13dp"
                                         android:padding="@dimen/dp_4"
                                         android:drawablePadding="@dimen/dp_4"
                                         android:layout_gravity="right"
@@ -94,7 +98,7 @@
                                 <TextView
                                         android:layout_width="0dp"
                                         android:layout_weight="1"
-                                        android:text="@={viewModel.handingFee}"
+                                        android:text="@{Html.fromHtml(viewModel.handingFee)}"
                                         android:gravity="center"
                                         android:layout_height="wrap_content"
                                         android:layout_margin="10dp"
@@ -111,12 +115,12 @@
                                         android:textColor="@color/white"
                                         android:textSize="14sp"/>
                             </LinearLayout>
-                        </LinearLayout>
+                        </com.itboye.cardmanage.widget.RatioLinearLayout>
                         <!--<ImageView-->
-                                <!--android:id="@+id/one_drive_icon_sign"-->
-                                <!--android:src="@{viewModel.icon}"-->
-                                <!--android:layout_width="30dp"-->
-                                <!--android:layout_height="wrap_content" />-->
+                        <!--android:id="@+id/one_drive_icon_sign"-->
+                        <!--android:src="@{viewModel.icon}"-->
+                        <!--android:layout_width="30dp"-->
+                        <!--android:layout_height="wrap_content" />-->
                     </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView

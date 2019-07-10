@@ -3,9 +3,11 @@ package com.itboye.cardmanage.ui.fragment;
 import android.app.Application;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.bean.UserAuthDetailBean;
 import com.itboye.cardmanage.config.Global;
@@ -29,6 +31,9 @@ public class MineFragmentModel extends BaseViewModel {
     public ObservableField<String> headUrl = new ObservableField<>(UserUtil.getUserInfo().getAvatar());
     public ObservableField<String> authStatus = new ObservableField<>("未认证");
     public ObservableField<Drawable> vipRes = new ObservableField<>();
+    public ObservableField<Drawable> authRes = new ObservableField<>();
+    public ObservableField<Drawable> authLeftRes = new ObservableField<>();
+    public ObservableField<Integer> authColor = new ObservableField<>();
 
     public MineFragmentModel(@NonNull Application application) {
         super(application);
@@ -38,12 +43,10 @@ public class MineFragmentModel extends BaseViewModel {
 
     public void initAuthStatus() {
         if (UserUtil.getUserInfo() != null) {
-            authStatus.set(UserUtil.getUserInfo().getId_validate() == 1 ? "已认证" : "未认证");
+            setAuth(UserUtil.getUserInfo().getId_validate());
             nickname.set(UserUtil.getUserInfo().getNickname());
             mobile.set(UserUtil.getUserInfo().getMobile());
-            headUrl.set(UserUtil.getUserInfo().getAvatar().isEmpty() ? "xxxx" : UserUtil.getUserInfo().getAvatar());
-//            headUrl.set("https://www.baidu.com/img/superlogo_c4d7df0a003d3db9b65e9ef0fe6da1ec.png?where=super");
-            KLog.v("头像地址===" + headUrl.get());
+            headUrl.set(UserUtil.getUserInfo().getAvatar());
             if (UserUtil.getUserInfo().getGrade_id().equals("1")) {
                 //普通会员ic_vip_normal
                 vipRes.set(getApplication().getResources().getDrawable(R.drawable.ic_vip_normal));
@@ -52,7 +55,24 @@ public class MineFragmentModel extends BaseViewModel {
                 vipRes.set(getApplication().getResources().getDrawable(R.drawable.ic_vip));
             }
         } else {
-            authStatus.set("未认证");
+            setAuth(0);
+        }
+    }
+
+    private void setAuth(int value) {
+        switch (value) {
+            case 0:
+                authRes.set(getApplication().getResources().getDrawable(R.drawable.rect_bg_none_border_red));
+                authLeftRes.set(getApplication().getResources().getDrawable(R.drawable.ic_mine_unauth));
+                authStatus.set("未认证");
+                authColor.set(ContextCompat.getColor(getApplication(), R.color.red));
+                break;
+            case 1:
+                authRes.set(getApplication().getResources().getDrawable(R.drawable.rect_bg_none_border_yellow));
+                authLeftRes.set(getApplication().getResources().getDrawable(R.drawable.ic_verified));
+                authStatus.set("已认证");
+                authColor.set(ContextCompat.getColor(getApplication(), R.color.yellow_E8AB27));
+                break;
         }
     }
 

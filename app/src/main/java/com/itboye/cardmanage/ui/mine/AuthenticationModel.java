@@ -513,7 +513,7 @@ public class AuthenticationModel extends BaseViewModel {
                             status = INIT;
                             bodyVisible.set(View.VISIBLE);
                             labelAuthStatusVisible.set(View.GONE);
-                            buttonLabel.set("下一步");
+                            setCurrentItem();
                         }
                     }
 
@@ -524,8 +524,8 @@ public class AuthenticationModel extends BaseViewModel {
                             status = INIT;
                             bodyVisible.set(View.VISIBLE);
                             labelAuthStatusVisible.set(View.GONE);
-                            buttonLabel.set("下一步");
                             canOperate.set(true);
+                            setCurrentItem();
                         }
                     }
 

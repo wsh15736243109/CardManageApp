@@ -84,7 +84,7 @@ public class UserInfoBean implements Serializable {
     }
 
     public String getAvatar() {
-        return avatar;
+        return avatar.isEmpty() ? "xxx" : avatar;
     }
 
     public void setAvatar(String avatar) {
