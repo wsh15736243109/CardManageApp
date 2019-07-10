@@ -37,6 +37,7 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
     public void initData() {
         //查看认证资料 0
         viewModel.type = getIntent().getIntExtra("type", 0);
+        viewModel.page = getIntent().getIntExtra("page", 0);
         //添加认证 1
         //先查询认证状态
         viewModel.queryAuthStatus();

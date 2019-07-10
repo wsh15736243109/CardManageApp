@@ -84,6 +84,7 @@ public class MineFragment extends BaseLazyFragment<FragmentMineBinding, MineFrag
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).getUserAuthDetail();
+        viewModel.initAuthStatus();
     }
 
     @Override
@@ -113,12 +114,11 @@ public class MineFragment extends BaseLazyFragment<FragmentMineBinding, MineFrag
                 rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
                         .subscribe(aBoolean -> {
                             if (aBoolean) {
-                                viewModel.toAuthActivity();
+                                viewModel.getAuthInfo();
                             } else {
                                 ToastUtils.showShort("拍照权限被拒绝");
                             }
                         });
-                viewModel.uc.photo.set(false);
             }
 
         });

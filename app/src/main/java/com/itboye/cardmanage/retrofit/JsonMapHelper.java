@@ -82,13 +82,13 @@ public class JsonMapHelper {
             for (int i = 0; i < arg.length; i++) {
                 String[] va = arg[i].split("=");
                 String key = va[0];
-                KLog.v("Okhttp_R", "签名key====" + key);
+//                KLog.v("Okhttp_R", "签名key====" + key);
                 String value = "";
                 if (va.length >= 2) {
                     value = (va[1]);
                     value = URLDecoder.decode(value);
                 }
-                KLog.v("OkHttp_R", "签名value====" + value);
+//                KLog.v("OkHttp_R", "签名value====" + value);
                 hashMap.put(key, value);
                 try {
                     jsonObject.put(key, value);

@@ -98,16 +98,13 @@ public class RetrofitClient {
         } catch (Exception e) {
             KLog.e("Could not create http cache", e);
         }
-        HttpLoggingInterceptor logger = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override
-            public void log(String message) {
-                try {
-                    String text = URLDecoder.decode(message, "utf-8");
-                    Log.v(TAG, text);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                    Log.v(TAG, message);
-                }
+        HttpLoggingInterceptor logger = new HttpLoggingInterceptor(message -> {
+            try {
+                String text = URLDecoder.decode(message, "utf-8");
+                Log.v(TAG, text);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                Log.v(TAG, message);
             }
         });
         logger.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -153,7 +150,7 @@ public class RetrofitClient {
                         String json = json1.toString();
                         Log.v(TAG,"sign====" + (time + "_" + client_secret + "_" + serviceType + "_" + serviceVersion + "_" + json));
                         String sign = DataSignatureUtil.md5(time + "" + client_secret + "" + serviceType + "" + serviceVersion + "" + json);
-                        KLog.d("sign====" + (time + "_" + client_secret + "_" + serviceType + "_" + serviceVersion + "_" + json));
+//                        KLog.d("sign====" + (time + "_" + client_secret + "_" + serviceType + "_" + serviceVersion + "_" + json));
                         body = new FormBody.Builder()
                                 .add("app_type", "android")
                                 .add("app_version", "1.0.0")

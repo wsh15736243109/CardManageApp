@@ -51,33 +51,30 @@ public class CardDetailActivity extends BaseMVVMActivity<ActivityCardDetailBindi
                 showDate(4);
             }
         });
-        binding.titleBar.getTvRight().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //解除绑定
-                AppUtils.requestData(RetrofitClient.getInstance().create(API.class).unbindCard(viewModel.getDetailModel().getId(), "by_UserBankCard_unbind"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        showDialog("解绑中");
-                    }
-                }, new ApiDisposableObserver() {
-                    @Override
-                    public void onResult(Object o, String msg, int code) {
-                        ToastUtils.showShort("" + msg);
-                        finish();
-                    }
+        binding.titleBar.getTvRight().setOnClickListener(view -> {
+            //解除绑定
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).unbindCard(viewModel.getDetailModel().getId(), "by_UserBankCard_unbind"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
+                @Override
+                public void accept(Disposable disposable) {
+                    showDialog("解绑中");
+                }
+            }, new ApiDisposableObserver() {
+                @Override
+                public void onResult(Object o, String msg, int code) {
+                    ToastUtils.showShort("" + msg);
+                    finish();
+                }
 
-                    @Override
-                    public void onError(int code, String msg) {
+                @Override
+                public void onError(int code, String msg) {
 
-                    }
+                }
 
-                    @Override
-                    public void dialogDismiss() {
-                        dismissDialog();
-                    }
-                });
-            }
+                @Override
+                public void dialogDismiss() {
+                    dismissDialog();
+                }
+            });
         });
     }
 

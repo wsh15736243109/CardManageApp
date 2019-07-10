@@ -22,7 +22,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.itboye.cardmanage.config.Global.IMAGEURL;
 import static com.itboye.cardmanage.ui.mine.AuthenticationModel.Status.*;
 import static com.itboye.cardmanage.util.ImageCompress.compress;
 
@@ -68,6 +67,7 @@ public class AuthenticationModel extends BaseViewModel {
     public ObservableField<Integer> photo4 = new ObservableField<>(View.GONE);
 
     public ObservableField<Integer> bodyVisible = new ObservableField<>(View.GONE);
+    public ObservableField<Integer> authSuccess = new ObservableField<>(View.VISIBLE);
     public ObservableField<Integer> labelAuthStatusVisible = new ObservableField<>(View.GONE);
 
     public ObservableField<Drawable> status1 = new ObservableField<>();
@@ -98,11 +98,13 @@ public class AuthenticationModel extends BaseViewModel {
     public UserAuthDetailBean userAuthDetailBean = new UserAuthDetailBean();
     private int vertify;
 
+    public int page = 0;
+
     public AuthenticationModel(@NonNull Application application) {
         super(application);
         status1.set(application.getResources().getDrawable(R.drawable.ic_status));
-        status2.set(application.getResources().getDrawable(R.drawable.ic_status));
-        status3.set(application.getResources().getDrawable(R.drawable.ic_status));
+        status2.set(application.getResources().getDrawable(R.drawable.ic_status_gray));
+        status3.set(application.getResources().getDrawable(R.drawable.ic_status_gray));
     }
 
     public void next() {
@@ -117,15 +119,13 @@ public class AuthenticationModel extends BaseViewModel {
                 break;
             case AUTH_SUCCESS:
             case PHOTO_IDENTITY:
-                if (status == AUTH_SUCCESS) {
+                if (vertify == 1) {
 
                 } else {
-
-                    if (id_front_img_id == null || id_back_img_id == null) {
+                    if (id_front_img_id.isEmpty() || id_back_img_id.isEmpty()) {
                         ToastUtils.showShort("请先上传身份证正反面");
                         return;
                     }
-
                     if (realName.get().isEmpty()) {
                         ToastUtils.showShort("请输入姓名");
                         return;
@@ -155,10 +155,10 @@ public class AuthenticationModel extends BaseViewModel {
                 status = PHOTO_HAND_IDENTITY;
                 break;
             case PHOTO_HAND_IDENTITY:
-                if (status == AUTH_SUCCESS) {
+                if (vertify == 1) {
 
                 } else {
-                    if (id_hold_img_id == null) {
+                    if (id_hold_img_id.isEmpty()) {
                         ToastUtils.showShort("请先上传手持身份证正面照");
                         return;
                     }
@@ -173,10 +173,10 @@ public class AuthenticationModel extends BaseViewModel {
                 }
                 break;
             case PHOTO_CARD:
-                if (status == AUTH_SUCCESS) {
+                if (vertify == 1) {
 
                 } else {
-                    if (bank_img_id == null) {
+                    if (bank_img_id.isEmpty()) {
                         ToastUtils.showShort("请先上传银行卡正面照");
                         return;
                     }
@@ -333,28 +333,39 @@ public class AuthenticationModel extends BaseViewModel {
     }
 
     public void setThird() {
-        label.set("银行卡正面照");
         authCard.set(View.VISIBLE);
         photo3.set(View.GONE);
         photo4.set(View.VISIBLE);
+        photoIdentity.set(View.GONE);
+        photo1.set(View.GONE);
         if (vertify == 1) {
+            label.set("银行卡正面照");
             buttonLabel.set("返回首页");
+        } else {
+            label.set("银行卡正面照");
         }
         status2.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
+        status3.set(getApplication().getResources().getDrawable(R.drawable.ic_status));
     }
 
     public void setFirst() {
+        status1.set(getApplication().getResources().getDrawable(R.drawable.ic_status));
         photoIdentity.set(View.VISIBLE);
         authCard.set(View.GONE);
         photo1.set(View.VISIBLE);
         photo3.set(View.GONE);
-        label.set("请扫描身份证");
-        buttonLabel.set("下一步");
+        label.set("身份证照片");
+        if (vertify == 1) {
+            buttonLabel.set("下一页");
+        } else {
+            buttonLabel.set("下一步");
+        }
     }
 
     public void setSecond() {
         label.set("手持身份证正面照");
         status1.set(getApplication().getResources().getDrawable(R.drawable.ic_status_check));
+        status2.set(getApplication().getResources().getDrawable(R.drawable.ic_status));
         photoIdentity.set(View.GONE);
         authCard.set(View.GONE);
         photo1.set(View.GONE);
@@ -456,12 +467,19 @@ public class AuthenticationModel extends BaseViewModel {
                             labelAuthStatus.set("");
                             buttonLabel.set("下一页");
                             ToastUtils.showShort("认证已经成功");
+                            authSuccess.set(View.GONE);
                             //显示该用户的认证资料
                             ui.uiChange.set(!ui.uiChange.get());
 //                            iconAuthStatus.set(getApplication().getResources().getDrawable(R.drawable.ic_auth_success));
                             bodyVisible.set(View.VISIBLE);
                             labelAuthStatusVisible.set(View.VISIBLE);
-                            status = AUTH_SUCCESS;
+                            if (page == 0) {
+                                status = INIT;
+                            } else if (page == 1) {
+                                status = PHOTO_IDENTITY;
+                            } else if (page == 2) {
+                                status = PHOTO_HAND_IDENTITY;
+                            }
                             realName.set(userAuthDetailBean.getName());
                             idnumber.set(userAuthDetailBean.getId_no());
                             validityTime.set(userAuthDetailBean.getExpire_date());
@@ -478,6 +496,7 @@ public class AuthenticationModel extends BaseViewModel {
                             bankName.set(userAuthDetailBean.getOpening_bank());
                             branchBankName.set(userAuthDetailBean.getBranch_bank());
                             bankReservePhone.set(userAuthDetailBean.getMobile());
+                            setCurrentItem();
                         }
 //                        else if (userAuthDetailBean.getVerify() == -1) {
 ////                            //认证失败

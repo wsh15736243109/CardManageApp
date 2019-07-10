@@ -23,6 +23,7 @@ public class CardDetailModel extends BaseViewModel {
     public ObservableBoolean billDateCLick = new ObservableBoolean(false);
     public ObservableBoolean repaymentDateCLick = new ObservableBoolean(false);
     public ObservableBoolean validDateCLick = new ObservableBoolean(false);
+    public ObservableBoolean isCreditCard = new ObservableBoolean(false);
 
     public CardDetailModel(@NonNull Application application) {
         super(application);
@@ -39,6 +40,9 @@ public class CardDetailModel extends BaseViewModel {
 //        validDate.set(detailModel.getExpire_date());
         cardNo.set(detailModel.getCard_no());
         bankName.set(detailModel.getOpening_bank());
+        isCreditCard.set(detailModel.getCard_type() == 1);
+        singleLimit.set("50000");
+        oneDayLimit.set("50000");
     }
 
     public CardManageModel getDetailModel() {

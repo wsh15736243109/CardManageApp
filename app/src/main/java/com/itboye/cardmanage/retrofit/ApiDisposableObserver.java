@@ -43,7 +43,11 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
             DataResultException rError = (DataResultException) e.getCause();
             onError(rError.getCode(), rError.getMessage());
 //            if (rError.getCode() != -2) {
+            if (rError.getMessage().equalsIgnoreCase("not exists")) {//未认证
+
+            } else {
                 ToastUtils.showShort(rError.getMessage());
+            }
 //            }
             return;
         } else if (e instanceof ResponseThrowable) {

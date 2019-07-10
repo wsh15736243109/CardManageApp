@@ -26,7 +26,7 @@ public class CardManageItemAdapter extends BaseQuickAdapter<CardManageModel, Bas
     protected void convert(BaseViewHolder helper, CardManageModel item) {
         helper.setBackgroundRes(R.id.iv_card_manage_icon, getBankResource(0));
         helper.setText(R.id.tv_card_manage_bank, item.getBranch_bank());
-        helper.setText(R.id.tv_card_manage_type, "普通卡");
+        helper.setText(R.id.tv_card_manage_type, item.getCard_type() == 1 ? "信用卡" : "储蓄卡");
         helper.setText(R.id.item_card_manage_master, item.getMaster() == 0 ? "设为主卡" : "主卡");
         helper.setText(R.id.tv_card_manage_no, item.getCard_no());
         helper.addOnClickListener(R.id.cl_root);

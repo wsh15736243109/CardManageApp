@@ -14,12 +14,17 @@ import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.bean.PayWaybean;
 import com.itboye.cardmanage.databinding.ActivityReceiveMoneyBinding;
 import com.itboye.cardmanage.model.CardManageModel;
+import com.itboye.cardmanage.retrofit.API;
+import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
+import com.itboye.cardmanage.retrofit.AppUtils;
+import com.itboye.cardmanage.retrofit.RetrofitClient;
 import com.itboye.cardmanage.util.TimeUtils;
 import io.reactivex.disposables.Disposable;
 import me.goldze.mvvmhabit.bus.RxBus;
 import me.goldze.mvvmhabit.bus.RxSubscriptions;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyBinding, ReceiveMoneyModel> {
 
@@ -42,6 +47,7 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
     public void initData() {
         //获取支付通道
         viewModel.getPayWay();
+        getMasterArrivalCard();
         mSubscription = RxBus.getDefault().toObservable(CardManageModel.class)
                 .subscribe(s -> {
                     if (s.getChooseType().equals("1")) {
@@ -86,6 +92,33 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
             Bundle bundle = new Bundle();
             bundle.putSerializable("array", viewModel.payWaybeanArrayList);
             startActivity(FeiLvAboutActivity.class, bundle);
+        });
+    }
+
+    private void getMasterArrivalCard() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).cardList("2", "1", "10", "by_UserBankCard_query"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
+            @Override
+            public void onResult(Object o, String msg, int code) {
+                ArrayList<CardManageModel> ar = (ArrayList<CardManageModel>) o;
+                if (ar != null) {
+                    for (CardManageModel model : ar) {
+                        if (model.getMaster() == 1) {
+                            viewModel.withdraw_card_id = model.getId();//结算卡账户id
+                            binding.tvWithdrawCard.setText(model.getBranch_bank());//结算卡账户
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+            }
+
+            @Override
+            public void dialogDismiss() {
+                viewModel.dismissDialog();
+            }
         });
     }
 

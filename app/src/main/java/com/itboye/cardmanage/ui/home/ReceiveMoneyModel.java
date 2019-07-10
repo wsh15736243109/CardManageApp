@@ -89,6 +89,9 @@ public class ReceiveMoneyModel extends BaseViewModel {
     }
 
     public void choosePayCard(int index) {
+        if (!withdraw_card_id.isEmpty() && index == 1) {//已经获取到到账结算卡就不用去选择了
+            return;
+        }
         //选择支付卡
         Bundle bundle = new Bundle();
         bundle.putInt("index", index);

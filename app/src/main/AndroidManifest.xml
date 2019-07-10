@@ -63,6 +63,8 @@
         </activity>
         <activity android:name=".ui.home.FeiLvAboutActivity">
         </activity>
+        <activity android:name=".ui.mine.AuthDataOpenActivity">
+        </activity>
     </application>
 
 </manifest>
