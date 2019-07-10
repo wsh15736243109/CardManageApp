@@ -110,26 +110,6 @@ public class RepaymentDetailModel extends BaseViewModel {
     }
 
     public void restartCbPlan() {
-        if (amount.get().isEmpty()) {
-            ToastUtils.showShort("请填写预算金额");
-            return;
-        }
-        if (days.get().isEmpty()) {
-            ToastUtils.showShort("请填写还款周期");
-            return;
-        }
-        if (feeValue == null) {
-            ToastUtils.showShort("手续费获取失败，请稍后再试");
-            return;
-        }
-        if (creditCardIds == null) {
-            ToastUtils.showShort("请选择还款计划卡");
-            return;
-        }
-        if (preStoreCardIds == null) {
-            ToastUtils.showShort("请选择预存资金卡");
-            return;
-        }
         //重启计划
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).restartCbPlan(id, "by_CbPlan_reboot"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
