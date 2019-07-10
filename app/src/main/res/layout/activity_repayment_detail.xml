@@ -47,19 +47,18 @@
 
                         <TextView
                                 android:layout_width="wrap_content"
-                                android:text="预算    ￥"
+                                android:text="预算 ￥"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/dp_16"
                                 android:layout_height="wrap_content"/>
 
                         <EditText
                                 android:id="@+id/et_amount"
-                                android:layout_marginLeft="@dimen/dp_6"
                                 android:layout_width="match_parent"
                                 android:hint="请输入您的预算"
                                 android:inputType="numberDecimal"
                                 android:textSize="@dimen/dp_16"
-                                android:focusable="@{viewModel.type}"
+                                android:enabled="@{viewModel.type}"
                                 android:text="@={viewModel.amount}"
                                 android:textColor="@color/white"
                                 android:textColorHint="@color/white"
@@ -82,7 +81,7 @@
                                 android:id="@+id/et_days"
                                 android:layout_marginLeft="@dimen/dp_6"
                                 android:layout_width="match_parent"
-                                android:focusable="@{viewModel.type}"
+                                android:enabled="@{viewModel.type}"
                                 android:hint="请输入您的还款周期"
                                 android:inputType="number"
                                 android:textColor="@color/white"

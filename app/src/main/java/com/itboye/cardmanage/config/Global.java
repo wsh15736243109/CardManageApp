@@ -13,8 +13,10 @@ public class Global {
     public static final String UPDATE_VIP = "";//升级VIP
     public static final String OPERATE_HELP = "#/operationProcess";//操作流程
     public static String HEAD = "http://";
-    public static String HOST = "api.361fit.cn";
-    public static String WEB_HOST = "admin.361fit.cn";
+    //    public static String HOST = "api.361fit.cn";//测试环境
+    public static String HOST = "api.byg577.com";//正式环境
+    //    public static String WEB_HOST = "admin.361fit.cn";
+    public static String WEB_HOST = "admin.byg577.com";
 
     public static String COUNTRY_NO = "86";
     public static String BASEURL = HEAD + HOST + "/";

@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.retrofit;
 
 
+import com.google.gson.JsonSyntaxException;
 import io.reactivex.observers.DisposableObserver;
 import me.goldze.mvvmhabit.http.NetworkUtil;
 import me.goldze.mvvmhabit.http.ResponseThrowable;
@@ -58,6 +59,10 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
             }
             if (rError.getCause() instanceof UnknownHostException) {
                 ToastUtils.showShort("网络连接错误，请检查网络连接");
+                return;
+            }
+            if (rError.getCause() instanceof JsonSyntaxException) {
+                ToastUtils.showShort("数据解析失败");
                 return;
             }
             ToastUtils.showShort(rError.getMessage());
