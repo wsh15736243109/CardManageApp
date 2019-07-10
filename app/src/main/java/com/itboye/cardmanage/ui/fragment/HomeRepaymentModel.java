@@ -34,7 +34,7 @@ public class HomeRepaymentModel extends BaseViewModel {
         this.type2.set(View.INVISIBLE);
         no_plan_label_visible.set(typeValue == 0 ? View.VISIBLE : View.GONE);
         repayCreateTime.set("计划开始时间<br />" + (TimeUtils.timeFormat(model.getCreate_time() * 1000, "yyyy/MM/dd")));
-        repaidAmount.set("已还金额<br /><font color='red'>" + model.getMoney() / 100 + "</font>");
+        repaidAmount.set("已还金额<br /><font color='red'>" + model.getRepay_total_money() / 100 + "</font>");
         days.set("周期<br />" + model.getDays());
         remainDays.set("剩余" + (model.getDays() - model.getRepay_count() + "期"));
         repaymentStatus.set(typeValue == 0 ? "添加还款" : "查看计划");

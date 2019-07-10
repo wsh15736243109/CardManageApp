@@ -28,4 +28,16 @@ public class TimeUtils {
         }
         return time;
     }
+
+    public static long parseTime2Long(String time, String inPattern) {
+        SimpleDateFormat intFormat = new SimpleDateFormat(inPattern);
+        try {
+            long inMill = intFormat.parse(time).getTime();
+            return inMill;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }
