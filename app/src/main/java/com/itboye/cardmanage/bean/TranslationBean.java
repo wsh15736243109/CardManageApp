@@ -18,16 +18,52 @@ public class TranslationBean {
 
     private int id;
     private String order_code;
-    private int amount;
+    private double amount;
     private double sys_fee;
     private long create_time;
+    private long notify_time;
     private String note;
     private String order_type;
     private int notify_status;
     private int withdraw_status;
     private int suc_proc_status;
     private String _pay_card_no;
+    private String _card_no;
+    private String _card_name;
+    private int _status;
     private String _withdraw_card_no;
+
+    public long getNotify_time() {
+        return notify_time;
+    }
+
+    public void setNotify_time(long notify_time) {
+        this.notify_time = notify_time;
+    }
+
+    public String get_card_no() {
+        return _card_no;
+    }
+
+    public void set_card_no(String _card_no) {
+        this._card_no = _card_no;
+    }
+
+    public String get_card_name() {
+        return _card_name;
+    }
+
+    public int get_status() {
+        return _status;
+    }
+
+    public void set_status(int _status) {
+        this._status = _status;
+    }
+
+    public void set_card_name(String _card_name) {
+        this._card_name = _card_name;
+    }
 
     public int getId() {
         return id;
@@ -53,11 +89,11 @@ public class TranslationBean {
         this.sys_fee = sys_fee;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
