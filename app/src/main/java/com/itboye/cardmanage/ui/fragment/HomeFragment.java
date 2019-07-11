@@ -161,15 +161,15 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 
                             }
                             if (title.equalsIgnoreCase("交易记录")) {
-                                startActivity(MyTransactionActivity.class);
+                                bundle.putInt("type", 1);
+                                startActivity(MyTransactionActivity.class, bundle);
                             }
 
                         }
                     }
                 });
                 binding.rvTop.setAdapter(bannerAdapter);//顶部数据
-
-                BannerAdapter bannerAdapter2 = new BannerAdapter(bannerBean.getLend(), R.layout.item, new OnMyItemClickListener() {
+                BannerAdapter bannerAdapter2 = new BannerAdapter(bannerBean.getLend(), R.layout.item_xiaoejisu, new OnMyItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position, Object item) {
 
@@ -183,7 +183,7 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
                         startActivity(WebActivity.class, bundle);
                     }
                 });
-                binding.rvLoan.setAdapter(bannerAdapter2);//中部数据
+                binding.rvLoan.setAdapter(bannerAdapter2);//小额急速贷款
                 BannerAdapter bannerAdapter3 = new BannerAdapter(bannerBean.getApply_card(), R.layout.item_width, new OnMyItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position, Object item) {
@@ -199,7 +199,7 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
                         startActivity(WebActivity.class, bundle);
                     }
                 });
-                binding.rvMoreCard.setAdapter(bannerAdapter3); //底部数据
+                binding.rvMoreCard.setAdapter(bannerAdapter3); //乐享生活必备卡
                 //公告
                 setViewFliperItem();
                 //轮播图

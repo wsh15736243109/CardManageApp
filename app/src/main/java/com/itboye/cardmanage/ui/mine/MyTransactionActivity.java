@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.DatePicker;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.itboye.cardmanage.BR;
@@ -32,6 +33,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
     private MaterialDialog dialog;
     String month;
     int year;
+    int type;
     ArrayList<TranslationBean> ar = new ArrayList<>();
     private MyTranslationAdapter adapter;
 
@@ -47,6 +49,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
 
     @Override
     public void initData() {
+        type = getIntent().getIntExtra("type", 0);
         year = Calendar.getInstance().get(Calendar.YEAR);
         month = getMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
         binding.rvTranslation.setLayoutManager(new LinearLayoutManager(this));
@@ -67,6 +70,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
 //            MaterialDialog.Builder builder = MaterialDialogUtils.showDateDialog(this, "选择时间", "嗯嗯");
 //            dialog = builder.show();
         });
+        binding.llHead.setVisibility(type == 1 ? View.GONE : View.VISIBLE);
         myTranslationRecord();
     }
 

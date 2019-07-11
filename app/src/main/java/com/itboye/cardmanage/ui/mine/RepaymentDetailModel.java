@@ -64,7 +64,7 @@ public class RepaymentDetailModel extends BaseViewModel {
     public void save() {
         if (!type.get()) {//是查看账单详情
             Bundle bundle = new Bundle();
-//            bundle.putSerializable("", null);
+            bundle.putSerializable("type", 0);
             startActivity(MyTransactionActivity.class, bundle);
             return;
         }

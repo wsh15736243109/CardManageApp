@@ -20,26 +20,16 @@ public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, Base
     protected void convert(BaseViewHolder helper, TranslationBean item) {
         helper.setText(R.id.tv_translation_title, item.getNote());
         String content;
-        int withdraw_status = item.getWithdraw_status();
-        if (withdraw_status == 1) {
-            content = (item.getAmount() > 0 ? "<font color='#FF7E00'>+" : "<font color='#31B70E'>-") + item.getAmount() / 100 + "</font><br />手续费:" + "￥0";
-        } else {
-            content = (item.getAmount() > 0 ? "<font color='#FF7E00'>+" : "<font color='#31B70E'>-") + item.getAmount() / 100 + "</font><br />手续费:" + "￥0";
-//            content = "<font color='#31B70E'>" + (item.getAmount() > 0 ? "+" : "-") + item.getAmount() / 100 + "</font><br />到账失败";
-        }
-        //withdraw_status 提现状态 notify_status 支付状态 -1 是失败
-        if (item.getWithdraw_status() == -1) {//提现失败
-            helper.setText(R.id.tv_translation_status, Html.fromHtml("<font color='red'>交易失败</font>"));
-        } else {
+        content = (item.getAmount() > 0 ? "<font color='#FF7E00'>+" : "<font color='#31B70E'>-") + item.getAmount() + "</font>";
+        if (item.getSuc_proc_status() == 1) {//失败
             helper.setText(R.id.tv_translation_status, Html.fromHtml("交易成功"));
-        }
-        if (item.getNotify_status() == -1) {//支付失败
-
+            helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_shouru);
         } else {
-
+            helper.setText(R.id.tv_translation_status, Html.fromHtml("<font color='red'>交易失败</font>"));
+            helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_zhichu);
         }
         helper.setText(R.id.tv_translation_content, Html.fromHtml(content));
+        helper.setText(R.id.tv_translation_fee, Html.fromHtml("手续费:￥" + item.getSys_fee()));
         helper.setText(R.id.tv_translation_date, timeFormat(item.getCreate_time() * 1000, "yyy-MM-dd HH:mm:ss"));
-        helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_shouru);
     }
 }

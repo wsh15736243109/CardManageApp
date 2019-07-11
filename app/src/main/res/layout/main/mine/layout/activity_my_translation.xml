@@ -30,6 +30,7 @@
 
             <android.support.v4.widget.NestedScrollView
                     android:id="@+id/scroll_view"
+                    android:layout_marginTop="1dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never">
@@ -42,6 +43,7 @@
                     <!--part__1-->
 
                     <LinearLayout
+                            android:id="@+id/ll_head"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">

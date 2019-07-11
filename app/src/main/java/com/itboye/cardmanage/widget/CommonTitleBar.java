@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.util.SizeUtils;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 
 
 /**
@@ -198,57 +199,58 @@ public final class CommonTitleBar extends LinearLayout {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//        initSystemBar(true, background_color);
+
+        initSystemBar(true, background_color);
     }
 
     public void initSystemBar(Boolean isLight, int background_color) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            //LAYOUT_FULLSCREEN 、LAYOUT_STABLE：让应用的主体内容占用系统状态栏的空间；
-//            View decorView = getWindow().getDecorView();
-//            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-//            decorView.setSystemUiVisibility(option);
-//            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        isLight = isLightColor(background_color);
+        if (Build.VERSION.SDK_INT >= 23) {
             Window window = ((Activity) getContext()).getWindow();
             //取消设置透明状态栏,使 ContentView 内容不再覆盖状态栏
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             //设置状态栏颜色
-            window.setStatusBarColor(statusbar_bg);
+            window.setStatusBarColor(background_color);
 
 //            //状态栏颜色接近于白色，文字图标变成黑色
             View decor = window.getDecorView();
-            int ui = decor.getSystemUiVisibility();
-//            if (isLight) {
-            //light --> a|=b的意思就是把a和b按位或然后赋值给a,   按位或的意思就是先把a和b都换成2进制，然后用或操作，相当于a=a|b
-//            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-//            } else {
-//                //dark  --> &是位运算里面，与运算,  a&=b相当于 a = a&b,  ~非运算符
-            ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-//            }
-            decor.setSystemUiVisibility(ui);
+            if (isLight) {
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else {
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            }
+        }
+    }
+
+    public boolean isLightColor(int color) {
+        double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
+        if (darkness < 0.5) {
+            return true; // It's a light color
+        } else {
+            return false; // It's a dark color
         }
     }
 
     public void setStatusUI(boolean isLight) {
 
-        Window window = ((Activity) getContext()).getWindow();
-        //取消设置透明状态栏,使 ContentView 内容不再覆盖状态栏
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            //状态栏颜色接近于白色，文字图标变成黑色
-        View decor = window.getDecorView();
-        int ui = decor.getSystemUiVisibility();
-//        if (isLight) {
-//            //light --> a|=b的意思就是把a和b按位或然后赋值给a,   按位或的意思就是先把a和b都换成2进制，然后用或操作，相当于a=a|b
-//            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-//        } else {
-            //dark  --> &是位运算里面，与运算,  a&=b相当于 a = a&b,  ~非运算符
-            ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-//        }
-        decor.setSystemUiVisibility(ui);
+//        Window window = ((Activity) getContext()).getWindow();
+//        //取消设置透明状态栏,使 ContentView 内容不再覆盖状态栏
+//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+////            //状态栏颜色接近于白色，文字图标变成黑色
+//        View decor = window.getDecorView();
+//        int ui = decor.getSystemUiVisibility();
+////        if (isLight) {
+////            //light --> a|=b的意思就是把a和b按位或然后赋值给a,   按位或的意思就是先把a和b都换成2进制，然后用或操作，相当于a=a|b
+////            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+////        } else {
+//            //dark  --> &是位运算里面，与运算,  a&=b相当于 a = a&b,  ~非运算符
+//            ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+////        }
+//        decor.setSystemUiVisibility(ui);
     }
 
     private void setTitlebarHeight() {

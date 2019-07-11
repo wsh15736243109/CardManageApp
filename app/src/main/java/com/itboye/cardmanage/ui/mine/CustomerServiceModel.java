@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.ui.mine;
 
 import android.app.Application;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.itboye.cardmanage.interfaces.MineClickType;
 import me.goldze.mvvmhabit.base.BaseViewModel;
@@ -14,7 +15,9 @@ public class CustomerServiceModel extends BaseViewModel {
     public void goToAc(MineClickType mineClickType) {
         switch (mineClickType) {
             case MY_TRANSLATION:
-                startActivity(MyTransactionActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putInt("type", 1);
+                startActivity(MyTransactionActivity.class, bundle);
                 break;
             case REPAYMENT_PLAN:
                 startActivity(RepaymentPlanActivity.class);

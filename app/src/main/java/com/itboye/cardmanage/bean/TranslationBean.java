@@ -19,6 +19,7 @@ public class TranslationBean {
     private int id;
     private String order_code;
     private int amount;
+    private double sys_fee;
     private long create_time;
     private String note;
     private String order_type;
@@ -42,6 +43,14 @@ public class TranslationBean {
 
     public void setOrder_code(String order_code) {
         this.order_code = order_code;
+    }
+
+    public double getSys_fee() {
+        return sys_fee;
+    }
+
+    public void setSys_fee(double sys_fee) {
+        this.sys_fee = sys_fee;
     }
 
     public int getAmount() {

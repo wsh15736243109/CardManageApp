@@ -13,6 +13,8 @@ import com.itboye.cardmanage.bean.HomeBean;
 import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
 import com.itboye.cardmanage.model.CardManageModel;
 import com.itboye.cardmanage.util.GlideUtil;
+import com.itboye.cardmanage.util.SizeUtils;
+import com.itboye.cardmanage.widget.RatioImageView;
 
 import java.util.List;
 
@@ -33,9 +35,8 @@ public class BannerAdapter extends BaseQuickAdapter<HomeBean.ApplyCardBean, Base
 
         } else {
             try {
-
                 helper.setGone(R.id.tv_home_top, false);
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
 //        helper.setText(R.id.tv_home_top, Html.fromHtml(item.get() + "<br />"));

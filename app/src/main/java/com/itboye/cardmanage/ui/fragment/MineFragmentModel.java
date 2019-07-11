@@ -84,7 +84,8 @@ public class MineFragmentModel extends BaseViewModel {
         Bundle bundle = new Bundle();
         switch (mineClickType) {
             case MY_TRANSLATION:
-                startActivity(MyTransactionActivity.class);
+                bundle.putInt("type", 1);
+                startActivity(MyTransactionActivity.class, bundle);
                 break;
             case REPAYMENT_PLAN:
                 startActivity(RepaymentPlanActivity.class);

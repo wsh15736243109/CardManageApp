@@ -111,15 +111,14 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         binding.tvRestart.setVisibility(type == 1 ? View.VISIBLE : View.INVISIBLE);
         binding.tvRestart.setOnClickListener(view -> {
             //重启计划
-            showDialog(0, "<b>重启计划</b><br />重启后将在次日生效", R.drawable.ic_dialog_delete_bg, "确认重启");
+            showDialog(0, "<b>重启计划</b><br />重启后将在次日生效", R.drawable.ic_dialog_restart_bg, "确认重启");
+//            showDialog(0, "<b>还款正在计划中</b><br />不可重启", R.drawable.ic_dialog_delete_bg, "我知道了");
         });
     }
 
     private void showDialog(int type, String content, int res, String buttonRightLabel) {
         AlertDialog alertDialog = new AlertDialog.Builder(RepaymentDetailActivity.this, R.style.AlertDialogStyle).create();
         View view1 = View.inflate(RepaymentDetailActivity.this, R.layout.dialog_delete, null);
-//            ColorDrawable dw = new ColorDrawable(0x00000000);
-//            view1.setBackgroundDrawable(dw);
         TextView btn_cancel = view1.findViewById(R.id.btn_cancel);
         TextView btn_ok = view1.findViewById(R.id.btn_ok);
         TextView tv_content = view1.findViewById(R.id.tv_content);
@@ -138,6 +137,8 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                     break;
                 case 1://重启
                     restartCbPlan();
+                    break;
+                case 2://正在执行的计划不可重启
                     break;
             }
             alertDialog.dismiss();
