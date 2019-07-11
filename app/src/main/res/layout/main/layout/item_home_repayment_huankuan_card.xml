@@ -113,10 +113,12 @@
                 android:textSize="12dp"
                 android:textColor="@color/white"
                 android:layout_height="wrap_content"/>
+
         <TextView
                 android:id="@+id/tv_remain_days2"
                 android:layout_width="wrap_content"
                 android:text="@={viewModel.remainDays}"
+                android:visibility="@{viewModel.type}"
                 android:background="@drawable/shape_home_repayment"
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="11dp"

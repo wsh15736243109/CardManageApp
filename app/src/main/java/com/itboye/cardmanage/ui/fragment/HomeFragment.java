@@ -275,6 +275,11 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
             cursorImageView.add(imageView);
             arr.add(HomeRepaymentFragment.newInstance(1, repaymentList.get(i)));
         }
+        if (arr.size() <= 0) {
+            arr.add(HomeRepaymentFragment.newInstance(0, null));
+
+        }
+
         binding.vpRepayment.setAdapter(new FragmentPageAdapter(getChildFragmentManager(), arr, null));
         binding.vpRepayment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -309,7 +314,7 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
                 repaymentList.addAll((ArrayList<CardManageModel>) o);
                 initRepaymentAdater();
                 if (repaymentList.isEmpty() || repaymentList.size() <= 0) {
-                    ToastUtils.showShort("暂无还款计划");
+//                    ToastUtils.showShort("暂无还款计划");
                 }
             }
 

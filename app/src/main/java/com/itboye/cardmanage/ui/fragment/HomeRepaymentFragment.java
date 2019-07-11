@@ -72,7 +72,11 @@ public class HomeRepaymentFragment extends BaseLazyFragment<ItemHomeRepaymentHua
         binding.tvRemainDays2.setVisibility(View.VISIBLE);
         binding.tvRemainDays.setVisibility(View.INVISIBLE);
         viewModel.typeValue = getArguments().getInt(ARG_PARAM1);
-        viewModel.model = (CardManageModel)getArguments().getSerializable(ARG_PARAM2);
+        try {
+            viewModel.model = (CardManageModel)getArguments().getSerializable(ARG_PARAM2);
+        }catch (Exception e){
+
+        }
         viewModel.changeStatus();
     }
 
