@@ -32,6 +32,7 @@ public class RepaymentDetailModel extends BaseViewModel {
     public ObservableField<Integer> planType = new ObservableField<>(View.GONE);
     public double daysValue = 0;
     public ObservableField<String> yucun = new ObservableField<>("0.00<br />预存（元）");
+    public ObservableField<String> saveOrDetail = new ObservableField<>("保存");
     public double yucunValue = 0;
     public ObservableField<String> yuqihuankuanzonge = new ObservableField<>("0.00<br />预期还款总额（元）");
     public double yuqihuankuanzongeValue = 0;
@@ -61,6 +62,12 @@ public class RepaymentDetailModel extends BaseViewModel {
 
     //保存
     public void save() {
+        if (!type.get()) {//是查看账单详情
+            Bundle bundle = new Bundle();
+//            bundle.putSerializable("", null);
+            startActivity(MyTransactionActivity.class, bundle);
+            return;
+        }
         if (amount.get().isEmpty()) {
             ToastUtils.showShort("请填写预算金额");
             return;
@@ -109,26 +116,6 @@ public class RepaymentDetailModel extends BaseViewModel {
         });
     }
 
-    public void restartCbPlan() {
-        //重启计划
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).restartCbPlan(id, "by_CbPlan_reboot"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
-            @Override
-            public void onResult(Object o, String msg, int code) {
-                ToastUtils.showShort(msg);
-                finish();
-            }
-
-            @Override
-            public void onError(int code, String msg) {
-
-            }
-
-            @Override
-            public void dialogDismiss() {
-                dismissDialog();
-            }
-        });
-    }
 
     public void setRepaymentDetail(RepaymentDetailBean model) {
         amount.set(model.getMoney() / 100 + "");

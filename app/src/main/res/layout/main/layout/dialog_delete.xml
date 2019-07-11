@@ -10,6 +10,7 @@
             android:layout_height="wrap_content">
 
         <ImageView
+                android:id="@+id/iv_bg"
                 android:layout_width="match_parent"
                 android:src="@drawable/ic_dialog_delete_bg"
                 android:scaleType="centerCrop"

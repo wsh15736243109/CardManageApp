@@ -191,7 +191,7 @@
         </ScrollView>
 
         <com.itboye.cardmanage.widget.MyButton
-                android:text="保存"
+                android:text="@={viewModel.saveOrDetail}"
                 android:layout_gravity="right"
                 android:textColor="@color/white"
                 android:padding="@dimen/dp_10"
@@ -209,13 +209,12 @@
                 android:id="@+id/tv_save"/>
 
         <TextView
-                android:text="重启此计划"
+                android:text="重启此计划/暂停计划"
                 android:layout_gravity="right"
                 android:padding="@dimen/dp_10"
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:onClick="@{()->viewModel.restartCbPlan()}"
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginRight="@dimen/dp_12"

@@ -1,9 +1,12 @@
 package com.itboye.cardmanage.ui.home;
 
 import android.Manifest;
+import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import com.itboye.cardmanage.BR;
@@ -16,6 +19,8 @@ import com.itboye.cardmanage.util.GlideUtil;
 import com.itboye.cardmanage.widget.TimePickerFragment;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yancy.gallerypick.inter.IHandlerCallBack;
+import io.card.payment.CardIOActivity;
+import io.card.payment.CreditCard;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import java.util.*;
@@ -74,6 +79,52 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
                         });
             }
         });
+        binding.ivScan.setVisibility(View.GONE);
+        binding.ivScan.setOnClickListener(view -> {
+            RxPermissions rxPermissions = new RxPermissions(AddCardActivity.this);
+            rxPermissions.request(Manifest.permission.CAMERA)
+                    .subscribe(aBoolean -> {
+                        if (aBoolean) {
+                            scanCard();
+                        } else {
+                            ToastUtils.showShort("拍照权限被拒绝");
+                        }
+                    });
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (CardIOActivity.canReadCardWithCamera()) {
+            ToastUtils.showShort("Scan a credit card with card.io");
+        } else {
+            ToastUtils.showShort("Enter credit card information");
+        }
+    }
+
+    private void scanCard() {
+        Intent scanIntent = new Intent(AddCardActivity.this, CardIOActivity.class);
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, false)
+                .putExtra(CardIOActivity.EXTRA_REQUIRE_POSTAL_CODE, false)
+                .putExtra(CardIOActivity.EXTRA_HIDE_CARDIO_LOGO, true)//去除水印
+                .putExtra(CardIOActivity.EXTRA_SUPPRESS_MANUAL_ENTRY, true)//去除键盘
+                .putExtra(CardIOActivity.EXTRA_LANGUAGE_OR_LOCALE, "zh-Hans")//设置提示为中文
+                .putExtra("debug_autoAcceptResult", true);
+
+        startActivityForResult(scanIntent, 101);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if ((requestCode == 101) && data != null
+                && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
+            CreditCard result = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
+            if (result != null) {
+                ToastUtils.showShort("Card number: " + result.cardNumber);
+            }
+        }
     }
 
     //选择图片

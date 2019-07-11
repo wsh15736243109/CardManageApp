@@ -69,6 +69,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
             setRepaymentDetail();
         }
         viewModel.planType.set(type == 0 ? View.VISIBLE : View.GONE);
+        viewModel.saveOrDetail.set(type == 0 ? "保存" : "账单详情");
         viewModel.type.set(type == 0);
         registerRx();
         binding.etAmount.addTextChangedListener(new TextWatcher() {
@@ -105,40 +106,81 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         });
         binding.titleBar.getTvRight().setOnClickListener(view -> {
             //删除计划
-            AlertDialog alertDialog = new AlertDialog.Builder(RepaymentDetailActivity.this, R.style.AlertDialogStyle).create();
-            View view1 = View.inflate(RepaymentDetailActivity.this, R.layout.dialog_delete, null);
-//            ColorDrawable dw = new ColorDrawable(0x00000000);
-//            view1.setBackgroundDrawable(dw);
-            TextView btn_cancel = view1.findViewById(R.id.btn_cancel);
-            TextView btn_ok = view1.findViewById(R.id.btn_ok);
-            TextView tv_content = view1.findViewById(R.id.tv_content);
-            ImageView iv_close = view1.findViewById(R.id.iv_close);
-            tv_content.setText(Html.fromHtml("<b>删除计划</b><br />删除后将在次日生效"));
-            alertDialog.setView(view1);
-            btn_cancel.setOnClickListener(view2 -> alertDialog.dismiss());
-            btn_ok.setOnClickListener(view22 -> {
-                deletePlan();
-                alertDialog.dismiss();
-            });
-            iv_close.setOnClickListener(view22 -> alertDialog.dismiss());
-            alertDialog.show();
-
-            //这种设置宽高的方式也是好使的！！！-- show 前调用，show 后调用都可以！！！
-            view1.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-                int height = v.getHeight();     //此处的view 和v 其实是同一个控件
-                int contentHeight = view1.getHeight();
-                int needHeight = (int) (SizeUtils.getScreenHeight(getApplicationContext()) / 2.5);
-                int width = SizeUtils.getScreenWidth(getApplicationContext()) / 2;
-
-//                if (contentHeight > needHeight) {
-                //注意：这里的 LayoutParams 必须是 FrameLayout的！！
-                view1.setLayoutParams(new FrameLayout.LayoutParams(width,
-                        needHeight));
-//                }
-            });
+            showDialog(0, "<b>删除计划</b><br />删除后将在次日生效", R.drawable.ic_dialog_delete_bg, "确定");
         });
         binding.tvRestart.setVisibility(type == 1 ? View.VISIBLE : View.INVISIBLE);
+        binding.tvRestart.setOnClickListener(view -> {
+            //重启计划
+            showDialog(0, "<b>重启计划</b><br />重启后将在次日生效", R.drawable.ic_dialog_delete_bg, "确认重启");
+        });
     }
+
+    private void showDialog(int type, String content, int res, String buttonRightLabel) {
+        AlertDialog alertDialog = new AlertDialog.Builder(RepaymentDetailActivity.this, R.style.AlertDialogStyle).create();
+        View view1 = View.inflate(RepaymentDetailActivity.this, R.layout.dialog_delete, null);
+//            ColorDrawable dw = new ColorDrawable(0x00000000);
+//            view1.setBackgroundDrawable(dw);
+        TextView btn_cancel = view1.findViewById(R.id.btn_cancel);
+        TextView btn_ok = view1.findViewById(R.id.btn_ok);
+        TextView tv_content = view1.findViewById(R.id.tv_content);
+        ImageView iv_close = view1.findViewById(R.id.iv_close);
+        ImageView iv_bg = view1.findViewById(R.id.iv_bg);
+        tv_content.setText(Html.fromHtml(content));
+        btn_ok.setText(Html.fromHtml(buttonRightLabel));
+        iv_bg.setBackgroundResource(res);
+        alertDialog.setView(view1);
+        btn_cancel.setVisibility(type == 0 ? View.VISIBLE : View.GONE);
+        btn_cancel.setOnClickListener(view2 -> alertDialog.dismiss());
+        btn_ok.setOnClickListener(view22 -> {
+            switch (type) {
+                case 0://删除
+                    deletePlan();
+                    break;
+                case 1://重启
+                    restartCbPlan();
+                    break;
+            }
+            alertDialog.dismiss();
+        });
+        iv_close.setOnClickListener(view22 -> alertDialog.dismiss());
+        alertDialog.show();
+
+        //这种设置宽高的方式也是好使的！！！-- show 前调用，show 后调用都可以！！！
+        view1.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+            int height = v.getHeight();     //此处的view 和v 其实是同一个控件
+            int contentHeight = view1.getHeight();
+            int needHeight = (int) (SizeUtils.getScreenHeight(getApplicationContext()) / 2.5);
+            int width = SizeUtils.getScreenWidth(getApplicationContext()) / 2;
+
+//                if (contentHeight > needHeight) {
+            //注意：这里的 LayoutParams 必须是 FrameLayout的！！
+            view1.setLayoutParams(new FrameLayout.LayoutParams(width,
+                    needHeight));
+//                }
+        });
+    }
+
+    public void restartCbPlan() {
+        //重启计划
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).restartCbPlan(viewModel.id, "by_CbPlan_reboot"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
+            @Override
+            public void onResult(Object o, String msg, int code) {
+                ToastUtils.showShort(msg);
+                finish();
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
+            }
+
+            @Override
+            public void dialogDismiss() {
+                viewModel.dismissDialog();
+            }
+        });
+    }
+
 
     private void setRepaymentDetail() {
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).queryPlanInfo(viewModel.id, "by_CbPlan_info"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {

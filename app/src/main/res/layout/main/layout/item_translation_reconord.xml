@@ -45,12 +45,20 @@
                 android:layout_width="wrap_content"
                 android:text=""
                 app:layout_constraintTop_toBottomOf="@+id/tv_translation_title"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_translation_icon"
                 app:layout_constraintLeft_toLeftOf="@+id/tv_translation_title"
                 android:textSize="12dp"
-                android:layout_marginTop="@dimen/dp_6"
                 android:layout_height="wrap_content"/>
-
+        <TextView
+                android:id="@+id/tv_translation_status"
+                android:layout_width="wrap_content"
+                android:text=""
+                app:layout_constraintLeft_toRightOf="@+id/iv_translation_icon"
+                app:layout_constraintTop_toBottomOf="@+id/tv_translation_date"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_translation_icon"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:textSize="12dp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"/>
 
         <TextView
                 android:id="@+id/tv_translation_content"

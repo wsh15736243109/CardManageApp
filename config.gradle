@@ -3,7 +3,7 @@ ext {
     android = [
             applicationId:"com.itboye.cardmanage",
             compileSdkVersion: 28,
-            minSdkVersion    : 15,
+            minSdkVersion    : 16,
             targetSdkVersion : 28,
             versionCode      : 1,
             versionName      : "1.0.0",
