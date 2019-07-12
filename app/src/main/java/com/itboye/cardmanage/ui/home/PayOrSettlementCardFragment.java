@@ -101,10 +101,10 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
 
     @Override
     public void initData() {
-        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_shape_10);
-        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-        decoration.setDrawable(drawable);
-        binding.recyclerView.addItemDecoration(decoration);
+//        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_shape_10);
+//        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+//        decoration.setDrawable(drawable);
+//        binding.recyclerView.addItemDecoration(decoration);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         viewModel.adapter = new CardManageItemAdapter(viewModel.observableList, new OnMyItemClickListener() {
             @Override
@@ -138,7 +138,6 @@ public class PayOrSettlementCardFragment extends BaseLazyFragment<FragmentPayOrS
 
                             @Override
                             public void onError(int code, String msg) {
-                                ToastUtils.showShort(msg);
 
                             }
 

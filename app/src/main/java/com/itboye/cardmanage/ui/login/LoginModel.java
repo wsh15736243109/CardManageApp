@@ -24,15 +24,13 @@ import static com.itboye.cardmanage.config.Global.COUNTRY_NO;
 public class LoginModel extends BaseViewModel {
 
     //用户名的绑定
-    public ObservableField<String> userName = new ObservableField<>("15736243111");
-    public ObservableField<String> userPassword = new ObservableField<>("12345678");
+    public ObservableField<String> userName = new ObservableField<>("18329042860");
+    public ObservableField<String> userPassword = new ObservableField<>("123456789");
     public ObservableField<String> confirm_userPassword = new ObservableField<>();
     public ObservableField<String> userYzm = new ObservableField<>();
     public ObservableField<String> loginType = new ObservableField<>("密码登录>>");
     public ObservableField<String> getOperateType = new ObservableField<>("登录");
     public ObservableField<String> registerLabel = new ObservableField<>("赶紧登录吧");
-    public ObservableField<Integer> res = new ObservableField<>();
-    public ObservableField<String> resD = new ObservableField<>("https://www.baidu.com/img/dong_96c3c31cae66e61ed02644d732fcd5f8.gif");
     public ObservableInt rlLoginYzm = new ObservableInt(View.VISIBLE);
     public ObservableInt rlLoginPsd = new ObservableInt(View.GONE);
     public ObservableInt rlLoginConfirmPsd = new ObservableInt(View.GONE);
@@ -41,8 +39,6 @@ public class LoginModel extends BaseViewModel {
 
     public LoginModel(@NonNull Application application) {
         super(application);
-        res.set(R.mipmap.test);
-        resD.set("https://www.baidu.com/img/dong_96c3c31cae66e61ed02644d732fcd5f8.gif");
     }
 
     //登录或注册按钮

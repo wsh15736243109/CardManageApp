@@ -19,6 +19,7 @@ import okhttp3.RequestBody;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import static com.itboye.cardmanage.util.ImageCompress.compress;
 
@@ -39,6 +40,7 @@ public class AddCardModel extends BaseViewModel {
     public ObservableInt cardZhiFuKa = new ObservableInt(View.GONE);//支付卡
     public String branchNo = "";
     public int index = 0;
+    public ObservableField<String> branchBankNo = new ObservableField<>();
 
     String bank_card_id = "";
     public ArrayList<BranchBankBean> branchBankBeanArrayList = new ArrayList<>();
@@ -112,7 +114,7 @@ public class AddCardModel extends BaseViewModel {
             });
         } else if (index == 1) {
             //添加结算卡
-            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addSettlementCard(cardNumber.get(), bankName.get(), reservedPhone.get(), bank_img_id, branchBankName.get(), "by_UserBankCard_bindBalanceCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).addSettlementCard(cardNumber.get(), bankName.get(), reservedPhone.get(), bank_img_id, branchBankName.get(), branchBankNo.get(), "by_UserBankCard_bindBalanceCard"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
                 @Override
                 public void onResult(Object o, String msg, int code) {
                     ToastUtils.showShort(msg);

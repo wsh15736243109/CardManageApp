@@ -22,6 +22,12 @@
             android:paddingTop="@dimen/dp_32"
             tools:context=".ui.login.LoginActivity">
 
+        <com.itboye.cardmanage.widget.CommonTitleBar
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                app:background_color="@color/white"
+                android:layout_height="wrap_content"/>
+
         <com.itboye.cardmanage.widget.roundImage.SWImageView
                 android:id="@+id/iv_lg_logo"
                 app:type="circle"

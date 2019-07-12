@@ -127,8 +127,8 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
         if (amount.isEmpty()) {
             return;
         }
-        if (Double.parseDouble(amount) <= 20) {
-            viewModel.arrivalAmount.set("收款金额要大于20元");
+        if (Double.parseDouble(amount) < 20) {
+            viewModel.arrivalAmount.set("收款金额不小于20元");
             return;
         }
         viewModel.arrivalAmount.set("到账金额：￥" + String.format("%.2f", Double.parseDouble(amount) * Double.parseDouble(fee) - Double.parseDouble(fixAmount)));

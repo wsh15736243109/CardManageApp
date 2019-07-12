@@ -96,11 +96,11 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
     @Override
     protected void onResume() {
         super.onResume();
-        if (CardIOActivity.canReadCardWithCamera()) {
-            ToastUtils.showShort("Scan a credit card with card.io");
-        } else {
-            ToastUtils.showShort("Enter credit card information");
-        }
+//        if (CardIOActivity.canReadCardWithCamera()) {
+//            ToastUtils.showShort("Scan a credit card with card.io");
+//        } else {
+//            ToastUtils.showShort("Enter credit card information");
+//        }
     }
 
     private void scanCard() {
@@ -204,6 +204,7 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             viewModel.branchNo = branchBankBeanArrayList.get(i).getPaysysbank();
             viewModel.branchBankName.set(branchBankBeanArrayList.get(i).getName());
+            viewModel.branchBankNo.set(branchBankBeanArrayList.get(i).getId());
             alert.dismiss();
         });
         alert.show();

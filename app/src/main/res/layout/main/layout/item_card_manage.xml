@@ -3,13 +3,15 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@drawable/bank_nongye"
         android:id="@+id/cl_root"
         android:layout_margin="@dimen/dp_12"
         android:padding="@dimen/dp_12">
 
-    <ImageView
+    <com.itboye.cardmanage.widget.roundImage.SWImageView
             android:id="@+id/iv_card_manage_icon"
+            app:type="circle"
             android:layout_width="36dp"
             android:layout_height="36dp"/>
 

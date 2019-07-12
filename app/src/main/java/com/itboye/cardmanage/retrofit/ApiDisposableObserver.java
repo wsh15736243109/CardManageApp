@@ -1,8 +1,10 @@
 package com.itboye.cardmanage.retrofit;
 
 
+import android.util.Log;
 import com.google.gson.JsonSyntaxException;
 import io.reactivex.observers.DisposableObserver;
+import me.goldze.mvvmhabit.bus.RxBus;
 import me.goldze.mvvmhabit.http.NetworkUtil;
 import me.goldze.mvvmhabit.http.ResponseThrowable;
 import me.goldze.mvvmhabit.utils.KLog;
@@ -44,6 +46,12 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
             DataResultException rError = (DataResultException) e.getCause();
             onError(rError.getCode(), rError.getMessage());
 //            if (rError.getCode() != -2) {
+            if (rError.getCode() == 1111) {
+                //需要重新登录
+                RxBus.getDefault().post(1111);
+                ToastUtils.showShort("登录已过期，请重新登录");
+                return;
+            }
             if (rError.getMessage().equalsIgnoreCase("not exists")) {//未认证
 
             } else {

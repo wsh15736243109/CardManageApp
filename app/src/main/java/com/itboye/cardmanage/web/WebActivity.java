@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.web;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -32,7 +33,7 @@ public class WebActivity extends BaseMVVMActivity<ActivityWebBinding, WebModel> 
         setTitle(getIntent().getStringExtra("title"));
         url = getIntent().getStringExtra("url");
         binding.webView.loadUrl(getIntent().getStringExtra("url"));
-        KLog.v(TAG, "网页地址==" + url);
+        Log.v(TAG, "网页地址==" + url);
         binding.webView.setWebViewClient(new WebViewClient());
         binding.webView.setWebChromeClient(new WebChromeClient() {
             @Override

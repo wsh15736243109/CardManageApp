@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
@@ -15,6 +16,7 @@ import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
 import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
+import com.itboye.cardmanage.ui.SplashActivity;
 import com.itboye.cardmanage.ui.fragment.CardFragment;
 import com.itboye.cardmanage.ui.fragment.HomeFragment;
 import com.itboye.cardmanage.ui.fragment.LoanFragment;
@@ -113,20 +115,23 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).queryAuthInfo(
                 UserUtil.getUserInfo() == null ? "" : UserUtil.getUserInfo().getId() + "",
                 "by_UserIdCard_info"),
-                viewModel.getLifecycleProvider(), disposable ->{}, /*viewModel.showDialog(),*/
+                viewModel.getLifecycleProvider(), disposable -> {
+                }, /*viewModel.showDialog(),*/
 
                 new ApiDisposableObserver() {
                     @Override
                     public void onResult(Object o, String msg, int code) {
                         UserAuthDetailBean user = (UserAuthDetailBean) o;
                         UserInfoBean userInfoBean = UserUtil.getUserInfo();
-                        userInfoBean.setId_validate(user.getVerify());
-                        userInfoBean.setName(user.getName());
-                        userInfoBean.setId_no(user.getId_no());
-                        UserUtil.saveUser(userInfoBean);
-                        viewModel.setAuthStatus();//MainActivity的认证状态
-                        //我的页面认证状态
-                        ((MineFragment) getSupportFragmentManager().getFragments().get(3)).viewModel.initAuthStatus();
+                        if (user != null && userInfoBean != null) {
+                            userInfoBean.setId_validate(user.getVerify());
+                            userInfoBean.setName(user.getName());
+                            userInfoBean.setId_no(user.getId_no());
+                            UserUtil.saveUser(userInfoBean);
+                            viewModel.setAuthStatus();//MainActivity的认证状态
+                            //我的页面认证状态
+                            ((MineFragment) getSupportFragmentManager().getFragments().get(3)).viewModel.initAuthStatus();
+                        }
                     }
 
                     @Override
@@ -140,9 +145,24 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainMode
                 });
     }
 
+    boolean isAr = false;
+
     private void registerRxBus() {
         mSubscription = RxBus.getDefault().toObservable(Integer.class)
-                .subscribe(s -> navigationController.setSelect(s));
+                .subscribe(s -> {
+                    if (s == 1111) {
+                        RxBus.getDefault().removeAllStickyEvents();
+                        if (!isAr) {
+                            Log.e("", "登录过期------");
+                            UserUtil.clearUserInfo();//重新登录
+                            startAc(SplashActivity.class);
+                            isAr = true;
+                            finish();
+                        }
+                        return;
+                    }
+                    navigationController.setSelect(s);
+                });
         //将订阅者加入管理站
         RxSubscriptions.add(mSubscription);
     }

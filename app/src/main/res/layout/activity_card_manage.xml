@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -11,21 +11,22 @@
     <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             tools:context=".ui.home.CardManageActivity">
 
-        <!--<com.itboye.cardmanage.widget.CommonTitleBar-->
-        <!--app:title_text="卡片管理"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"/>-->
+        <com.itboye.cardmanage.widget.CommonTitleBar
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                app:background_color="@color/white"
+                android:layout_height="wrap_content"/>
 
         <RelativeLayout
                 android:id="@+id/re_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:padding="@dimen/dp_10">
 
             <ImageView
@@ -80,13 +81,14 @@
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_below="@+id/re_title"
+                android:layout_above="@+id/bt_add_repayment"
                 android:layout_height="match_parent"/>
 
 
         <Button
                 android:id="@+id/bt_add_repayment"
                 android:layout_width="match_parent"
-                android:text="+添加卡"
+                android:text="@={viewModel.addCardLabel}"
                 android:background="@drawable/shape_dotted_strok_radius_0"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="@dimen/dp_12"

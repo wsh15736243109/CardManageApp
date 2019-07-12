@@ -207,7 +207,7 @@ public interface API {
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
-    Observable<BaseResponse<CardManageModel>> addSettlementCard(@Field("card_no") String card_no, @Field("bank_name") String bank_name, @Field("mobile") String mobile, @Field("bank_img") String bank_img, @Field("branch_name") String branch_name, @Field("service_type") String serviceType);
+    Observable<BaseResponse<CardManageModel>> addSettlementCard(@Field("card_no") String card_no, @Field("bank_name") String bank_name, @Field("mobile") String mobile, @Field("bank_img") String bank_img, @Field("branch_name") String branch_name, @Field("branch_no") String branch_no, @Field("service_type") String serviceType);
 
     /**
      * 添加支付卡

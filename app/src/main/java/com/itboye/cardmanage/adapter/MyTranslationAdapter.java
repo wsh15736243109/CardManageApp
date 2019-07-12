@@ -22,19 +22,32 @@ public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, Base
         double amount = item.getAmount();
         if (amount <= 0) {
             helper.setText(R.id.tv_translation_title, item.get_card_name() + "(" + item.get_card_no() + ")支出");
+            helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_zhichu);
         } else {
             helper.setText(R.id.tv_translation_title, item.get_card_name() + "(" + item.get_card_no() + ")收入");
+            helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_shouru);
         }
         String content;
         content = (item.getAmount() > 0 ? "<font color='#FF7E00'>" : "<font color='#31B70E'>") + item.getAmount() + "</font>";
-        if (item.getSuc_proc_status() == 1) {//失败
-            helper.setText(R.id.tv_translation_status, Html.fromHtml("交易成功"));
-            helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_shouru);
-        } else {
-            helper.setText(R.id.tv_translation_status, Html.fromHtml("<font color='red'>交易失败</font>"));
-            helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_zhichu);
-        }
         helper.setText(R.id.tv_translation_content, Html.fromHtml(content));
+
+        int status = item.get_status();
+        String statusStr = "";
+        switch (status) {
+            case 1:
+                statusStr = "交易成功";
+                break;
+            case 2:
+                statusStr = "处理中";
+                break;
+            case 0:
+                statusStr = "交易取消";
+                break;
+            case -1:
+            default:
+                statusStr = "<font color='red'>交易失败</font>";
+        }
+        helper.setText(R.id.tv_translation_status, Html.fromHtml(statusStr));
         helper.setText(R.id.tv_translation_fee, Html.fromHtml("手续费:￥" + item.getSys_fee()));
         ((RelativeLayout.LayoutParams) helper.getView(R.id.tv_translation_date).getLayoutParams()).removeRule(RelativeLayout.BELOW);
         if (item.getNotify_time() > 0) {
