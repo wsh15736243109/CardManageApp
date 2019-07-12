@@ -1,7 +1,6 @@
 package com.itboye.cardmanage.retrofit;
 
 
-import android.util.Log;
 import com.google.gson.JsonSyntaxException;
 import io.reactivex.observers.DisposableObserver;
 import me.goldze.mvvmhabit.bus.RxBus;

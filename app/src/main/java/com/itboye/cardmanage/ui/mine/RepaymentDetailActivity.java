@@ -59,6 +59,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         type = getIntent().getIntExtra("type", 0);
         initRepaymentCardListAdapter();//还款计划卡adapter
         initCreditCardListAdapter();//预存资金卡adapter
+        binding.tvRestart.setVisibility(type == 1 ? View.VISIBLE : View.INVISIBLE);
         if (type == 0) {
             setTitle("添加还款计划");
         } else {
@@ -66,6 +67,30 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
             setTitle("计划详情");
             model = (CardManageModel) getIntent().getSerializableExtra("model");
             viewModel.id = model.getId();
+            String str = "";
+            switch (model.getPlan_status()) {
+                case "initial": // 初始状态
+                    str = "重启此计划";
+                    break;
+                case "delete":// 删除
+                    str = "重启此计划";
+                    break;
+                case "running":// 执行中
+                    str = "暂停此计划";
+                    binding.tvRestart.setVisibility(View.GONE);
+                    break;
+                case "pausing":// 暂停中
+                    str = "重启次计划";
+                    break;
+                case "failed": // 失败
+                    str = "重启此计划";
+                    break;
+                case "success":// 成功
+                    str = "重启此计划";
+                    break;
+
+            }
+            viewModel.restartOrPauseLabel.set(str);
             setRepaymentDetail();
         }
         viewModel.planType.set(type == 0 ? View.VISIBLE : View.GONE);
@@ -108,10 +133,12 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
             //删除计划
             showDialog(0, "<b>删除计划</b><br />删除后将在次日生效", R.drawable.ic_dialog_delete_bg, "确定");
         });
-        binding.tvRestart.setVisibility(type == 1 ? View.VISIBLE : View.INVISIBLE);
         binding.tvRestart.setOnClickListener(view -> {
-            //重启计划
-            showDialog(0, "<b>重启计划</b><br />重启后将在次日生效", R.drawable.ic_dialog_restart_bg, "确认重启");
+            //重启计划或暂停
+            if (viewModel.restartOrPauseLabel.get().equals("重启此计划"))
+                showDialog(1, "<b>重启计划</b><br />重启后将在次日生效", R.drawable.ic_dialog_restart_bg, "确认重启");
+            else if (viewModel.restartOrPauseLabel.get().equals("暂停此计划"))
+                showDialog(0, "<b>暂停计划</b><br />暂停后将在次日生效", R.drawable.ic_dialog_restart_bg, "确认重启");
 //            showDialog(0, "<b>还款正在计划中</b><br />不可重启", R.drawable.ic_dialog_delete_bg, "我知道了");
         });
     }
@@ -297,6 +324,9 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         RxSubscriptions.add(mSubscription);
     }
 
+    /**
+     * 获取手续费等等
+     */
     public void getFee() {
         int days = 0;
         double money = 0;
@@ -319,8 +349,9 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                 viewModel.fee.set(value + "<br />手续费(元)");
                 viewModel.feeValue = value;
                 try {
-                    viewModel.pre_store_money = String.format("%.2f", Double.parseDouble(viewModel.feeValue) + Double.parseDouble(viewModel.amount.get()) / Double.parseDouble(viewModel.days.get()));
-                    viewModel.yucun.set(viewModel.pre_store_money + "<br />预存（元）");
+//                    viewModel.pre_store_money = String.format("%.2f", Double.parseDouble(viewModel.feeValue) + Double.parseDouble(viewModel.amount.get()) / Double.parseDouble(viewModel.days.get()));
+                    viewModel.pre_store_money = viewModel.fee.get();
+                    viewModel.yucun.set(viewModel.fee.get() + "<br />预存（元）");
                 } catch (Exception e) {
                     viewModel.pre_store_money = null;
                     viewModel.yucun.set("0<br />预存（元）");

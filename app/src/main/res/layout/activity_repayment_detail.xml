@@ -199,7 +199,6 @@
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:visibility="@{viewModel.planType}"
                 android:onClick="@{()->viewModel.save()}"
                 app:corner="@dimen/dp_6"
                 android:layout_above="@+id/tv_restart"
@@ -209,7 +208,7 @@
                 android:id="@+id/tv_save"/>
 
         <TextView
-                android:text="重启此计划/暂停计划"
+                android:text="@={viewModel.restartOrPauseLabel}"
                 android:layout_gravity="right"
                 android:padding="@dimen/dp_10"
                 android:layout_width="match_parent"

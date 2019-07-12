@@ -31,20 +31,38 @@ public class RepaymentDetailBean {
     private int id;
     private int uid;
     private int days;
-    private int total_fee;
+    private double total_fee;
+    private double fee;
+    private double balance;
     private String plan_status;
-    private int prestore_money;
+    private double prestore_money;
     private int prestore_card_id;
     private CardManageModel prestore_card_info;
     private int create_time;
     private int update_time;
     private int next_proc_time;
     private int next_proc_day;
-    private int money;
+    private double money;
     private int repay_total_money;
     private int repay_count;
     private String failed_log;
     private List<CardManageModel> _card;
+
+    public double getFee() {
+        return fee;
+    }
+
+    public void setFee(double fee) {
+        this.fee = fee;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
 
     public int get_entity_version() {
         return _entity_version;
@@ -78,11 +96,11 @@ public class RepaymentDetailBean {
         this.days = days;
     }
 
-    public int getTotal_fee() {
+    public double getTotal_fee() {
         return total_fee;
     }
 
-    public void setTotal_fee(int total_fee) {
+    public void setTotal_fee(double total_fee) {
         this.total_fee = total_fee;
     }
 
@@ -94,11 +112,11 @@ public class RepaymentDetailBean {
         this.plan_status = plan_status;
     }
 
-    public int getPrestore_money() {
+    public double getPrestore_money() {
         return prestore_money;
     }
 
-    public void setPrestore_money(int prestore_money) {
+    public void setPrestore_money(double prestore_money) {
         this.prestore_money = prestore_money;
     }
 
@@ -150,11 +168,11 @@ public class RepaymentDetailBean {
         this.next_proc_day = next_proc_day;
     }
 
-    public int getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(double money) {
         this.money = money;
     }
 

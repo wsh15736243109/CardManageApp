@@ -41,7 +41,7 @@ public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, Base
                 statusStr = "处理中";
                 break;
             case 0:
-                statusStr = "交易取消";
+                statusStr = "等待交易";
                 break;
             case -1:
             default:

@@ -33,6 +33,7 @@ public class RepaymentDetailModel extends BaseViewModel {
     public double daysValue = 0;
     public ObservableField<String> yucun = new ObservableField<>("0.00<br />预存（元）");
     public ObservableField<String> saveOrDetail = new ObservableField<>("保存");
+    public ObservableField<String> restartOrPauseLabel = new ObservableField<>("重启此计划");
     public double yucunValue = 0;
     public ObservableField<String> yuqihuankuanzonge = new ObservableField<>("0.00<br />预期还款总额（元）");
     public double yuqihuankuanzongeValue = 0;
@@ -64,7 +65,8 @@ public class RepaymentDetailModel extends BaseViewModel {
     public void save() {
         if (!type.get()) {//是查看账单详情
             Bundle bundle = new Bundle();
-            bundle.putSerializable("type", 0);
+            bundle.putInt("type", 0);
+            bundle.putString("id", id);
             startActivity(MyTransactionActivity.class, bundle);
             return;
         }

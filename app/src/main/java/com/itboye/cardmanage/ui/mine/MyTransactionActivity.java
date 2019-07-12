@@ -1,16 +1,15 @@
 package com.itboye.cardmanage.ui.mine;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.DatePicker;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.MyTranslationAdapter;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
+import com.itboye.cardmanage.bean.RepaymentDetailBean;
 import com.itboye.cardmanage.bean.TranslationBean;
 import com.itboye.cardmanage.databinding.ActivityMyTranslationBinding;
 import com.itboye.cardmanage.retrofit.API;
@@ -19,13 +18,9 @@ import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
 import com.itboye.cardmanage.util.TimeUtils;
 import com.itboye.cardmanage.widget.TimePickerFragment;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import me.goldze.mvvmhabit.utils.MaterialDialogUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Timer;
 
 public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslationBinding, MyTranslationModel> {
 
@@ -34,6 +29,8 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
     String month;
     int year;
     int type;
+    int pageIndex;
+    String id;
     ArrayList<TranslationBean> ar = new ArrayList<>();
     private MyTranslationAdapter adapter;
 
@@ -50,6 +47,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
     @Override
     public void initData() {
         type = getIntent().getIntExtra("type", 0);
+        id = getIntent().getStringExtra("id");
         year = Calendar.getInstance().get(Calendar.YEAR);
         month = getMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
         binding.rvTranslation.setLayoutManager(new LinearLayoutManager(this));
@@ -71,7 +69,33 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
 //            dialog = builder.show();
         });
         binding.llHead.setVisibility(type == 1 ? View.GONE : View.VISIBLE);
-        myTranslationRecord();
+        if (type == 0) {
+            // 获取计划账户详情
+            getPlanDetailPlanInfo();
+        } else
+            myTranslationRecord();
+    }
+
+    private void getPlanDetailPlanInfo() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).queryPlanDetailPlanInfo(id, pageIndex, "by_CbPlan_planDetail"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
+            @Override
+            public void onResult(Object o, String msg, int code) {
+                RepaymentDetailBean model = (RepaymentDetailBean) o;
+                viewModel.handingFee.set(model.getFee() + "<br />手续费");
+                viewModel.yusuan.set(model.getBalance() + "<br />预算");
+                viewModel.jieyu.set(model.getBalance() + "");
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
+            }
+
+            @Override
+            public void dialogDismiss() {
+                dismissDialog();
+            }
+        });
     }
 
     private String getMonth(int month) {
@@ -80,12 +104,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
 
     void myTranslationRecord() {
         binding.tvBillDate.setText(year + "年" + month + "月账单");
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).translationRecord(year + month, "by_CbOrder_querySimple"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
-            @Override
-            public void accept(Disposable disposable) {
-                viewModel.showDialog();
-            }
-        }, new ApiDisposableObserver() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).translationRecord(year + month, "by_CbOrder_querySimple"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ar.clear();

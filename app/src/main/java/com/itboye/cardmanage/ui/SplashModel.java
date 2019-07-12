@@ -13,10 +13,7 @@ import me.goldze.mvvmhabit.base.BaseViewModel;
 
 public class SplashModel extends BaseViewModel {
 
-    //用户名的绑定
-    public ObservableField<String> userName = new ObservableField<>("");
     public ObservableField<Drawable> res = new ObservableField<>();
-    public ObservableField<String> resD = new ObservableField<>("");
 
     public SplashModel(@NonNull Application application) {
         super(application);

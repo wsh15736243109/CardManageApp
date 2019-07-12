@@ -326,8 +326,8 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<ArrayList>> signGetCode(@Field("bank_id") String bank_id,
-                                                   @Field("verification_code") String verification_code,
-                                                   @Field("service_type") String serviceType);
+                                                    @Field("verification_code") String verification_code,
+                                                    @Field("service_type") String serviceType);
 
     /**
      * 签约代扣、代付协议 验证
@@ -341,8 +341,8 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<AuthBean>> signAuth(@Field("bank_id") String bank_id,
-                                                 @Field("verification_code") String verification_code,
-                                                 @Field("service_type") String serviceType);
+                                                @Field("verification_code") String verification_code,
+                                                @Field("service_type") String serviceType);
 
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
@@ -391,11 +391,32 @@ public interface API {
     Observable<BaseResponse<String>> deleteCdPlan(@Field("id") String id,
                                                   @Field("service_type") String serviceType);
 
+
+    /**
+     * 计划详情
+     *
+     * @param id
+     * @param serviceType
+     * @return
+     */
     @Headers("Content-Type:application/x-www-form-urlencoded")
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<RepaymentDetailBean>> queryPlanInfo(@Field("id") String id,
-                                                  @Field("service_type") String serviceType);
+                                                                @Field("service_type") String serviceType);
+
+    /**
+     * @param id
+     * @param page_index
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<RepaymentDetailBean>> queryPlanDetailPlanInfo(@Field("id") String id,
+                                                                @Field("page_index") int page_index,
+                                                                @Field("service_type") String serviceType);
 
     /**
      * 重启还款计划
