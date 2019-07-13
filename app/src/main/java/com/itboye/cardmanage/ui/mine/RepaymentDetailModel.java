@@ -15,6 +15,7 @@ import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 
 public class RepaymentDetailModel extends BaseViewModel {
 
@@ -38,6 +39,10 @@ public class RepaymentDetailModel extends BaseViewModel {
     public ObservableField<String> yuqihuankuanzonge = new ObservableField<>("0.00<br />预期还款总额（元）");
     public double yuqihuankuanzongeValue = 0;
 
+
+    public HashMap<String, String> hash1 = new HashMap<>();
+    public HashMap<String, String> hash2 = new HashMap<>();
+
     public RepaymentDetailModel(@NonNull Application application) {
         super(application);
     }
@@ -47,11 +52,13 @@ public class RepaymentDetailModel extends BaseViewModel {
         Bundle bundle = new Bundle();
         bundle.putInt("chooseCount", chooseCount);
         bundle.putInt("usage", usage);
+        bundle.putSerializable("hash1", hash1);
         if (usage == 1) {
             bundle.putString("title", "添加还款计划卡");
         } else {
             bundle.putString("title", "添加预存资金卡");
         }
+        bundle.putSerializable("hash2", hash2);
         startActivity(CardListActivity.class, bundle);
 
     }

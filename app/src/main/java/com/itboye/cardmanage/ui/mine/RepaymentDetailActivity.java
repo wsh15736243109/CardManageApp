@@ -31,14 +31,16 @@ import me.goldze.mvvmhabit.bus.RxSubscriptions;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentDetailBinding, RepaymentDetailModel> {
 
     private int type;
     private Disposable mSubscription;
 
-    ArrayList<CardManageModel> cardList = new ArrayList<>();
-    ArrayList<CardManageModel> cardList2 = new ArrayList<>();
+    ArrayList<CardManageModel> cardList = new ArrayList<>();//还款卡
+    ArrayList<CardManageModel> cardList2 = new ArrayList<>();//预存资金卡
     private RepaymentCardListAdapter repaymentCardAdapter;
     private RepaymentPreCardListAdapter preCardAdapter;
 
@@ -77,10 +79,9 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                     break;
                 case "running":// 执行中
                     str = "暂停此计划";
-                    binding.tvRestart.setVisibility(View.INVISIBLE);
                     break;
                 case "pausing":// 暂停中
-                    str = "重启次计划";
+                    str = "重启此计划";
                     break;
                 case "failed": // 失败
                     str = "重启此计划";
@@ -138,7 +139,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
             if (viewModel.restartOrPauseLabel.get().equals("重启此计划"))
                 showDialog(1, "<b>重启计划</b><br />重启后将在次日生效", R.drawable.ic_dialog_restart_bg, "确认重启");
             else if (viewModel.restartOrPauseLabel.get().equals("暂停此计划"))
-                showDialog(0, "<b>暂停计划</b><br />暂停后将在次日生效", R.drawable.ic_dialog_restart_bg, "确认重启");
+                showDialog(2, "<b>暂停计划</b><br />暂停后将在次日生效", R.drawable.ic_dialog_restart_bg, "确认暂停");
 //            showDialog(0, "<b>还款正在计划中</b><br />不可重启", R.drawable.ic_dialog_delete_bg, "我知道了");
         });
     }
@@ -153,7 +154,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         ImageView iv_bg = view1.findViewById(R.id.iv_bg);
         tv_content.setText(Html.fromHtml(content));
         btn_ok.setText(Html.fromHtml(buttonRightLabel));
-        iv_bg.setBackgroundResource(res);
+        iv_bg.setImageResource(res);
         alertDialog.setView(view1);
         btn_cancel.setVisibility(type == 0 ? View.VISIBLE : View.GONE);
         btn_cancel.setOnClickListener(view2 -> alertDialog.dismiss());
@@ -163,9 +164,10 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                     deletePlan();
                     break;
                 case 1://重启
-                    restartCbPlan();
+                    restartOrPauseCbPlan(true);
                     break;
-                case 2://正在执行的计划不可重启
+                case 2://正在执行的计划进行暂停
+                    restartOrPauseCbPlan(false);
                     break;
             }
             alertDialog.dismiss();
@@ -188,9 +190,10 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         });
     }
 
-    public void restartCbPlan() {
+
+    public void restartOrPauseCbPlan(boolean isRestart) {
         //重启计划
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).restartCbPlan(viewModel.id, "by_CbPlan_reboot"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).restartCbPlan(viewModel.id, isRestart ? "by_CbPlan_reboot" : "by_CbPlan_pause"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(msg);
@@ -242,6 +245,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
             @Override
             public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(msg);
+                finish();
             }
 
             @Override
@@ -293,28 +297,57 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
 
     }
 
+
     private void registerRx() {
         mSubscription = RxBus.getDefault().toObservable(Bundle.class)
                 .subscribe(s -> {
                     ArrayList<CardManageModel> temp = (ArrayList<CardManageModel>) s.getSerializable("array");
                     int usage = s.getInt("usage");
-                    StringBuffer stringBuffer1 = new StringBuffer();
-                    StringBuffer stringBuffer2 = new StringBuffer();
-                    for (CardManageModel model : temp) {
+//                    StringBuffer stringBuffer1 = new StringBuffer();
+//                    StringBuffer stringBuffer2 = new StringBuffer();
+                            if (usage == 1) {
+                                viewModel.hash1.clear();
+                                cardList.clear();
+                            }else{
+                                viewModel.hash2.clear();
+                                cardList2.clear();
+
+                            }
+                    for (int i = 0; i < temp.size(); i++) {
+                        CardManageModel model = temp.get(i);
                         if (usage == 1) {
-                            stringBuffer1.append(model.getId() + ",");
-                            cardList.add(model);
+                            if (!viewModel.hash1.containsKey(model.getId()) && model.isCheck()) {
+                                viewModel.hash1.put(model.getId(), model.getId());
+                                cardList.add(model);
+                            } else if (viewModel.hash1.containsKey(model.getId()) && !model.isCheck()) {
+                                viewModel.hash1.remove(model.getId());
+                                cardList.remove(i);
+                            }
                         } else {
-                            cardList2.clear();
-                            stringBuffer2.append(model.getId() + ",");
-                            cardList2.add(model);
+                            if (!viewModel.hash2.containsKey(model.getId()) && model.isCheck()) {
+                                viewModel.hash2.put(model.getId(), model.getId());
+                                cardList2.add(model);
+                            } else if (viewModel.hash2.containsKey(model.getId()) && !model.isCheck()) {
+                                viewModel.hash2.remove(model.getId());
+                                cardList2.remove(i);
+                            }
                         }
                     }
                     repaymentCardAdapter.notifyDataSetChanged();
                     preCardAdapter.notifyDataSetChanged();
+                    StringBuffer stringBuffer1 = new StringBuffer();
+                    StringBuffer stringBuffer2 = new StringBuffer();
                     if (usage == 1) {
+                        Iterator<String> key1 = viewModel.hash1.keySet().iterator();
+                        while (key1.hasNext()) {
+                            stringBuffer1.append(key1.next() + ",");
+                        }
                         viewModel.creditCardIds = stringBuffer1.substring(0, stringBuffer1.length() - 1);
                     } else {
+                        Iterator<String> key2 = viewModel.hash2.keySet().iterator();
+                        while (key2.hasNext()) {
+                            stringBuffer2.append(key2.next() + ",");
+                        }
                         viewModel.preStoreCardIds = stringBuffer2.substring(0, stringBuffer2.length() - 1);
                     }
                     getFee();
@@ -337,6 +370,8 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
         if (!binding.etAmount.getText().toString().isEmpty()) {
             money = Double.parseDouble(binding.etAmount.getText().toString());
         }
+        double finalMoney = money;
+        int finalDays = days;
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).getRepaymentFee(money, cardList.size() /*+ cardList2.size()*/, days, "by_CbPlan_getFee"), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
             @Override
             public void accept(Disposable disposable) {
@@ -350,11 +385,13 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                 viewModel.feeValue = value;
                 try {
 //                    viewModel.pre_store_money = String.format("%.2f", Double.parseDouble(viewModel.feeValue) + Double.parseDouble(viewModel.amount.get()) / Double.parseDouble(viewModel.days.get()));
+                    viewModel.yuqihuankuanzonge.set(finalDays * finalMoney * cardList.size() + "<br />预期还款总额（元）");
                     viewModel.pre_store_money = viewModel.fee.get();
-                    viewModel.yucun.set(viewModel.fee.get() + "<br />预存（元）");
+                    viewModel.yucun.set(value + "<br />预存（元）");
                 } catch (Exception e) {
                     viewModel.pre_store_money = null;
                     viewModel.yucun.set("0<br />预存（元）");
+                    viewModel.yuqihuankuanzonge.set("0<br />预期还款总额（元）");
 
                 }
             }

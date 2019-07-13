@@ -23,6 +23,7 @@ import me.goldze.mvvmhabit.bus.RxSubscriptions;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CardListActivity extends BaseMVVMActivity<ActivityCardListBinding, CardListModel> {
 
@@ -33,6 +34,8 @@ public class CardListActivity extends BaseMVVMActivity<ActivityCardListBinding, 
     private int chooseCount = 1;
     int pageIndex;
     private Disposable mSubscription;
+    private HashMap<String, String> map1;
+    private HashMap<String, String> map2;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -47,8 +50,13 @@ public class CardListActivity extends BaseMVVMActivity<ActivityCardListBinding, 
     @Override
     public void initData() {
         binding.titleBar.setTitle(getIntent().getStringExtra("title"));
+        usage = getIntent().getIntExtra("usage", 1);//卡片类型
+        chooseCount = getIntent().getIntExtra("chooseCount", 1);//最多可选择
         binding.rvCardList.setLayoutManager(new LinearLayoutManager(this));
         binding.rvCardList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        map1 = (HashMap<String, String>) getIntent().getSerializableExtra("hash1");
+        map2 = (HashMap<String, String>) getIntent().getSerializableExtra("hash2");
         adapter = new CardListAdapter(cardManageModelArrayList, new OnMyItemClickListener() {
             @Override
             public void onItemClick(View view, int position, Object item) {
@@ -61,7 +69,10 @@ public class CardListActivity extends BaseMVVMActivity<ActivityCardListBinding, 
                 for (int i = 0; i < cardManageModelArrayList.size(); i++) {
                     CardManageModel model = cardManageModelArrayList.get(i);
                     if (model.isCheck()) {
-                        checkCount++;
+                        if (chooseCount == 1) {
+                            cardManageModelArrayList.get(i).setCheck(false);
+                        } else
+                            checkCount++;
                     }
                 }
 
@@ -79,8 +90,6 @@ public class CardListActivity extends BaseMVVMActivity<ActivityCardListBinding, 
             }
         });
         binding.rvCardList.setAdapter(adapter);
-        usage = getIntent().getIntExtra("usage", 1);//卡片类型
-        chooseCount = getIntent().getIntExtra("chooseCount", 1);//最多可选择
         getCardList();
         binding.tvAdd.setOnClickListener(view -> sure());
         binding.titleBar.getTvRight().setOnClickListener(view -> sure());
@@ -99,7 +108,7 @@ public class CardListActivity extends BaseMVVMActivity<ActivityCardListBinding, 
         }
         Bundle bundle = new Bundle();
         bundle.putInt("usage", usage);
-        bundle.putSerializable("array", selectAr);
+        bundle.putSerializable("array", cardManageModelArrayList);
         RxBus.getDefault().post(bundle);
         finish();
     }
@@ -117,6 +126,14 @@ public class CardListActivity extends BaseMVVMActivity<ActivityCardListBinding, 
                 }
                 cardManageModelArrayList.clear();
                 cardManageModelArrayList.addAll(ar);
+                for (int i = 0; i < cardManageModelArrayList.size(); i++) {
+                    if (usage == 1) {
+                        cardManageModelArrayList.get(i).setCheck(map1.containsKey(cardManageModelArrayList.get(i).getId()));
+                    } else {
+                        cardManageModelArrayList.get(i).setCheck(map2.containsKey(cardManageModelArrayList.get(i).getId()));
+                    }
+                }
+
                 adapter.notifyDataSetChanged();
             }
 

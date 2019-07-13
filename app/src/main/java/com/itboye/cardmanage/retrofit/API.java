@@ -326,8 +326,8 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<ArrayList>> sendPaymentGetCode(@Field("order_code") String order_code,
-                                                       @Field("code") String code,
-                                                       @Field("service_type") String serviceType);
+                                                           @Field("code") String code,
+                                                           @Field("service_type") String serviceType);
 
 
     /**
@@ -431,11 +431,11 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<RepaymentDetailBean>> queryPlanDetailPlanInfo(@Field("id") String id,
-                                                                @Field("page_index") int page_index,
-                                                                @Field("service_type") String serviceType);
+                                                                          @Field("page_index") int page_index,
+                                                                          @Field("service_type") String serviceType);
 
     /**
-     * 重启还款计划
+     * 重启/暂停 还款计划
      *
      * @param id
      * @param serviceType
