@@ -31,7 +31,7 @@ public class ReceiveMoneyModel extends BaseViewModel {
     public String pay_card_id = "";//支付卡id
     public String withdraw_card_id = "";//到账结算卡id
     public String pay_channel_id = "";//支付通道id
-    public String order_code;//订单号
+//    public String order_code;//订单号
     public ObservableBoolean payChannel = new ObservableBoolean(false);
     public ArrayList<PayWaybean> payWaybeanArrayList;
     public String phone;
@@ -58,25 +58,7 @@ public class ReceiveMoneyModel extends BaseViewModel {
             ToastUtils.showShort("请选择支付通道");
             return;
         }
-
-        //立即下单
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createPaymentOrder(Double.parseDouble(amount.get()) * 100 + "", /*note.get()*/(amount.get()) + "", pay_card_id, withdraw_card_id, pay_channel_id, "by_CbOrder_quickOrder"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
-            @Override
-            public void onResult(Object o, String msg, int code) {
-                order_code = o + "";
-                sendPayment();
-            }
-
-            @Override
-            public void onError(int code, String msg) {
-
-            }
-
-            @Override
-            public void dialogDismiss() {
-                dismissDialog();
-            }
-        });
+        sendPayment();
     }
 
     //发起收款请求(第一次发送验证码 第二次支付)
@@ -84,7 +66,11 @@ public class ReceiveMoneyModel extends BaseViewModel {
         Bundle bundle = new Bundle();
         bundle.putInt("type", 3);
         bundle.putString("phone", phone);
-        bundle.putString("order_code", order_code);
+//        bundle.putString("order_code", order_code);
+        bundle.putString("amount", amount.get());
+        bundle.putString("pay_card_id", pay_card_id);
+        bundle.putString("withdraw_card_id", withdraw_card_id);
+        bundle.putString("pay_channel_id", pay_channel_id);
         startActivity(AuthMobileActivity.class, bundle);
     }
 

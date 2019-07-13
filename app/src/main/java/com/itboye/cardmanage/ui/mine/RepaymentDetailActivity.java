@@ -77,7 +77,7 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                     break;
                 case "running":// 执行中
                     str = "暂停此计划";
-                    binding.tvRestart.setVisibility(View.GONE);
+                    binding.tvRestart.setVisibility(View.INVISIBLE);
                     break;
                 case "pausing":// 暂停中
                     str = "重启次计划";

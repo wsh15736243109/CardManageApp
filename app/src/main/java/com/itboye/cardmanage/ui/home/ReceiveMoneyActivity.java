@@ -95,6 +95,7 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
         });
     }
 
+    //获取到账结算卡主卡
     private void getMasterArrivalCard() {
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).cardList("2", "1", "10", "by_UserBankCard_query"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
             @Override
@@ -127,8 +128,8 @@ public class ReceiveMoneyActivity extends BaseMVVMActivity<ActivityReceiveMoneyB
         if (amount.isEmpty()) {
             return;
         }
-        if (Double.parseDouble(amount) < 20) {
-            viewModel.arrivalAmount.set("收款金额不小于20元");
+        if (Double.parseDouble(amount) < 50) {
+            viewModel.arrivalAmount.set("收款金额不小于50元");
             return;
         }
         viewModel.arrivalAmount.set("到账金额：￥" + String.format("%.2f", Double.parseDouble(amount) * Double.parseDouble(fee) - Double.parseDouble(fixAmount)));

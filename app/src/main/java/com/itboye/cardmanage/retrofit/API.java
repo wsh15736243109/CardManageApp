@@ -9,6 +9,7 @@ import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -312,6 +313,21 @@ public interface API {
     Observable<BaseResponse<ReceiveMoneyAuthPassBean>> sendPayment(@Field("order_code") String order_code,
                                                                    @Field("code") String code,
                                                                    @Field("service_type") String serviceType);
+
+    /**
+     * 发起收款请求
+     *
+     * @param order_code
+     * @param code
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<ArrayList>> sendPaymentGetCode(@Field("order_code") String order_code,
+                                                       @Field("code") String code,
+                                                       @Field("service_type") String serviceType);
 
 
     /**

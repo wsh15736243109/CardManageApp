@@ -14,6 +14,8 @@ import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.bus.RxBus;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
+import java.util.ListIterator;
+
 public class AuthMobileModel extends BaseViewModel {
 
     public ObservableField<String> yzStatus = new ObservableField<>("");
@@ -25,6 +27,10 @@ public class AuthMobileModel extends BaseViewModel {
     public ObservableField<Integer> authStatus = new ObservableField<>(View.VISIBLE);
     public ObservableField<Integer> authFail = new ObservableField<>(View.GONE);
     public ObservableField<Drawable> authIcon = new ObservableField();
+    public ObservableField<String> amount = new ObservableField<>();//预存
+    public ObservableField<String> pay_card_id = new ObservableField<>();//支付卡id
+    public ObservableField<String> withdraw_card_id = new ObservableField<>();//结算卡id
+    public ObservableField<String> pay_channel_id = new ObservableField<>();//支付通道id
 
     int status = 1;
     public String bankId;
@@ -55,24 +61,23 @@ public class AuthMobileModel extends BaseViewModel {
 
     }
 
-    private void receiveMoneyAuth(String code, boolean isAuth) {
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, code, "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+    private void receiveMoneyAuth(final String code, boolean isAuth) {
+        if (isAuth) {//如果是验证，则直接调用接口验证
+            receiveMoney(code, isAuth);
+            return;
+        }
+        //否则先创建订单
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createPaymentOrder(Double.parseDouble(amount.get()) * 100 + "", /*note.get()*/(amount.get()) + "", pay_card_id.get(), withdraw_card_id.get(), pay_channel_id.get(), "by_CbOrder_quickOrder"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
-            public void onResult(Object o, String msg, int code) {
-                if (isAuth) {
-                    setAuthStatus(true, msg);
-                } else {
-                    setCodeSendStatus(true);
-                }
+            public void onResult(Object o, String msg, int recode) {
+                order_code = o + "";
+                //在发送验证码
+                receiveMoney(code, isAuth);
             }
 
             @Override
             public void onError(int code, String msg) {
-                if (isAuth) {
-                    setAuthStatus(false, msg);
-                } else {
-                    setCodeSendStatus(false);
-                }
+
             }
 
             @Override
@@ -80,6 +85,47 @@ public class AuthMobileModel extends BaseViewModel {
                 dismissDialog();
             }
         });
+
+    }
+
+    private void receiveMoney(String code, boolean isAuth) {
+        if (!isAuth) {
+            //获取验证码
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPaymentGetCode(order_code, code, "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                @Override
+                public void onResult(Object o, String msg, int code) {
+                    setCodeSendStatus(true);
+                }
+
+                @Override
+                public void onError(int code, String msg) {
+                    setCodeSendStatus(false);
+                }
+
+                @Override
+                public void dialogDismiss() {
+                    dismissDialog();
+                }
+            });
+        } else {
+            //验证
+            AppUtils.requestData(RetrofitClient.getInstance().create(API.class).sendPayment(order_code, code, "by_CbOrder_quickPay"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+                @Override
+                public void onResult(Object o, String msg, int code) {
+                    setAuthStatus(true, msg);
+                }
+
+                @Override
+                public void onError(int code, String msg) {
+                    setAuthStatus(false, msg);
+                }
+
+                @Override
+                public void dialogDismiss() {
+                    dismissDialog();
+                }
+            });
+        }
     }
 
     private void setAuthStatus(boolean b, String msg) {
