@@ -117,6 +117,7 @@
                             android:textSize="14sp"/>
 
                     <EditText
+                            android:id="@+id/et_scan_no"
                             android:layout_width="match_parent"
                             android:layout_toLeftOf="@+id/iv_scan"
                             android:layout_height="wrap_content"

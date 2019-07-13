@@ -6,6 +6,8 @@ import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -13,7 +15,9 @@ import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.bean.BranchBankBean;
+import com.itboye.cardmanage.bean.CardBankInfo;
 import com.itboye.cardmanage.databinding.ActivityAddCardBinding;
+import com.itboye.cardmanage.retrofit.*;
 import com.itboye.cardmanage.util.GalleryUtil;
 import com.itboye.cardmanage.util.GlideUtil;
 import com.itboye.cardmanage.widget.TimePickerFragment;
@@ -21,6 +25,8 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yancy.gallerypick.inter.IHandlerCallBack;
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 import java.util.*;
@@ -90,6 +96,53 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
                             ToastUtils.showShort("拍照权限被拒绝");
                         }
                     });
+        });
+
+        binding.etScanNo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) { //根据银行卡号搜索银行信息
+                searchBankNameByCardNo();
+            }
+        });
+//        binding.et.set
+    }
+
+    private void searchBankNameByCardNo() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(CardAPI.class).getCardInfo(binding.etScanNo.getText().toString()), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
+            @Override
+            public void accept(Disposable disposable) throws Exception {
+
+            }
+        }, new ApiDisposableObserver() {
+            @Override
+            public void onResult(Object o, String msg, int code) {
+                CardBankInfo cardBankInfo = (CardBankInfo) o;
+                if (cardBankInfo != null) {
+                    if (cardBankInfo.getBankName() != null) {
+                        viewModel.bankName.set(cardBankInfo.getBankName());
+                    }
+                }
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
+            }
+
+            @Override
+            public void dialogDismiss() {
+
+            }
         });
     }
 

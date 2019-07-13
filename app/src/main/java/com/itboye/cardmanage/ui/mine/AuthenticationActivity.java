@@ -3,17 +3,26 @@ package com.itboye.cardmanage.ui.mine;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.base.BaseMVVMActivity;
 import com.itboye.cardmanage.bean.BranchBankBean;
+import com.itboye.cardmanage.bean.CardBankInfo;
 import com.itboye.cardmanage.bean.UserAuthDetailBean;
 import com.itboye.cardmanage.databinding.ActivityAuthenticationBinding;
+import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
+import com.itboye.cardmanage.retrofit.AppUtils;
+import com.itboye.cardmanage.retrofit.CardAPI;
+import com.itboye.cardmanage.retrofit.RetrofitClient;
 import com.itboye.cardmanage.util.GalleryUtil;
 import com.itboye.cardmanage.util.GlideUtil;
 import com.yancy.gallerypick.inter.IHandlerCallBack;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,6 +92,52 @@ public class AuthenticationActivity extends BaseMVVMActivity<ActivityAuthenticat
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 setAuthView(viewModel.userAuthDetailBean);
+            }
+        });
+
+        binding.etCardNo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchBankNameByCardNo();
+            }
+        });
+    }
+
+    private void searchBankNameByCardNo() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(CardAPI.class).getCardInfo(binding.etCardNo.getText().toString()), viewModel.getLifecycleProvider(), new Consumer<Disposable>() {
+            @Override
+            public void accept(Disposable disposable) {
+
+            }
+        }, new ApiDisposableObserver() {
+            @Override
+            public void onResult(Object o, String msg, int code) {
+                CardBankInfo cardBankInfo = (CardBankInfo) o;
+                if (cardBankInfo != null) {
+                    if (cardBankInfo.getBankName() != null) {
+                        viewModel.bankName.set(cardBankInfo.getBankName());
+                    }
+                }
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
+            }
+
+            @Override
+            public void dialogDismiss() {
+
             }
         });
     }
