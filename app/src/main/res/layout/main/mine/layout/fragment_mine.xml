@@ -134,11 +134,36 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="46dp"
                         android:layout_marginTop="@dimen/dp_12"
+                        android:background="@drawable/view_bg_white_grey_selector"
+                        android:gravity="center_vertical"
+                        android:onClick="@{()->viewModel.goToAc(MineClickType.MY_WALLET)}"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/dp_4"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:drawableLeft="@drawable/ic_mine_wallet"
+                            android:text="我的钱包"
+                            android:textSize="14sp"/>
+
+                    <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="11dp"
+                            android:src="@drawable/ic_right"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="@dimen/dp_1"
                         android:background="@drawable/view_bg_white_grey_selector"
                         android:gravity="center_vertical"
                         android:onClick="@{()->viewModel.goToAc(MineClickType.MY_TRANSLATION)}"

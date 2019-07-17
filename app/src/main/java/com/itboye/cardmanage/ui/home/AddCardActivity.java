@@ -217,9 +217,6 @@ public class AddCardActivity extends BaseMVVMActivity<ActivityAddCardBinding, Ad
         int year = Calendar.getInstance().get(Calendar.YEAR), month = Calendar.getInstance().get(Calendar.MONTH), dayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         switch (viewModel.chooseType) {
             case 0://账单日
-                year = -1;
-                month = -1;
-                break;
             case 1://还款日
                 year = -1;
                 month = -1;

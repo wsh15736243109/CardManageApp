@@ -1,6 +1,7 @@
 package com.itboye.cardmanage.interfaces;
 
 public enum MineClickType {
+    MY_WALLET,//我的钱包
     MY_TRANSLATION,//我的交易
     REPAYMENT_PLAN,//还款计划
     CONTACT_CUSTOMER_SERVICE,//联系客服

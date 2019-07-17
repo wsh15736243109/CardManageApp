@@ -80,11 +80,12 @@
         </activity>
         <activity android:name=".ui.mine.AuthDataOpenActivity">
         </activity>
-
         <activity
                 android:name="io.card.payment.CardIOActivity"
                 android:configChanges="keyboardHidden|orientation"/>
         <activity android:name="io.card.payment.DataEntryActivity"/>
+        <activity android:name=".ui.mine.MyWalletActivity">
+        </activity>
     </application>
 
 </manifest>
