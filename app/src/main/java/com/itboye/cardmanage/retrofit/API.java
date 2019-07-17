@@ -496,4 +496,44 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<HomeBean>> getBannersAndNotice(@Field("service_type") String serviceType);
+
+    /**
+     * 获取用户余额
+     *
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<UserBalanceBean>> getUserBalance(@Field("service_type") String serviceType);
+
+    /**
+     * 创建提现订单
+     *
+     * @param amount
+     * @param note
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> createWithdrawOrder(@Field("amount") String amount,
+                                                           @Field("note") String note,
+                                                           @Field("service_type") String serviceType);
+
+
+    /**
+     * 开始提现
+     *
+     * @param serviceType
+     * @return
+     */
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<String>> beginWithdraw(@Field("order_code") String orderCode,
+                                                     @Field("service_type") String serviceType);
+
 }

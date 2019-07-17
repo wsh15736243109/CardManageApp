@@ -21,6 +21,9 @@ public class MyWalletActivity extends BaseMVVMActivity<ActivityMyWalletBinding, 
 
     @Override
     public void initData() {
-
+            //先查询用户余额
+        viewModel.getUserBalance();
+        //获取到账结算卡主卡
+        viewModel.getMasterArrivalCard();
     }
 }
