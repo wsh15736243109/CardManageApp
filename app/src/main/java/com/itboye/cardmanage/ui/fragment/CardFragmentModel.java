@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardFragmentModel extends BaseViewModel {
-    public ObservableField<String> url = new ObservableField<>(Global.WEBURL+"card");
+    public ObservableField<String> url = new ObservableField<>(Global.WEBURL+"/#/card");
 //    //给RecyclerView添加items
 //    public final ObservableList<String> observableList = new ObservableArrayList<>();
 //    public ObservableField<List<String>> hobbies = new ObservableField<>();

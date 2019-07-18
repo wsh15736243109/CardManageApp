@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--边-->
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                    android:bottom="2px"
+                    android:left="1px"
+                    android:right="2px"
+                    android:top="1px"/>
+            <solid android:color="@color/gray_f9"/>
+            <corners android:radius="8dp"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                    android:bottom="2px"
+                    android:left="1px"
+                    android:right="2px"
+                    android:top="1px"/>
+
+            <solid android:color="@color/gray_f7"/>
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                    android:bottom="2px"
+                    android:left="1px"
+                    android:right="2px"
+                    android:top="1px"/>
+            <solid android:color="@color/gray_f6"/>
+
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                    android:bottom="2px"
+                    android:left="1px"
+                    android:right="2px"
+                    android:top="1px"/>
+
+            <solid android:color="@color/gray_f2" />
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <padding
+                    android:bottom="2px"
+                    android:left="1px"
+                    android:right="2px"
+                    android:top="1px"/>
+            <!--<gradient-->
+                    <!--android:angle="270"-->
+                    <!--android:endColor="#29959595"-->
+                    <!--android:startColor="#29959595"/>-->
+            <solid android:color="@color/gray_f1f1f1" />
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+
+    <!--中心背景 -->
+    <item
+            android:left="@dimen/dp_1"
+            android:top="@dimen/dp_1">
+        <shape
+                android:shape="rectangle"
+                android:useLevel="false">
+            <!--实心 -->
+            <solid android:color="@color/white"/>
+            <corners android:radius="5dp"/>
+            <size
+                    android:width="32dp"
+                    android:height="32dp"/>
+        </shape>
+    </item>
+</layer-list>

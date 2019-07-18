@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class MyWalletModel extends BaseViewModel {
 
-    public ObservableField<String> banlance = new ObservableField<>("账户余额<br />￥0");
+    public ObservableField<String> banlance = new ObservableField<>("账户余额(元)<br />￥0");
     public ObservableField<String> withdrawAmount = new ObservableField<>("0");
     public ObservableField<String> arrivalBank = new ObservableField<>("到账结算卡");
     private String withdraw_card_id = "";
@@ -42,12 +42,12 @@ public class MyWalletModel extends BaseViewModel {
             ToastUtils.showShort("账户余额不足");
             return;
         }
-        if (Double.parseDouble(withdrawAmount.get()) < 10 || Double.parseDouble(withdrawAmount.get()) > 1000) {
-            ToastUtils.showShort("提现金额不能低于10元或高于1000元");
+        if (Double.parseDouble(withdrawAmount.get()) < 13 || Double.parseDouble(withdrawAmount.get()) > 1000) {
+            ToastUtils.showShort("提现金额不能低于13元或高于1000元");
             return;
         }
         //提交提现申请
-        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createWithdrawOrder(withdrawAmount.get(), withdrawAmount.get() + "元提现", "by_CbOrder_createUserWithdrawOrder"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).createWithdrawOrder(Double.parseDouble(withdrawAmount.get()) * 100 + "", withdrawAmount.get() + "元提现", "by_CbOrder_createUserWithdrawOrder"), getLifecycleProvider(), disposable -> showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
                 ToastUtils.showShort(o + "");
@@ -70,7 +70,7 @@ public class MyWalletModel extends BaseViewModel {
             @Override
             public void onResult(Object o, String msg, int code) {
                 userBalanceBean = (UserBalanceBean) o;
-                banlance.set("账户余额<br />￥" + userBalanceBean.getZmf_wallet());
+                banlance.set("账户余额(元)<br />￥" + userBalanceBean.getZmf_wallet());
             }
 
             @Override

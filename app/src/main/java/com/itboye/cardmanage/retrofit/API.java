@@ -422,6 +422,8 @@ public interface API {
                                                                 @Field("service_type") String serviceType);
 
     /**
+     * 计划账单详情
+     *
      * @param id
      * @param page_index
      * @param serviceType
@@ -520,8 +522,8 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<String>> createWithdrawOrder(@Field("amount") String amount,
-                                                           @Field("note") String note,
-                                                           @Field("service_type") String serviceType);
+                                                         @Field("note") String note,
+                                                         @Field("service_type") String serviceType);
 
 
     /**
@@ -534,6 +536,10 @@ public interface API {
     @FormUrlEncoded
     @POST("/")
     Observable<BaseResponse<String>> beginWithdraw(@Field("order_code") String orderCode,
-                                                     @Field("service_type") String serviceType);
+                                                   @Field("service_type") String serviceType);
 
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("/")
+    Observable<BaseResponse<ArrayList<TranslationBean>>> queryPlanOrderInfo(@Field("id") String id, @Field("page_index") int pageIndex, @Field("service_type") String serviceType);
 }

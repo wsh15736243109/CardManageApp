@@ -22,7 +22,7 @@ import java.util.List;
 
 public class LoanFragmentModel extends BaseViewModel {
 
-    public ObservableField<String> url = new ObservableField<>(Global.WEBURL+"lend");
+    public ObservableField<String> url = new ObservableField<>(Global.WEBURL+"/#/lend");
 
     public LoanFragmentModel(@NonNull Application application) {
         super(application);

@@ -145,6 +145,7 @@
                 </LinearLayout>
 
                 <com.itboye.cardmanage.widget.LoweRelaLayout
+                        android:id="@+id/lrlBanner"
                         android:layout_width="match_parent"
                         android:layout_marginTop="@dimen/dp_6"
                         android:background="@color/white"

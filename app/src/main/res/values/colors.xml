@@ -19,4 +19,8 @@
     <color name="red_fff2f4">#fff2f4</color>
     <color name="red_ff5f34">#ff5f34</color>
     <color name="yellow_E8AB27">#E8AB27</color>
+    <color name="gray_f9">#F9F9F9</color>
+    <color name="gray_f7">#F7F7F7</color>
+    <color name="gray_f6">#F6F6F6</color>
+    <color name="gray_f2">#F2F2F2</color>
 </resources>

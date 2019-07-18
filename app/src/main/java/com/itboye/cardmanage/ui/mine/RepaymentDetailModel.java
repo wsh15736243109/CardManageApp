@@ -74,6 +74,7 @@ public class RepaymentDetailModel extends BaseViewModel {
             Bundle bundle = new Bundle();
             bundle.putInt("type", 0);
             bundle.putString("id", id);
+            bundle.putDouble("jieyu", Double.parseDouble(amount.get()));
             startActivity(MyTransactionActivity.class, bundle);
             return;
         }

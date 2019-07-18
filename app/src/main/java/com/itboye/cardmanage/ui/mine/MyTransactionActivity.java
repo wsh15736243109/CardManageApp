@@ -29,7 +29,7 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
     String month;
     int year;
     int type;
-    int pageIndex;
+    int pageIndex = 1;
     String id;
     ArrayList<TranslationBean> ar = new ArrayList<>();
     private MyTranslationAdapter adapter;
@@ -70,20 +70,43 @@ public class MyTransactionActivity extends BaseMVVMActivity<ActivityMyTranslatio
         });
         binding.llHead.setVisibility(type == 1 ? View.GONE : View.VISIBLE);
         if (type == 0) {
+            binding.titleBar.getTvRight().setVisibility(View.GONE);
+            binding.titleBar.setTitle("账单详情");
             // 获取计划账户详情
             getPlanDetailPlanInfo();
-        } else
+        } else {
             myTranslationRecord();
+        }
     }
 
     private void getPlanDetailPlanInfo() {
+        binding.tvBillDate.setText("该计划电子户");
         AppUtils.requestData(RetrofitClient.getInstance().create(API.class).queryPlanDetailPlanInfo(id, pageIndex, "by_CbPlan_planDetail"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
             @Override
             public void onResult(Object o, String msg, int code) {
                 RepaymentDetailBean model = (RepaymentDetailBean) o;
-                viewModel.handingFee.set(model.getFee() + "<br />手续费");
-                viewModel.yusuan.set(model.getBalance() + "<br />预算");
-                viewModel.jieyu.set(model.getBalance() + "");
+                viewModel.handingFee.set(model.getTotal_fee() + "<br />手续费（元）");//手续费
+                viewModel.yusuan.set(getIntent().getDoubleExtra("jieyu", 0) + "<br />预算（元）");//预算
+                viewModel.jieyu.set("￥" + model.getBalance() + "");//结余
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
+            }
+
+            @Override
+            public void dialogDismiss() {
+                dismissDialog();
+            }
+        });
+
+        AppUtils.requestData(RetrofitClient.getInstance().create(API.class).queryPlanOrderInfo(id, pageIndex, "by_CbPlan_queryOrder"), viewModel.getLifecycleProvider(), disposable -> viewModel.showDialog(), new ApiDisposableObserver() {
+            @Override
+            public void onResult(Object o, String msg, int code) {
+                ar.clear();
+                ar.addAll((ArrayList<TranslationBean>) o);
+                adapter.notifyDataSetChanged();
             }
 
             @Override

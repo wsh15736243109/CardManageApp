@@ -244,17 +244,23 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 //        bean1.setImg_url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2035447233,1717815544&fm=27&gp=0.jpg");
 //        bannerBean.getCarousel().add(bean);
 //        bannerBean.getCarousel().add(bean1);
-        binding.banner.setManualPageable(true);//设置不能手动影响  默认是手指触摸 轮播图不能翻页
-        binding.banner.setCanLoop(true);  //默认true,设置轮播图是否轮
-        binding.banner.setPages((CBViewHolderCreator<ImageViewHolder>) () -> new ImageViewHolder(), bannerBean.getCarousel());
-        binding.banner.startTurning(3000);
-        binding.banner.setOnItemClickListener(position -> {
+        if (bannerBean.getCarousel() != null && bannerBean.getCarousel().size() > 0) {
+            binding.lrlBanner.setVisibility(View.VISIBLE);
+            binding.banner.setManualPageable(true);//设置不能手动影响  默认是手指触摸 轮播图不能翻页
+            binding.banner.setCanLoop(true);  //默认true,设置轮播图是否轮
+            binding.banner.setPages((CBViewHolderCreator<ImageViewHolder>) () -> new ImageViewHolder(), bannerBean.getCarousel());
+            binding.banner.startTurning(3000);
+            binding.banner.setOnItemClickListener(position -> {
 //            String tagUrlType = bannerBeanArrayList.get(position).getUrl_type();
 //            String tagUrl = bannerBeanArrayList.get(position).getUrl();
 //            String imageUrl = imgSunsunUrl + bannerBeanArrayList.get(position).getImg();
 //            String title = bannerBeanArrayList.get(position).getTitle();
 //            goToTaoBao(tagUrl, tagUrlType, imageUrl, title);
-        });
+            });
+        } else {
+            binding.lrlBanner.setVisibility(View.GONE);
+        }
+
 
     }
 

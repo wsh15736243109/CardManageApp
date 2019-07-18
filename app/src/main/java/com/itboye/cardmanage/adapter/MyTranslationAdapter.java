@@ -19,14 +19,27 @@ public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, Base
 
     @Override
     protected void convert(BaseViewHolder helper, TranslationBean item) {
+        String titleType = "";
+        switch (item.getOrder_type()) {
+            case "user_withdraw":
+                helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_translation_withdraw);
+                titleType="提现";
+                break;
+        }
         double amount = item.getAmount();
         if (amount <= 0) {
-            helper.setText(R.id.tv_translation_title, item.get_card_name() + "(" + item.get_card_no() + ")支出");
+            if (titleType.isEmpty()) {
+                titleType="支出";
+            }
+
             helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_zhichu);
         } else {
-            helper.setText(R.id.tv_translation_title, item.get_card_name() + "(" + item.get_card_no() + ")收入");
+            if (titleType.isEmpty()) {
+                titleType="收入";
+            }
             helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_shouru);
         }
+        helper.setText(R.id.tv_translation_title, item.get_card_name() + "(" + item.get_card_no() + ")"+titleType);
         String content;
         content = (item.getAmount() > 0 ? "<font color='#FF7E00'>" : "<font color='#31B70E'>") + item.getAmount() + "</font>";
         helper.setText(R.id.tv_translation_content, Html.fromHtml(content));
@@ -47,9 +60,11 @@ public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, Base
             default:
                 statusStr = "<font color='red'>交易失败</font>";
         }
+
+
         helper.setText(R.id.tv_translation_status, Html.fromHtml(statusStr));
         helper.setText(R.id.tv_translation_fee, Html.fromHtml("手续费:￥" + item.getSys_fee()));
-        ((RelativeLayout.LayoutParams) helper.getView(R.id.tv_translation_date).getLayoutParams()).removeRule(RelativeLayout.BELOW);
+//        ((RelativeLayout.LayoutParams) helper.getView(R.id.tv_translation_date).getLayoutParams()).removeRule(RelativeLayout.BELOW);
         if (item.getNotify_time() > 0) {
             helper.setText(R.id.tv_translation_date, timeFormat(item.getNotify_time() * 1000, "yyy-MM-dd HH:mm:ss"));
             helper.setGone(R.id.tv_translation_date, true);
@@ -58,5 +73,6 @@ public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, Base
             ((RelativeLayout.LayoutParams) helper.getView(R.id.tv_translation_date).getLayoutParams()).addRule(RelativeLayout.BELOW, R.id.tv_translation_title);
             helper.setGone(R.id.tv_translation_date, false);
         }
+
     }
 }
