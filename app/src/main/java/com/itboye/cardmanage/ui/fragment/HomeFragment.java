@@ -112,9 +112,9 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
         initRefresh();
 //        getAuthDetail();
         initRepaymentAdater();
+
         getRepaymentPlan();
         getHomeData();
-
         //为RecyclerView增加分割线，水平和垂直方向都有。增加分割线值比如为32。
 //        RecycleGridDivider decoration = new RecycleGridDivider(1);
 //        binding.rvTop.addItemDecoration(decoration);
@@ -271,19 +271,12 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 //        arr.add(HomeRepaymentFragment.newInstance(0, ""));
 //        arr.add(HomeRepaymentFragment.newInstance(1, ""));
 //        arr.add(HomeRepaymentFragment.newInstance(1, ""));
+        binding.llRepaymentCursor.removeAllViews();
+        addCursor(0, 0);
+        arr.add(HomeRepaymentFragment.newInstance(0, null));
         for (int i = 0; i < repaymentList.size(); i++) {
-            ImageView imageView = new ImageView(getActivity());
-            imageView.setBackgroundDrawable(getResources().getDrawable(i == 0 ? R.drawable.item_cursor_select : R.drawable.item_cursor_unselect));
-            int dp = dip2px(getActivity(), 2);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(dip2px(getActivity(), 9), dip2px(getActivity(), 2));
-            layoutParams.setMargins(dp, dp, dp, dp);
-            binding.llRepaymentCursor.addView(imageView, layoutParams);
-            cursorImageView.add(imageView);
+            addCursor(i, -1);
             arr.add(HomeRepaymentFragment.newInstance(1, repaymentList.get(i)));
-        }
-        if (arr.size() <= 0) {
-            arr.add(HomeRepaymentFragment.newInstance(0, null));
-
         }
 
         binding.vpRepayment.setAdapter(new FragmentPageAdapter(getChildFragmentManager(), arr, null));
@@ -295,13 +288,7 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 
             @Override
             public void onPageSelected(int i) {
-                for (int i1 = 0; i1 < cursorImageView.size(); i1++) {
-                    if (i == i1) {
-                        cursorImageView.get(i1).setBackgroundDrawable(getResources().getDrawable(R.drawable.item_cursor_select));
-                    } else {
-                        cursorImageView.get(i1).setBackgroundDrawable(getResources().getDrawable(R.drawable.item_cursor_unselect));
-                    }
-                }
+                setSelectCursor(i);
             }
 
             @Override
@@ -309,6 +296,27 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 
             }
         });
+    }
+
+    private void setSelectCursor(int selectIndex) {
+        for (int i1 = 0; i1 < cursorImageView.size(); i1++) {
+//            if (selectIndex  == i1) {
+//                cursorImageView.get(i1).setBackgroundDrawable(getResources().getDrawable(R.drawable.item_cursor_select));
+//            } else {
+            cursorImageView.get(i1).setBackgroundDrawable(getResources().getDrawable(R.drawable.item_cursor_unselect));
+//            }
+        }
+        cursorImageView.get(selectIndex + 1).setBackgroundDrawable(getResources().getDrawable(R.drawable.item_cursor_select));
+    }
+
+    private void addCursor(int index, int selectIndex) {
+        ImageView imageView = new ImageView(getActivity());
+        imageView.setBackgroundDrawable(getResources().getDrawable(index == selectIndex ? R.drawable.item_cursor_select : R.drawable.item_cursor_unselect));
+        int dp = dip2px(getActivity(), 2);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(dip2px(getActivity(), 9), dip2px(getActivity(), 2));
+        layoutParams.setMargins(dp, dp, dp, dp);
+        binding.llRepaymentCursor.addView(imageView, layoutParams);
+        cursorImageView.add(imageView);
     }
 
     private void getRepaymentPlan() {
@@ -346,6 +354,7 @@ public class HomeFragment extends BaseLazyFragment<FragmentHomeBinding, HomeFrag
 
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
+                getRepaymentPlan();
                 getHomeData();
             }
         });
