@@ -7,10 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.itboye.cardmanage.BR;
@@ -18,8 +20,12 @@ import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.adapter.FragmentPageAdapter;
 import com.itboye.cardmanage.base.BaseLazyFragment;
 import com.itboye.cardmanage.databinding.FragmentLoanBinding;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
+
+import static com.itboye.cardmanage.util.WebCookieUtil.syncCookie;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,9 +36,6 @@ public class LoanFragment extends BaseLazyFragment<FragmentLoanBinding, LoanFrag
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    List<Fragment> mFragmentList;
-    List<String> mTitles;
-    FragmentPageAdapter mFragmentPageAdapter;
 
     public LoanFragment() {
         // Required empty public constructor
@@ -87,16 +90,17 @@ public class LoanFragment extends BaseLazyFragment<FragmentLoanBinding, LoanFrag
 
     @Override
     public void initData() {
-//        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_shape_10);
-//        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-//        decoration.setDrawable(drawable);
-//        binding.recyclerView.addItemDecoration(decoration);
         binding.webView.setWebViewClient(new WebViewClient());
+        WebSettings webSettings = binding.webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        syncCookie(getContext(), viewModel.url.get());
         binding.webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
                 if (newProgress == 100) {
+                    binding.srRefresh.finishRefresh();
                     binding.webProgress.setVisibility(View.GONE);
                 } else {
                     binding.webProgress.setVisibility(View.VISIBLE);
@@ -105,6 +109,8 @@ public class LoanFragment extends BaseLazyFragment<FragmentLoanBinding, LoanFrag
             }
         });
         binding.webView.loadUrl(viewModel.url.get());
+        binding.srRefresh.setOnRefreshListener(refreshLayout -> binding.webView.loadUrl(viewModel.url.get()));
+        Log.v("OkHttp_R", viewModel.url.get());
     }
 
     @Override

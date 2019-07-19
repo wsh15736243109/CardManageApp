@@ -24,7 +24,7 @@ public class Global {
     public static String client_secret = "df45c46ca6df63e7d5b38bfb7d61b5fc";
     public static String client_id = "by04esfI0fYuD5";
     public static String IMAGEURL = HEAD + HOST;
-    public static String WEBURL = BASE_WEB_URL + "";
+    public static String WEBURL = BASEURL + "";
     public static String H5URL = BASE_WEB_URL + "";
 //    public static String client_id = "04esfI0fYuD5";
 }

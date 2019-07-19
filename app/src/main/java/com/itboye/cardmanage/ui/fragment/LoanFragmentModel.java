@@ -5,6 +5,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
@@ -22,10 +23,12 @@ import java.util.List;
 
 public class LoanFragmentModel extends BaseViewModel {
 
-    public ObservableField<String> url = new ObservableField<>(Global.WEBURL+"/#/lend");
+//    public ObservableField<String> url = new ObservableField<>(Global.WEBURL+"/index.php/web/lend");
+    public ObservableField<String> url = new ObservableField<>(Global.WEBURL+"index.php/web/lend");
 
     public LoanFragmentModel(@NonNull Application application) {
         super(application);
+        Log.v("OkHttp_R",url.get());
     }
 
 }

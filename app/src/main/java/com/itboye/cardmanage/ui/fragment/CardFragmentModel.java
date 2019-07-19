@@ -5,6 +5,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import com.itboye.cardmanage.BR;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.config.Global;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardFragmentModel extends BaseViewModel {
-    public ObservableField<String> url = new ObservableField<>(Global.WEBURL+"/#/card");
+    public ObservableField<String> url = new ObservableField<>(Global.WEBURL+"index.php/web/card");
 //    //给RecyclerView添加items
 //    public final ObservableList<String> observableList = new ObservableArrayList<>();
 //    public ObservableField<List<String>> hobbies = new ObservableField<>();
@@ -31,6 +32,7 @@ public class CardFragmentModel extends BaseViewModel {
 
     public CardFragmentModel(@NonNull Application application) {
         super(application);
+        Log.v("OkHttp_R",url.get());
 //        ArrayList<String> ar = new ArrayList<>();
 ////        observableList.add("two");
 ////        observableList.add("one");

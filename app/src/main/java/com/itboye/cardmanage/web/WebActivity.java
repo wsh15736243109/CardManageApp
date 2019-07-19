@@ -32,7 +32,6 @@ public class WebActivity extends BaseMVVMActivity<ActivityWebBinding, WebModel> 
     public void initData() {
         setTitle(getIntent().getStringExtra("title"));
         url = getIntent().getStringExtra("url");
-        binding.webView.loadUrl(getIntent().getStringExtra("url"));
         Log.v(TAG, "网页地址==" + url);
         binding.webView.setWebViewClient(new WebViewClient());
         binding.webView.setWebChromeClient(new WebChromeClient() {
@@ -47,9 +46,9 @@ public class WebActivity extends BaseMVVMActivity<ActivityWebBinding, WebModel> 
                 }
             }
         });
-
         WebSettings webSettings = binding.webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        binding.webView.loadUrl(getIntent().getStringExtra("url"));
     }
 }

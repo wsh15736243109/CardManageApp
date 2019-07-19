@@ -4,10 +4,12 @@ package com.itboye.cardmanage.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.itboye.cardmanage.BR;
@@ -18,6 +20,8 @@ import com.itboye.cardmanage.databinding.FragmentCardBinding;
 import com.itboye.cardmanage.databinding.FragmentHomeBinding;
 
 import java.util.List;
+
+import static com.itboye.cardmanage.util.WebCookieUtil.syncCookie;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -87,11 +91,16 @@ public class CardFragment extends BaseLazyFragment<FragmentCardBinding, CardFrag
     @Override
     public void initData() {
         binding.webView.setWebViewClient(new WebViewClient());
+        WebSettings webSettings = binding.webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        syncCookie(getContext(), viewModel.url.get());
         binding.webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
                 if (newProgress == 100) {
+                    binding.srRefresh.finishRefresh();
                     binding.webProgress.setVisibility(View.GONE);
                 } else {
                     binding.webProgress.setVisibility(View.VISIBLE);
@@ -100,6 +109,8 @@ public class CardFragment extends BaseLazyFragment<FragmentCardBinding, CardFrag
             }
         });
         binding.webView.loadUrl(viewModel.url.get());
+        binding.srRefresh.setOnRefreshListener(refreshLayout -> binding.webView.loadUrl(viewModel.url.get()));
+        Log.v("OkHttp_R", viewModel.url.get());
     }
 
     @Override
