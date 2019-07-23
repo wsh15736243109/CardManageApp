@@ -93,6 +93,7 @@ public class LoanFragment extends BaseLazyFragment<FragmentLoanBinding, LoanFrag
         binding.webView.setWebViewClient(new WebViewClient());
         WebSettings webSettings = binding.webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         syncCookie(getContext(), viewModel.url.get());
         binding.webView.setWebChromeClient(new WebChromeClient() {

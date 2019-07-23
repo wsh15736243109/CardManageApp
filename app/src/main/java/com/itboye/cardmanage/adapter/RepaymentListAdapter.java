@@ -2,14 +2,18 @@ package com.itboye.cardmanage.adapter;
 
 import android.support.annotation.Nullable;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.interfaces.OnMyItemClickListener;
 import com.itboye.cardmanage.model.CardManageModel;
+import com.itboye.cardmanage.util.TimeUtils;
 
 import java.util.List;
+
+import static com.itboye.cardmanage.util.TextStyleUtil.setDifferentSizeForTextView;
 
 public class RepaymentListAdapter extends BaseQuickAdapter<CardManageModel, BaseViewHolder> {
     private final OnMyItemClickListener onMyClickLisenter;
@@ -21,10 +25,17 @@ public class RepaymentListAdapter extends BaseQuickAdapter<CardManageModel, Base
 
     @Override
     protected void convert(BaseViewHolder helper, CardManageModel item) {
-        helper.setText(R.id.tv_loan_text, "计划" + (helper.getAdapterPosition() + 1));
-        helper.setText(R.id.tv_budget, Html.fromHtml(item.getMoney() / 100 + "<br />预算"));//预算
-        helper.setText(R.id.tv_count, Html.fromHtml(item.getDays() + "<br />次数"));//次数
-        helper.setText(R.id.tv_total_amount, Html.fromHtml(item.getPrestore_money() / 100 + "<br />预期还款总额"));//预期还款总额
+        helper.setText(R.id.tv_loan_text, "创建时间：" + (TimeUtils.timeFormat(item.getCreate_time() * 1000, "yyyy-MM-dd")));
+        String htmlYuSuan = "<strong><font color='black'>" + item.getMoney() / 100 + "</font></strong>" + "<br />";
+        setDifferentSizeForTextView(0, (item.getMoney() / 100 + "").length(), htmlYuSuan + "预算", helper.getView(R.id.tv_budget));//预算
+
+
+        String htmlCount = "<strong><font color='black'>" + item.getDays() + "</font></strong>" + "<br />";
+        setDifferentSizeForTextView(0, (item.getDays() + "").length(), htmlCount + "次数", helper.getView(R.id.tv_count));//次数
+//
+//
+        String htmlYuQiHuanKuanToTal = "<strong><font color='black'>" + item.getPrestore_money() / 100 + "</font></strong>" + "<br />";
+        setDifferentSizeForTextView(0, (item.getPrestore_money() / 100 + "").length(), htmlYuQiHuanKuanToTal + "预期还款总额", helper.getView(R.id.tv_total_amount));//预期还款总额
         String str = "";
         switch (item.getPlan_status()) {
             case "initial": // 初始状态
@@ -52,4 +63,6 @@ public class RepaymentListAdapter extends BaseQuickAdapter<CardManageModel, Base
 //        helper.setBackgroundRes(R.id.iv_repayment_status, item.getPlan_status().equals("running") ? R.drawable.ic_repayment_ing : R.drawable.ic_repayment_finish);
         helper.setOnClickListener(R.id.cl_root, (View.OnClickListener) view -> onMyClickLisenter.onItemClick(helper.getAdapterPosition(), item));
     }
+
+
 }

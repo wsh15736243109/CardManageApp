@@ -94,6 +94,7 @@ public class CardFragment extends BaseLazyFragment<FragmentCardBinding, CardFrag
         WebSettings webSettings = binding.webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSettings.setDomStorageEnabled(true);
         syncCookie(getContext(), viewModel.url.get());
         binding.webView.setWebChromeClient(new WebChromeClient() {
             @Override

@@ -41,4 +41,11 @@
         <item name="android:windowContentOverlay">@null</item>//是否有遮盖
     </style>
 
+    <style name="style0">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style1">
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>
