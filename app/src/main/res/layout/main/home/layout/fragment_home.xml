@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"  xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -14,8 +15,7 @@
                 type="com.itboye.cardmanage.ui.fragment.HomeFragmentModel"/>
     </data>
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                       xmlns:tools="http://schemas.android.com/tools"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
                                                        android:layout_width="match_parent"
                                                        android:layout_height="match_parent"
                                                        android:id="@+id/sr_refresh"
@@ -151,6 +151,7 @@
                         android:background="@color/white"
                         android:padding="@dimen/dp_12"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         app:ratio="2">
 
                     <com.bigkoo.convenientbanner.ConvenientBanner
@@ -161,6 +162,7 @@
                 </com.itboye.cardmanage.widget.LoweRelaLayout>
 
                 <RelativeLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -186,6 +188,7 @@
                 </RelativeLayout>
 
                 <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_1"
                         android:background="@color/white"/>
@@ -195,12 +198,14 @@
                                         app:lineManager="@{LineManagers.both()}"-->
                 <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_loan"
+                        android:visibility="gone"
                         android:background="@color/white"
                         android:layout_width="match_parent"
                         app:layoutManager="@{LayoutManagers.grid(3)}"
                         android:layout_height="wrap_content"/>
 
                 <RelativeLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_marginTop="10dp"
                         android:layout_height="wrap_content">
@@ -229,6 +234,7 @@
 
                 <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_more_card"
+                        android:visibility="gone"
                         android:background="@color/white"
                         android:layout_width="match_parent"
                         app:layoutManager="@{LayoutManagers.linear()}"

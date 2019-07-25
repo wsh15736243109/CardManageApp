@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_marginTop="@dimen/dp_6"
                     android:layout_height="wrap_content"
-                    android:text="*最低提现金额不能低于13元,单笔不能超过1000元"
+                    android:text="*最低提现金额不能低于10元,单笔不能超过1000元"
                     android:textColor="#ff9b1609"
                     android:layout_marginLeft="@dimen/dp_24"
                     android:textSize="11sp"

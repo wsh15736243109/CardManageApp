@@ -31,7 +31,7 @@ public class ReceiveMoneyModel extends BaseViewModel {
     public String pay_card_id = "";//支付卡id
     public String withdraw_card_id = "";//到账结算卡id
     public String pay_channel_id = "";//支付通道id
-//    public String order_code;//订单号
+    //    public String order_code;//订单号
     public ObservableBoolean payChannel = new ObservableBoolean(false);
     public ArrayList<PayWaybean> payWaybeanArrayList;
     public String phone;
@@ -44,6 +44,10 @@ public class ReceiveMoneyModel extends BaseViewModel {
     public void submit() {
         if (amount.get().isEmpty()) {
             ToastUtils.showShort("请输入金额");
+            return;
+        }
+        if (Double.parseDouble(amount.get()) < 50) {
+            ToastUtils.showShort("收款金额不能小于50元");
             return;
         }
         if (pay_card_id.isEmpty()) {

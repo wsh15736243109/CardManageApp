@@ -20,28 +20,27 @@ public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, Base
     @Override
     protected void convert(BaseViewHolder helper, TranslationBean item) {
         String titleType = "";
+        String content;
         switch (item.getOrder_type()) {
             case "user_withdraw":
                 helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_translation_withdraw);
-                titleType="提现";
+                content = "<font color='#FF7E00'>+" + String.format("%.2f",item.getAmount() - item.getSys_fee()) + "</font>";
+                titleType = "提现";
                 break;
+            default:
+                double amount = item.getAmount();
+                if (amount > 0) {
+                    titleType = "支出";
+                    content = "<font color='#31B70E'>-" + String.format("%.2f",item.getAmount()) + "</font>";
+                    helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_zhichu);
+                } else {
+                    titleType = "收入";
+                    content = "<font color='#FF7E00'>+" + String.format("%.2f",Math.abs(item.getAmount()) - item.getSys_fee()) + "</font>";
+                    helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_shouru);
+                }
         }
-        double amount = item.getAmount();
-        if (amount <= 0) {
-            if (titleType.isEmpty()) {
-                titleType="支出";
-            }
 
-            helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_zhichu);
-        } else {
-            if (titleType.isEmpty()) {
-                titleType="收入";
-            }
-            helper.setBackgroundRes(R.id.iv_translation_icon, R.drawable.ic_shouru);
-        }
-        helper.setText(R.id.tv_translation_title, item.get_card_name() + "(" + item.get_card_no() + ")"+titleType);
-        String content;
-        content = (item.getAmount() > 0 ? "<font color='#FF7E00'>" : "<font color='#31B70E'>") + item.getAmount() + "</font>";
+        helper.setText(R.id.tv_translation_title, item.get_card_name() + "(" + item.get_card_no() + ")" + titleType);
         helper.setText(R.id.tv_translation_content, Html.fromHtml(content));
 
         int status = item.get_status();
@@ -63,7 +62,7 @@ public class MyTranslationAdapter extends BaseQuickAdapter<TranslationBean, Base
 
 
         helper.setText(R.id.tv_translation_status, Html.fromHtml(statusStr));
-        helper.setText(R.id.tv_translation_fee, Html.fromHtml("手续费:￥" + item.getSys_fee()));
+        helper.setText(R.id.tv_translation_fee, Html.fromHtml("手续费:￥" + String.format("%.2f",item.getSys_fee())));
 //        ((RelativeLayout.LayoutParams) helper.getView(R.id.tv_translation_date).getLayoutParams()).removeRule(RelativeLayout.BELOW);
         if (item.getNotify_time() > 0) {
             helper.setText(R.id.tv_translation_date, timeFormat(item.getNotify_time() * 1000, "yyy-MM-dd HH:mm:ss"));

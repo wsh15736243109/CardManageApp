@@ -386,10 +386,10 @@ public class RepaymentDetailActivity extends BaseMVVMActivity<ActivityRepaymentD
                 try {
 //                    viewModel.pre_store_money = String.format("%.2f", Double.parseDouble(viewModel.feeValue) + Double.parseDouble(viewModel.amount.get()) / Double.parseDouble(viewModel.days.get()));
                     viewModel.yuqihuankuanzonge.set(finalDays * finalMoney * cardList.size() + "<br />预期还款总额（元）");
-                    viewModel.pre_store_money = viewModel.fee.get();
+                    viewModel.pre_store_money = viewModel.feeValue;
                     viewModel.yucun.set(value + "<br />预存（元）");
                 } catch (Exception e) {
-                    viewModel.pre_store_money = null;
+                    viewModel.pre_store_money = "0";
                     viewModel.yucun.set("0<br />预存（元）");
                     viewModel.yuqihuankuanzonge.set("0<br />预期还款总额（元）");
 

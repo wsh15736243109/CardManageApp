@@ -23,7 +23,6 @@ public class CardListAdapter extends BaseQuickAdapter<CardManageModel, BaseViewH
 
     @Override
     protected void convert(BaseViewHolder helper, CardManageModel item) {
-
         helper.setText(R.id.tv_card_no, item.getCard_no());
         helper.setText(R.id.tv_title, Html.fromHtml(item.getBranch_bank() + "<br />信用卡"));
         helper.setBackgroundRes(R.id.tv_check_status, item.isCheck() ? R.drawable.ic_checked : R.drawable.ic_uncheck);

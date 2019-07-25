@@ -22,7 +22,7 @@ public class RepaymentDetailModel extends BaseViewModel {
 
     public String preStoreCardIds;
     public String creditCardIds;
-    public String pre_store_money = "1400";
+    public String pre_store_money = "0";
     public String id;
     public ObservableField<Boolean> type = new ObservableField<>(true);
 

@@ -7,7 +7,6 @@ import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.view.View;
 import com.itboye.cardmanage.MainActivity;
-import com.itboye.cardmanage.R;
 import com.itboye.cardmanage.bean.UserInfoBean;
 import com.itboye.cardmanage.retrofit.API;
 import com.itboye.cardmanage.retrofit.ApiDisposableObserver;
@@ -15,7 +14,6 @@ import com.itboye.cardmanage.retrofit.AppUtils;
 import com.itboye.cardmanage.retrofit.RetrofitClient;
 import com.itboye.cardmanage.util.UserUtil;
 import me.goldze.mvvmhabit.base.BaseViewModel;
-import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
@@ -24,8 +22,8 @@ import static com.itboye.cardmanage.config.Global.COUNTRY_NO;
 public class LoginModel extends BaseViewModel {
 
     //用户名的绑定
-    public ObservableField<String> userName = new ObservableField<>("18329042860");
-    public ObservableField<String> userPassword = new ObservableField<>("123456789");
+    public ObservableField<String> userName = new ObservableField<>("");//18329042860
+    public ObservableField<String> userPassword = new ObservableField<>("");//123456789
     public ObservableField<String> confirm_userPassword = new ObservableField<>();
     public ObservableField<String> userYzm = new ObservableField<>();
     public ObservableField<String> loginType = new ObservableField<>("密码登录>>");

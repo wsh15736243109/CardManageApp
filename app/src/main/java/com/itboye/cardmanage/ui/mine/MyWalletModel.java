@@ -42,8 +42,8 @@ public class MyWalletModel extends BaseViewModel {
             ToastUtils.showShort("账户余额不足");
             return;
         }
-        if (Double.parseDouble(withdrawAmount.get()) < 13 || Double.parseDouble(withdrawAmount.get()) > 1000) {
-            ToastUtils.showShort("提现金额不能低于13元或高于1000元");
+        if (Double.parseDouble(withdrawAmount.get()) < 10 || Double.parseDouble(withdrawAmount.get()) > 1000) {
+            ToastUtils.showShort("提现金额不能低于10元或高于1000元");
             return;
         }
         //提交提现申请
