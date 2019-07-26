@@ -37,7 +37,7 @@ public class LoginActivity extends BaseMVVMActivity<ActivityLoginBinding, LoginM
 
     private void beginCountDownTimeRegister() {
         //开始倒计时
-        TimeCount timeCount = new TimeCount(2 * 1000, 1 * 1000, binding.tvGetCode);
+        TimeCount timeCount = new TimeCount(10 * 1000, 1 * 1000, binding.tvGetCode);
         timeCount.start();
     }
 }
